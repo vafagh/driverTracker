@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\DriverOrder;
+use App\Pickup;
 use Illuminate\Http\Request;
 
-class DriverOrderController extends Controller
+class PickupController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class DriverOrderController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\DriverOrder  $driverOrder
+     * @param  \App\Pickup  $pickup
      * @return \Illuminate\Http\Response
      */
-    public function show(DriverOrder $driverOrder)
+    public function show(Pickup $pickup)
     {
         //
     }
@@ -52,10 +52,10 @@ class DriverOrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\DriverOrder  $driverOrder
+     * @param  \App\Pickup  $pickup
      * @return \Illuminate\Http\Response
      */
-    public function edit(DriverOrder $driverOrder)
+    public function edit(Pickup $pickup)
     {
         //
     }
@@ -64,10 +64,10 @@ class DriverOrderController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\DriverOrder  $driverOrder
+     * @param  \App\Pickup  $pickup
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, DriverOrder $driverOrder)
+    public function update(Request $request, Pickup $pickup)
     {
         //
     }
@@ -75,10 +75,10 @@ class DriverOrderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\DriverOrder  $driverOrder
+     * @param  \App\Pickup  $pickup
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DriverOrder $driverOrder)
+    public function destroy(Pickup $pickup)
     {
         //
     }

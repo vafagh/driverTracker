@@ -17,7 +17,9 @@ class CreateDriversTable extends Migration
             $table->increments('id');
             $table->string('fname');
             $table->string('lname')->nullable();
+            $table->string('phone')->nullable()->unique();
             $table->string('image')->nullable();
+            $table->unique('fname','lname');
             $table->timestamps();
         });
     }
@@ -29,6 +31,7 @@ class CreateDriversTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('driver_truck');
         Schema::dropIfExists('drivers');
     }
 }
