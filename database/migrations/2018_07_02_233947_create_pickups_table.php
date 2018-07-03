@@ -15,7 +15,7 @@ class CreatePickupsTable extends Migration
     {
         Schema::create('pickups', function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->integer('eagle_number');
+            $table->string('eagle_number');
             $table->string('status');
             $table->longText('description');
             $table->timestamps();
