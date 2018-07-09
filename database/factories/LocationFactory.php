@@ -2,8 +2,12 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\Address::class, function (Faker $faker) {
+$factory->define(App\Location::class, function (Faker $faker) {
     return [
+        'name' => $faker->name,
+        'type' => $faker->randomElement(['Wherehouse', 'Client']),
+        'phone' => $faker->phoneNumber,
+        'distance' => $faker->randomNumber(2),
         'line1' => $faker->streetAddress,
         'line2' => $faker->secondaryAddress,
         'city' => $faker->city,

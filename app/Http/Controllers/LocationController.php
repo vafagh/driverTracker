@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Pickup;
+use App\Location;
 use Illuminate\Http\Request;
 
-class PickupController extends Controller
+class LocationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class PickupController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Pickup  $pickup
+     * @param  \App\Location  $location
      * @return \Illuminate\Http\Response
      */
-    public function show(Pickup $pickup)
+    public function show(Location $location)
     {
         //
     }
@@ -52,10 +52,10 @@ class PickupController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Pickup  $pickup
+     * @param  \App\Location  $location
      * @return \Illuminate\Http\Response
      */
-    public function edit(Pickup $pickup)
+    public function edit(Location $location)
     {
         //
     }
@@ -64,10 +64,10 @@ class PickupController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Pickup  $pickup
+     * @param  \App\Location  $location
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pickup $pickup)
+    public function update(Request $request, Location $location)
     {
         //
     }
@@ -75,10 +75,10 @@ class PickupController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Pickup  $pickup
+     * @param  \App\Location  $location
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pickup $pickup)
+    public function destroy(Location $location)
     {
         //
     }

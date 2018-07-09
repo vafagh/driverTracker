@@ -12,9 +12,12 @@ class RideController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function active()
     {
-        //
+        $rides = Ride::where('id','<',20)
+            ->get();
+            // ->paginate(20);
+        return view('home',compact('rides'));
     }
 
     /**

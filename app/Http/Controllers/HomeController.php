@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Ridable;
 class HomeController extends Controller
 {
     /**
@@ -23,6 +23,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        // $deliveries = Ride::where('status','!=','Delivered')->get();
+        $deliveries = Ridable::where('type','Delivery')->get();
+        $pickups = Ridable::where('type','Pickup')->get();
+        // dd($deliveries->first()->location());
+        return view('home',compact('deliveries','pickups'));
     }
 }

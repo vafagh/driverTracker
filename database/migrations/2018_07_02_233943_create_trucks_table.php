@@ -16,6 +16,7 @@ class CreateTrucksTable extends Migration
         Schema::create('trucks', function (Blueprint $table) {
             $table->increments('id');
             $table->string('licensePlate')->unique();
+            $table->string('gas_card')->unique();
             $table->string('last4vin')->nullable()->unique();
             $table->string('lable')->nullable()->unique();
             $table->timestamps();

@@ -1,24 +1,22 @@
 <?php
 
 namespace App;
-
 use Illuminate\Database\Eloquent\Model;
 
 class Ride extends Model
 {
-    // For Deliveries and Pickups
-    public function ridable()
+    public function ridables()
     {
-        return $this->morghTo();
+        return $this->belongsToMany(Ridable::class);
     }
 
-    public function driver()
+    public function drivers()
     {
-        return $this->hasOne('App\Driver');
+        return $this->belongsToMany(Driver::class);
     }
 
-    public function truck()
+    public function trucks()
     {
-        return $this->hasOne('App\Truck');
+        return $this->belongsToMany(Truck::class);
     }
 }
