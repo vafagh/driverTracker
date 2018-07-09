@@ -10,9 +10,4 @@ class Truck extends Model
     {
         return $this->belongsToMany(Ride::class);
     }
-
-    public function attach(Driver $driver)
-    {
-        $driver->trucks()->attach();
-    }
 }

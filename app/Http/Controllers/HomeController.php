@@ -24,9 +24,9 @@ class HomeController extends Controller
     public function index()
     {
         // $deliveries = Ride::where('status','!=','Delivered')->get();
-        $deliveries = Ridable::where('type','Delivery')->get();
-        $pickups = Ridable::where('type','Pickup')->get();
-        // dd($deliveries->first()->location());
-        return view('home',compact('deliveries','pickups'));
+        $ridables = Ridable::where('type','Delivery')->get();
+        // $pickups = Ridable::where('type','Pickup')->get();
+        // dd($ridables->first()->location());
+        return view('home',compact('ridables'));
     }
 }

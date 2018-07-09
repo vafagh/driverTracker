@@ -8,7 +8,7 @@ class Ridable extends Model
 {
     public function rides()
     {
-        return $this->hasMany(Ride::class);
+        return $this->belongsToMany(Ride::class,'rides');
     }
 
     public function locations()

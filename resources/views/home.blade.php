@@ -15,14 +15,14 @@
                         @endif
                         <ul class="deliveries list-group">
                             <li class="list-group-item disabled">Active Deliveries</li>
-                            @foreach ($deliveries as $delivery)
+                            @foreach ($ridables as $ridable)
                                 <li class="delivery list-group-item">
-                                    <span>{{$delivery->id}}</span>
-                                    <span>{{$delivery->invoice_number}}</span>
-                                    <span>{{$delivery->status}}</span>
-                                    <span>{{$delivery->description}}</span>
-                                    <span>{{$delivery->created_at}}</span>
-                                    {{-- <span>{{$delivery->location->name}}</span> --}}
+                                    <span>{{$ridable->id}}</span>
+                                    <span>{{$ridable->invoice_number}}</span>
+                                    <span>{{$ridable->status}}</span>
+                                    <span>{{$ridable->typr}}</span>
+                                    <span>{{$ridable->description}}</span>
+                                    <span>{{$ridable->created_at}}</span>
                                     <table class="table table-hover">
                                         {{-- <thead>
                                             <tr>
@@ -32,11 +32,11 @@
                                             </tr>
                                         </thead> --}}
                                         <tbody>
-                                    @foreach ($delivery->rides as $ride)
+                                    @foreach ($ridable->rides as $ride)
                                                 <tr>
                                                     <th>{{ $ride->id}}</th>
-                                                    <td>{{ $ride->driver->id}}</td>
-                                                    <td>1{{ $ride->truck_id}}1</td>
+                                                    <td>{{ $ride->driver_id}}</td>
+                                                    <td>1{{ $ride->truck->label}}1</td>
                                                 </tr>
                                     @endforeach
                                 </tbody>
