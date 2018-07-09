@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ride extends Model
 {
-    public function Rideables()
+    public function rideables()
     {
         return $this->belongsToMany(Rideable::class);
     }

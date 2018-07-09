@@ -44,7 +44,7 @@ class RideableController extends Controller
      * @param  \App\Rideable  $Rideable
      * @return \Illuminate\Http\Response
      */
-    public function show(Rideable $Rideable)
+    public function show(Rideable $rideable)
     {
         //
     }
@@ -55,7 +55,7 @@ class RideableController extends Controller
      * @param  \App\Rideable  $Rideable
      * @return \Illuminate\Http\Response
      */
-    public function edit(Rideable $Rideable)
+    public function edit(Rideable $rideable)
     {
         //
     }
@@ -67,7 +67,7 @@ class RideableController extends Controller
      * @param  \App\Rideable  $Rideable
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Rideable $Rideable)
+    public function update(Request $request, Rideable $rideable)
     {
         //
     }
@@ -78,7 +78,7 @@ class RideableController extends Controller
      * @param  \App\Rideable  $Rideable
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Rideable $Rideable)
+    public function destroy(Rideable $rideable)
     {
         //
     }

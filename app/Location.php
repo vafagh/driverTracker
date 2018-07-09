@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Location extends Model
 {
 
-    public function Rideables()
+    public function rideables()
     {
         return $this->belongsToMany(Rideable::class);
     }
