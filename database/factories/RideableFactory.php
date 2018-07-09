@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\Ridable::class, function (Faker $faker) {
+$factory->define(App\Rideable::class, function (Faker $faker) {
     return [
         'invoice_number'=>$faker->bothify('######'),
         'status'=>$faker->randomElement(['On The Way', 'Delivered','Waiting For Driver', 'Canceled','Waiting for Pickup']),

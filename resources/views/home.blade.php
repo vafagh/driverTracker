@@ -15,14 +15,14 @@
                         @endif
                         <ul class="deliveries list-group">
                             <li class="list-group-item disabled">Active Deliveries</li>
-                            @foreach ($ridables as $ridable)
+                            @foreach ($Rideables as $Rideable)
                                 <li class="delivery list-group-item">
-                                    <span>{{$ridable->id}}</span>
-                                    <span>{{$ridable->invoice_number}}</span>
-                                    <span>{{$ridable->status}}</span>
-                                    <span>{{$ridable->typr}}</span>
-                                    <span>{{$ridable->description}}</span>
-                                    <span>{{$ridable->created_at}}</span>
+                                    <span>{{$Rideable->id}}</span>
+                                    <span>{{$Rideable->invoice_number}}</span>
+                                    <span>{{$Rideable->status}}</span>
+                                    <span>{{$Rideable->typr}}</span>
+                                    <span>{{$Rideable->description}}</span>
+                                    <span>{{$Rideable->created_at}}</span>
                                     <table class="table table-hover">
                                         {{-- <thead>
                                             <tr>
@@ -32,13 +32,13 @@
                                             </tr>
                                         </thead> --}}
                                         <tbody>
-                                    @foreach ($ridable->rides as $ride)
+                                    {{-- @foreach ($Rideable->rides as $ride)
                                                 <tr>
                                                     <th>{{ $ride->id}}</th>
                                                     <td>{{ $ride->driver_id}}</td>
                                                     <td>1{{ $ride->truck->label}}1</td>
                                                 </tr>
-                                    @endforeach
+                                    @endforeach --}}
                                 </tbody>
                             </table>
                             </li>

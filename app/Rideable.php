@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Ridable extends Model
+class Rideable extends Model
 {
     public function rides()
     {

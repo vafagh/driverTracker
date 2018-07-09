@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRidablesTable extends Migration
+class CreateRideablesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -27,7 +27,7 @@ class CreateRidablesTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('ridables', function (Blueprint $table) {
+        Schema::create('rideables', function (Blueprint $table) {
             $table->increments('id');
             $table->string('invoice_number')->unique();
             $table->string('status');
@@ -35,12 +35,12 @@ class CreateRidablesTable extends Migration
             $table->longText('description');
             $table->timestamps();
         });
-        Schema::create('location_ridable', function (Blueprint $table) {
-            $table->unsignedInteger('ridable_id');
+        Schema::create('location_rideable', function (Blueprint $table) {
+            $table->unsignedInteger('rideable_id');
             $table->unsignedInteger('location_id');
             $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
-            $table->foreign('ridable_id')->references('id')->on('ridables')->onDelete('cascade');
-            $table->primary(['location_id','ridable_id']);
+            $table->foreign('rideable_id')->references('id')->on('rideables')->onDelete('cascade');
+            $table->primary(['location_id','rideable_id']);
             $table->timestamps();
         });
     }
@@ -54,7 +54,7 @@ class CreateRidablesTable extends Migration
     {
         // $table->dropForeign('posts_user_id_foreign');
         Schema::dropIfExists('locations');
-        Schema::dropIfExists('location_ridable');
-        Schema::dropIfExists('ridables');
+        Schema::dropIfExists('location_Rideable');
+        Schema::dropIfExists('Rideables');
     }
 }

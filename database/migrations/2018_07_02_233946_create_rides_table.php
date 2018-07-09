@@ -15,13 +15,13 @@ class CreateRidesTable extends Migration
     {
         Schema::create('rides', function (Blueprint $table) {
             $table->float('distance');
-            $table->unsignedInteger('ridable_id');
+            $table->unsignedInteger('rideable_id');
             $table->unsignedInteger('driver_id');
             $table->unsignedInteger('truck_id');
-            $table->foreign('ridable_id')->references('id')->on('ridables')->onDelete('cascade');
+            $table->foreign('rideable_id')->references('id')->on('rideables')->onDelete('cascade');
             $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');
             $table->foreign('truck_id')->references('id')->on('trucks')->onDelete('cascade');
-            $table->primary(['ridable_id','driver_id','truck_id']);
+            $table->primary(['rideable_id','driver_id','truck_id']);
             $table->timestamps();
         });
 
@@ -34,11 +34,11 @@ class CreateRidesTable extends Migration
     //         $table->timestamps();
     //     });
     //
-    //     Schema::create('ridable_ride', function (Blueprint $table) {
+    //     Schema::create('rideable_ride', function (Blueprint $table) {
     //         $table->unsignedInteger('ride_id');
-    //         $table->unsignedInteger('ridable_id');
+    //         $table->unsignedInteger('Rideable_id');
     //         $table->foreign('ride_id')->references('id')->on('rides')->onDelete('cascade');
-    //         $table->foreign('ridable_id')->references('id')->on('ridables')->onDelete('cascade');
+    //         $table->foreign('rideable_id')->references('id')->on('rideables')->onDelete('cascade');
     //         $table->timestamps();
     //     });
     //     Schema::create('driver_ride', function (Blueprint $table) {
@@ -66,6 +66,6 @@ class CreateRidesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('rides');
-        Schema::dropIfExists('ridable_ride');
+        Schema::dropIfExists('rideable_ride');
     }
 }

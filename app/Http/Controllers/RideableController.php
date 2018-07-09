@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Ridable;
+use App\Rideable;
 use Illuminate\Http\Request;
 
-class RidableController extends Controller
+class RideableController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class RidableController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Ridable  $ridable
+     * @param  \App\Rideable  $Rideable
      * @return \Illuminate\Http\Response
      */
-    public function show(Ridable $ridable)
+    public function show(Rideable $Rideable)
     {
         //
     }
@@ -52,10 +52,10 @@ class RidableController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Ridable  $ridable
+     * @param  \App\Rideable  $Rideable
      * @return \Illuminate\Http\Response
      */
-    public function edit(Ridable $ridable)
+    public function edit(Rideable $Rideable)
     {
         //
     }
@@ -64,10 +64,10 @@ class RidableController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Ridable  $ridable
+     * @param  \App\Rideable  $Rideable
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Ridable $ridable)
+    public function update(Request $request, Rideable $Rideable)
     {
         //
     }
@@ -75,10 +75,10 @@ class RidableController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Ridable  $ridable
+     * @param  \App\Rideable  $Rideable
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Ridable $ridable)
+    public function destroy(Rideable $Rideable)
     {
         //
     }

@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Driver;
-use App\Ridable;
+use App\Rideable;
 use App\Location;
 use App\Truck;
 use App\Ride;
@@ -21,16 +21,16 @@ class trackerTableSeeder extends Seeder
         factory(Truck::class, 7)->create();
         factory(Driver::class, 5)->create();
         factory(Location::class, 40)->create();
-        factory(Ridable::class, 10)->create();
+        factory(Rideable::class, 10)->create();
         factory(Ride::class, 11)->create();
         $faker = Faker::create();
-        $ridablesID = Ridable::pluck('id')->all();
+        $rideablesID = Rideable::pluck('id')->all();
         $locationsID = Location::pluck('id')->all();
 
         for($i=1; $i <= 30; $i++) {
 
-            DB::table('location_ridable')->insert([
-                'ridable_id' => $faker->randomElement($ridablesID),
+            DB::table('location_rideable')->insert([
+                'Rideable_id' => $faker->randomElement($rideablesID),
                 'location_id' => $faker->randomElement($locationsID)
             ]);
 

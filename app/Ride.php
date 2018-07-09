@@ -5,9 +5,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ride extends Model
 {
-    public function ridables()
+    public function Rideables()
     {
-        return $this->belongsToMany(Ridable::class);
+        return $this->belongsToMany(Rideable::class);
     }
 
     public function drivers()
