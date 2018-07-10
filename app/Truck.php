@@ -6,8 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Truck extends Model
 {
-    public function rides()
+    public function rideables()
     {
-        return $this->belongsToMany(Ride::class);
+        return $this->belongsToMany(Rideable::class);
+    }
+    public function drivers()
+    {
+        return $this->belongsToMany(Driver::class);
     }
 }

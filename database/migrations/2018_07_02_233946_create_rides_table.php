@@ -13,18 +13,15 @@ class CreateRidesTable extends Migration
      */
     public function up()
     {
-        Schema::create('rides', function (Blueprint $table) {
-            $table->float('distance');
+        Schema::create('rideable_truck', function (Blueprint $table) {
             $table->unsignedInteger('rideable_id');
-            $table->unsignedInteger('driver_id');
             $table->unsignedInteger('truck_id');
             $table->foreign('rideable_id')->references('id')->on('rideables')->onDelete('cascade');
-            $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');
             $table->foreign('truck_id')->references('id')->on('trucks')->onDelete('cascade');
-            $table->primary(['rideable_id','driver_id','truck_id']);
-            $table->timestamps();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable();
+            $table->primary(['rideable_id','truck_id','created_at']);
         });
-
     }
     // public function up()
     // {

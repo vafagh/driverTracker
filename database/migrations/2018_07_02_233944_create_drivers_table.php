@@ -22,16 +22,16 @@ class CreateDriversTable extends Migration
             $table->unique('fname','lname');
             $table->timestamps();
         });
-        // 
-        // Schema::create('driver_truck', function (Blueprint $table) {
-        //     $table->unsignedInteger('truck_id');
-        //     $table->unsignedInteger('driver_id');
-        //     $table->foreign('truck_id')->references('id')->on('trucks')->onDelete('cascade');
-        //     $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');
-        //     $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-        //     $table->timestamp('updated_at')->nullable();
-        //     $table->primary(['driver_id', 'created_at']);
-        // });
+
+        Schema::create('driver_truck', function (Blueprint $table) {
+            $table->unsignedInteger('truck_id');
+            $table->unsignedInteger('driver_id');
+            $table->foreign('truck_id')->references('id')->on('trucks')->onDelete('cascade');
+            $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'+1));
+            $table->timestamp('updated_at')->nullable();
+            $table->primary(['driver_id', 'truck_id','created_at']);
+        });
 
     }
 

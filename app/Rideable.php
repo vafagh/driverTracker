@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Rideable extends Model
 {
-    public function rides()
+    public function trucks()
     {
-        return $this->belongsToMany(Ride::class,'rides');
+        return $this->belongsToMany(Truck::class);
     }
 
     public function locations()
