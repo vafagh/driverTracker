@@ -6,12 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Truck extends Model
 {
-    public function rideables()
+
+    public function rides()
     {
-        return $this->belongsToMany(Rideable::class)->withPivot('created_at', 'updated_at');
+        return $this->hasMany(Ride::class);
     }
-    public function drivers()
+
+    public function fillups()
     {
-        return $this->belongsToMany(Driver::class)->withPivot('created_at', 'updated_at');
+        return $this->hasMany(Fillup::class);
     }
+
 }

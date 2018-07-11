@@ -6,17 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Rideable extends Model
 {
-    public function ride()
+    public function rides()
     {
-        return $this->belongsToMany(Ride::class)->withPivot('created_at', 'updated_at');
-    }
-    public function trucks()
-    {
-        return $this->belongsToMany(Truck::class)->withPivot('created_at', 'updated_at');
+        return $this->belongsToMany(Ride::class)->withPivot('created_at','updated_at');
     }
 
-    public function locations()
+    public function location()
     {
-        return $this->belongsToMany(Location::class)->withPivot('created_at', 'updated_at');
+        return $this->belongsTo(Location::class);
     }
 }
