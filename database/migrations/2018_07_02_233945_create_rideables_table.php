@@ -35,6 +35,7 @@ class CreateRideablesTable extends Migration
             $table->longText('description');
             $table->timestamps();
         });
+
         Schema::create('location_rideable', function (Blueprint $table) {
             $table->unsignedInteger('rideable_id');
             $table->unsignedInteger('location_id');
@@ -42,6 +43,16 @@ class CreateRideablesTable extends Migration
             $table->foreign('rideable_id')->references('id')->on('rideables')->onDelete('cascade');
             $table->primary(['location_id','rideable_id']);
             $table->timestamps();
+        });
+
+        Schema::create('rideable_truck', function (Blueprint $table) {
+            $table->unsignedInteger('rideable_id');
+            $table->unsignedInteger('truck_id');
+            $table->foreign('rideable_id')->references('id')->on('rideables')->onDelete('cascade');
+            $table->foreign('truck_id')->references('id')->on('trucks')->onDelete('cascade');
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable();
+            $table->primary(['rideable_id','truck_id','created_at']);
         });
     }
 
@@ -53,8 +64,9 @@ class CreateRideablesTable extends Migration
     public function down()
     {
         // $table->dropForeign('posts_user_id_foreign');
+        Schema::dropIfExists('location_rideable');
+        Schema::dropIfExists('rideable_truck');
         Schema::dropIfExists('locations');
-        Schema::dropIfExists('location_Rideable');
-        Schema::dropIfExists('Rideables');
+        Schema::dropIfExists('rideables');
     }
 }

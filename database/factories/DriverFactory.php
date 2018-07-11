@@ -7,5 +7,6 @@ $factory->define(App\Driver::class, function (Faker $faker) {
         'fname'=>$faker->FirstName,
         'lname'=>$faker->lastName,
         'phone'=>$faker->phoneNumber,
+        'email'=>$faker->email,
     ];
 });

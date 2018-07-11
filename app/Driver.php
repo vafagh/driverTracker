@@ -8,6 +8,6 @@ class Driver extends Model
 {
     public function trucks()
     {
-        return $this->belongsToMany(Truck::class);
+        return $this->belongsToMany(Truck::class)->withPivot('created_at', 'updated_at');
     }
 }

@@ -9,7 +9,7 @@ class Location extends Model
 
     public function rideables()
     {
-        return $this->belongsToMany(Rideable::class);
+        return $this->belongsToMany(Rideable::class)->withPivot('created_at', 'updated_at');
     }
 
 }
