@@ -7,10 +7,10 @@ use Illuminate\Database\Migrations\Migration;
 class CreateRideablesTable extends Migration
 {
     /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+    * Run the migrations.
+    *
+    * @return void
+    */
     public function up()
     {
         Schema::create('locations', function (Blueprint $table) {
@@ -34,7 +34,9 @@ class CreateRideablesTable extends Migration
             $table->string('type');
             $table->string('status');
             $table->longText('description');
+            $table->unsignedInteger('user_id');
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
         });
 
@@ -92,6 +94,7 @@ class CreateRideablesTable extends Migration
             $table->unsignedInteger('rideable_id');
             $table->unsignedInteger('truck_id');
             $table->unsignedInteger('driver_id');
+            $table->string('distance');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->nullable();
             $table->foreign('rideable_id')->references('id')->on('rideables')->onDelete('cascade');
@@ -113,10 +116,10 @@ class CreateRideablesTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+    * Reverse the migrations.
+    *
+    * @return void
+    */
     public function down()
     {
         // $table->dropForeign('posts_user_id_foreign');

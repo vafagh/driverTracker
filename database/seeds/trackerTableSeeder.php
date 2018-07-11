@@ -18,6 +18,7 @@ class trackerTableSeeder extends Seeder
     */
     public function run()
     {
+
         factory(App\User::class, 1)->create();
         factory(Truck::class, 7)->create();
         factory(Driver::class, 7)->create();
