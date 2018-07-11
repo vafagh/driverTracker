@@ -23,10 +23,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // $deliveries = Ride::where('status','!=','Delivered')->get();
-        $Rideables = Rideable::all();
-        // $pickups = Rideable::where('type','Pickup')->get();
-        // dd($Rideables->first()->location());
-        return view('home',compact('Rideables'));
+        $draftRideable = Rideable::doesntHave('trucks')->get();
+        $deliveries = Rideable::with('trucks')->where('type','Delivery')->get();
+        $pickups = Rideable::where('type','Pickup')->get();
+        // dd(Rideable::find(2)->locations->first()->name);
+        return view('home',compact('deliveries','pickups','draftRideable'));
     }
 }
