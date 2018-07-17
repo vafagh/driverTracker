@@ -25,6 +25,7 @@ class CreateRideablesTable extends Migration
             $table->string('state');
             $table->string('zip');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('rideables', function (Blueprint $table) {
@@ -33,11 +34,12 @@ class CreateRideablesTable extends Migration
             $table->string('invoice_number')->unique();
             $table->string('type');
             $table->string('status');
-            $table->longText('description');
+            $table->longText('description')->nullable();
             $table->unsignedInteger('user_id');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
+            $table->softDeletes();
         });
 
         Schema::create('location_rideable', function (Blueprint $table) {
@@ -47,6 +49,7 @@ class CreateRideablesTable extends Migration
             $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
             $table->foreign('rideable_id')->references('id')->on('rideables')->onDelete('cascade');
             $table->primary(['location_id','rideable_id']);
+            $table->softDeletes();
         });
 
 
@@ -54,10 +57,13 @@ class CreateRideablesTable extends Migration
             $table->increments('id');
             $table->string('license_plate')->unique();
             $table->string('gas_card')->unique();
+            $table->string('mileage');
             $table->string('tank_capacity');
             $table->string('last4vin')->nullable()->unique();
             $table->string('lable')->nullable()->unique();
+            $table->string('image')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
 
 
@@ -70,6 +76,7 @@ class CreateRideablesTable extends Migration
             $table->string('email')->nullable();
             $table->unique('fname','lname');
             $table->timestamps();
+            $table->softDeletes();
         });
 
 
@@ -86,6 +93,7 @@ class CreateRideablesTable extends Migration
             $table->timestamps();
             $table->foreign('truck_id')->references('id')->on('trucks')->onDelete('cascade');
             $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');
+            $table->softDeletes();
         });
 
 
@@ -100,6 +108,7 @@ class CreateRideablesTable extends Migration
             $table->foreign('rideable_id')->references('id')->on('rideables')->onDelete('cascade');
             $table->foreign('truck_id')->references('id')->on('trucks')->onDelete('cascade');
             $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');
+            $table->softDeletes();
         });
 
 
@@ -111,6 +120,7 @@ class CreateRideablesTable extends Migration
             $table->foreign('rideable_id')->references('id')->on('rideables')->onDelete('cascade');
             $table->foreign('ride_id')->references('id')->on('rides')->onDelete('cascade');
             $table->primary(['rideable_id','ride_id']);
+            $table->softDeletes();
         });
 
     }

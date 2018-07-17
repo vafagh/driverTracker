@@ -3,81 +3,88 @@
 namespace App\Http\Controllers;
 
 use App\Rideable;
+use Auth;
 use Illuminate\Http\Request;
 
 class RideableController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function home()
     {
-        //
+        $deliveries = Rideable::with('user','rides','rides.driver','rides.truck','location')
+        ->where('type','Delivery')
+        ->where('status','!=','Archive')
+        ->orderBy('id', 'desc')
+        ->get();
+        $pickups = Rideable::with('user','rides','rides.driver','rides.truck','location')
+        ->where('type','Pickup')
+        ->where('status','!=','Archive')
+        ->orderBy('id', 'desc')
+        ->get();
+
+        return view('home',compact('deliveries','pickups','draftRideable'));
+
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function list($type)
+    {
+        if($type == "pickups")
+        {$op1 = 'Warehouse'; $op2 = 'Pickup';} else {
+            $op1 = 'Client'; $op2 = 'Delivery';
+        }
+        $rideables = Rideable::with('user','rides','rides.driver','rides.truck','location')
+        ->where('type',$op2)
+        ->where('status','!=','Archive')
+        ->orderBy('id', 'desc')
+        ->get();
+
+
+        return view('rideable',compact('rideables','op1','op2'));
+
+    }
+
+    public function status(Request $request)
+    {
+        $rideable=Rideable::find($request->rideable);
+        $rideable->status = $request->status;
+        $rideable->save();
+
+        return redirect('/')->with('status', 'Driver dismissed from this task');
+    }
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $rideable = new Rideable;
+        $rideable->user_id = Auth::id();
+        $rideable->location_id = $request->location;
+        $rideable->invoice_number = $request->invoice_number;
+        $rideable->type = $request->type;
+        $rideable->status = 'Waiting For Driver';
+        $rideable->description = $request->description;
+        $rideable->save();
+        return redirect('/')->with('status', '#'.$rideable->invoice_number." added!");
+
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Rideable  $Rideable
-     * @return \Illuminate\Http\Response
-     */
     public function show(Rideable $rideable)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Rideable  $Rideable
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Rideable $rideable)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Rideable  $Rideable
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Rideable $rideable)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Rideable  $Rideable
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Rideable $rideable)
     {
         //

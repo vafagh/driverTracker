@@ -19,7 +19,7 @@ class trackerTableSeeder extends Seeder
     public function run()
     {
 
-        factory(App\User::class, 1)->create();
+        // factory(App\User::class, 6)->create();
         factory(Truck::class, 7)->create();
         factory(Driver::class, 7)->create();
         factory(Fillup::class, 15)->create();
@@ -29,17 +29,7 @@ class trackerTableSeeder extends Seeder
 
         $faker = Faker::create();
         $rideablesIds = Rideable::pluck('id')->all();
-        // $locationsIds = Location::pluck('id')->all();
         $ridesIds = Ride::pluck('id')->all();
-
-        // for($i=1; $i <= 10; $i++) {
-        //     DB::table('location_rideable')->insert([
-        //         'rideable_id' => $faker->randomElement($rideablesIds),
-        //         'location_id' => $faker->randomElement($locationsIds),
-        //         'created_at' => $faker->dateTimeBetween($startDate = '-3 hours', $endDate = 'now', $timezone = null)
-        //     ]);
-        // }
-
         for($i=1; $i <= 12; $i++) {
             DB::table('ride_rideable')->insert([
                 'rideable_id' => $faker->randomElement($rideablesIds),

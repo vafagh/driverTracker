@@ -7,79 +7,57 @@ use Illuminate\Http\Request;
 
 class FillupController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $fillup = new Fillup;
+        $fillup->truck_id = $request->truck_id;
+        $fillup->driver_id = $request->driver_id;
+        $fillup->gas_card = $request->gas_card;
+        $fillup->gallons = $request->gallons;
+        $fillup->product = $request->product;
+        $fillup->price_per_gallon = $request->price_per_gallon;
+        $fillup->total = $request->total;
+        $fillup->mileage = $request->mileage;
+        $fillup->save();
+
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Fillup  $fillup
-     * @return \Illuminate\Http\Response
-     */
     public function show(Fillup $fillup)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Fillup  $fillup
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Fillup $fillup)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Fillup  $fillup
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, Fillup $fillup)
     {
-        //
+        $fillup->truck_id = $request->truck_id;
+        $fillup->driver_id = $request->driver_id;
+        $fillup->gas_card = $request->gas_card;
+        $fillup->gallons = $request->gallons;
+        $fillup->product = $request->product;
+        $fillup->price_per_gallon = $request->price_per_gallon;
+        $fillup->total = $request->total;
+        $fillup->mileage = $request->mileage;
+        $fillup->save();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Fillup  $fillup
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Fillup $fillup)
     {
-        //
+        
     }
 }

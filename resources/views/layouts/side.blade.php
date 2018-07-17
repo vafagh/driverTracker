@@ -1,7 +1,4 @@
-    <div id="list-example" class="list-group">
-        <a class="list-group-item list-group-item-action" href="/#deliveries">Deliveries</a>
-        <a class="list-group-item list-group-item-action" href="/#pickups">Pickups</a>
-    </div>
+
     @component('layouts.navs.accordion') @endcomponent
 
     <form class="form-inline row m-0 p-0">

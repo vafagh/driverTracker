@@ -1,27 +1,29 @@
 @extends('layouts.app')
-
 @section('content')
     <div class="">
         <div class="card">
-            <div class="card-body">
+            <div class="card-header row m-0">
+                <div class="col-10">
+                    Drivers
+                </div>
+                <div class="col-2">
+                    @component('layouts.components.modal',[
+                        'modelName'=>'driver',
+                        'action'=>'create',
+                        'object'=>null,
+                        'op1'=>'op1',
+                        'op2'=>'driver',
+                        'iterator'=>0,
+                        'file'=>true
+                    ])
+                    @endcomponent
+                </div>
 
-                <ul class="list-group" id='driverd'>
-                    <li class="driver list-group-item py-0 list-group-item-secondary">
-                        <div class="row m-0 p-0">
-                            <div class='col-4 text-center'>
-                                Info
-                            </div>
-                            <div class="col-4">Created at</div>
-                            <div class='col-2'>Miles Driven</div>
-                            <div class='col-2'>Total Trip</div>
-                        </div>
-                    </li>
-                    @foreach ($drivers as $driver)
-                        @component('layouts.driverslist',['driver'=> $driver])
-                            File Missing!
-                        @endcomponent
-                    @endforeach
-                </ul>
+            </div>
+            <div class="card-body">
+                @component('layouts.driverslist',['drivers'=> $drivers])
+                    File Missing!
+                @endcomponent
             </div>
         </div>
     </div>
