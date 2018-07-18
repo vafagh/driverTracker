@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Driver;
+use App\Ride;
 use Illuminate\Http\Request;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
@@ -13,7 +14,7 @@ class DriverController extends Controller
     public function index()
     {
         $drivers = Driver::all();
-        return view('drivers',compact('drivers'));
+        return view('driver.drivers',compact('drivers'));
     }
 
     public function totalDistance()
@@ -49,9 +50,14 @@ class DriverController extends Controller
         return redirect('/drivers/')->with('status', $driver->fname." added!");
     }
 
-    public function show(Driver $driver)
+    public function show($driver_id)
     {
-        $driver->with('rides','fillups')->get();
+        // $rides = Ride::with('rideable','rideable.location','driver','truck')
+        // ->where('driver_id',$driver_id)
+        // ->orderBy('id', 'desc')
+        // ->get();
+        $driver = Driver::with('rides','fillups')->find($driver_id);
+// dd($driver->fillups);
         return view('driver.show',compact('driver'));
     }
 

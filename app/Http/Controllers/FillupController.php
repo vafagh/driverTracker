@@ -9,7 +9,11 @@ class FillupController extends Controller
 {
     public function index()
     {
-        //
+        $fillups = Fillup::with('driver','truck')
+        ->orderBy('id', 'desc')
+        ->get();
+
+        return view('fillups',['fillups'=>$fillups]);
     }
 
     public function create()
@@ -30,6 +34,7 @@ class FillupController extends Controller
         $fillup->mileage = $request->mileage;
         $fillup->save();
 
+        return redirect()->back();
     }
 
     public function show(Fillup $fillup)
@@ -54,10 +59,13 @@ class FillupController extends Controller
         $fillup->total = $request->total;
         $fillup->mileage = $request->mileage;
         $fillup->save();
+
+        return redirect()->back();
     }
 
     public function destroy(Fillup $fillup)
     {
-        
+        Fillup::destroy($fillup->id);
+        return redirect()->back()->with('status', 'Ride Destroid!');
     }
 }
