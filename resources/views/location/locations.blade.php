@@ -13,8 +13,7 @@
                     'op1'=>'op1',
                     'op2'=>'location',
                     'iterator'=>0,
-                    'file'=>true
-                ])
+                    'file'=>true])
                 @endcomponent
             </div>
 
@@ -58,22 +57,19 @@
                                     'iterator'=>$key,
                                     'object'=>$location,
                                     'op1'=>'',
-                                    'op2'=>''
-                                ])
-                            @endcomponent
-                            <br>
+                                    'op2'=>''])
+                                @endcomponent
+                                <br>
 
-                            <a class="badge badge-danger mt-2 mx-auto" href="/location/delete/{{$location->id}}"> Delete</a>
-                            <br>
-                            <a class="badge badge-info mt-2 mx-auto" href="/rideable/location/{{$location->id}}"> Rides</a>
+                                <a class="badge badge-danger mt-2 mx-auto" href="/location/delete/{{$location->id}}"> Delete</a>
+                                <br>
+                                <a class="badge badge-info mt-2 mx-auto" href="/rideable/location/{{$location->id}}"> Rides</a>
 
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
 @endsection
-
-<div class="d-flex justify-content-between">

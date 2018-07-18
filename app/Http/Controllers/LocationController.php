@@ -35,7 +35,12 @@ class LocationController extends Controller
 
     public function show(Location $location)
     {
-        return view('location.show',compact('location'));
+
+        if($location->type == "pickups")
+        {$op1 = 'Warehouse'; $op2 = 'Pickup';} else {
+            $op1 = 'Client'; $op2 = 'Delivery';
+        }
+        return view('location.show',['location'=>$location,'op1'=>$op1,'op2'=>$op2]);
     }
 
     public function edit(Location $location)

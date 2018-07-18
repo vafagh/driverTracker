@@ -39,31 +39,33 @@
                     distance :  {{$location->distance}}
                 </div>
                 <div class="d-flex justify-content-between">
-                    Address :<br>
-                    {{$location->line1}}, {{$location->line2}}<br>
-                    {{$location->city}}, {{$location->state}} - {{$location->zip}}<br>
+                    <div class="">
+
+                        Address :<br>
+                        {{$location->line1}}, {{$location->line2}}<br>
+                        {{$location->city}}, {{$location->state}} - {{$location->zip}}<br>
+                    </div>
+                    <div class="">
+                        @component('layouts.components.modal',[
+                            'modelName'=>'location',
+                            'action'=>'edit',
+                            'style'=>'badge badge-warning ',
+                            'iterator'=>'',
+                            'object'=>$location,
+                            'op1'=>'',
+                            'op2'=>''])
+                        @endcomponent
+                        <br>
+                        <a class="badge badge-danger mt-2 mx-auto" href="/location/delete/{{$location->id}}"> Delete</a>
+                        <br>
+                        <a class="badge badge-info mt-2 mx-auto" href="/rideable/location/{{$location->id}}"> Rides</a>
+                    </div>
                 </div>
-<div class="">
-
-        @component('layouts.components.modal',[
-            'modelName'=>'location',
-            'action'=>'edit',
-            'style'=>'badge badge-warning ',
-            'iterator'=>'',
-            'object'=>$location,
-            'op1'=>'',
-            'op2'=>''
-        ])
-    @endcomponent
-    <br>
-
-    <a class="badge badge-danger mt-2 mx-auto" href="/location/delete/{{$location->id}}"> Delete</a>
-    <br>
-    <a class="badge badge-info mt-2 mx-auto" href="/rideable/location/{{$location->id}}"> Rides</a>
-
-</div>
             </div>
 
         </div>
+        @component('layouts.rideable',['collection'=> $location->rideables,'op1'=>$op1,'op2'=>$op2])
+            File Missing!
+        @endcomponent
     </div>
 @endsection
