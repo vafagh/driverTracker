@@ -12,12 +12,12 @@ class RideableController extends Controller
     {
         $deliveries = Rideable::with('user','rides','rides.driver','rides.truck','location')
         ->where('type','Delivery')
-        ->where('status','!=','Archive')
+        ->where('status','!=','Archived')
         ->orderBy('id', 'desc')
         ->get();
         $pickups = Rideable::with('user','rides','rides.driver','rides.truck','location')
         ->where('type','Pickup')
-        ->where('status','!=','Archive')
+        ->where('status','!=','Archived')
         ->orderBy('id', 'desc')
         ->get();
 
@@ -33,7 +33,7 @@ class RideableController extends Controller
         }
         $rideables = Rideable::with('user','rides','rides.driver','rides.truck','location')
         ->where('type',$op2)
-        ->where('status','!=','Archive')
+        ->where('status','!=','Archived')
         ->orderBy('id', 'desc')
         ->get();
 
@@ -48,7 +48,7 @@ class RideableController extends Controller
         $rideable->status = $request->status;
         $rideable->save();
 
-        return redirect('/')->with('status', $rideable->status.' set');
+        return redirect()->back()->with('status', $rideable->status.' set');
     }
 
     public function create()

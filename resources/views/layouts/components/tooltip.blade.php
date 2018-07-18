@@ -2,7 +2,7 @@
 switch($modelName){
 
     case 'rideable':
-    isset($model->invoice_number) ? $title = $model->invoice_number: $title = '?';
+    $title = '#'.$model->invoice_number;
     break;
 
     case 'ride':
@@ -30,10 +30,10 @@ switch($modelName){
 }
 @endphp
 @if($title!='?')
-<a class='tip' href="/{{$modelName}}/show/{{$model->id}}">
-    {{$title}}
-</a>
-<div class="info">
+    <div class="info d-inline">
+        <a class='tip' href="/{{$modelName}}/show/{{$model->id}}">
+            {{$title}}
+        </a>
         <div class="card">
             <div class="card-header">
                 {{$modelName.': '.$title}}
@@ -41,15 +41,15 @@ switch($modelName){
 
             <div class="card-body">
                 @foreach ($model->toArray() as $key => $value)
-
-                <div class="d-flex justify-content-between">
-
-                    <div class="">{{$value}}</div>
-                    <div class="text-muted ">{{$key}}</div>
-                </div>
-            @endforeach
+                    @if (gettype($value)=='string' || gettype($value)=='integer')
+                        <div class="d-flex justify-content-between">
+                            <div class="">{{$value}}</div>
+                            <div class="text-muted">{{$key}}</div>
+                        </div>
+                    @endif
+                @endforeach
             </div>
         </div>
-</div>
+    </div>
 @else Not Found
 @endif

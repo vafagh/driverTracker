@@ -26,6 +26,8 @@ Route::POST('/location/save', 'LocationController@update');
 Route::POST('/location/store', 'LocationController@store');
 Route::GET('/location/show/{location}', 'LocationController@show');
 Route::GET('/fillups', 'FillupController@index')->name('fillups');
+Route::POST('/fillup/store/', 'FillupController@store');
+Route::GET('/fillup/delete/{fillup}', 'FillupController@destroy');
 Route::GET('/t', function(){
     return view('theme');
 });
