@@ -32,7 +32,7 @@ class CreateRideablesTable extends Migration
         Schema::create('rideables', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('location_id');
-            $table->string('invoice_number')->unique();
+            $table->string('invoice_number');
             $table->string('type');
             $table->string('status');
             $table->longText('description')->nullable();
@@ -87,10 +87,11 @@ class CreateRideablesTable extends Migration
             $table->unsignedInteger('driver_id');
             $table->string('gas_card');
             $table->string('gallons');
-            $table->string('product');
+            $table->string('product')->nullable();
+            $table->string('image')->nullable();
             $table->float('price_per_gallon');
             $table->float('total');
-            $table->string('mileage');
+            $table->string('mileage')->nullable();
             $table->timestamps();
             $table->foreign('truck_id')->references('id')->on('trucks')->onDelete('cascade');
             $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');
