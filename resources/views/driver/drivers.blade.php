@@ -3,9 +3,7 @@
     <div class="">
         <div class="card">
             <div class="card-header row m-0">
-                <div class="col-10">
-                    Drivers
-                </div>
+                <div class="col-10">Drivers</div>
                 <div class="col-2">
                     @component('layouts.components.modal',[
                         'modelName'=>'driver',
@@ -14,14 +12,12 @@
                         'op1'=>'op1',
                         'op2'=>'driver',
                         'iterator'=>0,
-                        'file'=>true
-                    ])
+                        'file'=>true])
                     @endcomponent
                 </div>
-
             </div>
             <div class="card-body">
-                @component('layouts.driverslist',['drivers'=> $drivers])
+                @component('driver.driverslist',['drivers'=> $drivers])
                     File Missing!
                 @endcomponent
             </div>
