@@ -17,6 +17,7 @@ class CreateRideablesTable extends Migration
             $table->increments('id');
             $table->string('type');
             $table->string('name')->unique();
+            $table->string('person');
             $table->string('phone')->unique();
             $table->string('distance')->nullable();
             $table->string('line1');
