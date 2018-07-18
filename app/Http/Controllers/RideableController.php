@@ -48,7 +48,7 @@ class RideableController extends Controller
         $rideable->status = $request->status;
         $rideable->save();
 
-        return redirect('/')->with('status', 'Driver dismissed from this task');
+        return redirect('/')->with('status', $rideable->status.' set');
     }
 
     public function create()

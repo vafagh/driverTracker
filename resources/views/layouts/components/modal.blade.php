@@ -1,7 +1,13 @@
 @if (!isset($btnHide))
-<button type="button" class=" {{(isset($style) ? $style : 'btn btn-primary float-right')}} {{(isset($btnSize) ? 'btn-sm mx-1' : '')}}" data-toggle="modal" data-target="#{{$op1.$op2.'_'.$action.$iterator}}" data-whatever="@mdo">
+<a  class="
+    {{(isset($style) ? $style : 'btn btn-warning ')}}
+    {{(isset($btnSize) ? 'btn-sm mx-1' : '')}}
+    "
+    data-toggle="modal"
+    data-target="#{{$op1.$op2.'_'.$action.$iterator}}"
+    data-whatever="@mdo">
     {{ucfirst($action)}} {{ucfirst($op2)}}
-</button>
+</a>
 @endif
 <div class="modal fade text-dark" id="{{$op1.$op2.'_'.$action.$iterator}}" tabindex="-1" role="dialog" aria-labelledby="{{$op2.$action.$iterator}}" aria-hidden="true">
     <div class="modal-dialog" role="document">

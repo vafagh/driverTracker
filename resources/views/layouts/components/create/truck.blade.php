@@ -16,6 +16,10 @@
         <input name="last4vin" class="form-control form-control-sm" type="text" placeholder="xxxx">
     </div>
     <div class="form-group">
+        <label for="mileage" class="col-form-label">Mileage</label>
+        <input name="mileage" class="form-control form-control-sm" type="text" placeholder="">
+    </div>
+    <div class="form-group">
         <label for="lable" class="col-form-label">Lable</label>
         <input name="lable" class="form-control form-control-sm" type="text" placeholder="Year Make Model">
     </div>

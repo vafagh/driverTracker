@@ -18,7 +18,7 @@ class Driver extends Model
 
     public function rides()
     {
-        return $this-hasMany(Truck::class)->withPivot('created_at', 'updated_at');
+        return $this->hasMany(Ride::class);
     }
 
     public function fillups()

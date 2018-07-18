@@ -11,16 +11,16 @@ class RideController extends Controller
 {
     public function index()
     {
-        $rides = Ride::with('user','rideable','rideables.driver','rideables.truck','location')
+        $rides = Ride::with('rideable','rideable.location','driver','truck')
         ->orderBy('id', 'desc')
         ->get();
 
-        return view('ride',compact('rides'));
+        return view('ride.rides',compact('rides'));
     }
 
     public function create(Rideable $rideable)
     {
-        return view('ride',compact('rideable'));
+        return view('ride.create',compact('rideable'));
     }
 
     public function attach(Request $request)
@@ -56,23 +56,26 @@ class RideController extends Controller
         return redirect('/')->with('status', 'Driver dismissed from this task');
     }
 
-    public function show(Ride $ride)
-    {
-        //
-    }
-
     public function edit(Ride $ride)
     {
-        //
+        return view('edit');
     }
 
-    public function update(Request $request, Ride $ride)
+    public function update(Request $request)
     {
-        //
+        // dd($request->id);
+        $ride = Ride::find($request->id);
+        // $ride->rideable_id = $request->location;
+        $ride->driver_id = $request->driver;
+        $ride->truck_id = $request->truck;
+        $ride->save();
+
+        return redirect('/rides')->with('status', 'Ride Updated!');
     }
 
     public function destroy(Ride $ride)
     {
-        //
+        Ride::destroy($ride->id);
+        return redirect('/rides')->with('status', 'Ride Destroid!');
     }
 }

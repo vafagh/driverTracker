@@ -30,4 +30,7 @@
 .bg-ddd{background-color: #ddd}
 .bg-eee{background-color: #eee}
 .bg-fff{background-color: #fff}
-.delivery span{}
+.tip{color:#0a5d3e}
+.tip:hover{color:#da3b1f}
+.tip ~ .info{display:none ;position: absolute;background:white;margin-left:11px;border:1px solid #eee}
+.tip:hover ~ .info{display:block}

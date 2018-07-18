@@ -48,7 +48,7 @@
                             @endcomponent
                         <a class="btn btn-success btn-sm mb-1" href="assign">Assign a Ride</a>
                         <a class="btn btn-primary btn-sm mb-1" href="/fillups/driver/{{$driver->id}}">Fillups</a>
-                        <a class="btn btn-secondary btn-sm mb-1" href="/ridables/driver/{{$driver->id}}">Ride History</a>
+                        <a class="btn btn-secondary btn-sm mb-1" href="/driver/show/{{$driver->id}}">Ride History</a>
                         <a class="btn btn-warning btn-sm mb-1" href="/truck/driver/{{$driver->id}}">Driving History</a>
                     </div>
                 </div>

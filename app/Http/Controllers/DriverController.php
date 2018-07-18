@@ -51,7 +51,8 @@ class DriverController extends Controller
 
     public function show(Driver $driver)
     {
-        //
+        $driver->with('rides','fillups')->get();
+        return view('driver.show',compact('driver'));
     }
 
     public function edit(Driver $driver)

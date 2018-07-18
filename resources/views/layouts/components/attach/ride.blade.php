@@ -27,6 +27,7 @@
 </div>
 <div class="modal-footer">
     <input name="id" type="hidden" value="{{$object->id}}">
+    <input name="distance" type="hidden" value="{{$object->location->distance}}">
     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
     <button type="submit" class="btn btn-primary">Assign</button>
 </div>

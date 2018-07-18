@@ -27,6 +27,7 @@ class TruckController extends Controller
         $track = new Truck;
         $track->license_plate = $request->license_plate;
         $track->gas_card = $request->gas_card;
+        $track->mileage = $request->mileage;
         $track->tank_capacity = $request->tank_capacity;
         $track->last4vin = $request->last4vin;
         $track->lable = $request->lable;
@@ -50,6 +51,7 @@ class TruckController extends Controller
         $track = Truck::find($request->id);
         $track->license_plate = $request->license_plate;
         $track->gas_card = $request->gas_card;
+        $track->mileage = $request->mileage;
         $track->tank_capacity = $request->tank_capacity;
         $track->last4vin = $request->last4vin;
         $track->lable = $request->lable;
