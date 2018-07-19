@@ -85,6 +85,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>For</th>
+                                <th>{{--($op1=='Client') ? 'Invoice': 'Part'--}}#</th>
                                 <th>Destination</th>
                                 <th>Truck</th>
                                 <th>Create</th>
@@ -97,6 +98,9 @@
                                     <td>{{$ride->id}}</td>
                                     <td>
                                         @component('layouts.components.tooltip',['modelName'=>'location','model'=>$ride->rideable->location])@endcomponent
+                                    </td>
+                                    <td>
+                                        @component('layouts.components.tooltip',['modelName'=>'rideable','model'=>$ride->rideable])@endcomponent
                                     </td>
                                     <td>
                                         {{$ride->rideable->status}}
