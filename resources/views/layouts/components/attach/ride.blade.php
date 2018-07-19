@@ -1,9 +1,7 @@
 <div class="modal-body">
     <div class="form-group">
         <label for="rideable_id" class="col-form-label">To: <strong>{{$object->location->name}}</strong></label>
-        <br>
-        <strong>{{$object->id}}</strong>
-        <input name="idid" type="hidden" value="{{$object->id}}" required>
+        <input name="id" type="hidden" value="{{$object->id}}" required>
         <input name="distance" type="hidden" value="{{$object->location->distance}}" required>
     </div>
     <div class="form-group">
