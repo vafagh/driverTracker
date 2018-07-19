@@ -10,11 +10,10 @@ class TruckController extends Controller
     public function index()
     {
         $trucks = Truck::with('rides','fillups')
-            // ->where('','')
             ->orderBy('id', 'desc')
             ->get();
 
-            return view('trucks',compact('trucks'));
+            return view('truck.trucks',compact('trucks'));
     }
 
     public function create()
@@ -36,9 +35,11 @@ class TruckController extends Controller
 
     }
 
-    public function show(Truck $truck)
+    public function show($id)
     {
-        //
+        $truck = Truck::with('rides','rides.rideable','rides.rideable.location','fillups')->find($id);
+        // dd($truck);
+        return view('truck.show',compact('truck'));
     }
 
     public function edit(Truck $truck)

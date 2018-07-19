@@ -5,8 +5,7 @@
         'op1'=>$op1,
         'op2'=>$op2,
         'object'=>$object
-    ])
-    @endcomponent
+        ]) @endcomponent
 
 </form>
 </div>

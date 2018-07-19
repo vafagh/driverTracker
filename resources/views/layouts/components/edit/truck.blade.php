@@ -1,23 +1,34 @@
 <div class="modal-body">
-    <div class="form-group">
-        <label for="license_plate" class="col-form-label">License Plate</label>
-        <input name="license_plate" value="{{$object->license_plate}}" class="form-control form-control-sm" type="text" placeholder="" required>
+    <div class="form-group row">
+        <div class="col-6">
+            <label for="license_plate" class="col-form-label">License Plate</label>
+            <input name="license_plate" value="{{$object->license_plate}}" class="form-control form-control" type="text" placeholder="" required>
+        </div>
+        <div class="col-6">
+            <label for="gas_card" class="col-form-label">Gas Card</label>
+            <input name="gas_card" value="{{$object->gas_card}}" class="form-control form-control" type="text" placeholder="xxxx-xxxx-xxxx-xxxx" required>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="gas_card" class="col-form-label">Gas Card</label>
-        <input name="gas_card" value="{{$object->gas_card}}" class="form-control form-control-sm" type="text" placeholder="xxxx-xxxx-xxxx-xxxx" required>
+
+    <div class="form-group row">
+        <div class="col-6">
+            <label for="tank_capacity" class="col-form-label">Tank Capacity</label>
+            <input name="tank_capacity" value="{{$object->tank_capacity}}" class="form-control form-control" type="text" placeholder="Enter the number ">
+        </div>
+        <div class="col-6">
+            <label for="last4vin" class="col-form-label">Vin Number</label>
+            <input name="last4vin" value="{{$object->last4vin}}" class="form-control form-control" type="text" placeholder="xxxx">
+        </div>
     </div>
-    <div class="form-group">
-        <label for="tank_capacity" class="col-form-label">Tank Capacity</label>
-        <input name="tank_capacity" value="{{$object->tank_capacity}}" class="form-control form-control-sm" type="text" placeholder="Enter the number ">
-    </div>
-    <div class="form-group">
-        <label for="last4vin" class="col-form-label">Vin Number</label>
-        <input name="last4vin" value="{{$object->last4vin}}" class="form-control form-control-sm" type="text" placeholder="xxxx">
-    </div>
-    <div class="form-group">
-        <label for="lable" class="col-form-label">Lable</label>
-        <input name="lable" value="{{$object->lable}}" class="form-control form-control-sm" type="text" placeholder="Year Make Model">
+    <div class="form-group row">
+        <div class="col-4">
+            <label for="mileage" class="col-form-label">Milage</label>
+            <input name="mileage" value="{{$object->mileage}}" class="form-control form-control" type="text" placeholder="Year Make Model">
+        </div>
+        <div class="col-8">
+            <label for="lable" class="col-form-label">Lable</label>
+            <input name="lable" value="{{$object->lable}}" class="form-control form-control" type="text" placeholder="Year Make Model">
+        </div>
     </div>
     <div class="custom-file">
         <input name="image" value="{{$object->image}}" type="file" class="custom-file-input" id="image">

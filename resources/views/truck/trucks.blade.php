@@ -21,7 +21,7 @@
 
             </div>
             <div class="card-body">
-                @component('layouts.truckslist',['trucks'=> $trucks])
+                @component('truck.truckslist',['trucks'=> $trucks])
                     File Missing!
                 @endcomponent
             </div>

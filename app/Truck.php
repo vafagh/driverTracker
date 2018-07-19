@@ -15,7 +15,7 @@ class Truck extends Model
      * @var array
      */
     protected $dates = ['deleted_at'];
-    
+
 
     public function rides()
     {
