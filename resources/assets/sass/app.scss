@@ -32,5 +32,13 @@
 .bg-fff{background-color: #fff}
 .tip{color:#0a5d3e}
 .tip:hover{color:#da3b1f}
-.tip ~ .info{display:none ;position: absolute;background:white;margin-left:11px;border:1px solid #eee}
-.tip:hover ~ .info{display:block}
+.info>.card{
+    display:none ;
+    z-index: 1200;
+    position: absolute;
+    background:white;
+    margin-left:11px;
+    border:1px solid #eee;
+    box-shadow: 2px 3px 10px 0px #888;
+}
+.info:hover>.card{display:block}

@@ -10489,15 +10489,18 @@ a.text-dark:focus {
   color: #da3b1f;
 }
 
-.tip ~ .info {
+.info > .card {
   display: none;
+  z-index: 1200;
   position: absolute;
   background: white;
   margin-left: 11px;
   border: 1px solid #eee;
+  -webkit-box-shadow: 2px 3px 10px 0px #888;
+          box-shadow: 2px 3px 10px 0px #888;
 }
 
-.tip:hover ~ .info {
+.info:hover > .card {
   display: block;
 }
 
