@@ -36,7 +36,12 @@
                     @foreach ($locations as $key => $location)
                         <tr>
                             <td>{{$location->id}}</td>
-                            <td>{{$location->name}}<br><strong>Phone:</strong> {{$location->phone}}</td>
+                            <td>
+                                <h3>{{$location->name}}</h3><br>
+                                <span class="text-muted">
+                                    {{$location->phone}}
+                                </span>
+                            </td>
                             <td>{{$location->person}}</td>
                             <td>{{$location->type}}</td>
                             <td>{{$location->distance}} Mile </td>

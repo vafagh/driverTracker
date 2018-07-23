@@ -15,9 +15,9 @@
             </div>
             <div class="col-11">
                 <div class="row mx-0  pt-2">
-                    <div class="col-3">
+                    <h3 class="col-3">
                         {{$driver->fname.' '.$driver->lname}}
-                    </div>
+                    </h3>
                     <div  class="col-5">
                         {{$driver->created_at}}
                     </div>
