@@ -2,7 +2,7 @@
         <a class='tip' href="/{{$modelName}}/show/{{$model->id}}">
             <img  src="/img/recipt.png">
         </a>
-        <div class="card w-25">
+        <div class="card img w-25">
             <div class="card-body">
                 @foreach ($model->toArray() as $key => $value)
                     @php

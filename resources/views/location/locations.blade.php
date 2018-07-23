@@ -37,7 +37,9 @@
                         <tr>
                             <td>{{$location->id}}</td>
                             <td>
-                                <h3>{{$location->name}}</h3><br>
+                                <h3>
+                                    @component('layouts.components.tooltip',['modelName'=>'location','model'=>$location])@endcomponent
+                                </h3>
                                 <span class="text-muted">
                                     {{$location->phone}}
                                 </span>

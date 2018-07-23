@@ -13,12 +13,12 @@ class RideableController extends Controller
         $deliveries = Rideable::with('user','rides','rides.driver','rides.truck','location')
         ->where('type','Delivery')
         ->where('status','!=','Archived')
-        ->orderBy('id', 'desc')
+        ->orderBy('location_id', 'desc')
         ->get();
         $pickups = Rideable::with('user','rides','rides.driver','rides.truck','location')
         ->where('type','Pickup')
         ->where('status','!=','Archived')
-        ->orderBy('id', 'desc')
+        ->orderBy('location_id', 'desc')
         ->get();
 
         return view('home',compact('deliveries','pickups','draftRideable'));
@@ -34,7 +34,7 @@ class RideableController extends Controller
         $rideables = Rideable::with('user','rides','rides.driver','rides.truck','location')
         ->where('type',$op2)
         ->where('status','!=','Archived')
-        ->orderBy('id', 'desc')
+        ->orderBy('location_id', 'desc')
         ->get();
 
 
