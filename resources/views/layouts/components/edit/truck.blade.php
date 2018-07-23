@@ -26,20 +26,23 @@
             <input name="mileage" value="{{$object->mileage}}" class="form-control form-control" type="text" placeholder="Year Make Model">
         </div>
         <div class="col-8">
-            <label for="lable" class="col-form-label">Lable</label>
+            <label for="lable" class="col-form-label">Label</label>
             <input name="lable" value="{{$object->lable}}" class="form-control form-control" type="text" placeholder="Year Make Model">
         </div>
     </div>
 
     <div class="form-row ">
+        @if ($object->image!='')
+
+            <label class="file-label" for="image">Update picture</label>
         <div class="row col-2">
             <div class="col-12 ">
-                <img class="w-100" src="/img/fillup/{{$object->image}}" alt="">
+                <img class="w-100" src="/img/truck/{{$object->image}}" alt="">
             </div>
         </div>
+    @endif
         <div class="col-10 ">
             <input name="image" type="file" class="file-input" id="image">
-            <label class="file-label" for="image">Update picture</label>
         </div>
     </div>
 </div>

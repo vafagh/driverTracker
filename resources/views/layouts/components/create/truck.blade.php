@@ -27,7 +27,7 @@
             <input name="mileage" class="form-control form-control-sm" type="text" placeholder="">
         </div>
         <div class="col-8">
-            <label for="lable" class="col-form-label">Lable</label>
+            <label for="lable" class="col-form-label">Label</label>
             <input name="lable" class="form-control form-control-sm" type="text" placeholder="Year Make Model">
         </div>
     </div>
