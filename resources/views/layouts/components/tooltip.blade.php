@@ -5,6 +5,10 @@ switch($modelName){
     $title = '#'.$model->invoice_number;
     break;
 
+    case 'location':
+    $title = '<strong>'.$model->name.'</strong>';
+    break;
+
     case 'ride':
     $title = 'For '.$model->rideable->location->name;
     break;
@@ -32,7 +36,11 @@ switch($modelName){
 @if($title!='?')
     <div class="info d-inline">
         <a class='tip' href="/{{$modelName}}/show/{{$model->id}}">
-            {{$title}}
+            @if (isset($element))
+                {!!'<'.$element.'>'.$title.'</'.$element.'>'!!}
+            @else
+                {!!$title!!}
+            @endif
         </a>
         <div class="card">
             <div class="card-header">
