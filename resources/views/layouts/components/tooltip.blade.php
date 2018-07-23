@@ -39,6 +39,7 @@ switch($modelName){
                 {{$modelName.': '.$title}}
             </div>
 
+
             <div class="card-body">
                 @foreach ($model->toArray() as $key => $value)
                     @if (gettype($value)=='string' || gettype($value)=='integer')
@@ -47,7 +48,13 @@ switch($modelName){
                             <div class="text-muted">{{$key}}</div>
                         </div>
                     @endif
+                    @php
+                    ($key=='image' && $value!='') ? $img = $modelName.'/'.$value:'';
+                    @endphp
                 @endforeach
+                @if (isset($img))
+                    <img class="card-img-bottom w-25" src="/img/{{$img}}" alt="Card image cap">
+                @endif
             </div>
         </div>
     </div>

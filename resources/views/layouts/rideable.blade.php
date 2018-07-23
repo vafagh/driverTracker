@@ -37,7 +37,8 @@
                         @component('layouts.components.tooltip',['modelName'=>'location','model'=>$rideable->location])@endcomponent
                         <br>
                         <div class="text-secondary">
-                            by @component('layouts.components.tooltip',['modelName'=>'user','model'=>$rideable->user])@endcomponent
+                            by <strong>{{$rideable->user->name}}</strong>
+                            {{-- @component('layouts.components.tooltip',['modelName'=>'user','model'=>$rideable->user])@endcomponent --}}
                         </div>
                     </div>
                     <div class='InvoiceNumber col-3'>

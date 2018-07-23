@@ -35,7 +35,7 @@
                         <li class="list-group-item disabled py-2 active font-weight-bold">{{$driver->fname.' '.$driver->lname}}</li>
                         <li class="row m-0 p-0 mb-1 border  border-secondary">
                             <div class="col-2 bg-danger p-0">
-                                <img class="w-100" src="{{($driver->image == null) ? '/img/def.svg' : '/img/avatars/'.$driver->image }}" alt="">
+                                <img class="w-100" src="{{($driver->image == null) ? '/img/def.svg' : '/img/driver/'.$driver->image }}" alt="">
                             </div>
                             <div class="col-10">
                                 <div class="row mx-0  pt-2">

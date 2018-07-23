@@ -39,7 +39,7 @@ class DriverController extends Controller
 
         if($request->file('avatar')!=NULL){
             $image = time().'.'. $request->file('avatar')->getClientOriginalExtension();
-            $request->file('avatar')->move(public_path('img/avatars'), $image);
+            $request->file('avatar')->move(public_path('img/driver'), $image);
             $driver->image = $image;
         }
         $driver->fname = $request->fname;

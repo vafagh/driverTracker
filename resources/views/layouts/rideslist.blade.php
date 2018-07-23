@@ -9,7 +9,7 @@
     @foreach ($rides as $key => $ride)
         <li class="list-group-item disabled py-2 active font-weight-bold">{{$ride->fname.' '.$ride->lname}}</li>
         <li class="row m-0 p-0 mb-1 border  border-secondary">
-
+Check rideList.blade.php 
         </li>
     @endforeach
 </ul>

@@ -32,6 +32,11 @@ class FillupController extends Controller
         $fillup->price_per_gallon = $request->price_per_gallon;
         $fillup->total = $request->total;
         $fillup->mileage = $request->mileage;
+        if($request->file('image')!=NULL){
+            $image = time().'.'. $request->file('image')->getClientOriginalExtension();
+            $request->file('image')->move(public_path('img/fillup'), $image);
+            $fillup->image = $image;
+        }
         $fillup->save();
 
         return redirect()->back();
@@ -58,6 +63,11 @@ class FillupController extends Controller
         $fillup->price_per_gallon = $request->price_per_gallon;
         $fillup->total = $request->total;
         $fillup->mileage = $request->mileage;
+        if($request->file('image')!=NULL){
+            $image = time().'.'. $request->file('image')->getClientOriginalExtension();
+            $request->file('image')->move(public_path('img/fillup'), $image);
+            $fillup->image = $image;
+        }
         $fillup->save();
 
         return redirect()->back();

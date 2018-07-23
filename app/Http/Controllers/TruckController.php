@@ -23,15 +23,20 @@ class TruckController extends Controller
 
     public function store(Request $request)
     {
-        $track = new Truck;
-        $track->license_plate = $request->license_plate;
-        $track->gas_card = $request->gas_card;
-        $track->mileage = $request->mileage;
-        $track->tank_capacity = $request->tank_capacity;
-        $track->last4vin = $request->last4vin;
-        $track->lable = $request->lable;
-        $track->save();
-        return redirect('/trucks/')->with('status', $track->license_plate." added!");
+        $truck = new Truck;
+        $truck->license_plate = $request->license_plate;
+        $truck->gas_card = $request->gas_card;
+        $truck->mileage = $request->mileage;
+        $truck->tank_capacity = $request->tank_capacity;
+        $truck->last4vin = $request->last4vin;
+        $truck->lable = $request->lable;
+        if($request->file('image')!=NULL){
+            $image = time().'.'. $request->file('image')->getClientOriginalExtension();
+            $request->file('image')->move(public_path('img/truck'), $image);
+            $truck->image = $image;
+        }
+        $truck->save();
+        return redirect('/trucks/')->with('status', $truck->license_plate." added!");
 
     }
 
@@ -49,21 +54,21 @@ class TruckController extends Controller
 
     public function update(Request $request)
     {
-        $track = Truck::find($request->id);
-        $track->license_plate = $request->license_plate;
-        $track->gas_card = $request->gas_card;
-        $track->mileage = $request->mileage;
-        $track->tank_capacity = $request->tank_capacity;
-        $track->last4vin = $request->last4vin;
-        $track->lable = $request->lable;
+        $truck = Truck::find($request->id);
+        $truck->license_plate = $request->license_plate;
+        $truck->gas_card = $request->gas_card;
+        $truck->mileage = $request->mileage;
+        $truck->tank_capacity = $request->tank_capacity;
+        $truck->last4vin = $request->last4vin;
+        $truck->lable = $request->lable;
         if($request->file('image')!=NULL){
             $image = time().'.'. $request->file('image')->getClientOriginalExtension();
-            $request->file('image')->move(public_path('img/trucks'), $image);
-            $track->image = $image;
+            $request->file('image')->move(public_path('img/truck'), $image);
+            $truck->image = $image;
         }
-        $track->save();
+        $truck->save();
 
-        return redirect('/trucks/')->with('status', $track->license_plate." Updated!");
+        return redirect('/trucks/')->with('status', $truck->license_plate." Updated!");
     }
 
     public function destroy(Truck $truck)
