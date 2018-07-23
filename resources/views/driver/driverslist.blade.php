@@ -55,6 +55,7 @@
                         @endcomponent
                         <a class="btn btn-primary btn-sm mb-1" href="/fillups/driver/{{$driver->id}}">Fillups</a>
                         <a class="btn btn-secondary btn-sm mb-1" href="/driver/show/{{$driver->id}}">Ride History</a>
+                        <a class="btn btn-primary btn-sm mb-1" href="/driver/delete/{{$driver->id}}">Delete</a>
                     </div>
                 </div>
             </div>

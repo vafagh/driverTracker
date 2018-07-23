@@ -84,6 +84,7 @@ class DriverController extends Controller
 
     public function destroy(Driver $driver)
     {
-        //
+        Driver::destroy($driver->id);
+        return redirect('drivers')->with('status', $driver->fname." Deleted!");
     }
 }

@@ -7,6 +7,7 @@ Route::GET('/drivers', 'DriverController@index')->name('drivers');
 Route::GET('/driver/show/{driver}', 'DriverController@show');
 Route::POST('/driver/store', 'DriverController@store')->name('add.driver');
 Route::POST('/driver/save', 'DriverController@update')->name('save.driver');
+Route::GET('/driver/delete/{driver}', 'DriverController@destroy');
 Route::GET('/trucks', 'TruckController@index')->name('trucks');
 Route::GET('/truck/show/{truck}', 'TruckController@show');
 Route::POST('/truck/store', 'TruckController@store')->name('add.truck');
