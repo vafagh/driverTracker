@@ -10494,10 +10494,12 @@ a.text-dark:focus {
   z-index: 1200;
   position: absolute;
   background: white;
-  margin-left: 11px;
+  margin-left: 50%;
   border: 1px solid #eee;
   -webkit-box-shadow: 2px 3px 10px 0px #888;
           box-shadow: 2px 3px 10px 0px #888;
+  top: 20%;
+  right: 40%;
 }
 
 .info:hover > .card {

@@ -58,7 +58,7 @@
                 </div>
                 <div class="col-6 row m-0">
                     @foreach ($rideable->rides as $ride)
-                        <div class='driver col-6' style="background-image: url(/img/avatars/{{$ride->driver->image}}); background-position: right bottom, left top; background-size:44px 44px; background-repeat: no-repeat, repeat;">
+                        <div class='driver col-6' style="background-image: url(/img/driver/{{$ride->driver->image}}); background-position: right bottom, left top; background-size:44px 44px; background-repeat: no-repeat, repeat;">
                             <div>
                                 @component('layouts.components.tooltip',['modelName'=>'driver','model'=>$ride->driver])@endcomponent
                             </div>

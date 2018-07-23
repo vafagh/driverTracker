@@ -19,12 +19,12 @@
     <div class="form-row ">
         <div class="row col-2">
             <div class="col-12 ">
-                <img class="w-100" src="/img/avatars/{{$object->image}}" alt="">
+                <img class="w-100" src="/img/driver/{{$object->image}}" alt="">
             </div>
         </div>
         <div class="col-10 ">
             <input name="avatar" type="file" class="custom-file-input" id="avatar">
-            <label class="custom-file-label" for="customFile">Update picture</label>
+            <label class="custom-file-label" for="avatar">Update picture</label>
         </div>
     </div>
 

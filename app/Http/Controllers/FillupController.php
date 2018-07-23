@@ -53,8 +53,9 @@ class FillupController extends Controller
     }
 
 
-    public function update(Request $request, Fillup $fillup)
+    public function update(Request $request)
     {
+        $fillup = Fillup::find($request->id);
         $fillup->truck_id = $request->truck_id;
         $fillup->driver_id = $request->driver_id;
         $fillup->gas_card = $request->gas_card;

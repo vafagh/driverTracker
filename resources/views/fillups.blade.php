@@ -21,6 +21,7 @@
                 <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Recipt</th>
                         <th>Truck</th>
                         <th>Driver</th>
                         <th>Gas Card</th>
@@ -36,7 +37,15 @@
                 <tbody>
                     @foreach ($fillups as $key => $fillup)
                         <tr>
+                            <td colspan="12"></td>
+                        </tr>
+                        <tr>
                             <td>{{$fillup->id}}</td>
+                            <td>
+                                @if ($fillup->image!='')
+                                    @component('layouts.components.imgtooltip',['modelName'=>'fillup','model'=>$fillup])@endcomponent
+                                @endif
+                            </td>
                             <td>@component('layouts.components.tooltip',['modelName'=>'truck','model'=>$fillup->truck])@endcomponent</td>
                             <td>@component('layouts.components.tooltip',['modelName'=>'driver','model'=>$fillup->driver])@endcomponent</td>
                             <td>{{$fillup->gas_card}}</td>

@@ -30,6 +30,7 @@ Route::GET('/location/show/{location}', 'LocationController@show');
 Route::GET('/fillups', 'FillupController@index')->name('fillups');
 Route::POST('/fillup/store/', 'FillupController@store');
 Route::GET('/fillup/delete/{fillup}', 'FillupController@destroy');
+Route::POST('/fillup/save', 'FillupController@update');
 Route::GET('/t', function(){
     return view('theme');
 });

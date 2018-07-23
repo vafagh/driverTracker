@@ -30,11 +30,18 @@
             <input name="lable" value="{{$object->lable}}" class="form-control form-control" type="text" placeholder="Year Make Model">
         </div>
     </div>
-    <div class="custom-file">
-        <input name="image" value="{{$object->image}}" type="file" class="custom-file-input" id="image">
-        <label class="custom-file-label" for="image">Choose picture</label>
-    </div>
 
+    <div class="form-row ">
+        <div class="row col-2">
+            <div class="col-12 ">
+                <img class="w-100" src="/img/fillup/{{$object->image}}" alt="">
+            </div>
+        </div>
+        <div class="col-10 ">
+            <input name="image" type="file" class="file-input" id="image">
+            <label class="file-label" for="image">Update picture</label>
+        </div>
+    </div>
 </div>
 <div class="modal-footer">
     <input name="id" type="hidden" value="{{$object->id}}">

@@ -50,14 +50,23 @@
                 <label for="gallons" class="col-form-label">{{$object->created_at}}</label>
             </div>
 
-            <div class="custom-file">
-                <input name="image" type="file" class="custom-file-input" id="image">
-                <label class="custom-file-label" for="customFile">Update picture</label>
+            <div class="form-row ">
+                <div class="row col-2">
+                    <div class="col-12 ">
+                        <img class="w-100" src="/img/fillup/{{$object->image}}" alt="">
+                    </div>
+                </div>
+                <div class="col-10 ">
+                    <input name="image" type="file" class="custom-file-input" id="image">
+                    <label class="custom-file-label" for="image">Update picture</label>
+                </div>
             </div>
 
         </div>
         <div class="modal-footer">
             <input name="id" type="hidden" value="{{$object->id}}">
+            <input name="truck_id" type="hidden" value="{{$object->truck->id}}">
+            <input name="driver_id" type="hidden" value="{{$object->driver->id}}">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button type="submit" class="btn btn-primary">Save</button>
         </div>
