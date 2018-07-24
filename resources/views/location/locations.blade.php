@@ -28,11 +28,10 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Location Name</th>
-                        <th>Contact Person</th>
-                        <th>Type</th>
-                        <th>Distance</th>
+                        <th>Location</th>
+                        <th>Contact</th>
                         <th>Address</th>
+                        <th>Map</th>
                         <th>Created At<br>/Last Update</th>
                         <th>Actions</th>
                     </tr>
@@ -42,14 +41,30 @@
                         <tr>
                             <td>{{$location->id}}</td>
                             <td>
-                                @component('layouts.components.tooltip',['modelName'=>'location','model'=>$location,'element'=>'h3'])@endcomponent
-                                <span class="text-muted">
-                                    {{$location->phone}}
-                                </span>
+                                <div>@component('layouts.components.tooltip',['modelName'=>'location','model'=>$location,'element'=>'h3'])@endcomponent</div>
+                                <div>{{$location->longName}}</div>
+                                <div>{{$location->person}}</div>
                             </td>
-                            <td>{{$location->person}}</td>
-                            <td>{{$location->type}}</td>
-                            <td>{{$location->distance}} Mile </td>
+                            <td>
+                                <div class="text-muted">{{$location->phone}}</div>
+                                <div>{{$location->type}}</div>
+                                <div>{{$location->distance}} Mile </div>
+                            </td>
+                            <td>
+                                <a href="https://www.google.com/maps/dir//Albany,+NY/">
+                                    <img src=
+                                    "https://maps.googleapis.com/maps/api/staticmap?
+                                    center={{$location->line1}},+{{$location->city}},+{{$location->state}},+{{$location->zip}}
+                                    &zoom=12
+                                    &scale=false
+                                    &size=200x100
+                                    &maptype=roadmap
+                                    &key=AIzaSyBWE7jcte-d6FLo0rYxQFManjv6rzi0Ysc
+                                    &format=png
+                                    &visual_refresh=true"
+                                    alt="{{$location->name}} Maps">
+                                </a>
+                            </td>
                             <td>
                                 {{$location->line1}}<br>
                                 {{$location->line2}}<br>
