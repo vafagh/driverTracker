@@ -37,14 +37,14 @@ class RideController extends Controller
         $rideable->save();
         $rideable->rides()->attach($ride->id);
 
-        return redirect()->back()->with('status', 'Driver Assigned');
+        return redirect('/#rideable'.$ride->rideable_id)->with('status', 'Driver Assigned');
 
     }
 
     public function detach($ride_id,$rideable_id)
     {
         $rideable=Rideable::find($rideable_id);
-        $rideable->status = 'Canceled';
+        $rideable->status = 'Created';
         $rideable->save();
         if($ride_id > 0){
             $rideable->rides()->detach($ride_id);

@@ -49,7 +49,7 @@ class RideableController extends Controller
         $rideable->status = $request->status;
         $rideable->save();
 
-        return redirect()->back()->with('status', $rideable->status.' set');
+        return redirect('/#rideable'.$rideable->id)->with('status', $rideable->status.' set');
     }
 
     public function create()
