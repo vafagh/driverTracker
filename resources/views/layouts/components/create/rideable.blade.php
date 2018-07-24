@@ -3,11 +3,20 @@
     <div class="form-group select">
         <label for="recipient-name" class="col-form-label">{{($op1=='Client') ? 'To': 'From'}}:</label>
         <select class="form-control form-control-lg locations" name="location" required>
-            @foreach (App\Location::where('type',$op1)->orderBy('phone')->get() as $location)
-                <option class='locOption' value="{{$location->id}}">
-                    {{$location->phone}}&nbsp;{{$location->zip}}&nbsp;{{$location->longName}}
-                </option>
-            @endforeach
+            <option class="text-muted">Select</option>
+            @if ($op1=='Client')
+                @foreach (App\Location::where('type',$op1)->orderBy('phone')->get() as $location)
+                    <option class='locOption' value="{{$location->id}}">
+                        {{$location->phone}}&nbsp;{{$location->zip}}&nbsp;{{$location->longName}}
+                    </option>
+                @endforeach
+            @else
+                @foreach (App\Location::where('type',$op1)->orderBy('phone')->get() as $location)
+                    <option class='locOption' value="{{$location->id}}">
+                        {{$location->name}}
+                    </option>
+                @endforeach
+            @endif
             <option class="text-muted">Not found? Create it first</option>
         </select>
     </div>
