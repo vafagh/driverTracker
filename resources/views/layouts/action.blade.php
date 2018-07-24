@@ -1,9 +1,9 @@
 @php
     $user_role = Auth::user() && Auth::user()->role_id;
     $title = 'Done';
-    if ($rideable->type=='Delivery')   $title = 'Delivered';
+    if($rideable->type=='Delivery')   $title = 'Delivered';
     if($rideable->type=='Pickup')  $title = 'Picked up';
-    // if($ridable->location->name='CertiFit')  $title = 'Dropped off';
+    if($rideable->location->name=='CertiFit')  $title = 'Dropped off';
 @endphp
 @switch($action)
     @case('Created')

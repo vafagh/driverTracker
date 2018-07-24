@@ -10524,3 +10524,19 @@ a.text-dark:focus {
   font: normal 2.0em monospace;
 }
 
+.NotAvailable {
+  background-color: #ffd5d5;
+}
+
+.Created {
+  background-color: #d5ffe6;
+}
+
+.OnTheWay {
+  background-color: #c9c6f4;
+}
+
+.Reactived {
+  background-color: #c9c6f4;
+}
+

@@ -37,7 +37,7 @@ class RideController extends Controller
         $rideable->save();
         $rideable->rides()->attach($ride->id);
 
-        return redirect('/')->with('status', 'Driver Assigned');
+        return redirect()->back()->with('status', 'Driver Assigned');
 
     }
 

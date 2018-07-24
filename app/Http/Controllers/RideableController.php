@@ -12,12 +12,14 @@ class RideableController extends Controller
     {
         $deliveries = Rideable::with('user','rides','rides.driver','rides.truck','location')
         ->where('type','Delivery')
-        ->where('status','!=','Archived')
+        ->where('status','!=','Done')
+        ->where('status','!=','Canceled')
         ->orderBy('location_id', 'desc')
         ->get();
         $pickups = Rideable::with('user','rides','rides.driver','rides.truck','location')
         ->where('type','Pickup')
-        ->where('status','!=','Archived')
+        ->where('status','!=','Done')
+        ->where('status','!=','Canceled')
         ->orderBy('location_id', 'desc')
         ->get();
 
@@ -33,13 +35,12 @@ class RideableController extends Controller
         }
         $rideables = Rideable::with('user','rides','rides.driver','rides.truck','location')
         ->where('type',$op2)
-        ->where('status','!=','Archived')
+        ->where('status','!=','Done')
+        ->where('status','!=','Canceled')
         ->orderBy('location_id', 'desc')
         ->get();
 
-
         return view('rideable',compact('rideables','op1','op2'));
-
     }
 
     public function status(Request $request)
@@ -63,10 +64,10 @@ class RideableController extends Controller
         $rideable->location_id = $request->location;
         $rideable->invoice_number = $request->invoice_number;
         $rideable->type = $request->type;
-        $rideable->status = 'Waiting For Driver';
+        $rideable->status = 'Created';
         $rideable->description = $request->description;
         $rideable->save();
-        return redirect('/')->with('status', '#'.$rideable->invoice_number." added!");
+        return redirect()->back()->with('status', '#'.$rideable->invoice_number." added!");
 
     }
 
