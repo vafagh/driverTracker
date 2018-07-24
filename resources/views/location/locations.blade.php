@@ -52,17 +52,7 @@
                             </td>
                             <td>
                                 <a href="https://www.google.com/maps/dir//Albany,+NY/">
-                                    <img src=
-                                    "https://maps.googleapis.com/maps/api/staticmap?
-                                    center={{$location->line1}},+{{$location->city}},+{{$location->state}},+{{$location->zip}}
-                                    &zoom=12
-                                    &scale=false
-                                    &size=200x100
-                                    &maptype=roadmap
-                                    &key=AIzaSyBWE7jcte-d6FLo0rYxQFManjv6rzi0Ysc
-                                    &format=png
-                                    &visual_refresh=true"
-                                    alt="{{$location->name}} Maps">
+                                    <img src="https://maps.googleapis.com/maps/api/staticmap?center={{$location->line1}},+{{$location->city}},+{{$location->state}},+{{$location->zip}}&zoom=12&scale=false&size=200x100&maptype=roadmap&key=AIzaSyBWE7jcte-d6FLo0rYxQFManjv6rzi0Ysc&format=png&visual_refresh=true" alt="{{$location->name}} Maps">
                                 </a>
                             </td>
                             <td>
