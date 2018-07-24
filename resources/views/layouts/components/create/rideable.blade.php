@@ -11,7 +11,7 @@
                     </option>
                 @endforeach
             @else
-                @foreach (App\Location::where('type',$op1)->orderBy('phone')->get() as $location)
+                @foreach (App\Location::where('type',$op1)->orderBy('name')->get() as $location)
                     <option value="{{$location->id}}">
                         {{$location->name}}
                     </option>

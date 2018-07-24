@@ -29,8 +29,8 @@
         </div>
     </li>
     @foreach ($collection as $key => $rideable)
-        <li class="list-group-item row m-0 px-0 py-2">
-            <div class="row m-0 p-0 {{($rideable->status=='NON.A')?'bg-danger text-light':'' }}">
+        <li class="list-group-item row m-0 px-0 py-2  {{$rideable->status}}" id="rideable{{$rideable->id}}">
+            <div class="row m-0 p-0">
                 <div class="col-12 col-md-5 row m-0 p-0">
                     <div class='location_user       col-5 col-sm-5 col-md-5'>
                         @component('layouts.components.tooltip',['modelName'=>'location','model'=>$rideable->location])@endcomponent

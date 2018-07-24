@@ -10540,3 +10540,8 @@ a.text-dark:focus {
   background-color: #c9c6f4;
 }
 
+.InvoiceNumber {
+  font-family: monospace;
+  font-size: 1.9em;
+}
+
