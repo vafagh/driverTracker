@@ -6,13 +6,13 @@
             <option class="text-muted">Select</option>
             @if ($op1=='Client')
                 @foreach (App\Location::where('type',$op1)->orderBy('phone')->get() as $location)
-                    <option class='locOption' value="{{$location->id}}">
+                    <option value="{{$location->id}}">
                         {{$location->phone}}&nbsp;{{$location->zip}}&nbsp;{{$location->longName}}
                     </option>
                 @endforeach
             @else
                 @foreach (App\Location::where('type',$op1)->orderBy('phone')->get() as $location)
-                    <option class='locOption' value="{{$location->id}}">
+                    <option value="{{$location->id}}">
                         {{$location->name}}
                     </option>
                 @endforeach
