@@ -19,6 +19,11 @@
 
         </div>
         <div class="card-body">
+            <div class="mt-2 row">
+                <div class="col-5 mx-auto pagination">
+                    {{ $locations->links("pagination::bootstrap-4") }}
+                </div>
+            </div>
             <table class="table">
                 <thead>
                     <tr>
@@ -75,6 +80,11 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="mt-2 row">
+                <div class="col-8 mx-auto pagination-lg">
+                    {{ $locations->links("pagination::bootstrap-4") }}
+                </div>
+            </div>
         </div>
     </div>
 @endsection

@@ -10516,3 +10516,15 @@ a.text-dark:focus {
   display: block;
 }
 
+.select .locations {
+  font: normal 1.2em monospace;
+}
+
+.select .locations:focus {
+  font: normal 2.0em monospace;
+}
+
+.select .locations .locOption * {
+  color: #34062b;
+}
+

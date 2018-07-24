@@ -44,7 +44,7 @@ switch($modelName){
         </a>
         <div class="card">
             <div class="card-header">
-                {{$modelName.': '.$title}}
+                {!!$modelName.': '.$title!!}
             </div>
 
 
