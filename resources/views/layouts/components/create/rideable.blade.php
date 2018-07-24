@@ -22,7 +22,10 @@
     </div>
     <div class="form-group">
         <label for="message-text" class="col-form-label">{{($op1=='Client') ? 'Invoice': 'Part'}}#:</label>
-        <input class="form-control form-control" name="invoice_number" type="text" placeholder="Enter the number" required>
+        <textarea class="form-control" name="invoice_number" placeholder="Enter the number" required></textarea>
+        <div class="text-muted">
+            Each part/invoice number on one line
+        </div>
     </div>
     <div class="form-group">
         <label for="message-text" class="col-form-label">Note:</label>
