@@ -64,7 +64,7 @@
             </div>
 
         </div>
-        @component('layouts.rideable',['collection'=> $location->rideables,'op1'=>$op1,'op2'=>$op2])
+        @component('rideable.rideable',['collection'=> $location->rideables,'op1'=>$op1,'op2'=>$op2,'flashId'=>''])
             File Missing!
         @endcomponent
     </div>

@@ -3,7 +3,7 @@
 @section('content')
         <div class="card">
             <div class="card-body">
-                @component('rideable.rideable',['collection'=> $rideables,'op1'=>$op1,'op2'=>$op2])
+                @component('rideable.rideable',['collection'=> $rideables,'op1'=>$op1,'op2'=>$op2,'flashId'=>$flashId])
                     File Missing!
                 @endcomponent
             </div>

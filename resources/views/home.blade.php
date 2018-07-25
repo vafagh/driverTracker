@@ -3,11 +3,11 @@
 @section('content')
         <div class="card">
             <div class="card-body">
-                @component('rideable.rideable',['collection'=> $deliveries,'op1'=>'Client','op2'=>'Delivery'])
+                @component('rideable.rideable',['collection'=> $deliveries,'op1'=>'Client','op2'=>'Delivery','flashId'=>$flashId])
                     File Missing!
                 @endcomponent
                 <hr>
-                @component('rideable.rideable',['collection'=> $pickups,'op1'=>'Warehouse','op2'=>'Pickup'])
+                @component('rideable.rideable',['collection'=> $pickups,'op1'=>'Warehouse','op2'=>'Pickup','flashId'=>$flashId])
                     File Missing!
                 @endcomponent
             </div>
