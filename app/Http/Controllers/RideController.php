@@ -12,8 +12,8 @@ class RideController extends Controller
     public function index()
     {
         $rides = Ride::with('rideable','rideable.location','driver','truck')
-        ->orderBy('id', 'desc')
-        ->get();
+            ->orderBy('id', 'desc')
+            ->paginate(10);
 
         return view('ride.rides',compact('rides'));
     }
@@ -33,7 +33,7 @@ class RideController extends Controller
         $ride->save();
 
         $rideable=Rideable::find($request->id);
-        $rideable->status = 'On The Way';
+        $rideable->status = 'OnTheWay';
         $rideable->save();
         $rideable->rides()->attach($ride->id);
 
@@ -48,7 +48,7 @@ class RideController extends Controller
         $rideable->save();
         if($ride_id > 0){
             $rideable->rides()->detach($ride_id);
-            Ride::destroy($ride_id);
+            App\Ride::destroy($ride_id);
         }else {
             return redirect('/')->with('error', 'Ride not found!');
         }
@@ -63,9 +63,7 @@ class RideController extends Controller
 
     public function update(Request $request)
     {
-        // dd($request->id);
         $ride = Ride::find($request->id);
-        // $ride->rideable_id = $request->location;
         $ride->driver_id = $request->driver;
         $ride->truck_id = $request->truck;
         $ride->save();

@@ -8,6 +8,13 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <td colspan="6">
+                            <div class="pagination">
+                                {{ $rides->links("pagination::bootstrap-4") }}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
                         <th>ID</th>
                         <th>For</th>
                         <th>Driver</th>
@@ -46,6 +53,13 @@
                             </td>
                         </tr>
                     @endforeach
+                    <tr>
+                        <td colspan="6">
+                            <div class="pagination">
+                                {{ $rides->links("pagination::bootstrap-4") }}
+                            </div>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>

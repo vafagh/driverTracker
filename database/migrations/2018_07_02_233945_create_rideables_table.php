@@ -108,7 +108,7 @@ class CreateRideablesTable extends Migration
             $table->string('distance');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->nullable();
-            $table->foreign('rideable_id')->references('id')->on('rideables')->onDelete('cascade');
+            $table->foreign('rideable_id')->references('id')->on('rideables')->onDelete('set null');
             $table->foreign('truck_id')->references('id')->on('trucks')->onDelete('cascade');
             $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');
             $table->softDeletes();
