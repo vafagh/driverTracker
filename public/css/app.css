@@ -10541,7 +10541,37 @@ a.text-dark:focus {
 }
 
 .InvoiceNumber {
+  font-size: 1.5em;
+}
+
+.fixedWidthFont {
   font-family: monospace;
-  font-size: 1.9em;
+}
+
+#flash {
+  -webkit-animation-name: colorsTransition;
+  -webkit-animation-duration: .4s;
+  animation-name: colorsTransition;
+  animation-duration: .4s;
+}
+
+@-webkit-keyframes colorsTransition {
+  from {
+    background-color: red;
+  }
+
+  to {
+    background-color: white;
+  }
+}
+
+@keyframes colorsTransition {
+  from {
+    background-color: red;
+  }
+
+  to {
+    background-color: white;
+  }
 }
 
