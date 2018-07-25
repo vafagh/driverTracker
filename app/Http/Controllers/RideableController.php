@@ -40,7 +40,7 @@ class RideableController extends Controller
         ->orderBy('location_id', 'desc')
         ->get();
 
-        return view('rideable',compact('rideables','op1','op2'));
+        return view('rideable.rideables',compact('rideables','op1','op2'));
     }
 
     public function status(Request $request)
