@@ -19,7 +19,8 @@
             <label for="type" class="col-form-label">Type:</label>
             <select class="form-control form-control-lg" name="type">
                 <option {{($object->type == 'Client') ? 'selected' : ''}} value="Client">Client</option>
-                <option {{($object->type == 'Warehouse') ? 'selected' : ''}} value="Warehouse">Warehouse</option>
+                <option {{($object->type == 'Warehouse') ? 'selected' : ''}} value="Warehouse">Warehouse - pickup</option>
+                <option {{($object->type == 'DropOff') ? 'selected' : ''}} value="DropOff">Warehouse - drop off</option>
             </select>
         </div>
         <div class="col-6 row">

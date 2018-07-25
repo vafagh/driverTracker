@@ -1,24 +1,34 @@
 @php
     $user_role = Auth::user()->role_id;
     $title = 'Done';
-    if($rideable->type=='Delivery')   $title = 'Delivered';
-    if($rideable->type=='Pickup')  $title = 'Picked up';
-    if($rideable->location->name=='CertiFit')  $title = 'Dropped off';
+    if($rideable->location->type=='Client')   $title = 'Delivered';
+    if($rideable->location->type=='Warehouse')  $title = 'Picked up';
+    if($rideable->location->type=='DropOff')  $title = 'Droped off';
 @endphp
 
+@if ((Auth::user()->role_id == 2 && Auth::user()->id == $rideable->user_id) || Auth::user()->role_id > 2 )
 @switch($action)
     @case('Created')
+        @if (Auth::user()->id == $rideable->user_id)<a class="badge badge-danger" href="/rideable/delete/{{$rideable->id}}/">Delete</a>@endif
         @if ($user_role == 3 )<a class="badge badge-success" href="/ride/create/{{$rideable->id}}/">Assign</a>@endif
     @break
 
-    @case('On The Way')
-        @if ($user_role == 2 || $user_role == 3 )<a class="badge badge-warning" href="/rideable/{{$rideable->id}}/NotAvailable">NON/A</a>@endif
-        @if ($user_role == 3 || $user_role == 4 )<a class="badge badge-primary" href="/rideable/{{$rideable->id}}/Done">{{$title}}</a>@endif
+    @case('OnTheWay')
+        @if ($user_role == 3 || $user_role == 3 )<a class="badge badge-warning" href="/rideable/{{$rideable->id}}/NotAvailable">NON/A</a>@endif
+        @if (Auth::user()->id == $rideable->user_id)<a class="badge badge-danger" href="/rideable/{{$rideable->id}}/DeatachReqested">Cancel this Ride</a>@endif
+        @if ($user_role >= 3 || $user_role == 4 )<a class="badge badge-primary" href="/rideable/{{$rideable->id}}/Done">{{$title}}</a>@endif
     @break
 
     @case('Reactived')
-        @if ($user_role == 2 || $user_role == 3 )<a class="badge badge-warning" href="/rideable/{{$rideable->id}}/NotAvailable">NON/A</a>@endif
-        @if ($user_role == 3 || $user_role == 4 )<a class="badge badge-primary" href="/rideable/{{$rideable->id}}/Done">{{$title}}</a>@endif
+        @if ($user_role == 3 || $user_role == 3 )<a class="badge badge-warning" href="/rideable/{{$rideable->id}}/NotAvailable">NON/A</a>@endif
+        @if (Auth::user()->id == $rideable->user_id)<a class="badge badge-danger" href="/rideable/{{$rideable->id}}/DeatachReqested">Cancel this Ride</a>@endif
+        @if ($user_role >= 3 || $user_role == 4 )<a class="badge badge-primary" href="/rideable/{{$rideable->id}}/Done">{{$title}}</a>@endif
+    @break
+
+    @case('DeatachReqested')
+        @if ($user_role == 3)
+            >> The creator of this ticket asking you to deatach <a class="badge badge-danger" href="/ride/detach/{{$rideable->rides->first()->id}}/{{$rideable->id}}">x</a> driver.
+        @endif
     @break
 
     @case('NotAvailable')
@@ -27,7 +37,17 @@
     @break
 
     @default
+    @if (Auth::user()->role_id > 4)
+        +<a class="badge badge-info" href="/rideable/{{$rideable->id}}/Reactived">Re-act</a>
+        <a class="badge badge-primary" href="/rideable/{{$rideable->id}}/Done">{{$title}}</a>
+        <a class="badge badge-warning" href="/rideable/{{$rideable->id}}/NotAvailable">NA</a>
+        <a class="badge badge-danger" href="/rideable/{{$rideable->id}}/DeatachReqested">Deatach</a>
+        <a class="badge badge-success" href="/ride/create/{{$rideable->id}}/">Assi</a>
+        <a class="badge badge-danger" href="/rideable/delete/{{$rideable->id}}/">Del</a>
+        +
+    @endif
 @endswitch
+@endif
 {{--
 @switch($action)
     @case('On The Way')
