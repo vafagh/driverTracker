@@ -52,7 +52,7 @@
                             </td>
                             <td>
                                 <a target="_blank" href="https://www.google.com/maps/dir/1628+E+Main+St,+Grand+Prairie,+TX+75050/{{$location->line1}},+{{$location->city}},+{{$location->state}},+{{$location->zip}}">
-                                    <img src="https://maps.googleapis.com/maps/api/staticmap?center={{$location->line1}},+{{$location->city}},+{{$location->state}},+{{$location->zip}}&zoom=10&size=300x100&maptype=roadmap&key=AIzaSyAlAXEyx7r3mJD8SnWtkh7vOd_Tf5ZA8pc" alt="{{$location->name}} Maps">
+                                    <img src="https://maps.googleapis.com/maps/api/staticmap?center={{$location->line1}},+{{$location->city}},+{{$location->state}},+{{$location->zip}}&zoom=18&size=300x100&maptype=roadmap&key=AIzaSyBWE7jcte-d6FLo0rYxQFManjv6rzi0Ysc" alt="{{$location->name}} Maps">
                                 </a>
                             </td>
                             <td>

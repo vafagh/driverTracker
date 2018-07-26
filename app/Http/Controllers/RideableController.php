@@ -30,13 +30,12 @@ class RideableController extends Controller
             // dd($request);
             $flashId = $request->id;
         }else $flashId = '1';
-        return view('home',compact('deliveries','pickups','flashId'));
 
+        return view('home',compact('deliveries','pickups','flashId'));
     }
 
     public function list(Request $request, $type)
     {
-        $arr = array();
         if($type == "delivery"){
             $op1 = 'Client';
             $op2 = 'Delivery';
@@ -47,7 +46,6 @@ class RideableController extends Controller
             $operator = '!=';
         }
         $rideables = Rideable::with('user','rides','rides.driver','rides.truck','location')
-        ->where('type',$op2)
         ->whereHas('location', function($q) use ($operator) {
             $q->where('type', $operator, 'Client');
         })
