@@ -22,7 +22,7 @@
         @case('Reactived')
             @if ($user_role == 3 || $user_role == 3 )<a class="badge badge-warning" href="/rideable/{{$rideable->id}}/NotAvailable">NON/A</a>@endif
             @if ($user_role == 2)<a class="badge badge-danger" href="/rideable/{{$rideable->id}}/DeatachReqested">Cancel this Ride</a>@endif
-            @if ($user_role == 3 || $user_role == 4 Auth::user()->id == $rideable->user_id )<a class="badge badge-primary" href="/rideable/{{$rideable->id}}/Done">{{$title}}</a>@endif
+            @if ($user_role > 1 )<a class="badge badge-primary" href="/rideable/{{$rideable->id}}/Done">{{$title}}</a>@endif
         @break
 
         @case('DeatachReqested')
