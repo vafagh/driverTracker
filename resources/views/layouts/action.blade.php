@@ -1,5 +1,6 @@
 @php
     $user_role = Auth::user()->role_id;
+    $admin = 5;
     $title = 'Done';
     if($rideable->location->type=='Client')   $title = 'Delivered';
     if($rideable->location->type=='Warehouse')  $title = 'Picked up';
@@ -10,13 +11,13 @@
     @switch($action)
         @case('Created')
             @if ($user_role == 2)<a class="badge badge-danger" href="/rideable/delete/{{$rideable->id}}/">Delete</a>@endif
-            @if ($user_role == 3 )<a class="badge badge-success" href="/ride/create/{{$rideable->id}}/">Assign</a>@endif
+            @if ($user_role == 3 || $user_role == $admin)<a class="badge badge-success" href="/ride/create/{{$rideable->id}}/">Assign</a>@endif
         @break
 
         @case('OnTheWay')
             @if ($user_role == 3 || $user_role == 3 )<a class="badge badge-warning" href="/rideable/{{$rideable->id}}/NotAvailable">NON/A</a>@endif
             @if ($user_role == 2)<a class="badge badge-danger" href="/rideable/{{$rideable->id}}/DeatachReqested">Cancel this Ride</a>@endif
-            @if ($user_role == 3 || $user_role == 4 || Auth::user()->id == $rideable->user_id )<a class="badge badge-primary" href="/rideable/{{$rideable->id}}/Done">{{$title}}</a>@endif
+            @if ($user_role > 1 )<a class="badge badge-primary" href="/rideable/{{$rideable->id}}/Done">{{$title}}</a>@endif
         @break
 
         @case('Reactived')
