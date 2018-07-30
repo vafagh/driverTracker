@@ -12,7 +12,7 @@
         @case('Created')
             @if ($user_role == 2)<a class="badge badge-danger" href="/rideable/delete/{{$rideable->id}}/">Delete</a>@endif
             @if ($user_role == 3 || $user_role == $admin)<a class="badge badge-success" href="/ride/create/{{$rideable->id}}/">Assign</a>@endif
-            @if ($user_role > 1 && $title=='DropOff')<a class="badge badge-primary" href="/rideable/{{$rideable->id}}/Done">{{$title}}</a>@endif
+            @if ($user_role > 1 && $title=='Droped off')<a class="badge badge-primary" href="/rideable/{{$rideable->id}}/Done">{{$title}}</a>@endif
         @break
 
         @case('OnTheWay')
