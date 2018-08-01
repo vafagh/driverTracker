@@ -2,11 +2,15 @@
 switch($modelName){
 
     case 'rideable':
-    $title = '<strong>'.$model->invoice_number.'</strong>';
+        $title = '<strong><pre class="mb-0">'.$model->invoice_number.'</pre></strong>';
     break;
 
     case 'location':
-    $title = '<strong>'.$model->name.'</strong>';
+    if($model->image != ''){
+        $title = '<img src="/img/location/'.$model->image.'" class="w-25">';
+    }else {
+        $title = '<strong>'.$model->name.'</strong>';
+    }
     break;
 
     case 'ride':

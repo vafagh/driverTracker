@@ -13,7 +13,6 @@ class LocationController extends Controller
         return view('location.locations',compact('locations'));
     }
 
-
     public function store(Request $request)
     {
         $location = new Location;
@@ -27,6 +26,15 @@ class LocationController extends Controller
         $location->city = $request->city;
         $location->state = $request->state;
         $location->zip = $request->zip;
+        if($request->file('image')!=NULL){
+            $image = time().'.'. $request->file('image')->getClientOriginalExtension();
+            $structure = '../public/img/location/';
+            if (!file_exists($structure)) {
+                mkdir($structure, 0777, true);
+            }
+            $request->file('image')->move(public_path('img/location'), $image);
+            $location->image = $image;
+        }
         $location->save();
 
         return redirect('locations')->with($location->name.' Added');
@@ -34,24 +42,28 @@ class LocationController extends Controller
 
     public function show(Location $location)
     {
-
-        if($location->type == "pickups")
+        if($location->type == "Warehouse")
         {$op1 = 'Warehouse'; $op2 = 'Pickup';} else {
             $op1 = 'Client'; $op2 = 'Delivery';
         }
         return view('location.show',['location'=>$location,'op1'=>$op1,'op2'=>$op2]);
     }
 
-    public function edit(Location $location)
-    {
-        //
-    }
-
     public function update(Request $request)
     {
         $location = Location::find($request->id);
+        if($request->file('image')!=NULL){
+            $image = time().'.'. $request->file('image')->getClientOriginalExtension();
+            $structure = '../public/img/location/';
+            if (!file_exists($structure)) {
+                mkdir($structure, 0777, true);
+            }
+            $request->file('image')->move(public_path('img/location'), $image);
+            $location->image = $image;
+        }
         $location->type = $request->type;
         $location->name = $request->name;
+        $location->longName = $request->longName;
         $location->person = $request->person;
         $location->phone = $request->phone;
         $location->distance = $request->distance;

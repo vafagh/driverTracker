@@ -1,48 +1,74 @@
 <div class="modal-body">
-    <div class="form-group">
-        <label for="name" class="col-form-label">Location Name</label>
-        <input name="name" class="form-control form-control" type="text" value="{{$object->name}}" required>
+    <div class="form-group row">
+        <div class="col-12 col-md-6">
+            <label for="name" class="col-form-label">Location Name</label>
+            <input name="name" class="form-control" type="text" value="{{$object->name}}" required>
+        </div>
+        <div class="col-12 col-md-6">
+            <label for="person" class="col-form-label">Contact Person</label>
+            <input name="person" class="form-control" type="text" value="{{$object->person}}" required>
+        </div>
     </div>
 
     <div class="form-group">
-        <label for="person" class="col-form-label">Contact Person</label>
-        <input name="person" class="form-control form-control" type="text" value="{{$object->person}}" required>
+        <label for="longName" class="col-form-label">Long Name</label>
+        <input name="longName" class="form-control" type="text" value="{{$object->longName}}">
     </div>
 
-    <div class="form-group">
-        <label for="phone" class="col-form-label">Phone</label>
-        <input name="phone" class="form-control form-control" type="text" value="{{$object->phone}}" required>
+    <div class="form-row ">
+        @if ($object->image!='')
+            <label class="file-label" for="image">Update picture</label>
+            <div class="row col-2">
+                <div class="col-12 ">
+                    <img class="w-100" src="/img/location/{{$object->image}}" alt="">
+                </div>
+            </div>
+        @endif
+        <div class="col-10 ">
+            <input name="image" type="file" class="file-input">
+        </div>
     </div>
 
     <div class="form-group row">
-        <div class="col-6">
+        <div class="col-7">
+            <label for="phone" class="col-form-label">Phone</label>
+            <input name="phone" class="form-control" type="text" value="{{$object->phone}}" required>
+        </div>
+        <div class="col-5 row">
+
             <label for="type" class="col-form-label">Type:</label>
-            <select class="form-control form-control-lg" name="type">
+            <select class="form-control" name="type">
                 <option {{($object->type == 'Client') ? 'selected' : ''}} value="Client">Client</option>
                 <option {{($object->type == 'Warehouse') ? 'selected' : ''}} value="Warehouse">Warehouse - pickup</option>
                 <option {{($object->type == 'DropOff') ? 'selected' : ''}} value="DropOff">Warehouse - drop off</option>
             </select>
         </div>
-        <div class="col-6 row">
-            <label for="distance" class="col-form-label">Distance from Eagle</label>
-            <div class="col-8 p-0">
-                <input name="distance" class="form-control form-control" type="text" value="{{$object->distance}}">
-            </div>
-            <div class="col-4 p-0">
-                mile
-            </div>
-        </div>
     </div>
 
 
     <div class="form-group">
-        <label for="line1" class="col-form-label">Address</label>
-        <input name="line1" class="mt-1 form-control form-control" type="text" placeholder="Line 1" value="{{$object->line1}}">
-        <input name="line2" class="mt-1 form-control form-control" type="text" placeholder="Line 2" value="{{$object->line2}}">
-        <div class="row m-0 p-0">
-            <input name="city" class="mt-1 col-4 form-control form-control" type="text" placeholder="City" value="{{$object->city}}">
-            <input name="state" class="mt-1 col-4 form-control form-control" type="text" placeholder="State" value="{{$object->state}}">
-            <input name="zip" class="mt-1 col-4 form-control form-control" type="text" placeholder="Zip Code" value="{{$object->zip}}">
+        <div class="row">
+            <div class="col-7">
+                <label for="line1" class="col-form-label">Address</label>
+                <input name="line1" class="form-control" type="text" placeholder="Line 1" value="{{$object->line1}}">
+            </div>
+            <div class="col-5 row">
+                <label for="distance" class="col-form-label">Distance from Eagle</label>
+                <div class="col-6">
+                    <input name="distance" class="form-control" type="text" value="{{$object->distance}}">
+                </div>
+                <div class="col-6 p-0 pt-2 pl-1">
+                    mile
+                </div>
+            </div>
+        </div>
+
+        <input name="line2" class="mt-1 form-control" type="text" placeholder="Line 2" value="{{$object->line2}}">
+
+        <div class="row m-0 p-0 row">
+            <input name="city" class="mt-1 mr-1 col-5 form-control" type="text" placeholder="City" value="{{$object->city}}">
+            <input name="state" class="mt-1 mr-1 col-2 form-control" type="text" placeholder="State" value="{{$object->state}}">
+            <input name="zip" class="mt-1 col-4 form-control" type="text" placeholder="Zip Code" value="{{$object->zip}}">
         </div>
     </div>
 
