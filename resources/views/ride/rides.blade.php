@@ -38,18 +38,19 @@
                             </td>
                             <td><span title="{{$ride->created_at}}">{{$ride->created_at->diffForHumans()}}</span></td>
                             <td>
-                                @component('layouts.components.modal',[
-                                    'modelName'=>'ride',
-                                    'action'=>'edit',
-                                    'iterator'=>$key,
-                                    'object'=>$ride,
-                                    'btnSize'=>'small',
-                                    'op1'=>'',
-                                    'op2'=>''
-                                ])
-                                @endcomponent
-                                <a class="badge badge-danger" href="/ride/delete/{{$ride->id}}"> Delete</a>
-
+                                @if (Auth::user()->role_id > 3)
+                                    @component('layouts.components.modal',[
+                                        'modelName'=>'ride',
+                                        'action'=>'edit',
+                                        'iterator'=>$key,
+                                        'object'=>$ride,
+                                        'btnSize'=>'small',
+                                        'op1'=>'',
+                                        'op2'=>''
+                                    ])
+                                    @endcomponent
+                                    <a class="badge badge-danger" href="/ride/delete/{{$ride->id}}"> Delete</a>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

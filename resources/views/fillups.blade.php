@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
     <div class="card">
-        <div class="card-header row m-0">
-            <div class="col-10">Fillups</div>
+        <div class="card-header row m-0 bg-primary text-white">
+            <div class="col-10 h3">Fillups</div>
             <div class="col-2">
                 @component('layouts.components.modal',[
                     'modelName'=>'fillup',
@@ -56,18 +56,20 @@
                             <td>{{$fillup->mileage}}</td>
                             <td><span title="{{$fillup->created_at}}">{{$fillup->created_at->diffForHumans()}}</span></td>
                             <td>
-                                @component('layouts.components.modal',[
-                                    'modelName'=>'fillup',
-                                    'action'=>'edit',
-                                    'iterator'=>$key,
-                                    'object'=>$fillup,
-                                    'btnSize'=>'small',
-                                    'op1'=>'',
-                                    'op2'=>'',
-                                    'file'=>true
-                                ])
-                                @endcomponent
-                                <a class="badge badge-danger" href="/fillup/delete/{{$fillup->id}}"> Delete</a>
+                                @if (Auth::user()->role_id > 3)
+                                    @component('layouts.components.modal',[
+                                        'modelName'=>'fillup',
+                                        'action'=>'edit',
+                                        'iterator'=>$key,
+                                        'object'=>$fillup,
+                                        'btnSize'=>'small',
+                                        'op1'=>'',
+                                        'op2'=>'',
+                                        'file'=>true
+                                    ])
+                                    @endcomponent
+                                    <a class="badge badge-danger" href="/fillup/delete/{{$fillup->id}}"> Delete</a>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

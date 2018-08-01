@@ -9,8 +9,8 @@
         <div class="form-group col-12 col-sm-6">
             <label for="driver-name" class="col-form-label">Driver:</label>
             <select class="form-control form-control-lg" name="driver" required>
+                <option value=""></option>
                 @foreach (App\Driver::all() as $driver)
-                    <option value=""></option>
                     <option value="{{$driver->id}}">{{$driver->fname.', '.$driver->lname}}</option>
                 @endforeach
             </select>
@@ -18,8 +18,8 @@
         <div class="form-group  col-12 col-sm-6">
             <label for="truck-name" class="col-form-label">Truck:</label>
             <select class="form-control form-control-lg" name="truck" required>
+                <option value=""></option>
                 @foreach (App\Truck::all() as $truck)
-                    <option value=""></option>
                     <option class="fixedWidthFont" value="{{$truck->id}}">
                         {{$truck->license_plate}}
                         <span class='bg-222'>VIN:{{$truck->last4vin}}</span> _

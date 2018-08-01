@@ -1,20 +1,22 @@
 @extends('layouts.app')
 @section('content')
     <div class="card">
-        <div class="card-header row m-0">
-            <div class="col-10">
+        <div class="card-header row m-0 bg-primary text-white">
+            <div class="col-10 h3 mb-0">
                 Locations
             </div>
             <div class="col-2">
-                @component('layouts.components.modal',[
-                    'modelName'=>'location',
-                    'action'=>'create',
-                    'object'=>null,
-                    'op1'=>'op1',
-                    'op2'=>'location',
-                    'iterator'=>0,
-                    'file'=>true])
-                @endcomponent
+                @if (Auth::user()->role_id > 1)
+                    @component('layouts.components.modal',[
+                        'modelName'=>'location',
+                        'action'=>'create',
+                        'object'=>null,
+                        'op1'=>'op1',
+                        'op2'=>'location',
+                        'iterator'=>0,
+                        'file'=>true])
+                    @endcomponent
+                @endif
             </div>
 
         </div>
@@ -52,7 +54,7 @@
                             </td>
                             <td>
                                 <a target="_blank" href="https://www.google.com/maps/dir/1628+E+Main+St,+Grand+Prairie,+TX+75050/{{$location->line1}},+{{$location->city}},+{{$location->state}},+{{$location->zip}}">
-                                    <img src="https://maps.googleapis.com/maps/api/staticmap?center={{$location->line1}},+{{$location->city}},+{{$location->state}},+{{$location->zip}}&zoom=18&size=300x100&maptype=roadmap&key=AIzaSyBWE7jcte-d6FLo0rYxQFManjv6rzi0Ysc" alt="{{$location->name}} Maps">
+                                    <img src="https://maps.googleapis.com/maps/api/staticmap?center={{$location->line1}},+{{$location->city}},+{{$location->state}},+{{$location->zip}}&zoom=9&size=300x100&maptype=roadmap&key=AIzaSyBWE7jcte-d6FLo0rYxQFManjv6rzi0Ysc&markers=size:mid%7Ccolor:0xdd000%7C{{$location->line1}},+{{$location->city}},+{{$location->state}},+{{$location->zip}}" alt="{{$location->name}} Maps">
                                 </a>
                             </td>
                             <td>
@@ -65,21 +67,20 @@
                                 {{$location->updated_at->diffForHumans()}}
                             </td>
                             <td>
-                                @component('layouts.components.modal',[
-                                    'modelName'=>'location',
-                                    'action'=>'edit',
-                                    'style'=>'badge badge-warning ',
-                                    'iterator'=>$key,
-                                    'object'=>$location,
-                                    'op1'=>'',
-                                    'op2'=>''])
-                                @endcomponent
-                                <br>
+                                @if (Auth::user()->role_id > 3)
+                                    @component('layouts.components.modal',[
+                                        'modelName'=>'location',
+                                        'action'=>'edit',
+                                        'style'=>'badge badge-warning ',
+                                        'iterator'=>$key,
+                                        'object'=>$location,
+                                        'op1'=>'',
+                                        'op2'=>''])
+                                    @endcomponent
+                                    <br>
 
-                                <a class="badge badge-danger mt-2 mx-auto" href="/location/delete/{{$location->id}}"> Delete</a>
-                                <br>
-                                <a class="badge badge-info mt-2 mx-auto" href="/rideable/location/{{$location->id}}"> Rides</a>
-
+                                    <a class="badge badge-danger mt-2 mx-auto" href="/location/delete/{{$location->id}}"> Delete</a>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

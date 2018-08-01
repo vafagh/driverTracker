@@ -16,7 +16,8 @@ class RideableController extends Controller
         })
         ->where('status', '!=', 'Done')
         ->where('status', '!=', 'Canceled')
-        ->orderBy('location_id', 'desc')
+        ->orderBy('location_id', 'asc')
+        ->orderBy('created_at', 'desc')
         ->get();
         $pickups = Rideable::with('user','rides','rides.driver','rides.truck','location')
         ->whereHas('location', function($q){

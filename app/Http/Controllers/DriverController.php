@@ -13,7 +13,10 @@ class DriverController extends Controller
 
     public function index()
     {
-        $drivers = Driver::all();
+        $drivers = Driver::with('rides','fillups','rides.truck','rides.rideable.location')
+            ->orderBy('id', 'desc')
+            ->paginate(10);
+
         return view('driver.drivers',compact('drivers'));
     }
 
@@ -24,17 +27,12 @@ class DriverController extends Controller
 
     public function totalTrip()
     {
-        return Ride::where('driver_id', $this->id)->count();
-    }
 
-    public function create()
-    {
-        //
+        return Ride::where('driver_id', $this->id)->count();
     }
 
     public function store(Request $request)
     {
-
         $driver = new Driver;
 
         if($request->file('avatar')!=NULL){
@@ -52,19 +50,12 @@ class DriverController extends Controller
 
     public function show($driver_id)
     {
-        // $rides = Ride::with('rideable','rideable.location','driver','truck')
-        // ->where('driver_id',$driver_id)
-        // ->orderBy('id', 'desc')
-        // ->get();
-        $driver = Driver::with('rides','fillups')->find($driver_id);
-// dd($driver->fillups);
-        return view('driver.show',compact('driver'));
+        $driver = Driver::with('rides','fillups','rides.truck','rides.rideable.location')->find($driver_id);
+        $rides = $driver->rides;
+        // ->paginate(10);
+        return view('driver.show',compact('driver','rides'));
     }
 
-    public function edit(Driver $driver)
-    {
-        //
-    }
 
     public function update(Request $request)
     {

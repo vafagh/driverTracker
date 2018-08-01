@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="col-10 ">
-            <input name="avatar" type="file" class="custom-file-input" id="avatar">
+            <input name="avatar" type="file" class="custom-file-input">
             <label class="custom-file-label" for="avatar">Update picture</label>
         </div>
     </div>

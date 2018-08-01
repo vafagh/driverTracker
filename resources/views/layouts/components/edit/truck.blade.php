@@ -33,16 +33,15 @@
 
     <div class="form-row ">
         @if ($object->image!='')
-
             <label class="file-label" for="image">Update picture</label>
-        <div class="row col-2">
-            <div class="col-12 ">
-                <img class="w-100" src="/img/truck/{{$object->image}}" alt="">
+            <div class="row col-2">
+                <div class="col-12 ">
+                    <img class="w-100" src="/img/truck/{{$object->image}}" alt="">
+                </div>
             </div>
-        </div>
-    @endif
+        @endif
         <div class="col-10 ">
-            <input name="image" type="file" class="file-input" id="image">
+            <input name="image" type="file" class="file-input">
         </div>
     </div>
 </div>

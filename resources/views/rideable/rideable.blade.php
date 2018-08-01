@@ -41,24 +41,27 @@
                         <strong>{{$rideable->status}}</strong>
                     </div>
 
-                    <div class="user text-secondary col-6 col-lg-4 col-md-5">
-                        by <strong>{{$rideable->user->name}}</strong>
+                    <div class="user text-secondary col-12 col-lg-4 col-md-5">
+                        @if (Auth::user()->role_id > 4)
+                            @component('layouts.components.tooltip',['modelName'=>'user','model'=>$rideable->user])@endcomponent
+                            @else
+                            by <strong>{{$rideable->user->name}}</strong>
+                        @endif
                         <span title="{{$rideable->created_at}}">{{ $rideable->created_at->diffForHumans()}}</span>
-                        {{-- @component('layouts.components.tooltip',['modelName'=>'user','model'=>$rideable->user])@endcomponent --}}
                     </div>
 
-                    <div class="actions             col-6 col-lg-4 col-md-3">
+                    <div class="actions             col-12 col-lg-4 col-md-3">
                         @component('layouts.action',['action' => $rideable->status,'rideable' => $rideable,'iterator' => $key,'op1'=>$op1,'op2'=>$op2])@endcomponent
                     </div>
 
-                    <div class='updated             col-6 col-lg-4 col-md-3'>
+                    <div class='updated             col-12 col-lg-4 col-md-3'>
                         <span title="{{$rideable->updated_at}}">{{ $rideable->updated_at->diffForHumans()}}</span>
                     </div>
 
                 </div>
-                <div class="col-12 col-lg-3 col-md-4 row m-0">
+                <div class="col-12 col-lg-3 col-md-4 row m-0 p-0">
                     @foreach ($rideable->rides as $ride)
-                        <div class='driver col-12' style="background-image: url(/img/driver/{{$ride->driver->image}}); background-position: right bottom, left top; background-size:44px 44px; background-repeat: no-repeat, repeat;">
+                        <div class='driver col-12' style="background-image: url(/img/driver/{{$ride->driver->image}}); background-position: right top, left top; background-size:44px 44px; background-repeat: no-repeat, repeat;">
                             <div class="">
                                 <span class="d-md-none text-muted">D/T: </span>
                                 @component('layouts.components.tooltip',['modelName'=>'driver','model'=>$ride->driver])@endcomponent

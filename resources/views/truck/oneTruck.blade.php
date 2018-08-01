@@ -16,17 +16,19 @@
             <div>Total Trip: <strong> - </strong></div>
         </div>
         <div class='col-2 pt-2'>
-            @component('layouts.components.modal',[
-                'modelName'=>'truck',
-                'action'=>'edit',
-                'op1'=>'op1',
-                'op2'=>'truck',
-                'btnSize'=>'small',
-                'object'=>$truck,
-                'iterator'=>$key,
-                'file'=>true
-            ])
-            @endcomponent
-            <a class="badge badge-success" href="/truck/show/{{$truck->id}}">Details</a>
+            @if (Auth::user()->role_id > 3)
+                @component('layouts.components.modal',[
+                    'modelName'=>'truck',
+                    'action'=>'edit',
+                    'op1'=>'op1',
+                    'op2'=>'truck',
+                    'btnSize'=>'small',
+                    'object'=>$truck,
+                    'iterator'=>$key,
+                    'file'=>true
+                ])
+                @endcomponent
+                <a class="badge badge-success" href="/truck/show/{{$truck->id}}">Details</a>
+            @endif
         </div>
 </li>
