@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Rideable;
+use App\Location;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -31,8 +32,8 @@ class RideableController extends Controller
             // dd($request);
             $flashId = $request->id;
         }else $flashId = '1';
-
-        return view('home',compact('deliveries','pickups','flashId'));
+        $warehouses = Location::where('type','!=','Client')->get();
+        return view('home',compact('deliveries','pickups','flashId','warehouses'));
     }
 
     public function list(Request $request, $type)

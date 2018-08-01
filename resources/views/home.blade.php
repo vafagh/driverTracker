@@ -12,4 +12,9 @@
                 @endcomponent
             </div>
         </div>
+        <div class="d-flex justify-content-around">
+            @foreach ($warehouses as $key => $warehouse)
+                @component('layouts.components.tooltip',['modelName'=>'location','model'=>$warehouse])@endcomponent
+            @endforeach
+        </div>
     @endsection
