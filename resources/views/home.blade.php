@@ -14,10 +14,10 @@
     </div>
     <div class="card-deck mt-3 px-2">
         @foreach ($warehouses as $key => $warehouse)
-            <div class="card">
+            <div class="card mx-1">
                 @if ($warehouse->image!='')
                     <a href="/location/show/{{$warehouse->id}}">
-                        <img class="card-img-top" src="/img/location/{{$warehouse->image}}" alt="Card image cap">
+                        <img class="card-img-top bg-secondary" src="/img/location/{{$warehouse->image}}" alt="Card image cap">
                     </a>
                 @endif
                 <div class="card-body px-1">
