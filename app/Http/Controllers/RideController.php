@@ -48,7 +48,7 @@ class RideController extends Controller
         $rideable->save();
         if($ride_id > 0){
             $rideable->rides()->detach($ride_id);
-            App\Ride::destroy($ride_id);
+            Ride::destroy($ride_id);
         }else {
             return redirect('/')->with('error', 'Ride not found!');
         }
