@@ -28,7 +28,9 @@
                         <tr>
                             <td>{{$ride->id}}</td>
                             <td>
-                                @component('layouts.components.tooltip',['modelName'=>'location','model'=>$ride->rideable->location])@endcomponent
+                                @if ($ride->rideable!=null)
+                                    @component('layouts.components.tooltip',['modelName'=>'location','model'=>$ride->rideable->location])@endcomponent
+                                @endif
                             </td>
                             <td>
                                 @component('layouts.components.tooltip',['modelName'=>'driver','model'=>$ride->driver])@endcomponent
