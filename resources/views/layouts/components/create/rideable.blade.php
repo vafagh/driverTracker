@@ -4,9 +4,12 @@
         <label for="recipient-name" class="col-form-label">{{($op1=='Client') ? 'To': 'From'}}:</label>
         <select class="form-control form-control-lg locations" name="location" required>
             @if ($op1=='Client')
-                @foreach (App\Location::where('type',$op1)->orderBy('phone')->get() as $location)
+                @foreach (App\Location::where('type',$op1)->orderBy('longName')->get() as $location)
                     <option value="{{$location->id}}">
-                        {{$location->phone}}&nbsp;{{$location->zip}}&nbsp;{{$location->longName}}
+                        {{-- {{substr($location->longName,1,1).substr($location->city,1,1).$location->zip}} --}}
+                        {{$location->longName}}
+                        {{$location->city}}
+                        {{$location->zip}}
                     </option>
                 @endforeach
             @else
