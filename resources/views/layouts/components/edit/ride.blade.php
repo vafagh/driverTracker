@@ -3,15 +3,17 @@
         <label class="col-form-label">ID : {{$object->id}}</label>
     </div>
 
+    @if ($object->rideable!=null)
     <div class="form-group">
-        <label for="location" class="col-form-label">
-            {{$object->rideable->type}} for {{$object->rideable->location->name}}
-        </label>
+            <label for="location" class="col-form-label">
+                {{$object->rideable->type}} for {{$object->rideable->location->name}}
+            </label>
         <p>
             Note: {{$object->rideable->description}}
         </p>
         <p>Status: <span class="text-success">{{$object->rideable->status}}</span></p>
     </div>
+    @endif
 
     <div class="form-group">
         <label for="driver" class="col-form-label">Driver:</label>
