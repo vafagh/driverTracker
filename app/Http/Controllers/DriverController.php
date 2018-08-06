@@ -20,16 +20,6 @@ class DriverController extends Controller
         return view('driver.drivers',compact('drivers'));
     }
 
-    public function totalDistance()
-    {
-        return Ride::where('driver_id', $this->id)->sum('distance');
-    }
-
-    public function totalTrip()
-    {
-
-        return Ride::where('driver_id', $this->id)->count();
-    }
 
     public function store(Request $request)
     {

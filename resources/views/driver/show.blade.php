@@ -46,10 +46,14 @@
                                         {{$driver->created_at}}
                                     </div>
                                     <div  class="col-2">
-                                        <h2 class="mb-0">{{App\Ride::where('driver_id', $driver->id)->sum('distance')}} </h2>Mile
+                                        <h2 class="mb-0">
+                                            {{$driver->totalDistance()}}
+                                        </h2>Mile
                                     </div>
                                     <div  class="col-2">
-                                        <h2 class="mb-0">{{ App\Ride::where('driver_id', $driver->id)->count() }} </h2>Trip
+                                        <h2 class="mb-0">
+                                            {{ $driver->totalTrip() }}
+                                        </h2>Trip
                                     </div>
                                 </div>
                                 <div class="row m-0  pb-2">
