@@ -29,11 +29,11 @@
         <div class="col-3">
             <label for="product" class="col-form-label">Product</label>
             <select class="form-control form-control-lg" name="product">
-                <option value="Client">E85</option>
-                <option selected value="Warehouse">Regular</option>
-                <option value="Warehouse">Midgrade</option>
-                <option value="Warehouse">Premium</option>
-                <option value="Warehouse">Diesel</option>
+                <option value="E85">E85</option>
+                <option selected value="Regular">Regular</option>
+                <option value="Midgrade">Midgrade</option>
+                <option value="Premium">Premium</option>
+                <option value="Diesel">Diesel</option>
             </select>
         </div>
     </div>

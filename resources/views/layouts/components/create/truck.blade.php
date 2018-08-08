@@ -24,7 +24,7 @@
     <div class="form-group row">
         <div class="col-4">
             <label for="mileage" class="col-form-label">Mileage</label>
-            <input name="mileage" class="form-control form-control-sm" type="text" placeholder="">
+            <input name="mileage" class="form-control form-control-sm" type="text" placeholder="Enter Vehicle milage" required>
         </div>
         <div class="col-8">
             <label for="lable" class="col-form-label">Label</label>

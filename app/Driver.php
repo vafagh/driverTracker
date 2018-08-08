@@ -9,11 +9,6 @@ class Driver extends Model
 {
     use SoftDeletes;
 
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
     protected $dates = ['deleted_at'];
 
     public function rides()
@@ -26,13 +21,13 @@ class Driver extends Model
         return $this->hasMany(Fillup::class);
     }
 
-        public function totalDistance()
-        {
-            return Ride::where('driver_id', $this->id)->sum('distance');
-        }
+    public function totalDistance()
+    {
+        return Ride::where('driver_id', $this->id)->sum('distance');
+    }
 
-        public function totalTrip()
-        {
-            return Ride::where('driver_id', $this->id)->count();
-        }
+    public function totalTrip()
+    {
+        return Ride::where('driver_id', $this->id)->count();
+    }
 }
