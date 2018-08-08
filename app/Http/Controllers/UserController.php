@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Ride;
 use App\Transaction;
-use Illuminate\Http\Request;
 use Illuminate\Http\File;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -33,7 +34,7 @@ class UserController extends Controller
         }
         $user->name = $request->fname;
         $user->email = $request->email;
-        $user->password = encrypt($request->password);
+        $user->password = Hash::make($request->password);
         $user->role_id = $request->role_id;
         $user->save();
         Transaction::log(Route::getCurrentRoute()->getName(),'',$user);
@@ -60,9 +61,11 @@ class UserController extends Controller
             $request->file('avatar')->move(public_path('img/user'), $image);
             $user->image = $image;
         }
-        $user->fname = $request->fname;
-        $user->lname = $request->lname;
-        $user->phone = $request->phone;
+        if($request->password!=NULL){
+            $user->password = Hash::make($request->password);
+        }
+        $user->role_id = $request->role;
+        $user->name = $request->fname;
         $user->email = $request->email;
         $user->save();
         Transaction::log(Route::getCurrentRoute()->getName(),User::find($request->id),$user);

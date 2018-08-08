@@ -36,5 +36,6 @@ Route::POST('/fillup/save', 'FillupController@update')->name('update.fillup');
 Route::GET('/users', 'UserController@index')->name('users');
 Route::GET('/user/show/{user}', 'UserController@show');
 Route::POST('/user/store', 'UserController@store')->name('add.user');
+Route::POST('/user/save', 'UserController@update')->name('update.user');
 
 Route::GET('/{type}', 'RideableController@list');
