@@ -29,16 +29,16 @@ class RideController extends Controller
     {
         $ride = new Ride;
         $ride->rideable_id = $request->id;
-        $ride->truck_id = $request->truck;
-        $ride->driver_id = $request->driver;
-        $ride->distance = $request->distance;
+        $ride->truck_id    = $request->truck;
+        $ride->driver_id   = $request->driver;
+        $ride->distance    = $request->distance;
         $ride->save();
 
         $rideable=Rideable::find($request->id);
         $rideable->status = 'OnTheWay';
         $rideable->save();
         $rideable->rides()->attach($ride->id);
-        Transaction::log(Route::getCurrentRoute()->getName(),Ride::find($request->id),$ride);
+        Transaction::log(Route::getCurrentRoute()->getName(),Rideable::find($request->id),$rideable);
 
         return redirect('/#rideable'.$ride->rideable_id)->with('status', 'Driver Assigned');
 

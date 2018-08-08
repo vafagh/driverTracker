@@ -50,8 +50,7 @@ switch($modelName){
             <div class="card-header">
                 {!!$modelName.': '.$title!!}
             </div>
-
-
+            
             <div class="card-body">
                 @foreach ($model->toArray() as $key => $value)
                     @if (gettype($value)=='string' || gettype($value)=='integer')

@@ -93,9 +93,7 @@ class RideableController extends Controller
 
     public function destroy(Rideable $rideable,Request $request)
     {
-
             if(Auth::user()->id==$rideable->user_id){
-                // dd($rideable->rides()->first());
                 if($rideable->rides()->first()!=null){
                     $ride_id = $rideable->rides()->first()->id;
                     $rideable->rides()->detach($ride_id);
