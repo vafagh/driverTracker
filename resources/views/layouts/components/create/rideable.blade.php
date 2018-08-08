@@ -1,27 +1,39 @@
 <a href="/locations#op1location_create0">Create Location</a>
 <div class="modal-body">
-    <div class="form-group select">
-        <label for="recipient-name" class="col-form-label">{{($op1=='Client') ? 'To': 'From'}}:</label>
-        <select class="form-control form-control-lg locations" name="location" required>
-            @if ($op1=='Client')
-                @foreach (App\Location::where('type',$op1)->orderBy('longName')->get() as $location)
-                    <option value="{{$location->id}}">
-                        {{-- {{substr($location->longName,1,1).substr($location->city,1,1).$location->zip}} --}}
-                        {{$location->longName}}
-                        {{$location->city}}
-                        {{$location->zip}}
-                    </option>
-                @endforeach
-            @else
+
+    @if ($op1 == 'Client')
+        <div class="form-group autocomplete w-100">
+            <label for="lname" class="col-form-label">To:</label><br>
+            <input id="ClientsAuto" type="text" name="location" placeholder="Type in shop name" class="form-control form-control w-100" required >
+        </div>
+        <script>
+        /*initiate the autocomplete function on the "ClientsAuto" element,
+        and pass along the clients array as possible autocomplete values:*/
+        var clients = [@foreach ($locations = App\Location::where('type',$op1)->orderBy('longName')->get() as $location)@if($loop->last)"{{$location->name}}"@else"{{$location->name}}",@endif @endforeach];
+        </script>
+    @else
+        <div class="form-group select">
+            <label for="recipient-name" class="col-form-label">From:</label>
+            <select class="form-control form-control-lg locations" name="location" required>
                 @foreach (App\Location::where('type','!=','Client')->orderBy('name')->get() as $location)
                     <option value="{{$location->id}}">
                         {{$location->name}}
                     </option>
                 @endforeach
-            @endif
-            <option class="text-muted" disabled>Not found? Create it first</option>
-        </select>
-    </div>
+                <option class="text-muted" disabled>Not found? Create it first</option>
+            </select>
+        </div>
+    @endif
+
+
+
+
+
+
+
+
+
+
     <div class="form-group">
         <label for="message-text" class="col-form-label">{{($op1=='Client') ? 'Invoice': 'Part'}}#:</label>
         <textarea class="form-control" name="invoice_number" placeholder="Enter the number" required></textarea>

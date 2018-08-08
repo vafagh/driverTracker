@@ -20,12 +20,13 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <script>
-        function loadStatImg(src,imageTarget){
-            var list = document.getElementsByClassName(imageTarget);
-            for(var i=0;i<list.length;i++){
-                list[i].src=src;
-            }
+    //Static google map hover load
+    function loadStatImg(src,imageTarget){
+        var list = document.getElementsByClassName(imageTarget);
+        for(var i=0;i<list.length;i++){
+            list[i].src=src;
         }
+    }
     </script>
 </head>
 <body>

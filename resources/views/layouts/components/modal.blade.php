@@ -25,6 +25,7 @@
             'op2'=>$op2,
             'action'=>$action,
             'file'=>(isset($file))?$file:false,
+            'autocomplateOff'=>(isset($autocomplateOff))?$autocomplateOff:false,
             'object'=>(isset($object))? $object:false
             ])@endcomponent
         </div>

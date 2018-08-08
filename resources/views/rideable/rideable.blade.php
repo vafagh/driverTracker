@@ -10,7 +10,8 @@
                 'iterator'=>0,
                 'object'=>null,
                 'op1'=>$op1,
-                'op2'=>$op2
+                'op2'=>$op2,
+                'autocompleteOff'=>false
             ])@endcomponent
         </div>
     </li>
