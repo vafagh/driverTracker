@@ -21,8 +21,13 @@ class Transaction extends Model
 
     static public function log($action,$last_data,$new_data){
         $transaction    = new Transaction;
-        $transaction->table_name = str_plural(strtolower(class_basename($last_data)));
-        ($last_data) ? $transaction->row_id = $last_data->id : $transaction->row_id = $new_data->id;
+        if($last_data){
+            $transaction->table_name = str_plural(strtolower(class_basename($last_data)));
+            $transaction->row_id = $last_data->id;
+        }else {
+            $transaction->table_name = str_plural(strtolower(class_basename($new_data)));
+            $transaction->row_id = $new_data->id;
+        }
         $transaction->action    = explode('.',$action)[0];
         $transaction->last_data = $last_data;
         $transaction->new_data  = $new_data;
