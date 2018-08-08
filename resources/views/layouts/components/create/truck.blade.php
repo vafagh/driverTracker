@@ -13,7 +13,7 @@
     <div class="form-group row">
         <div class="col-6">
             <label for="tank_capacity" class="col-form-label">Tank Capacity</label>
-            <input name="tank_capacity" class="form-control form-control-sm" type="text" placeholder="Enter the number ">
+            <input name="tank_capacity" class="form-control form-control-sm" type="text" placeholder="Enter the number" required>
         </div>
         <div class="col-6">
             <label for="last4vin" class="col-form-label">Vin Number</label>

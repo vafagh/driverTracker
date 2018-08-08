@@ -1,17 +1,17 @@
 <div class="modal-body">
     <div class="form-group">
         <label for="fname" class="col-form-label">Name</label>
-        <input name="fname" class="form-control form-control-sm" type="text" placeholder="Drivers first name" required>
+        <input name="fname" class="form-control form-control-sm" type="text" placeholder="User first name" required>
     </div>
 
     <div class="form-group">
         <label for="email" class="col-form-label">Email Address</label>
-        <input name="email" class="form-control form-control-sm" type="text" placeholder="example@eagleautobody.com">
+        <input name="email" class="form-control form-control-sm" type="text" placeholder="example@eagleautobody.com" required>
     </div>
 
     <div class="form-group">
         <label for="password" class="col-form-label">Password</label>
-        <input name="password" class="form-control form-control-sm" type="password">
+        <input name="password" class="form-control form-control-sm" type="password" required>
     </div>
 
     <div class="form-group">

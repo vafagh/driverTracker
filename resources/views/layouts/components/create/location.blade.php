@@ -44,12 +44,12 @@
         <div class="row">
             <div class="col-7">
                 <label for="line1" class="col-form-label">Address</label>
-                <input name="line1" class="form-control" type="text" placeholder="Line 1" >
+                <input name="line1" class="form-control" type="text" placeholder="Line 1" required>
             </div>
             <div class="col-5 row">
                 <label for="distance" class="col-form-label">Distance from Eagle</label>
                 <div class="col-6">
-                    <input name="distance" class="form-control" type="text" >
+                    <input name="distance" class="form-control" type="text" required>
                 </div>
                 <div class="col-6 p-0 pt-2 pl-1">
                     mile
@@ -58,9 +58,9 @@
         </div>
         <input name="line2" class="mt-1 form-control" type="text" placeholder="Line 2" >
         <div class="row m-0 p-0 row">
-            <input name="city" class="mt-1 mr-1 col-5 form-control" type="text" placeholder="City" >
-            <input name="state" class="mt-1 mr-1 col-2 form-control" type="text" placeholder="State" >
-            <input name="zip" class="mt-1 col-4 form-control" type="text" placeholder="Zip Code" >
+            <input name="city" class="mt-1 mr-1 col-5 form-control" type="text" placeholder="City" required>
+            <input name="state" class="mt-1 mr-1 col-2 form-control" type="text" placeholder="State" value='TX' required>
+            <input name="zip" class="mt-1 col-4 form-control" type="text" placeholder="Zip Code" required>
         </div>
     </div>
 
