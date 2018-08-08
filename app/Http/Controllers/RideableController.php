@@ -38,6 +38,9 @@ class RideableController extends Controller
         return view('home',compact('deliveries','pickups','flashId','warehouses'));
     }
 
+    public function show(Rideable $rideable){
+        return view('rideable.show',compact('rideable'));
+    }
     public function list(Request $request, $type)
     {
         if($type == "delivery"){
