@@ -8,6 +8,9 @@
     <a class="p-3" href="/rides">Rides</a>
     <a class="p-3" href="/fillups">Fillups</a>
 @endif
+@if (Auth::user()->role_id>3)
+    <a class="p-3" href="/users">Users</a>
+@endif
 <div class="p-3">
     Refresh in <div class="text-info fixedWidthFont d-inline h4">
         <span id="countdown"></span>"

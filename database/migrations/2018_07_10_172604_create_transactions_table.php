@@ -15,12 +15,12 @@ class CreateTransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('table');
+            $table->string('table_name');
             $table->integer('row_id');
             $table->string('action');
-            $table->string('last_data');
-            $table->string('new_data');
-            $table->string('columns');
+            $table->text('last_data')->nullable();
+            $table->text('new_data')->nullable();
+            $table->string('columns')->nullable();
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
@@ -28,11 +28,6 @@ class CreateTransactionsTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('transactions');

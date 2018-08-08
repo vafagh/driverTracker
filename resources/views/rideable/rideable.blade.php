@@ -61,11 +61,11 @@
                 </div>
                 <div class="col-12 col-lg-3 col-md-4 row m-0 p-0">
                     @foreach ($rideable->rides as $ride)
-                        <div class='driver col-12' style="background-image: url(/img/driver/{{$ride->driver->image}}); background-position: right top, left top; background-size:44px 44px; background-repeat: no-repeat, repeat;">
-                            <div class="">
+                        <div class='driver col-12' style="background-image: url(/img/driver/{{$ride->driver->image}}); background-position: right top, left top; background-size:44px; background-repeat: no-repeat, repeat;">
+                            <div>
                                 <span class="d-md-none text-muted">D/T: </span>
                                 @component('layouts.components.tooltip',['modelName'=>'driver','model'=>$ride->driver])@endcomponent
-                                    <span title="{{$ride->pivot->created_at}}">{{ $ride->pivot->created_at->diffForHumans()}}</span>
+                                <span title="{{$ride->pivot->created_at}}">{{ $ride->pivot->created_at->diffForHumans()}}</span>
                             </div>
                             @if (Auth::user()->role_id == 3)
                                 <a class="badge badge-danger" href="/ride/detach/{{$ride->id}}/{{$rideable->id}}">x</a>

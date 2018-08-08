@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Fillup;
+use App\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 class FillupController extends Controller
 {
@@ -16,10 +18,6 @@ class FillupController extends Controller
         return view('fillups',['fillups'=>$fillups]);
     }
 
-    public function create()
-    {
-        //
-    }
 
     public function store(Request $request)
     {
@@ -39,19 +37,10 @@ class FillupController extends Controller
         }
         $fillup->save();
 
+        Transaction::log(Route::getCurrentRoute()->getName(),'',$fillup);
+
         return redirect()->back();
     }
-
-    public function show(Fillup $fillup)
-    {
-        //
-    }
-
-    public function edit(Fillup $fillup)
-    {
-        //
-    }
-
 
     public function update(Request $request)
     {
@@ -71,12 +60,15 @@ class FillupController extends Controller
         }
         $fillup->save();
 
+        Transaction::log(Route::getCurrentRoute()->getName(),Fillup::find($request->id),$fillup);
+
         return redirect()->back();
     }
 
-    public function destroy(Fillup $fillup)
+    public function destroy(Request $request,Fillup $fillup)
     {
         Fillup::destroy($fillup->id);
-        return redirect()->back()->with('status', 'Ride Destroid!');
+        Transaction::log(Route::getCurrentRoute()->getName(),$fillup,false);
+        return redirect()->back()->with('status', 'Record is Destroid!');
     }
 }

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Location;
+use App\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 class LocationController extends Controller
 {
@@ -36,6 +38,7 @@ class LocationController extends Controller
             $location->image = $image;
         }
         $location->save();
+        Transaction::log(Route::getCurrentRoute()->getName(),'',$location);
 
         return redirect('locations')->with($location->name.' Added');
     }
@@ -72,14 +75,17 @@ class LocationController extends Controller
         $location->city = $request->city;
         $location->state = $request->state;
         $location->zip = $request->zip;
+        Transaction::log(Route::getCurrentRoute()->getName(),Location::find($request->id),$location);
         $location->save();
 
         return redirect()->back()->with($location->name.' updated');
     }
 
-    public function destroy(Location $location)
+    public function destroy(Location $location, Request $request)
     {
         Location::destroy($location->id);
+        Transaction::log(Route::getCurrentRoute()->getName(),$location,false);
+
         return redirect()->back()->with($location->name.' updated');
     }
 }

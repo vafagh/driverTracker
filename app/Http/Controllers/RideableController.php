@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Rideable;
 use App\Location;
-use Auth;
+use App\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 class RideableController extends Controller
 {
@@ -67,14 +69,10 @@ class RideableController extends Controller
     {
         $rideable=Rideable::find($request->rideable);
         $rideable->status = $request->status;
+        Transaction::log(Route::getCurrentRoute()->getName(),Rideable::find($request->rideable),$rideable);
         $rideable->save();
 
         return redirect('/#rideable'.$rideable->id)->with('status', $rideable->status.' set');
-    }
-
-    public function create()
-    {
-        //
     }
 
     public function store(Request $request)
@@ -87,26 +85,13 @@ class RideableController extends Controller
         $rideable->status = 'Created';
         $rideable->description = $request->description;
         $rideable->save();
+        Transaction::log(Route::getCurrentRoute()->getName(),'',$rideable);
+
         return redirect()->back()->with('status', '#'.$rideable->invoice_number." added!");
 
     }
 
-    public function show(Rideable $rideable)
-    {
-        //
-    }
-
-    public function edit(Rideable $rideable)
-    {
-        //
-    }
-
-    public function update(Request $request, Rideable $rideable)
-    {
-        //
-    }
-
-    public function destroy(Rideable $rideable)
+    public function destroy(Rideable $rideable,Request $request)
     {
 
             if(Auth::user()->id==$rideable->user_id){
@@ -117,6 +102,8 @@ class RideableController extends Controller
                     Ride::destroy($ride_id);
                 }
                 Rideable::destroy($rideable->id);
+                Transaction::log(Route::getCurrentRoute()->getName(),$rideable,false);
+
                 return redirect('/')->with('status', 'Rideable Destroid!');
             }
 

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Truck;
+use App\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 class TruckController extends Controller
 {
@@ -14,11 +16,6 @@ class TruckController extends Controller
             ->get();
 
             return view('truck.trucks',compact('trucks'));
-    }
-
-    public function create()
-    {
-        //
     }
 
     public function store(Request $request)
@@ -36,6 +33,8 @@ class TruckController extends Controller
             $truck->image = $image;
         }
         $truck->save();
+        Transaction::log(Route::getCurrentRoute()->getName(),'',$truck);
+
         return redirect('/trucks/')->with('status', $truck->license_plate." added!");
 
     }
@@ -45,11 +44,6 @@ class TruckController extends Controller
         $truck = Truck::with('rides','rides.rideable','rides.rideable.location','fillups')->find($id);
         // dd($truck);
         return view('truck.show',compact('truck'));
-    }
-
-    public function edit(Truck $truck)
-    {
-        //
     }
 
     public function update(Request $request)
@@ -67,12 +61,14 @@ class TruckController extends Controller
             $truck->image = $image;
         }
         $truck->save();
+        Transaction::log(Route::getCurrentRoute()->getName(),Truck::find($request->id),$truck);
+
 
         return redirect('/trucks/')->with('status', $truck->license_plate." Updated!");
     }
 
-    public function destroy(Truck $truck)
+    public function destroy(Request $request,Truck $truck)
     {
-        //
+        //Transaction::log(Route::getCurrentRoute()->getName(),$truck,false);
     }
 }

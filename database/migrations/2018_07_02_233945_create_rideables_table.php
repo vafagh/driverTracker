@@ -33,28 +33,17 @@ class CreateRideablesTable extends Migration
 
         Schema::create('rideables', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('location_id');
             $table->string('invoice_number');
             $table->string('type');
             $table->string('status');
             $table->longText('description')->nullable();
-            $table->unsignedInteger('user_id');
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
             $table->softDeletes();
+            $table->unsignedInteger('location_id')->nullable();
+            $table->unsignedInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('location_id')->references('id')->on('locations')->onDelete('set null');
         });
-
-        Schema::create('location_rideable', function (Blueprint $table) {
-            $table->unsignedInteger('rideable_id');
-            $table->unsignedInteger('location_id');
-            $table->timestamps();
-            $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
-            $table->foreign('rideable_id')->references('id')->on('rideables')->onDelete('cascade');
-            $table->primary(['location_id','rideable_id']);
-            $table->softDeletes();
-        });
-
 
         Schema::create('trucks', function (Blueprint $table) {
             $table->increments('id');
@@ -85,8 +74,8 @@ class CreateRideablesTable extends Migration
 
         Schema::create('fillups', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('truck_id');
-            $table->unsignedInteger('driver_id');
+            $table->unsignedInteger('truck_id')->nullable();
+            $table->unsignedInteger('driver_id')->nullable();
             $table->string('gas_card');
             $table->string('gallons');
             $table->string('product')->nullable();
@@ -95,23 +84,23 @@ class CreateRideablesTable extends Migration
             $table->float('total');
             $table->string('mileage')->nullable();
             $table->timestamps();
-            $table->foreign('truck_id')->references('id')->on('trucks')->onDelete('cascade');
-            $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');
+            $table->foreign('truck_id')->references('id')->on('trucks')->onDelete('set null');
+            $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('set null');
             $table->softDeletes();
         });
 
 
         Schema::create('rides', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('rideable_id');
-            $table->unsignedInteger('truck_id');
-            $table->unsignedInteger('driver_id');
+            $table->unsignedInteger('rideable_id')->nullable();
+            $table->unsignedInteger('truck_id')->nullable();
+            $table->unsignedInteger('driver_id')->nullable();
             $table->string('distance');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->nullable();
             $table->foreign('rideable_id')->references('id')->on('rideables')->onDelete('set null');
-            $table->foreign('truck_id')->references('id')->on('trucks')->onDelete('cascade');
-            $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');
+            $table->foreign('truck_id')->references('id')->on('trucks')->onDelete('set null');
+            $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('set null');
             $table->softDeletes();
         });
 
@@ -137,7 +126,6 @@ class CreateRideablesTable extends Migration
     public function down()
     {
         // $table->dropForeign('posts_user_id_foreign');
-        Schema::dropIfExists('location_rideable');
         Schema::dropIfExists('rideable_ride');
         Schema::dropIfExists('rides');
         Schema::dropIfExists('drivers');
