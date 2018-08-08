@@ -6,12 +6,13 @@ switch($modelName){
     break;
 
     case 'location':
-    if($model->image != ''){
-        // $title = '<img src="/img/location/'.$model->image.'" class="w-25" onmouseover="document.getElementByClassName(\'stMap'.$model->id.'\').src=\'https://maps.googleapis.com/maps/api/staticmap?center='.$model->line1.',+'.$model->city.',+'.$model->state.',+'.$model->zip.'&zoom=10&size=400x400&maptype=roadmap&key=AIzaSyBWE7jcte-d6FLo0rYxQFManjv6rzi0Ysc&markers=size:mid%7Ccolor:0xff0000%7Clabel:%7C'.$model->line1.',+'.$model->city.',+'.$model->state.',+'.$model->zip.'\';">';
-        $title = '<img src="/img/location/'.$model->image.'" class="w-25" onmouseover="loadStatImg(\'https://maps.googleapis.com/maps/api/staticmap?center='.$model->line1.',+'.$model->city.',+'.$model->state.',+'.$model->zip.'&zoom=10&size=400x400&maptype=roadmap&key=AIzaSyBWE7jcte-d6FLo0rYxQFManjv6rzi0Ysc&markers=size:mid%7Ccolor:0xff0000%7Clabel:%7C'.$model->line1.',+'.$model->city.',+'.$model->state.',+'.$model->zip.'\',\'stMap'.$model->id.'\')">';
-    }else {
-        $title = '<strong>'.$model->name.'</strong>';
-    }
+    $mouseOver ='onmouseover="loadStatImg(\'https://maps.googleapis.com/maps/api/staticmap?center='.$model->line1.',+'.$model->city.',+'.$model->state.',+'.$model->zip.'&zoom=10&size=300x300&maptype=roadmap&key=AIzaSyBWE7jcte-d6FLo0rYxQFManjv6rzi0Ysc&markers=size:mid%7Ccolor:0xff0000%7Clabel:%7C'.$model->line1.',+'.$model->city.',+'.$model->state.',+'.$model->zip.'\',\'stMap'.$model->id.'\')"';
+        if($model->image != ''){
+            $title = '<img src="/img/location/'.$model->image.'" class="w-25" '.$mouseOver.'>';
+        }else {
+            $title = '<strong '.$mouseOver.'>'.$model->name.'</strong>';
+        }
+
     break;
 
     case 'ride':
