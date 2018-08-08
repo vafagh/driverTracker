@@ -2,12 +2,13 @@
 switch($modelName){
 
     case 'rideable':
-        $title = '<strong><pre class="mb-0">'.$model->invoice_number.'</pre></strong>';
+        $title = '<strong><pre >'.$model->invoice_number.'</pre></strong>';
     break;
 
     case 'location':
     if($model->image != ''){
-        $title = '<img src="/img/location/'.$model->image.'" class="w-25">';
+        // $title = '<img src="/img/location/'.$model->image.'" class="w-25" onmouseover="document.getElementByClassName(\'stMap'.$model->id.'\').src=\'https://maps.googleapis.com/maps/api/staticmap?center='.$model->line1.',+'.$model->city.',+'.$model->state.',+'.$model->zip.'&zoom=10&size=400x400&maptype=roadmap&key=AIzaSyBWE7jcte-d6FLo0rYxQFManjv6rzi0Ysc&markers=size:mid%7Ccolor:0xff0000%7Clabel:%7C'.$model->line1.',+'.$model->city.',+'.$model->state.',+'.$model->zip.'\';">';
+        $title = '<img src="/img/location/'.$model->image.'" class="w-25" onmouseover="loadStatImg(\'https://maps.googleapis.com/maps/api/staticmap?center='.$model->line1.',+'.$model->city.',+'.$model->state.',+'.$model->zip.'&zoom=10&size=400x400&maptype=roadmap&key=AIzaSyBWE7jcte-d6FLo0rYxQFManjv6rzi0Ysc&markers=size:mid%7Ccolor:0xff0000%7Clabel:%7C'.$model->line1.',+'.$model->city.',+'.$model->state.',+'.$model->zip.'\',\'stMap'.$model->id.'\')">';
     }else {
         $title = '<strong>'.$model->name.'</strong>';
     }
@@ -38,6 +39,7 @@ switch($modelName){
 }
 @endphp
 @if($title!='?')
+{!!isset($script) ? $script : ''!!}
     <div class="info d-inline">
         <a class='tip' href="/{{$modelName}}/show/{{$model->id}}">
             @if (isset($element))
@@ -50,8 +52,16 @@ switch($modelName){
             <div class="card-header">
                 {!!$modelName.': '.$title!!}
             </div>
-            
+
             <div class="card-body">
+                @if ($modelName == 'location')
+                    <a target="_blank" href="https://www.google.com/maps/dir/1628+E+Main+St,+Grand+Prairie,+TX+75050/{{$model->line1}},+{{$model->city}},+{{$model->state}},+{{$model->zip}}">
+                        {{-- <img class="w-100" src="https://maps.googleapis.com/maps/api/staticmap?center={{$model->line1}},+{{$model->city}},+{{$model->state}},+{{$model->zip}}&zoom=10&size=400x400&maptype=roadmap&key=AIzaSyBWE7jcte-d6FLo0rYxQFManjv6rzi0Ysc&markers=size:mid%7Ccolor:0xff0000%7Clabel:%7C{{$model->line1}},+{{$model->city}},+{{$model->state}},+{{$model->zip}}" alt="{{$model->name}} Maps"> --}}
+                        <img src="/img/gif/loading.gif" class="stMap{{$model->id}}" />
+                    </a>
+
+
+                @else
                 @foreach ($model->toArray() as $key => $value)
                     @if (gettype($value)=='string' || gettype($value)=='integer')
                         <div class="d-flex justify-content-between">
@@ -60,12 +70,13 @@ switch($modelName){
                         </div>
                     @endif
                     @php
-                    ($key=='image' && $value!='') ? $img = $modelName.'/'.$value:'';
+                        ($key=='image' && $value!='') ? $img = $modelName.'/'.$value:'';
                     @endphp
                 @endforeach
                 @if (isset($img))
                     <img class="card-img-bottom w-25" src="/img/{{$img}}" alt="Card image cap">
                 @endif
+            @endif
             </div>
         </div>
     </div>
