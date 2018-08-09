@@ -13,6 +13,7 @@
         @case('Created')
             @if ($user_id == $rideable->user_id)<a class="badge badge-danger" href="/rideable/delete/{{$rideable->id}}/">Delete</a>@endif
             @if ($user_role == 3 || $user_role == $admin)<a class="badge badge-success" href="/ride/create/{{$rideable->id}}/">Assign</a>@endif
+            @if ($user_id == $rideable->user_id)<a class="badge badge-primary" href="/rideable/{{$rideable->id}}/CancelReq">Cancel</a>@endif
             @if ($user_role > 1 && $title=='Droped off')<a class="badge badge-primary" href="/rideable/{{$rideable->id}}/Done">{{$title}}</a>@endif
         @break
 
@@ -37,6 +38,10 @@
         @case('NotAvailable')
             @if ($user_id == $rideable->user_id || $user_role == 3 )<a class="badge badge-info" href="/rideable/{{$rideable->id}}/Reactived">Re-active</a>@endif
             @if ($user_id == $rideable->user_id || $user_role == 3 )<a class="badge badge-danger" href="/rideable/{{$rideable->id}}/Canceled">Cancel</a>@endif
+        @break
+
+        @case('CancelReq')
+                @if ($user_role >= 3 || $user_role == 3 )<a class="badge badge-danger" href="/rideable/delete/{{$rideable->id}}/">Delete</a>@endif
         @break
 
         @default
