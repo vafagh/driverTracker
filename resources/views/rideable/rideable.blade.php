@@ -11,7 +11,7 @@
                 'object'=>null,
                 'op1'=>$op1,
                 'op2'=>$op2,
-                'autocompleteOff'=>false
+                'autocomplateOff'=>true
             ])@endcomponent
         </div>
     </li>

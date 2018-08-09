@@ -9,7 +9,7 @@
         <script>
         /*initiate the autocomplete function on the "ClientsAuto" element,
         and pass along the clients array as possible autocomplete values:*/
-        var clients = [@foreach ($locations = App\Location::where('type',$op1)->orderBy('longName')->get() as $location)@if($loop->last)"{{$location->name}}"@else"{{$location->name}}",@endif @endforeach];
+        var clients = [@foreach ($locations = App\Location::where('type',$op1)->orderBy('longName')->get() as $location)@if($loop->last)"{{$location->longName}}"@else"{{$location->longName}}",@endif @endforeach];
         </script>
     @else
         <div class="form-group select">

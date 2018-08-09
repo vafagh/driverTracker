@@ -82,7 +82,7 @@ class RideableController extends Controller
     {
         $rideable = new Rideable;
         $rideable->user_id = Auth::id();
-        $rideable->location_id = $request->location;
+        $rideable->location_id = Location::where('longName', $request->location)->first()->id;
         $rideable->invoice_number = $request->invoice_number;
         $rideable->type = $request->type;
         $rideable->status = 'Created';
