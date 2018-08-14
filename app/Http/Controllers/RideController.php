@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Ride;
+use App\Driver;
 use App\Rideable;
 use App\Transaction;
 use Illuminate\Http\Request;
@@ -29,7 +30,7 @@ class RideController extends Controller
     {
         $ride = new Ride;
         $ride->rideable_id = $request->id;
-        $ride->truck_id    = $request->truck;
+        $ride->truck_id    = Driver::find($request->driver)->truck_id;
         $ride->driver_id   = $request->driver;
         $ride->distance    = $request->distance;
         $ride->save();
@@ -55,7 +56,7 @@ class RideController extends Controller
         }else {
             return redirect('/')->with('error', 'Ride not found!');
         }
-        Transaction::log(Route::getCurrentRoute()->getName(),Ride::find($request->id),$ride);
+        Transaction::log(Route::getCurrentRoute()->getName(),Rideable::find($request->id),$rideable);
 
         return redirect('/')->with('status', 'Driver dismissed from this task');
     }

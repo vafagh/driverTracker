@@ -15,7 +15,28 @@
         <label for="email" class="col-form-label">Email Address</label>
         <input name="email" class="form-control form-control" type="text" value="{{$object->email}}">
     </div>
-
+    <div class="form-group select">
+        <label for="truck" class="col-form-label">Driving:</label>
+        @php
+        $availableTrucks = App\Truck::whereNotIn('id',App\Driver::where('truck_id','!=',NULL)->get()->pluck('truck_id')->toArray());
+        @endphp
+        @if ($availableTrucks->count()>0)
+            <select class="form-control form-control-lg locations" name="truck" required>
+                @foreach ($availableTrucks->orderBy('lable')->get() as $truck)
+                    <option value="{{$truck->id}}">
+                        {{$truck->label.' LP:'.$truck->license_plate.' VIN:'.$truck->last4vin}}
+                    </option>
+                @endforeach
+            </select>
+        @else
+            <div class="">
+                All truck is occupaited by drivers.
+                <div class="text-muted">
+                    To assign a truck to this driver: first you have to un-assign the target truck from current driver.
+                </div>
+            </div>
+        @endif
+    </div>
     <div class="form-row ">
         <div class="row col-2">
             <div class="col-12 ">

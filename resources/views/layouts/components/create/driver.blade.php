@@ -15,6 +15,19 @@
         <label for="fname" class="col-form-label">Email Address</label>
         <input name="email" class="form-control form-control-sm" type="text" placeholder="example@eagleautobody.com">
     </div>
+
+    <div class="form-group select">
+        <label for="truck" class="col-form-label">Driving:</label>
+        <select class="form-control form-control-lg locations" name="truck" required>
+                <option value='null'>Null</option>
+            @foreach (App\Truck::whereNotIn('id',App\Driver::where('truck_id','!=',NULL)->get()->pluck('truck_id')->toArray())->orderBy('lable')->get() as $truck)
+                <option value="{{$truck->id}}">
+                    {{$truck->label.' LP:'.$truck->license_plate.' VIN:'.$truck->last4vin}}
+                </option>
+            @endforeach
+        </select>
+    </div>
+
     <div class="custom-file">
         <input name="avatar" type="file" class="custom-file-input" id="avatar">
         <label class="custom-file-label" for="customFile">Choose picture</label>

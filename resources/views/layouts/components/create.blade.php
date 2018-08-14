@@ -6,8 +6,10 @@
     @component('layouts.components.create.'.$modelName,[
         'op1'=>$op1,
         'op2'=>$op2,
+        'object'=>(isset($object))?$object:false,
         'iterator'=>0])
     @endcomponent
+
 
 </form>
 </div>

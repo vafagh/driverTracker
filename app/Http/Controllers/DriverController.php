@@ -20,7 +20,6 @@ class DriverController extends Controller
         return view('driver.drivers',compact('drivers'));
     }
 
-
     public function store(Request $request)
     {
         $driver = new Driver;
@@ -56,6 +55,7 @@ class DriverController extends Controller
         $driver->lname = $request->lname;
         $driver->phone = $request->phone;
         $driver->email = $request->email;
+        ($request->truck==='NULL') ? $driver->truck_id =NULL : $driver->truck_id = $request->truck;
         if($request->file('avatar')!=NULL){
             $image = time().'.'. $request->file('avatar')->getClientOriginalExtension();
             $request->file('avatar')->move(public_path('img/driver'), $image);
@@ -65,6 +65,16 @@ class DriverController extends Controller
         Transaction::log(Route::getCurrentRoute()->getName(),Driver::find($request->id),$driver);
 
         $driver->save();
+
+        return redirect('/drivers/')->with('status', $driver->fname." Updated!");
+    }
+
+    public function unassign(Driver $driver)
+    {
+        // $driver = Driver::find($request->id);
+        $driver->truck_id = NULL;
+        $driver->save();
+        Transaction::log(Route::getCurrentRoute()->getName(),Driver::find($driver->id),$driver);
 
         return redirect('/drivers/')->with('status', $driver->fname." Updated!");
     }

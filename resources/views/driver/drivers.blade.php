@@ -1,10 +1,9 @@
 @extends('layouts.app')
 @section('content')
-    <div class="">
         <div class="card">
             <div class="card-header row m-0 bg-primary text-white">
-                <div class="col-10 h3 active">Drivers</div>
-                <div class="col-2">
+                <div class="col-8 col-sm-10 h3 mb-0 active">Drivers</div>
+                <div class="col-4 col-sm-2">
                     @component('layouts.components.modal',[
                         'modelName'=>'driver',
                         'action'=>'create',
@@ -22,5 +21,4 @@
                 @endcomponent
             </div>
         </div>
-    </div>
 @endsection

@@ -66,6 +66,7 @@ class CreateRideablesTable extends Migration
             $table->string('phone')->nullable()->unique();
             $table->string('image')->nullable();
             $table->string('email')->nullable();
+            $table->string('truck_id')->nullable();
             $table->unique('fname','lname');
             $table->timestamps();
             $table->softDeletes();
