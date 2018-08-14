@@ -6,7 +6,14 @@
             <input id="ClientsAuto_{{$iterator}}"  onClick="this.setSelectionRange(0, this.value.length)" type="text" name="location" value="{{$object->location->longName}}" placeholder="Type in shop name" class="form-control form-control w-100" required >
         </div>
         <script type="text/javascript">
-        var clients = {@foreach ($locations = App\Location::where('type','=','Client')->orderBy('phone')->get() as $location)@if($loop->last)"{!!$location->longName.'":"'.$location->phone.' , '.$location->longName!!}"@else"{!!$location->longName.'":"'.$location->phone.' , '.$location->longName!!}",@endif @endforeach};
+        var clients =
+        {@foreach ($locations = App\Location::where('type','=','Client')->orderBy('phone')->get() as $location)
+            @if($loop->last)
+                "{!!$location->longName.'":"'.$location->phone!!}"
+            @else
+                "{!!$location->longName.'":"'.$location->phone!!}",
+            @endif
+        @endforeach};
         autocomplete(document.getElementById("ClientsAuto_{{$iterator}}"), clients);
         </script>
     @else
