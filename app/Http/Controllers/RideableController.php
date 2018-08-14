@@ -14,33 +14,34 @@ class RideableController extends Controller
     public function home(Request $request)
     {
         $deliveries = Rideable::with('user','rides','rides.driver','rides.truck','location')
-        ->whereHas('location',function($q){
-            $q->where('type', 'Client');
-        })
-        ->where('status', '!=', 'Done')
-        ->where('status', '!=', 'Canceled')
-        ->orderBy('location_id', 'asc')
-        ->orderBy('created_at', 'desc')
-        ->get();
+            ->whereHas('location',function($q){
+                $q->where('type', 'Client');
+            })
+            ->where('status', '!=', 'Done')
+            ->where('status', '!=', 'Canceled')
+            ->orderBy('location_id', 'asc')
+            ->orderBy('created_at', 'desc')
+            ->get();
         $pickups = Rideable::with('user','rides','rides.driver','rides.truck','location')
-        ->whereHas('location', function($q){
-            $q->where('type', '!=', 'Client');
-        })
-        ->where('status', '!=', 'Done')
-        ->where('status', '!=', 'Canceled')
-        ->orderBy('location_id', 'desc')
-        ->get();
+            ->whereHas('location', function($q){
+                $q->where('type', '!=', 'Client');
+            })
+            ->where('status', '!=', 'Done')
+            ->where('status', '!=', 'Canceled')
+            ->orderBy('location_id', 'desc')
+            ->get();
         if($request!==null){
-            // dd($request);
             $flashId = $request->id;
         }else $flashId = '1';
         $warehouses = Location::where('type','!=','Client')->get();
         return view('home',compact('deliveries','pickups','flashId','warehouses'));
     }
 
-    public function show(Rideable $rideable){
-        return view('rideable.show',compact('rideable'));
+    public function show(Rideable $rideable)
+    {
+        return view('rideable.show',compact('rideable','clients'));
     }
+
     public function list(Request $request, $type)
     {
         if($type == "delivery"){
@@ -82,10 +83,30 @@ class RideableController extends Controller
     {
         $rideable = new Rideable;
         $rideable->user_id = Auth::id();
-        $rideable->location_id = Location::where('longName', $request->location)->first()->id;
+        ($request->type=='Delivery') ?  $rideable->location_id = Location::where('longName', $request->location)->first()->id : $rideable->location_id = $request->location;
         $rideable->invoice_number = $request->invoice_number;
         $rideable->type = $request->type;
         $rideable->status = 'Created';
+        $rideable->description = $request->description;
+        $rideable->save();
+        Transaction::log(Route::getCurrentRoute()->getName(),'',$rideable);
+
+        return redirect()->back()->with('status', '#'.$rideable->invoice_number." added!");
+
+    }
+
+    public function update(Request $request)
+    {
+        $rideable = Rideable::find($request->id);
+        // belowe line is commentet to preserve the original creator.
+        // $rideable->user_id = Auth::id();
+        ($request->type=='Delivery') ?
+            $rideable->location_id = Location::where('longName', $request->location)->first()->id :
+            $rideable->location_id = $request->location;
+        $rideable->invoice_number = $request->invoice_number;
+        $rideable->type = $request->type;
+        $rideable->type = $request->type;
+        $rideable->status = $request->status;
         $rideable->description = $request->description;
         $rideable->save();
         Transaction::log(Route::getCurrentRoute()->getName(),'',$rideable);

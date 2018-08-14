@@ -6,8 +6,8 @@
         </div>
 
         <div class="card-body row">
-            <div class="col-12 row">
-                <div class="col-2">
+            <div class="col-12 row p-lg-0">
+                <div class="col-6 col-md-4 col-lg-2">
                     <div class="label">
                         Part / Invoice:
                     </div>
@@ -15,15 +15,15 @@
                         <pre>{{$rideable->invoice_number}}</pre>
                     </div>
                 </div>
-                <div class="col-2">
+                <div class="col-6 col-md-4 col-lg-2">
                     <div class="label">
                         Location:
                     </div>
                     <div class="data h3">
-                        {{$rideable->location->name}}
+                        @component('layouts.components.tooltip',['modelName'=>'location','model'=>$rideable->location])@endcomponent
                     </div>
                 </div>
-                <div class="col-2">
+                <div class="col-6 col-md-4 col-lg-2">
                     <div class="label">
                         type:
                     </div>
@@ -31,7 +31,7 @@
                         {{$rideable->type}}
                     </div>
                 </div>
-                <div class="col-2">
+                <div class="col-6 col-md-4 col-lg-2">
                     <div class="label">
                         status:
                     </div>
@@ -39,7 +39,7 @@
                         {{$rideable->status}}
                     </div>
                 </div>
-                <div class="col-2">
+                <div class="col-6 col-md-4 col-lg-2">
                     <div class="label">
                         Created by
                     </div>
@@ -48,7 +48,24 @@
                     </div>
 
                 </div>
-                <div class="col-2">
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="action">
+                        @if (Auth::user()->role_id > 3 || Auth::user()->id == $rideable->user_id )
+                            @component('layouts.components.modal',[
+                                'modelName'=>'rideable',
+                                'action'=>'edit',
+                                'style'=>'badge badge-warning ',
+                                'iterator'=>'',
+                                'object'=>$rideable,
+                                'op1'=>$rideable->type,
+                                'op2'=>$rideable->location->type,
+                                'file'=>false,
+                                'autocomplateOff'=>true])
+                            @endcomponent
+                        @endif
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-4">
                     <div class="label">
                         description:
                     </div>
@@ -56,7 +73,7 @@
                         {{$rideable->description}}
                     </div>
                 </div>
-                <div class="col-3">
+                <div class="col-6 col-md-4 col-lg-3">
                     <div class="label">
                         created_at:
                     </div>
@@ -64,7 +81,7 @@
                         {{$rideable->created_at}}
                     </div>
                 </div>
-                <div class="col-3">
+                <div class="col-6 col-md-4 col-lg-3">
                     <div class="label">
                         updated_at:
                     </div>
@@ -79,7 +96,7 @@
     Record history:
 </div>
         <div class="card-body">
-            @foreach (App\Transaction::where('table_name','rideables')->where('row_id',$rideable->id)->get() as $key => $transaction)
+            @foreach (App\Transaction::where('table_name','rideables')->where('row_id',$rideable->id)->orderByDesc('created_at')->get() as $key => $transaction)
                 <div class="card mb-1">
                     <div class="card-header" id="heading{{$key}}">
                             <div class="h5 my-0 row" data-toggle="collapse" data-target="#collapse{{$key}}" aria-expanded="true" aria-controls="collapse{{$key}}">

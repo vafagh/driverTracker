@@ -35,6 +35,20 @@
                     </div>
 
                     <div class='InvoiceNumber       col-12 col-md-4 fixedWidthFont'>
+                        @if (Auth::user()->role_id > 3 || Auth::user()->id == $rideable->user_id )
+                            @component('layouts.components.modal',[
+                                'modelName'=>'rideable',
+                                'action'=>'edit',
+                                'dingbats'=>'&#x2710;',
+                                'style'=>'badge badge-warning mr-1 float-left',
+                                'iterator'=>$key,
+                                'object'=>$rideable,
+                                'op1'=>$rideable->type,
+                                'op2'=>'',
+                                'file'=>false,
+                                'autocomplateOff'=>true])
+                            @endcomponent
+                        @endif
                         @component('layouts.components.tooltip',['modelName'=>'rideable','model'=>$rideable])@endcomponent
                     </div>
 
@@ -52,7 +66,13 @@
                     </div>
 
                     <div class="actions             col-12 col-lg-4 col-md-3">
-                        @component('layouts.action',['action' => $rideable->status,'rideable' => $rideable,'iterator' => $key,'op1'=>$op1,'op2'=>$op2])@endcomponent
+                        @component('layouts.action',[
+                            'action' => $rideable->status,
+                            'rideable' => $rideable,
+                            'iterator' => $key,
+                            'op1'=>$op1,
+                            'op2'=>$op2
+                        ])@endcomponent
                     </div>
 
                     <div class='updated             col-12 col-lg-4 col-md-3'>
