@@ -22,7 +22,7 @@
                 @endif
                 <div class="card-body px-1">
                     <a href="/location/show/{{$warehouse->id}}">
-                        <h5 class="card-title">{{$warehouse->name}}</h5>
+                        <h5 class="card-title text-center">{{$warehouse->name}}</h5>
                     </a>
                     <p class="card-text">
                         <small class="text-muted">

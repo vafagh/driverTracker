@@ -19,8 +19,10 @@ class UserController extends Controller
         $users = User::with('transactions')
             ->orderBy('id', 'desc')
             ->get();
-
-        return view('auth.users',compact('users'));
+        $transactions = Transaction::with('user')
+                ->orderBy('id', 'desc')
+                ->paginate(20);
+        return view('auth.users',compact('users','transactions'));
     }
 
     public function store(Request $request)
