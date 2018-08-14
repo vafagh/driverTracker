@@ -22,6 +22,7 @@
         @endphp
         @if ($availableTrucks->count()>0)
             <select class="form-control form-control-lg locations" name="truck" required>
+                <option value='null'>Null</option>
                 @foreach ($availableTrucks->orderBy('lable')->get() as $truck)
                     <option value="{{$truck->id}}">
                         {{$truck->label.' LP:'.$truck->license_plate.' VIN:'.$truck->last4vin}}
