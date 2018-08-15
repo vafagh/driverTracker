@@ -27,6 +27,7 @@ class DriverController extends Controller
         $driver->lname = $request->lname;
         $driver->phone = $request->phone;
         $driver->email = $request->email;
+        ($request->truck == 'clear') ? $driver->truck_id = 0 : $driver->truck_id = $request->truck;
         if($request->file('avatar')!=NULL){
             $image = time().'.'. $request->file('avatar')->getClientOriginalExtension();
             $request->file('avatar')->move(public_path('img/driver'), $image);
@@ -55,7 +56,7 @@ class DriverController extends Controller
         $driver->lname = $request->lname;
         $driver->phone = $request->phone;
         $driver->email = $request->email;
-        ($request->truck==='NULL') ? $driver->truck_id =NULL : $driver->truck_id = $request->truck;
+        ($request->truck == 'clear') ? '' : $driver->truck_id = $request->truck;
         if($request->file('avatar')!=NULL){
             $image = time().'.'. $request->file('avatar')->getClientOriginalExtension();
             $request->file('avatar')->move(public_path('img/driver'), $image);
@@ -71,10 +72,10 @@ class DriverController extends Controller
 
     public function unassign(Driver $driver)
     {
-        // $driver = Driver::find($request->id);
+        $old_record = Driver::find($driver->id);
         $driver->truck_id = NULL;
         $driver->save();
-        Transaction::log(Route::getCurrentRoute()->getName(),Driver::find($driver->id),$driver);
+        Transaction::log(Route::getCurrentRoute()->getName(),$old_record,$driver);
 
         return redirect('/drivers/')->with('status', $driver->fname." Updated!");
     }
