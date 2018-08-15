@@ -72,7 +72,8 @@
                     closeAllLists(e.target);
                 });
             }
-            var clients = {@foreach ($locations = App\Location::where('type',$op1)->orderBy('phone')->get() as $location)@if($loop->last)"{!!$location->longName.'":"'.$location->phone.' , '.$location->longName!!}"@else"{!!$location->longName.'":"'.$location->phone.' , '.$location->longName!!}",@endif @endforeach};
+            // var clients = {@foreach ($locations = App\Location::where('type',$op1)->orderBy('phone')->get() as $location)@if($loop->last)"{!!$location->longName.'":"'.$location->phone.' , '.$location->longName!!}"@else"{!!$location->longName.'":"'.$location->phone.' , '.$location->longName!!}",@endif @endforeach};
+            var clients = {@foreach ($locations = App\Location::where('type',$op1)->orderBy('phone')->get() as $location)@if($loop->last)"{!!$location->longName.'":"'.$location->longName.' , '.$location->phone!!}"@else"{!!$location->longName.'":"'.$location->longName.' , '.$location->phone!!}",@endif @endforeach};
             autocomplete(document.getElementById("ClientsAuto"), clients);
         </script>
     @else
