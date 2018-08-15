@@ -21,11 +21,15 @@
         $availableTrucks = App\Truck::whereNotIn('id',App\Driver::where('truck_id','!=',NULL)->get()->pluck('truck_id')->toArray());
         @endphp
         @if ($availableTrucks->count()>0)
-            <select class="form-control form-control-lg locations" name="truck" required>
-                <option value='null'>Null</option>
+            <select class="form-control form-control locations" name="truck" required>
+                @if (!empty($object->truck_id))
+                    <option value='clear'>{{App\Truck::find($object->truck_id)->license_plate}}</option>
+                @else
+                    <option value='clear'></option>
+                @endif
                 @foreach ($availableTrucks->orderBy('lable')->get() as $truck)
-                    <option value="{{$truck->id}}">
-                        {{$truck->label.' LP:'.$truck->license_plate.' VIN:'.$truck->last4vin}}
+                    <option {{($truck->id==$object->truck_id) ? 'selected':''}} value="{{$truck->id}}">
+                        ({{$truck->id.'):'.$truck->label.' LP:'.$truck->license_plate.' VIN:'.$truck->last4vin}}
                     </option>
                 @endforeach
             </select>

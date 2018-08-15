@@ -52,7 +52,7 @@
                         'op1'=>'op1',
                         'op2'=>'driver',
                         'btnSize'=>'small',
-                        'style'=>'btn btn-warning mb-1 ',
+                        'style'=>'badge badge-warning mb-1 ',
                         'object'=>$driver,
                         'iterator'=>$key,
                         'file'=>true])
@@ -63,13 +63,13 @@
                         'op1'=>'op1',
                         'op2'=>'fillup',
                         'btnSize'=>'small',
-                        'style'=>'btn btn-success text-light mb-1 ',
+                        'style'=>'badge badge-success text-light mb-1 ',
                         'object'=>'',
                         'iterator'=>$key,
                         'file'=>true])
                     @endcomponent
-                    <a class="btn btn-secondary btn-sm mb-1 ml-1" href="/driver/show/{{$driver->id}}">Info &#x27BE;</a>
-                    <a class="btn btn-danger btn-sm mb-1 ml-1" href="/driver/delete/{{$driver->id}}">Del &#x2716;</a>
+                    <a class="badge badge-secondary  mb-1 ml-1" href="/driver/show/{{$driver->id}}">Info &#x27BE;</a>
+                    <a class="badge badge-danger mb-1 ml-1" href="/driver/delete/{{$driver->id}}">Del &#x2716;</a>
                 @endif
             </div>
 

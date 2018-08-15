@@ -19,7 +19,7 @@
     <div class="form-group select">
         <label for="truck" class="col-form-label">Driving:</label>
         <select class="form-control form-control-lg locations" name="truck" required>
-                <option value='null'>Null</option>
+                <option value='clear'>Null</option>
             @foreach (App\Truck::whereNotIn('id',App\Driver::where('truck_id','!=',NULL)->get()->pluck('truck_id')->toArray())->orderBy('lable')->get() as $truck)
                 <option value="{{$truck->id}}">
                     {{$truck->label.' LP:'.$truck->license_plate.' VIN:'.$truck->last4vin}}
