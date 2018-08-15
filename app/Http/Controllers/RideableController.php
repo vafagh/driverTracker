@@ -83,7 +83,7 @@ class RideableController extends Controller
     {
         $rideable = new Rideable;
         $rideable->user_id = Auth::id();
-        (is_null($request->locationName)) ? $locationName = $request->locationName : $locationName = $request->locationName;
+        (is_null($request->locationName)) ? $locationName = $request->locationPhone : $locationName = $request->locationName;
         ($request->type=='Delivery') ? $rideable->location_id = Location::where('longName', $locationName)->first()->id : $rideable->location_id = $locationName;
         $rideable->invoice_number = $request->invoice_number;
         $rideable->type = $request->type;
