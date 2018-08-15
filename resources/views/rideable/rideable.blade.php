@@ -88,7 +88,7 @@
                                 @component('layouts.components.tooltip',['modelName'=>'driver','model'=>$ride->driver])@endcomponent
                                 <span title="{{$ride->pivot->created_at}}">{{ $ride->pivot->created_at->diffForHumans()}}</span>
                             </div>
-                            @if (Auth::user()->role_id == 3)
+                            @if (Auth::user()->role_id > 2)
                                 <a class="badge badge-danger" href="/ride/detach/{{$ride->id}}/{{$rideable->id}}">x</a>
                             @endif
                             @component('layouts.components.tooltip',['modelName'=>'truck','model'=>$ride->truck])@endcomponent
