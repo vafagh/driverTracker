@@ -18,12 +18,12 @@
                   <label class="form-check-label" for="cPhone">Phone</label>
                 </div>
             </div>
-            <input id="clientsName" type="text" name="locationName"  placeholder="Type shop full name" class="form-control form-control w-100" style="display:block">
+            <input id="clientsName" type="text" name="locationName"  placeholder="Type shop full name" class="form-control form-control w-100" style="display:none">
             <input id="clientsPhone" type="text" name="locationPhone"  placeholder="Type the shop number" class="form-control form-control w-100" style="display:none" >
         </div>
         <script type="text/javascript">
         var clients =
-        {@foreach ($locations = App\Location::where('type','=','Client')->orderBy('phone')->get() as $location)@if($loop->last)"{!!$location->longName.'":"'.$location->phone!!}"@else"{!!$location->longName.'":"'.$location->phone!!}",@endif@endforeach};
+        {@foreach ($locations = App\Location::where('type','=','Client')->orderBy('phone')->get() as $location) @if($loop->last)"{!!$location->longName.'":"'.$location->phone!!}" @else"{!!$location->longName.'":"'.$location->phone!!}", @endif @endforeach};
         autocomplete(document.getElementById("ClientsAuto_{{$iterator}}"), clients);
         </script>
     @else
