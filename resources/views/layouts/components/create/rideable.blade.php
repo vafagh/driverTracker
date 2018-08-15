@@ -15,8 +15,8 @@
                   <label class="form-check-label" for="cPhone">Phone</label>
                 </div>
             </div>
-            <input id="clientsName" type="text" name="locationName"  placeholder="Type shop full name" class="form-control form-control w-100" style="display:block">
-            <input id="clientsPhone" autocomplete="off" type="text" name="locationPhone"  placeholder="Type the shop number" class="form-control form-control w-100" style="display:none" >
+            <input id="clientsName" type="text" name="locationName"  placeholder="Type shop full name" class="form-control form-control w-100" style="display:none">
+            <input id="clientsPhone" type="text" name="locationPhone"  placeholder="Type the shop number" class="form-control form-control w-100" style="display:none" >
         </div>
         <script type="text/javascript">
             function autocomplete(inp, phoneBook) {
@@ -112,7 +112,7 @@
     @else
         <div class="form-group select">
             <label for="recipient-name" class="col-form-label">From:</label>
-            <select class="form-control form-control-lg locations" name="location" required>
+            <select class="form-control form-control-lg locations" name="locationName" required>
                 @foreach (App\Location::where('type','!=','Client')->orderBy('name')->get() as $location)
                     <option value="{{$location->id}}">
                         {{$location->name}}
