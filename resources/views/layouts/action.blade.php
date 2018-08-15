@@ -11,7 +11,7 @@
 @if (($user_role == 2 && $user_id == $rideable->user_id) || $user_role > 2 )
     @switch($action)
         @case('Created')
-            @if ($user_id == $rideable->user_id)<a class="badge badge-danger" href="/rideable/delete/{{$rideable->id}}/">&#x2716;</a>@endif
+            @if ($user_id == $rideable->user_id)<a class="badge badge-danger" href="/rideable/delete/{{$rideable->id}}/">&#x2716;Del</a>@endif
             @if ($user_role == 3 || $user_role == $admin)
                 @component('layouts.components.modal',[
                     'modelName'=>'ride',
@@ -22,25 +22,25 @@
                     'style'=>'badge badge-info text-white ',
                     'op1'=>'',
                     'op2'=>'',
-                    'dingbats'=>'&#x2707;',
+                    'dingbats'=>'&#x2707; Assign',
                     'file'=>false
                 ])
                 @endcomponent
             @endif
-            @if ($user_id == $rideable->user_id)<a class="badge badge-warning" href="/rideable/{{$rideable->id}}/CancelReq">&#x270B;</a>@endif
-            @if ($user_role > 1 && $title=='Droped off')<a class="badge badge-primary" href="/rideable/{{$rideable->id}}/Done">&#x2714;</a>@endif
+            @if ($user_id == $rideable->user_id)<a class="badge badge-warning" href="/rideable/{{$rideable->id}}/CancelReq">&#x270B; Cancel</a>@endif
+            @if ($user_role > 1 && $title=='Droped off')<a class="badge badge-primary" href="/rideable/{{$rideable->id}}/Done">&#x2714; {{$title}}</a>@endif
         @break
 
         @case('OnTheWay')
             @if ($user_role == 3 || $user_role == 3 )<a class="badge badge-warning" href="/rideable/{{$rideable->id}}/NotAvailable">NON/A</a>@endif
-            @if ($user_id == $rideable->user_id)<a class="badge badge-warning" href="/rideable/{{$rideable->id}}/DeatachReqested">&#x270B;</a>@endif
-            @if ($user_role > 1 )<a class="badge badge-primary" href="/rideable/{{$rideable->id}}/Done">&#x2714;</a>@endif
+            @if ($user_id == $rideable->user_id)<a class="badge badge-warning" href="/rideable/{{$rideable->id}}/DeatachReqested">&#x270B; Cancel</a>@endif
+            @if ($user_role > 1 )<a class="badge badge-primary" href="/rideable/{{$rideable->id}}/Done">&#x2714; {{$title}}</a>@endif
         @break
 
         @case('Reactived')
             @if ($user_role == 3 || $user_id == $rideable->user_id )<a class="badge badge-warning" href="/rideable/{{$rideable->id}}/NotAvailable">NON/A</a>@endif
-            @if ($user_id == $rideable->user_id)<a class="badge badge-warning" href="/rideable/{{$rideable->id}}/DeatachReqested">&#x270B;</a>@endif
-            <a class="badge badge-primary" href="/rideable/{{$rideable->id}}/Done">&#x2714;</a>
+            @if ($user_id == $rideable->user_id)<a class="badge badge-warning" href="/rideable/{{$rideable->id}}/DeatachReqested">&#x270B; Cancel</a>@endif
+            <a class="badge badge-primary" href="/rideable/{{$rideable->id}}/Done">&#x2714; {{$title}}</a>
         @break
 
         @case('DeatachReqested')
@@ -51,7 +51,7 @@
 
         @case('NotAvailable')
             @if ($user_id == $rideable->user_id || $user_role == 3 )<a class="badge badge-info" href="/rideable/{{$rideable->id}}/Reactived">Re-active</a>@endif
-            @if ($user_id == $rideable->user_id || $user_role == 3 )<a class="badge badge-warning" href="/rideable/{{$rideable->id}}/Canceled">&#x270B;</a>@endif
+            @if ($user_id == $rideable->user_id || $user_role == 3 )<a class="badge badge-warning" href="/rideable/{{$rideable->id}}/Canceled">&#x270B; Cancel</a>@endif
         @break
 
         @case('CancelReq')
@@ -61,7 +61,7 @@
         @default
             @if (Auth::user()->role_id > 4)
                 +<a class="badge badge-info" href="/rideable/{{$rideable->id}}/Reactived">Re-act</a>
-                <a class="badge badge-primary" href="/rideable/{{$rideable->id}}/Done">&#x2714;</a>
+                <a class="badge badge-primary" href="/rideable/{{$rideable->id}}/Done">&#x2714; {{$title}}</a>
                 <a class="badge badge-warning" href="/rideable/{{$rideable->id}}/NotAvailable">NA</a>
                 <a class="badge badge-danger" href="/rideable/{{$rideable->id}}/DeatachReqested">Deatach</a>
                 @component('layouts.components.modal',[

@@ -1,9 +1,13 @@
 <div class="modal-body">
+    @php
+    $drivers = App\Driver::where('truck_id','!=',null)->orderBy('fname')->get();
+    @endphp
+    {{$drivers->count()}} driver with truck found.
     <div class="form-group">
         <label for="driver" class="col-form-label">Driver:</label>
         <select class="form-control form-control-lg" name="driver">
-            @foreach (App\Driver::all() as $driver)
-                <option value="{{$driver->id}}">{{$driver->fname}}</option>
+            @foreach ( $drivers as $driver)
+                <option value="{{$driver->id}}">{{$driver->fname}} -> {{App\Truck::find($driver->truck_id)->lable}}</option>
             @endforeach
         </select>
     </div>
