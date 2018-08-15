@@ -5,21 +5,31 @@
             <label for="lname" class="col-form-label">To:</label><br>
             <input id="ClientsAuto_{{$iterator}}"  onClick="this.setSelectionRange(0, this.value.length)" type="text" name="location" value="{{$object->location->longName}}" placeholder="Type in shop name" class="form-control form-control w-100" required >
         </div>
+        <div class="form-group autocomplete w-100">
+            <label for="lname" class="col-form-label">To:</label><br>
+            Search by:
+            <div>
+                <div class="form-check form-check-inline" >
+                  <input class="form-check-input" type="radio" name="searchBy" id="cName" value="name" onclick="toggle()">
+                  <label class="form-check-label" for="cName">Name</label>
+                </div>
+                <div class="form-check form-check-inline" >
+                  <input class="form-check-input" type="radio" name="searchBy" id="cPhone" value="phone" onclick="toggle()">
+                  <label class="form-check-label" for="cPhone">Phone</label>
+                </div>
+            </div>
+            <input id="clientsName" type="text" name="locationName"  placeholder="Type shop full name" class="form-control form-control w-100" style="display:block">
+            <input id="clientsPhone" type="text" name="locationPhone"  placeholder="Type the shop number" class="form-control form-control w-100" style="display:none" >
+        </div>
         <script type="text/javascript">
         var clients =
-        {@foreach ($locations = App\Location::where('type','=','Client')->orderBy('phone')->get() as $location)
-            @if($loop->last)
-                "{!!$location->longName.'":"'.$location->phone!!}"
-            @else
-                "{!!$location->longName.'":"'.$location->phone!!}",
-            @endif
-        @endforeach};
+        {@foreach ($locations = App\Location::where('type','=','Client')->orderBy('phone')->get() as $location)@if($loop->last)"{!!$location->longName.'":"'.$location->phone!!}"@else"{!!$location->longName.'":"'.$location->phone!!}",@endif@endforeach};
         autocomplete(document.getElementById("ClientsAuto_{{$iterator}}"), clients);
         </script>
     @else
         <div class="form-group select">
             <label for="recipient-name" class="col-form-label">From:</label>
-            <select class="form-control form-control-lg locations" name="location" required>
+            <select class="form-control form-control-lg locations" name="clientsName" required>
                 @foreach (App\Location::where('type','!=','Client')->orderBy('name')->get() as $location)
                     <option {{($location->id==$object->location_id) ? 'selected' : ''}} value="{{$location->id}}">
                         {{$location->name}}
