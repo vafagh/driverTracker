@@ -89,7 +89,7 @@
                                 <span title="{{$ride->pivot->created_at}}">{{ $ride->pivot->created_at->diffForHumans()}}</span>
                             </div>
                             @if (Auth::user()->role_id > 2)
-                                <a class="badge badge-danger" href="/ride/detach/{{$ride->id}}/{{$rideable->id}}">x</a>
+                                <a class="badge badge-danger" href="/ride/detach/{{$ride->id}}/{{$rideable->id}}">&#x2704;</a>
                             @endif
                             @component('layouts.components.tooltip',['modelName'=>'truck','model'=>$ride->truck])@endcomponent
                         </div>

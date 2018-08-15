@@ -4,7 +4,19 @@
     @if ($op1 == 'Client')
         <div class="form-group autocomplete w-100">
             <label for="lname" class="col-form-label">To:</label><br>
-            <input id="ClientsAuto" type="text" name="location"  placeholder="Type in shop name" class="form-control form-control w-100" required >
+            Search by:
+            <div>
+                <div class="form-check form-check-inline" >
+                  <input class="form-check-input" type="radio" name="searchBy" id="cName" value="name" onclick="toggle()">
+                  <label class="form-check-label" for="cName">Name</label>
+                </div>
+                <div class="form-check form-check-inline" >
+                  <input class="form-check-input" type="radio" name="searchBy" id="cPhone" value="phone" onclick="toggle()">
+                  <label class="form-check-label" for="cPhone">Phone</label>
+                </div>
+            </div>
+            <input id="clientsName" type="text" name="locationName"  placeholder="Type shop full name" class="form-control form-control w-100" style="display:block">
+            <input id="clientsPhone" autocomplete="off" type="text" name="locationPhone"  placeholder="Type the shop number" class="form-control form-control w-100" style="display:none" >
         </div>
         <script type="text/javascript">
             function autocomplete(inp, phoneBook) {
@@ -72,9 +84,30 @@
                     closeAllLists(e.target);
                 });
             }
-            // var clients = {@foreach ($locations = App\Location::where('type',$op1)->orderBy('phone')->get() as $location)@if($loop->last)"{!!$location->longName.'":"'.$location->phone.' , '.$location->longName!!}"@else"{!!$location->longName.'":"'.$location->phone.' , '.$location->longName!!}",@endif @endforeach};
-            var clients = {@foreach ($locations = App\Location::where('type',$op1)->orderBy('phone')->get() as $location)@if($loop->last)"{!!$location->longName.'":"'.$location->longName.' , '.$location->phone!!}"@else"{!!$location->longName.'":"'.$location->longName.' , '.$location->phone!!}",@endif @endforeach};
-            autocomplete(document.getElementById("ClientsAuto"), clients);
+            var cliName = {@foreach ($locations = App\Location::where('type',$op1)->orderBy('phone')->get() as $location)@if($loop->last)"{!!$location->longName.'":"'.$location->longName.' , '.$location->phone!!}"@else"{!!$location->longName.'":"'.$location->longName.' , '.$location->phone!!}",@endif @endforeach};
+            var cliPhone = {@foreach ($locations = App\Location::where('type',$op1)->orderBy('phone')->get() as $location)@if($loop->last)"{!!$location->longName.'":"'.$location->phone.' , '.$location->longName!!}"@else"{!!$location->longName.'":"'.$location->phone.' , '.$location->longName!!}",@endif @endforeach};
+            autocomplete(document.getElementById("clientsName"), cliName);
+            autocomplete(document.getElementById("clientsPhone"), cliPhone);
+        </script>
+        <script type="text/javascript">
+        function toggle() {
+            var cName = document.getElementById("cName");
+            var cPhone = document.getElementById("cPhone");
+            var clientsName = document.getElementById("clientsName");
+            var clientsPhone = document.getElementById("clientsPhone");
+
+            if (cName.checked){
+                clientsPhone.value = "";
+                clientsPhone.style.display = "none";
+                clientsName.style.display = "block";
+            }
+            if(cPhone.checked){
+                clientsName.value = "";
+                clientsPhone.style.display = "block";
+                clientsName.style.display = "none";
+            }
+        }
+
         </script>
     @else
         <div class="form-group select">
