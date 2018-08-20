@@ -34,6 +34,7 @@ Route::GET('/location/show/{location}', 'LocationController@show');
 Route::GET('/fillups', 'FillupController@index')->name('fillups');
 Route::POST('/fillup/store/', 'FillupController@store')->name('add.fillup');
 Route::GET('/fillup/delete/{fillup}', 'FillupController@destroy')->name('destroy.fillup');
+Route::GET('/fillup/show/{fillup}', 'FillupController@show')->name('show.fillup');
 Route::POST('/fillup/save', 'FillupController@update')->name('update.fillup');
 Route::GET('/users', 'UserController@index')->name('users');
 Route::GET('/user/show/{user}', 'UserController@show');

@@ -15,7 +15,16 @@ class FillupController extends Controller
         ->orderBy('id', 'desc')
         ->get();
 
-        return view('fillups',['fillups'=>$fillups]);
+        return view('fillup.fillups',['fillups'=>$fillups]);
+    }
+
+
+    public function show(Fillup $fillup)
+    {
+        $fillup = Fillup::with('driver','truck')
+        ->find($fillup->id);
+
+        return view('fillup.show',['fillup'=>$fillup]);
     }
 
 

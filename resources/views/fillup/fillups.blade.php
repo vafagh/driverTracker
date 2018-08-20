@@ -36,18 +36,26 @@
                 </thead>
                 <tbody>
                     @foreach ($fillups as $key => $fillup)
+
                         <tr>
-                            <td colspan="12"></td>
-                        </tr>
-                        <tr>
-                            <td>{{$fillup->id}}</td>
+                            <td><a href="/fillup/show/{{$fillup->id}}">{{$fillup->id}}</a></td>
                             <td>
                                 @if ($fillup->image!='')
                                     @component('layouts.components.imgtooltip',['modelName'=>'fillup','model'=>$fillup])@endcomponent
                                 @endif
                             </td>
-                            <td>@component('layouts.components.tooltip',['modelName'=>'truck','model'=>$fillup->truck])@endcomponent</td>
-                            <td>@component('layouts.components.tooltip',['modelName'=>'driver','model'=>$fillup->driver])@endcomponent</td>
+                            <td>
+                                @if ($fillup->truck!='')
+                                    @component('layouts.components.tooltip',['modelName'=>'truck','model'=>$fillup->truck])@endcomponent</td>
+                                @else
+                                    {{$fillup->truck}}
+                                @endif
+                            <td>
+                                @if ($fillup->driver)
+                                    @component('layouts.components.tooltip',['modelName'=>'driver','model'=>$fillup->driver])@endcomponent</td>
+                                @else
+                                    {{$fillup->driver}}
+                                @endif
                             <td>{{$fillup->gas_card}}</td>
                             <td>{{$fillup->gallons}}</td>
                             <td>{{$fillup->product}}</td>
