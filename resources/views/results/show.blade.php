@@ -1,8 +1,13 @@
 @if ($colection->count()>0)
-<div class="card-header">
-    {{$modelName = str_plural(class_basename($colection->first()))}}
-</div>
-<div class="card-body">
+    <div class="card-header">
+        {{$modelName = str_plural(class_basename($colection->first()))}}
+    </div>
+    <div class="card-body">
+        <div>
+            <div class="pagination">
+                {{ $colection->links("pagination::bootstrap-4") }}
+            </div>
+        </div>
         <table class="table">
             <thead>
                 <tr>
@@ -22,11 +27,15 @@
                     @endphp
                     <tr>
                         @foreach ($row->toArray() as $key => $value)
-                            <td class="">{{$value}}</td>
+                            @if ($loop->first)
+                                <td class=""><a href="/{{strtolower((class_basename($row))).'/show/'.$value}}">{{$value}}</a></td>
+                            @else
+                                <td class="">{{$value}}</td>
+                            @endif
                         @endforeach
                     </tr>
                 @endforeach
             </tbody>
         </table>
-</div>
+    </div>
 @endif
