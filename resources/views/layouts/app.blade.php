@@ -63,9 +63,12 @@
                             </li>
                         @else
                             <li class="nav-item">
-                                <form class="form-inline row m-0 p-0">
-                                    <input class="form-control col-8" type="search" placeholder="Search" aria-label="Search">
-                                    <button class="btn btn-outline-primary my-2 col-4 px-0" type="submit">Search</button>
+                                <form method="get" action="/search/">
+                                    <div class="d-block p-2">
+                                        <input name="q" class="form-control d-inline-block w-50 " type="text" placeholder="Search">
+                                        <button class="form-control btn d-inline w-25 mb-1" type="submit">Search</button>
+                                    </div>
+                                    {{ csrf_field() }}
                                 </form>
                             </li>
                             <li class="nav-item dropdown">
@@ -90,17 +93,22 @@
         </nav>
         <div class="fluid-container row mx-auto p-0">
             <div class="main col-lg-12 col-xl-12 mt-1">
-                @if (session('status'))
-                    <div class="alert alert-success mx-auto col-6" role="alert">
-                        {{ session('status') }}
-                    </div>
-                @endif
-                @yield('content')
+
+                @if (session('info'))<div class="alert alert-info mt-3 mx-auto">{{ session('info') }}</div>@endif
+        		@if (session('error'))<div class="alert alert-danger mt-3 mx-auto">{{ session('error') }}</div>@endif
+        		@if (session('warning'))<div class="alert alert-warning mt-3 mx-auto">{{ session('warning') }}</div>@endif
+        		@if (session('success'))<div class="alert alert-success mt-3 mx-auto">{{ session('success') }}</div>@endif
+        		@if (session('status'))<div class="alert alert-info mt-3 mx-auto">{{ session('status') }}</div>@endif
+
+        		@yield('content')
+
+
             </div>
             <div class="side col-lg-12  col-xl-2 sticky-top pt-4 mt-3 p-0">
                 @include('layouts.side')
             </div>
         </div>
     </div>
+    @yield('scripts')
 </body>
 </html>
