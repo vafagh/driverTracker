@@ -23,7 +23,7 @@
                         <th>ID</th>
                         <th>name</th>
                         <th>Email</th>
-                        <th>Role</th>>
+                        <th>Role</th>
                         <th>Updated At</th>
                         <th>Created At</th>
                         <th></th>
@@ -33,13 +33,7 @@
                     @foreach ($users as $key => $user)
                         <tr>
                             <td>{{$user->id}}</td>
-                            {{--
-                            <td>
-                                 @if ($user->image!='')
-                                    @component('layouts.components.imgtooltip',['modelName'=>'user','model'=>$user])@endcomponent
-                                @endif
-                            </td>
-                             --}}
+
                             <td>@component('layouts.components.tooltip',['modelName'=>'user','model'=>$user])@endcomponent</td>
 
                             <td>{{$user->email}}</td>
@@ -56,6 +50,7 @@
                                         'btnSize'=>'small',
                                         'op1'=>'',
                                         'op2'=>'',
+                                        'style'=>'badge badge-warning',
                                         'file'=>true
                                     ])
                                     @endcomponent
@@ -82,7 +77,7 @@
                 <div class="col-8 col-sm-3 col-md-3 col-lg-2">Create</div>
             </div>
             <div id="accordion">
-                @foreach ($user->transactions->sortByDesc('id') as $key => $transaction)
+                @foreach ($transactions as $key => $transaction)
                     <div class="card mb-1">
                         <div class="card-header" id="heading{{$key}}">
                                 <div class="h5 my-0 row" data-toggle="collapse" data-target="#collapse{{$key}}" aria-expanded="true" aria-controls="collapse{{$key}}">
