@@ -16,7 +16,7 @@
                 @component('layouts.components.modal',[
                     'modelName'=>'ride',
                     'action'=>'create',
-                    'iterator'=>'iterator',
+                    'iterator'=>$rideable->id,
                     'object'=>$rideable,
                     'btnSize'=>'small',
                     'style'=>'badge badge-info text-white ',
