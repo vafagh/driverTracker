@@ -86,7 +86,7 @@ class RideableController extends Controller
         (is_null($request->locationName)) ? $locationName = $request->locationPhone : $locationName = $request->locationName;
         ($request->type=='Delivery') ? $rideable->location_id = Location::where('longName', $locationName)->first()->id : $rideable->location_id = $locationName;
         $rideable->invoice_number = $request->invoice_number;
-        $rideable->type = $request->type;
+        $rideable->type = Location::find($rideable->location_id)->type;
         $rideable->status = 'Created';
         $rideable->description = $request->description;
         $rideable->save();
@@ -100,10 +100,7 @@ class RideableController extends Controller
     {
         $rideable = Rideable::find($request->id);
         // belowe line is commentet to preserve the original creator.
-        // $rideable->user_id = Auth::id();
-        ($request->type=='Delivery') ?
-            $rideable->location_id = Location::where('longName', $request->location)->first()->id :
-            $rideable->location_id = $request->location;
+        $rideable->user_id = Auth::user()->id;
         $rideable->invoice_number = $request->invoice_number;
         $rideable->type = $request->type;
         $rideable->type = $request->type;
