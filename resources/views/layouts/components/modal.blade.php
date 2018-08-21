@@ -5,7 +5,7 @@
         data-whatever="@mdo"
         title="{{$action.' '.$modelName}}">
 
-        {!!(isset($dingbats))? $dingbats : ucfirst($action).' '.ucfirst($op2)!!}
+        {!!(isset($dingbats))? $dingbats : ucfirst($action)!!}
     </a>
 @endif
 <div class="modal fade text-dark" id="{{$op1.$op2.'_'.$action.$modelName.$iterator}}" tabindex="-1" role="dialog" aria-labelledby="{{$op2.$action.$modelName.$iterator}}" aria-hidden="true">

@@ -90,24 +90,23 @@
             autocomplete(document.getElementById("clientsPhone"), cliPhone);
         </script>
         <script type="text/javascript">
-        function toggle() {
-            var cName = document.getElementById("cName");
-            var cPhone = document.getElementById("cPhone");
-            var clientsName = document.getElementById("clientsName");
-            var clientsPhone = document.getElementById("clientsPhone");
+            function toggle() {
+                var cName = document.getElementById("cName");
+                var cPhone = document.getElementById("cPhone");
+                var clientsName = document.getElementById("clientsName");
+                var clientsPhone = document.getElementById("clientsPhone");
 
-            if (cName.checked){
-                clientsPhone.value = "";
-                clientsPhone.style.display = "none";
-                clientsName.style.display = "block";
+                if (cName.checked){
+                    clientsPhone.value = "";
+                    clientsPhone.style.display = "none";
+                    clientsName.style.display = "block";
+                }
+                if(cPhone.checked){
+                    clientsName.value = "";
+                    clientsPhone.style.display = "block";
+                    clientsName.style.display = "none";
+                }
             }
-            if(cPhone.checked){
-                clientsName.value = "";
-                clientsPhone.style.display = "block";
-                clientsName.style.display = "none";
-            }
-        }
-
         </script>
     @else
         <div class="form-group select">

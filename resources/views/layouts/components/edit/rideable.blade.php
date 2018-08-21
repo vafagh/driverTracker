@@ -1,11 +1,10 @@
-<a href="/locations#op1location_create0">Create Location</a>
-<div class="modal-body">
+    <div class="modal-body">
     @if ($object->type == 'Delivery')
         <div class="form-group autocomplete w-100">
-            <label for="lname" class="col-form-label">To:</label><br>
-            <input id="ClientsAuto_{{$iterator}}"  onClick="this.setSelectionRange(0, this.value.length)" type="text" name="location" value="{{$object->location->longName}}" placeholder="Type in shop name" class="form-control form-control w-100" required >
+            <label for="lname" class="col-form-label">To:</label>
+            {{$object->location->longName}}
         </div>
-        <div class="form-group autocomplete w-100">
+        {{-- <div class="form-group autocomplete w-100">
             <label for="lname" class="col-form-label">To:</label><br>
             Search by:
             <div>
@@ -20,12 +19,7 @@
             </div>
             <input id="clientsName" type="text" name="locationName"  placeholder="Type shop full name" class="form-control form-control w-100" style="display:none">
             <input id="clientsPhone" type="text" name="locationPhone"  placeholder="Type the shop number" class="form-control form-control w-100" style="display:none" >
-        </div>
-        <script type="text/javascript">
-        var clients =
-        {@foreach ($locations = App\Location::where('type','=','Client')->orderBy('phone')->get() as $location) @if($loop->last)"{!!$location->longName.'":"'.$location->phone!!}" @else"{!!$location->longName.'":"'.$location->phone!!}", @endif @endforeach};
-        autocomplete(document.getElementById("ClientsAuto_{{$iterator}}"), clients);
-        </script>
+        </div> --}}
     @else
         <div class="form-group select">
             <label for="recipient-name" class="col-form-label">From:</label>
