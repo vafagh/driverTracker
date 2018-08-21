@@ -13716,6 +13716,14 @@ __webpack_require__(12);
     }, 1000);
 })(180);
 
+//Static google map hover load
+function loadStatImg(src, imageTarget) {
+    var list = document.getElementsByClassName(imageTarget);
+    for (var i = 0; i < list.length; i++) {
+        list[i].src = src;
+    }
+}
+
 /***/ }),
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
