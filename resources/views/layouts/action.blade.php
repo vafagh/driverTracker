@@ -12,7 +12,6 @@
     @switch($action)
         @case('Created')
             @if ($user_id == $rideable->user_id)<a class="badge badge-danger" href="/rideable/delete/{{$rideable->id}}/">&#x2716;Del</a>@endif
-            @if ($user_role == 3 || $user_role == $admin)
                 @component('layouts.components.modal',[
                     'modelName'=>'ride',
                     'action'=>'create',
@@ -26,7 +25,6 @@
                     'file'=>false
                 ])
                 @endcomponent
-            @endif
             @if ($user_role > 1 && $title=='Droped off')<a class="badge badge-primary" href="/rideable/{{$rideable->id}}/Done">&#x2714; {{$title}}</a>@endif
         @break
 
