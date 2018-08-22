@@ -28,11 +28,3 @@ require('./bootstrap');
     document.getElementById('countdown').innerHTML = remaining;
     setTimeout(function(){ countdown(remaining - 1); }, 1000);
 })(180);
-
-//Static google map hover load
-function loadStatImg(src,imageTarget){
-    var list = document.getElementsByClassName(imageTarget);
-    for(var i=0;i<list.length;i++){
-        list[i].src=src;
-    }
-}

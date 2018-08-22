@@ -8,7 +8,7 @@ switch($modelName){
     case 'location':
     $mouseOver ='onmouseover="loadStatImg(\'https://maps.googleapis.com/maps/api/staticmap?center='.$model->line1.',+'.$model->city.',+'.$model->state.',+'.$model->zip.'&zoom=10&size=300x300&maptype=roadmap&key=AIzaSyBWE7jcte-d6FLo0rYxQFManjv6rzi0Ysc&markers=size:mid%7Ccolor:0xff0000%7Clabel:%7C'.$model->line1.',+'.$model->city.',+'.$model->state.',+'.$model->zip.'\',\'stMap'.$model->id.'\')"';
         if($model->image != ''){
-            $title = '<img src="/img/location/'.$model->image.'" class="w-25" '.$mouseOver.'>';
+            $title = '<img src="/img/location/'.$model->image.'" '.$mouseOver.'>';
         }else {
             $title = '<strong '.$mouseOver.'>'.$model->name.'</strong>';
         }
@@ -50,9 +50,9 @@ switch($modelName){
             @endif
         </a>
         <div class="card">
-            <div class="card-header">
+            {{-- <div class="card-header">
                 {!!$modelName.': '.$title!!}
-            </div>
+            </div> --}}
 
             <div class="card-body">
                 @if ($modelName == 'location')

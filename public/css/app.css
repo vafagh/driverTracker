@@ -10486,6 +10486,46 @@ a.text-dark:focus {
   background-color: #fff;
 }
 
+.mh-10 {
+  min-height: 10px;
+}
+
+.mh-20 {
+  min-height: 20px;
+}
+
+.mh-30 {
+  min-height: 30px;
+}
+
+.mh-40 {
+  min-height: 40px;
+}
+
+.mh-50 {
+  min-height: 50px;
+}
+
+.mh-60 {
+  min-height: 60px;
+}
+
+.mh-70 {
+  min-height: 70px;
+}
+
+.mh-80 {
+  min-height: 80px;
+}
+
+.mh-90 {
+  min-height: 90px;
+}
+
+.mh-100 {
+  min-height: 100px;
+}
+
 .tip {
   color: #0a5d3e;
 }

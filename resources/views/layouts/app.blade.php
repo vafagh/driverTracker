@@ -19,6 +19,15 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script type="text/javascript">
+    //Static google map hover load
+    function loadStatImg(src,imageTarget){
+        var list = document.getElementsByClassName(imageTarget);
+        for(var i=0;i<list.length;i++){
+            list[i].src=src;
+        }
+    }
+    </script>
 
 </head>
 <body>
@@ -93,7 +102,6 @@
 
         		@yield('content')
 
-
             </div>
             <div class="side col-lg-12  col-xl-2 sticky-top pt-4 mt-3 p-0">
                 @include('layouts.side')
@@ -106,6 +114,6 @@
         @endif
     @endif
 
-    @yield('scripts')
+    @yield('footer-scripts')
 </body>
 </html>
