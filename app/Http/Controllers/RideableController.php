@@ -84,7 +84,12 @@ class RideableController extends Controller
         $rideable = new Rideable;
         $rideable->user_id = Auth::id();
         (is_null($request->locationName)) ? $locationName = $request->locationPhone : $locationName = $request->locationName;
-        ($request->type=='Delivery') ? $rideable->location_id = Location::where('longName', $locationName)->first()->id : $rideable->location_id = $locationName;
+        if($request->type=='Delivery'){
+            if(Location::where('longName', $locationName)->first()==null) {return redirect()->back()->with('error', 'Location "'.$locationName.'" not exist. Make sure you select it from list. ');}
+            else{$rideable->location_id = Location::where('longName', $locationName)->first()->id;}
+        }else{
+            $rideable->location_id = $locationName;
+        }
         $rideable->invoice_number = $request->invoice_number;
         $rideable->type = Location::find($rideable->location_id)->type;
         $rideable->status = 'Created';

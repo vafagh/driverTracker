@@ -26,7 +26,8 @@
             'action'=>$action,
             'file'=>(isset($file))?$file:false,
             'autocomplateOff'=>(isset($autocomplateOff))?$autocomplateOff:false,
-            'object'=>(isset($object))? $object:false
+            'object'=>(isset($object))? $object:false,
+            'iterator'=>$iterator
             ])@endcomponent
 
         </div>
