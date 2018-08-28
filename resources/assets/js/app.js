@@ -27,4 +27,4 @@ require('./bootstrap');
     location.reload(true);
     document.getElementById('countdown').innerHTML = remaining;
     setTimeout(function(){ countdown(remaining - 1); }, 1000);
-})(180);
+})(360);
