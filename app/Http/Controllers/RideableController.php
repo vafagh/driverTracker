@@ -76,7 +76,7 @@ class RideableController extends Controller
         Transaction::log(Route::getCurrentRoute()->getName(),Rideable::find($request->rideable),$rideable);
         $rideable->save();
 
-        return redirect('/#rideable'.$rideable->id)->with('status', $rideable->status.' set');
+        return redirect()->back()->with('status', $rideable->status.' set');
     }
 
     public function store(Request $request)

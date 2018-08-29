@@ -24,16 +24,14 @@
                 <ul class="list-group" id='driverd'>
                     <li class="driver list-group-item py-0 list-group-item-secondary">
                         <div class="row m-0 p-0">
-                            <div class='col-4 text-center'>
-                                Info
-                            </div>
+                            <div class='col-4 text-center'>Info</div>
                             <div class="col-4">Created at</div>
                             <div class='col-2'>Miles Driven</div>
                             <div class='col-2'>Total Trip</div>
                         </div>
                     </li>
-                        <li class="list-group-item disabled py-2 active font-weight-bold">{{$driver->fname.' '.$driver->lname}}</li>
-                        <li class="row m-0 p-0 mb-1 border  border-secondary">
+                    <li class="list-group-item disabled py-2 active font-weight-bold">{{$driver->fname.' '.$driver->lname}}</li>
+                    <li class="row m-0 p-0 mb-1 border  border-secondary">
                             <div class="col-2 bg-danger p-0">
                                 <img class="w-100" src="{{($driver->image == null) ? '/img/def.svg' : '/img/driver/'.$driver->image }}" alt="">
                             </div>
@@ -98,7 +96,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>For</th>
-                                <th>{{--($op1=='Client') ? 'Invoice': 'Part'--}}#</th>
+                                <th>#</th>
                                 <th>Destination</th>
                                 <th>Truck</th>
                                 <th>Create</th>
@@ -106,7 +104,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($rides as $key => $ride)
+                            @foreach ($rides->sortByDesc('created_at') as $key => $ride)
                                 <tr>
                                     <td>{{$ride->id}}</td>
                                     <td>
@@ -124,17 +122,19 @@
                                     <td><span title="{{$ride->created_at}}">{{$ride->created_at->diffForHumans()}}</span></td>
                                     <td>
                                         @if (Auth::user()->role_id > 3)
-                                        @component('layouts.components.modal',[
-                                            'modelName'=>'ride',
-                                            'action'=>'edit',
-                                            'iterator'=>$key,
-                                            'object'=>$ride,
-                                            'btnSize'=>'small',
-                                            'op1'=>'',
-                                            'op2'=>''
-                                        ])
-                                        @endcomponent
+                                            @component('layouts.components.modal',[
+                                                'modelName'=>'ride',
+                                                'action'=>'edit',
+                                                'iterator'=>$key,
+                                                'object'=>$ride,
+                                                'btnSize'=>'small',
+                                                'op1'=>'',
+                                                'op2'=>''
+                                            ])
+                                            @endcomponent
+                                            @if (Auth::user()->role_id > 3 && $ride->rideable->status!='Done')<a class="badge badge-primary" href="/rideable/{{$ride->rideable->id}}/Done">&#x2714; Done</a>@endif
                                             <a class="badge badge-danger" href="/ride/delete/{{$ride->id}}"> Delete</a>
+
                                         @endif
                                     </td>
                                 </tr>

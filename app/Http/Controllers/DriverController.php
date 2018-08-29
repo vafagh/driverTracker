@@ -43,8 +43,8 @@ class DriverController extends Controller
     public function show($driver_id)
     {
         $driver = Driver::with('rides','fillups','rides.truck','rides.rideable.location')->find($driver_id);
-        $rides = $driver->rides;
-        // ->paginate(10);
+        $rides = $driver->rides()
+        ->paginate(25);
         return view('driver.show',compact('driver','rides'));
     }
 
