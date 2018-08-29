@@ -37,7 +37,7 @@
                             <th>For</th>
                             <th>{{--($op1=='Client') ? 'Invoice': 'Part'--}}#</th>
                             <th>Destination</th>
-                            <th>Truck</th>
+                            <th>Driver</th>
                             <th>Create</th>
                             <th></th>
                         </tr>
@@ -56,7 +56,7 @@
                                     {{$ride->rideable->status}}
                                 </td>
                                 <td>
-                                    @component('layouts.components.tooltip',['modelName'=>'truck','model'=>$ride->truck])@endcomponent
+                                    @component('layouts.components.tooltip',['modelName'=>'driver','model'=>$ride->driver])@endcomponent
                                 </td>
                                 <td><span title="{{$ride->created_at}}">{{$ride->created_at->diffForHumans()}}</span></td>
                                 <td>
