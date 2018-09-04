@@ -14,8 +14,8 @@ class DriverController extends Controller
     public function index()
     {
         $drivers = Driver::with('rides','fillups','rides.truck','rides.rideable.location')
-        ->orderBy('id', 'desc')
-        ->paginate(10);
+        ->orderBy('fname')
+        ->get();
 
         return view('driver.drivers',compact('drivers'));
     }
