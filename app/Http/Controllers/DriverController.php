@@ -44,6 +44,7 @@ class DriverController extends Controller
     {
         $driver = Driver::with('rides','fillups','rides.truck','rides.rideable.location')->find($driver_id);
         $rides = $driver->rides()
+        ->orderBy('created_at','desc')
         ->paginate(25);
         return view('driver.show',compact('driver','rides'));
     }
