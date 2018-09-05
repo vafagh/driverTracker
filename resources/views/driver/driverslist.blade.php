@@ -69,6 +69,8 @@
                         'file'=>true])
                     @endcomponent
                     <a class="badge badge-secondary  mb-1 ml-1" href="/driver/show/{{$driver->id}}">Info &#x27BE;</a>
+                @endif
+                @if (Auth::user()->role_id > 3 )
                     <a class="badge badge-danger mb-1 ml-1" href="/driver/delete/{{$driver->id}}">Del &#x2716;</a>
                 @endif
             </div>
