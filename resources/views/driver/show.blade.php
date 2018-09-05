@@ -59,7 +59,7 @@
                                         {{$driver->phone}}
                                     </div>
                                     <div class="col-7 text-right  pt-2">
-                                        @if (Auth::user()->role_id > 3)
+                                        @if (Auth::user()->role_id > 2)
                                             @component('layouts.components.modal',[
                                                 'modelName'=>'driver',
                                                 'action'=>'edit',

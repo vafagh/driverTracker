@@ -45,7 +45,7 @@
                 </div>
             </div>
             <div class="col-12 pt-2 actions">
-                @if (Auth::user()->role_id > 3)
+                @if (Auth::user()->role_id > 2)
                     @component('layouts.components.modal',[
                         'modelName'=>'driver',
                         'action'=>'edit',
