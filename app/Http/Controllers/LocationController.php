@@ -18,6 +18,11 @@ class LocationController extends Controller
     public function store(Request $request)
     {
         $location = new Location;
+        $gmaprespond = $location->getGeo($location);
+        if($gmaprespond->status == 'OK'){
+            $location->lat = $gmaprespond->results[0]->geometry->location->lat;
+            $location->lng = $gmaprespond->results[0]->geometry->location->lng;
+        }
         $location->type = $request->type;
         $location->name = $request->name;
         $location->person = $request->person;
@@ -55,6 +60,11 @@ class LocationController extends Controller
     public function update(Request $request)
     {
         $location = Location::find($request->id);
+        $gmaprespond = $location->getGeo($location);
+        if($gmaprespond->status == 'OK'){
+            $location->lat = $gmaprespond->results[0]->geometry->location->lat;
+            $location->lng = $gmaprespond->results[0]->geometry->location->lng;
+        }
         if($request->file('image')!=NULL){
             $image = time().'.'. $request->file('image')->getClientOriginalExtension();
             $structure = '../public/img/location/';

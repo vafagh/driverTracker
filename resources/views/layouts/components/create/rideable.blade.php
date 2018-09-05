@@ -107,6 +107,8 @@
                     clientsName.style.display = "none";
                 }
             }
+
+
         </script>
     @else
         <div class="form-group select">
@@ -138,5 +140,6 @@
 <div class="modal-footer">
     <input type="hidden" name="type" value="{{$op2}}">
     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-    <button type="submit" class="btn btn-primary">Save it</button>
+    <button type="submit" id="{{$op2}}" class="btn btn-primary">Save it</button>
+
 </div>

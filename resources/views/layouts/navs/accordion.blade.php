@@ -1,6 +1,6 @@
 <a class="p-2" href="/">Home</a>
-{{-- <a class="p-2" href="/pickups">Pickups</a>
-<a class="p-2" href="/deliveries">Deliveries</a> --}}
+<a class="p-2" href="/pickup">Pickups</a>
+<a class="p-2" href="/delivery">Deliveries</a>
 <a class="p-2" href="/drivers">Drivers</a>
 <a class="p-2" href="/trucks">Trucks</a>
 <a class="p-2" href="/locations">Locations</a>

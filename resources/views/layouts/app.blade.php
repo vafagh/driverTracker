@@ -29,6 +29,9 @@
     }
     </script>
 
+    <!-- head yield  -->
+    @yield('head')
+
 </head>
 <body>
     <div id="app">
@@ -65,8 +68,8 @@
                             <li class="nav-item">
                                 <form method="get" action="/search/">
                                     <div class="d-block p-2">
-                                        <input name="q" class="form-control d-inline-block w-50 " type="text" placeholder="Search">
-                                        <button class="form-control btn d-inline w-25 mb-1" type="submit">Search</button>
+                                        <input name="q" class="form-control d-inline-block" type="text" placeholder="Search...">
+                                        {{-- <button class="form-control btn d-inline w-25 mb-1" type="submit">Search</button> --}}
                                     </div>
                                     {{ csrf_field() }}
                                 </form>

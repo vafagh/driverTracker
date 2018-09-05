@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Rideable;
+use App\Ride;
 use App\Location;
+use App\Driver;
 use App\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -13,28 +15,38 @@ class RideableController extends Controller
 {
     public function home(Request $request)
     {
-        $deliveries = Rideable::with('user','rides','rides.driver','rides.truck','location')
-            ->whereHas('location',function($q){
-                $q->where('type', 'Client');
-            })
-            ->where('status', '!=', 'Done')
-            ->where('status', '!=', 'Canceled')
-            ->orderBy('location_id', 'asc')
-            ->orderBy('created_at', 'desc')
-            ->get();
-        $pickups = Rideable::with('user','rides','rides.driver','rides.truck','location')
-            ->whereHas('location', function($q){
-                $q->where('type', '!=', 'Client');
-            })
+        // $deliveries = Rideable::with('user','rides','rides.driver','rides.truck','location')
+        //     ->whereHas('location',function($q){
+        //         $q->where('type', 'Client');
+        //     })
+        //     ->where('status', '!=', 'Done')
+        //     ->where('status', '!=', 'Canceled')
+        //     ->orderBy('location_id', 'asc')
+        //     ->orderBy('created_at', 'desc')
+        //     ->get();
+        // $pickups = Rideable::with('user','rides','rides.driver','rides.truck','location')
+        //     ->whereHas('location', function($q){
+        //         $q->where('type', '!=', 'Client');
+        //     })
+        //     ->where('status', '!=', 'Done')
+        //     ->where('status', '!=', 'Canceled')
+        //     ->orderBy('location_id', 'desc')
+        //     ->get();
+        $rideables = Rideable::with('user','rides','rides.driver','rides.truck','location')
+            ->whereHas('rides')
             ->where('status', '!=', 'Done')
             ->where('status', '!=', 'Canceled')
             ->orderBy('location_id', 'desc')
             ->get();
-        if($request!==null){
-            $flashId = $request->id;
-        }else $flashId = '1';
+        // $drivers = Driver::with('rides','rides.truck','rides.rideable','rides.rideable.location','fillups')
+        //     ->whereHas('rides.rideable', function($q){
+        //         $q->where('status', '!=', 'Done')
+        //           ->where('status', '!=', 'Canceled');
+        //     })
+        //     ->get();
+
         $warehouses = Location::where('type','!=','Client')->get();
-        return view('home',compact('deliveries','pickups','flashId','warehouses'));
+        return view('home',compact('rideables','flashId','warehouses'));
     }
 
     public function show(Rideable $rideable)
@@ -48,7 +60,8 @@ class RideableController extends Controller
             $op1 = 'Client';
             $op2 = 'Delivery';
             $operator = '=';
-        } else {
+        }
+        else {
             $op1 = 'Warehouse';
             $op2 = 'Pickup';
             $operator = '!=';
@@ -63,7 +76,6 @@ class RideableController extends Controller
         ->get();
 
         if($request!==null){
-            // dd($request);
             $flashId = $request->id;
         }else $flashId = '1';
         return view('rideable.rideables',compact('rideables','op1','op2','flashId'));
@@ -90,6 +102,7 @@ class RideableController extends Controller
         }else{
             $rideable->location_id = $locationName;
         }
+        Location::addGeo(Location::find($rideable->location_id));
         $rideable->invoice_number = $request->invoice_number;
         $rideable->type = Location::find($rideable->location_id)->type;
         $rideable->status = 'Created';
