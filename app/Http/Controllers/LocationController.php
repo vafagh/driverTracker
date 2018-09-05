@@ -61,9 +61,11 @@ class LocationController extends Controller
     {
         $location = Location::find($request->id);
         $gmaprespond = $location->getGeo($location);
+        $msg = '';
         if($gmaprespond->status == 'OK'){
             $location->lat = $gmaprespond->results[0]->geometry->location->lat;
             $location->lng = $gmaprespond->results[0]->geometry->location->lng;
+            $msg = $msg.'Geo data added and other information for ';
         }
         if($request->file('image')!=NULL){
             $image = time().'.'. $request->file('image')->getClientOriginalExtension();
@@ -96,6 +98,6 @@ class LocationController extends Controller
         Location::destroy($location->id);
         Transaction::log(Route::getCurrentRoute()->getName(),$location,false);
 
-        return redirect()->back()->with($location->name.' updated');
+        return redirect()->back()->with($msg.$location->name.' updated');
     }
 }
