@@ -115,7 +115,7 @@ File Missing!
                       }
                     </script>
                     <script async defer
-                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWE7jcte-d6FLo0rYxQFManjv6rzi0Ysc&callback=initMap">
+                    src="https://maps.googleapis.com/maps/api/js?key="{{env('GOOGLE_MAP_API')}}"&callback=initMap">
                     </script>
 
 
