@@ -21,7 +21,7 @@ class Location extends Model
 
     public function getGeo(Location $location)
     {
-        $key = 'AIzaSyC9WbAiOnaNG5mC7o5JTINYoGM06ryveKE';
+        $key = env('GOOGLE_MAP_API');
         $address = str_replace(' ', '+', $this->line1.$this->city.$this->state);
         $url = 'https://maps.googleapis.com/maps/api/geocode/json?';
         $request = $url.'address='.$address.'&key='.$key;
@@ -41,12 +41,12 @@ class Location extends Model
     static public function addGeo(Location $location)
     {
         $gmaprespond = $location->getGeo($location);
-        if($gmaprespond->status == 'OK'){
+        if($gmaprespond->status == 'OK' && ($location->lat)==null){
             $location->lat = $gmaprespond->results[0]->geometry->location->lat;
             $location->lng = $gmaprespond->results[0]->geometry->location->lng;
-        }
-        Transaction::log(Route::getCurrentRoute()->getName(),Location::find($location->id),$location);
-        $location->save();
+            Transaction::log(Route::getCurrentRoute()->getName(),Location::find($location->id),$location);
+            $location->save();
+        }else{ return 'Google Map API:'.$gmaprespond->status;}
     }
 
 }

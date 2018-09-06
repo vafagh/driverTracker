@@ -102,7 +102,7 @@ class RideableController extends Controller
         }else{
             $rideable->location_id = $locationName;
         }
-        Location::addGeo(Location::find($rideable->location_id));
+        $msg = Location::addGeo(Location::find($rideable->location_id));
         $rideable->invoice_number = $request->invoice_number;
         $rideable->type = Location::find($rideable->location_id)->type;
         $rideable->status = 'Created';
@@ -110,7 +110,7 @@ class RideableController extends Controller
         $rideable->save();
         Transaction::log(Route::getCurrentRoute()->getName(),'',$rideable);
 
-        return redirect()->back()->with('status', '#'.$rideable->invoice_number." added!");
+        return redirect()->back()->with('status', '#'.$rideable->invoice_number." added! ".$msg);
 
     }
 

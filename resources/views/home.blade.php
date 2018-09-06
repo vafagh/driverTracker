@@ -95,10 +95,12 @@ File Missing!
 
                         var features = [
                               @foreach ($rideables as $key => $rideable)
+                                @if (!empty($rideable->location->lat))
                                   {
                                     position: new google.maps.LatLng({{$rideable->location->lat}}, {{$rideable->location->lng}}),
                                     type: '{{$rideable->rides->first()->driver->fname}}'
                                     },
+                                @endif
                             @endforeach
                         ];
 
