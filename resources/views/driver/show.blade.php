@@ -89,7 +89,7 @@
                             <tr>
                                 <td colspan="6">
                                     <div class="pagination">
-                                        {{-- {{ $rides->links("pagination::bootstrap-4") }} --}}
+                                        {{ $rides->links("pagination::bootstrap-4") }}
                                     </div>
                                 </td>
                             </tr>
@@ -142,7 +142,7 @@
                             <tr>
                                 <td colspan="6">
                                     <div class="pagination">
-                                        {{-- {{ $driver->rides->links("pagination::bootstrap-4") }} --}}
+                                        {{ $rides->links("pagination::bootstrap-4") }}
                                     </div>
                                 </td>
                             </tr>

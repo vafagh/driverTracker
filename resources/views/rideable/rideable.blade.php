@@ -15,6 +15,9 @@
             ])@endcomponent
         </div>
     </li>
+    <div class="pagination">
+        {{ $collection->links("pagination::bootstrap-4") }}
+    </div>
     <li class="{{$op2}} list-group-item p-0 list-group-item-secondary">
         <div class="row m-0 p-0">
             <div class="col-12 col-md-9 row m-0 p-0">
@@ -100,4 +103,7 @@
             </div>
         </li>
     @endforeach
+    <div class="pagination">
+        {{ $collection->links("pagination::bootstrap-4") }}
+    </div>
 </ul>

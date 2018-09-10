@@ -42,8 +42,10 @@ class TruckController extends Controller
     public function show($id)
     {
         $truck = Truck::with('rides','rides.rideable','rides.rideable.location','fillups')->find($id);
-        // dd($truck);
-        return view('truck.show',compact('truck'));
+        $rides = $truck->rides()
+        ->orderBy('created_at','desc')
+        ->paginate(25);
+        return view('truck.show',compact('truck','rides'));
     }
 
     public function update(Request $request)

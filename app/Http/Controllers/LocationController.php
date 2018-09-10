@@ -50,11 +50,15 @@ class LocationController extends Controller
 
     public function show(Location $location)
     {
-        if($location->type == "Warehouse")
-        {$op1 = 'Warehouse'; $op2 = 'Pickup';} else {
+        if($location->type == "Warehouse"){
+            $op1 = 'Warehouse'; $op2 = 'Pickup';
+        } else {
             $op1 = 'Client'; $op2 = 'Delivery';
         }
-        return view('location.show',['location'=>$location,'op1'=>$op1,'op2'=>$op2]);
+        $rideables = $location->rideables()
+            ->orderBy('created_at','desc')
+            ->paginate(10);
+        return view('location.show',['location'=>$location,'rideables'=>$rideables,'op1'=>$op1,'op2'=>$op2]);
     }
 
     public function update(Request $request)

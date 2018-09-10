@@ -37,7 +37,7 @@ class RideableController extends Controller
             ->where('status', '!=', 'Done')
             ->where('status', '!=', 'Canceled')
             ->orderBy('location_id', 'desc')
-            ->get();
+            ->paginate(20);
         // $drivers = Driver::with('rides','rides.truck','rides.rideable','rides.rideable.location','fillups')
         //     ->whereHas('rides.rideable', function($q){
         //         $q->where('status', '!=', 'Done')
@@ -73,7 +73,7 @@ class RideableController extends Controller
         ->where('status','!=','Done')
         ->where('status','!=','Canceled')
         ->orderBy('location_id', 'desc')
-        ->get();
+        ->paginate(15);
 
         if($request!==null){
             $flashId = $request->id;

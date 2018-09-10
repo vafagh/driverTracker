@@ -75,7 +75,7 @@
             </div>
 
         </div>
-        @component('rideable.rideable',['collection'=> $location->rideables->sortByDesc('created_at'),'op1'=>$op1,'op2'=>$op2,'flashId'=>''])
+        @component('rideable.rideable',['collection'=> $rideables,'op1'=>$op1,'op2'=>$op2,'flashId'=>''])
             File Missing!
         @endcomponent
     </div>

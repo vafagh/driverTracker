@@ -43,6 +43,13 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <tr>
+                            <td colspan="6">
+                                <div class="pagination">
+                                    {{ $rides->links("pagination::bootstrap-4") }}
+                                </div>
+                            </td>
+                        </tr>
                         @foreach ($truck->rides->sortByDesc('created_at') as $key => $ride)
                             <tr>
                                 <td>{{$ride->id}}</td>
@@ -81,6 +88,13 @@
                                 </td>
                             </tr>
                         @endforeach
+                        <tr>
+                            <td colspan="6">
+                                <div class="pagination">
+                                    {{ $rides->links("pagination::bootstrap-4") }}
+                                </div>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

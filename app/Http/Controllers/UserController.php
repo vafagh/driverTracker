@@ -47,10 +47,9 @@ class UserController extends Controller
     public function show($user_id)
     {
         $user = User::find($user_id);
-        $transactions = User::with('transactions')
-                ->find($user_id)
+        $transactions = $user->transactions()
                 ->orderBy('id', 'desc')
-                ->paginate(10);
+                ->paginate(30);
 
         return view('auth.show',compact('user','transactions'));
     }

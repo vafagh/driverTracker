@@ -62,7 +62,7 @@
                 </div>
 
                 <div id="accordion">
-                    @foreach ($user->transactions->sortByDesc('id') as $key => $transaction)
+                    @foreach ($transactions->sortByDesc('id') as $key => $transaction)
                         <div class="card mb-1">
                             <div class="card-header" id="heading{{$key}}">
                                     <div class="h5 my-0 row" data-toggle="collapse" data-target="#collapse{{$key}}" aria-expanded="true" aria-controls="collapse{{$key}}">
