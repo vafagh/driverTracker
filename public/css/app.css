@@ -10526,6 +10526,46 @@ a.text-dark:focus {
   min-height: 100px;
 }
 
+.minh-10 {
+  max-height: 10px;
+}
+
+.minh-20 {
+  max-height: 20px;
+}
+
+.minh-30 {
+  max-height: 30px;
+}
+
+.minh-40 {
+  max-height: 40px;
+}
+
+.minh-50 {
+  max-height: 50px;
+}
+
+.minh-60 {
+  max-height: 60px;
+}
+
+.minh-70 {
+  max-height: 70px;
+}
+
+.minh-80 {
+  max-height: 80px;
+}
+
+.minh-90 {
+  max-height: 90px;
+}
+
+.minh-100 {
+  max-height: 100px;
+}
+
 .tip {
   color: #0a5d3e;
 }
@@ -10654,5 +10694,9 @@ a.text-dark:focus {
   /*when navigating through the items using the arrow keys:*/
   background-color: DodgerBlue !important;
   color: #ffffff;
+}
+
+#map {
+  height: 100%;
 }
 

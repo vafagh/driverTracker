@@ -33,7 +33,7 @@ class RideableController extends Controller
         //     ->orderBy('location_id', 'desc')
         //     ->get();
         $rideables = Rideable::with('user','rides','rides.driver','rides.truck','location')
-            ->whereHas('rides')
+            // ->whereHas('rides')
             ->where('status', '!=', 'Done')
             ->where('status', '!=', 'Canceled')
             ->orderBy('location_id', 'desc')

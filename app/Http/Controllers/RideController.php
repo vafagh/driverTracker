@@ -41,7 +41,7 @@ class RideController extends Controller
         $rideable->rides()->attach($ride->id);
         Transaction::log(Route::getCurrentRoute()->getName(),Rideable::find($request->id),$rideable);
 
-        return redirect('/#rideable'.$ride->rideable_id)->with('status', 'Driver Assigned');
+        return redirect()->back()->with('status', 'Driver Assigned');
 
     }
 
@@ -58,7 +58,7 @@ class RideController extends Controller
         }
         Transaction::log(Route::getCurrentRoute()->getName(),Rideable::find($request->id),$rideable);
 
-        return redirect('/')->with('status', 'Driver dismissed from this task');
+        return redirect()->back()->with('status', 'Driver dismissed from this task');
     }
 
     public function edit(Ride $ride)

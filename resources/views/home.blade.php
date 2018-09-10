@@ -54,22 +54,6 @@ File Missing!
     <div class="card-header">All ongoing rides</div>
     <div class="card-body" style="height:430px">
 
-            @section('head')
-                <style>
-                      /* Always set the map height explicitly to define the size of the div
-                       * element that contains the map. */
-                      #map {
-                        height: 100%;
-                      }
-                      /* Optional: Makes the sample page fill the window. */
-                      html, body {
-                        height: 100%;
-                        margin: 0;
-                        padding: 0;
-                      }
-                    </style>
-
-            @endsection
 
             <div id="map"></div>
 
@@ -84,21 +68,28 @@ File Missing!
                           mapTypeId: 'roadmap'
                         });
 
-                        var iconBase = 'http://127.0.0.1:8000/img/driver/small/';
+                        var iconBase = '/img/driver/small/';
                         var icons = {
                             @foreach (App\Driver::all() as $key => $driver)
                             {{$driver->fname}}: {
                                 icon: iconBase + '{{strtolower($driver->fname)}}.png'
                             },
                             @endforeach
+                            notAssigned: {
+                                icon: iconBase + 'notAssigned.png'
+                            },
                         };
 
                         var features = [
-                              @foreach ($rideables as $key => $rideable)
+                            @foreach ($rideables as $key => $rideable)
                                 @if (!empty($rideable->location->lat))
                                   {
                                     position: new google.maps.LatLng({{$rideable->location->lat}}, {{$rideable->location->lng}}),
-                                    type: '{{$rideable->rides->first()->driver->fname}}'
+                                    @if(!empty($rideable->rides->first()->driver))
+                                    type: '{{$rideable->rides->first()->driver->fname}}',
+                                    @else
+                                    type: 'notAssigned',
+                                    @endif
                                     },
                                 @endif
                             @endforeach
@@ -114,8 +105,7 @@ File Missing!
                         });
                       }
                     </script>
-                    <script async defer
-                    src="https://maps.googleapis.com/maps/api/js?key="{{env('GOOGLE_MAP_API')}}"&callback=initMap">
+                    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{env('GOOGLE_MAP_API')}}&callback=initMap">
                     </script>
 
 
