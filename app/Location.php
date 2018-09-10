@@ -30,7 +30,6 @@ class Location extends Model
         curl_setopt($ch, CURLOPT_URL, $request);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-        // curl_exec($ch);
         $response = json_decode(curl_exec($ch));
         curl_close($ch);
 
