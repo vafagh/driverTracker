@@ -66,7 +66,7 @@ class LocationController extends Controller
         if($gmaprespond->status == 'OK'){
             $location->lat = $gmaprespond->results[0]->geometry->location->lat;
             $location->lng = $gmaprespond->results[0]->geometry->location->lng;
-            $msg = $msg.'Geo data and other information updated for ';
+            $msg = $msg.'Geo data and other information for ';
         }
         if($request->file('image')!=NULL){
             $image = time().'.'. $request->file('image')->getClientOriginalExtension();
@@ -91,7 +91,7 @@ class LocationController extends Controller
         Transaction::log(Route::getCurrentRoute()->getName(),Location::find($request->id),$location);
         $location->save();
 
-        return redirect()->back()->with($location->name.' updated');
+        return redirect()->back()->with('status',$msg.$location->name.' updated');
     }
 
     public function destroy(Location $location, Request $request)
