@@ -12,9 +12,7 @@
                         <tr>
                             <th>#{{$location->id}}</th>
                             <td>
-                                @if (isset($location->image))
-                                    <img src="/img/location/{{$location->image}}" alt=""></td>
-                                @endif
+                                @component('layouts.components.tooltip',['modelName'=>'location','model'=>$location])@endcomponent
                         </tr>
                         <tr>
                             <th>distance :</th>
