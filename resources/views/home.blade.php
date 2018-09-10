@@ -64,7 +64,7 @@ File Missing!
                       function initMap() {
                         map = new google.maps.Map(document.getElementById('map'), {
                           zoom: 10,
-                          center: new google.maps.LatLng(32.748029, -96.982862),
+                          center: new google.maps.LatLng({{env('STORE_LAT')}}, {{env('STORE_LNG')}}),
                           mapTypeId: 'roadmap'
                         });
 

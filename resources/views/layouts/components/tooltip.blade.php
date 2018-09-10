@@ -7,10 +7,11 @@ switch($modelName){
 
     case 'location':
     $mouseOver ='onmouseover="loadStatImg(\'https://maps.googleapis.com/maps/api/staticmap?center='.$model->line1.',+'.$model->city.',+'.$model->state.',+'.$model->zip.'&zoom=10&size=300x300&maptype=roadmap&key='.env('GOOGLE_MAP_API').'&markers=size:mid%7Ccolor:0xff0000%7Clabel:%7C'.$model->line1.',+'.$model->city.',+'.$model->state.',+'.$model->zip.'\',\'stMap'.$model->id.'\')"';
+        ($model->lat=='' || $model->lat==null) ? $title='<i class="material-icons md-18 float-left">not_listed_location</i>' : $title='';
         if($model->image != ''){
-            $title = '<img  class="minh-30" src="/img/location/'.$model->image.'" '.$mouseOver.'>';
+            $title = $title.'<img  class="minh-30" src="/img/location/'.$model->image.'" '.$mouseOver.'>';
         }else {
-            $title = '<h5 class="mb-0" '.$mouseOver.'>'.$model->name.'</h5>';
+            $title = $title.'<h5 class="mb-0" '.$mouseOver.'>'.$model->name.'</h5>';
         }
 
     break;

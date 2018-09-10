@@ -61,11 +61,12 @@ class LocationController extends Controller
     {
         $location = Location::find($request->id);
         $gmaprespond = $location->getGeo($location);
+        // dd($gmaprespond);
         $msg = '';
         if($gmaprespond->status == 'OK'){
             $location->lat = $gmaprespond->results[0]->geometry->location->lat;
             $location->lng = $gmaprespond->results[0]->geometry->location->lng;
-            $msg = $msg.'Geo data added and other information for ';
+            $msg = $msg.'Geo data and other information updated for ';
         }
         if($request->file('image')!=NULL){
             $image = time().'.'. $request->file('image')->getClientOriginalExtension();

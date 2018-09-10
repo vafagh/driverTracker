@@ -55,7 +55,7 @@
             <div class="col-5 row">
                 <label for="distance" class="col-form-label">Distance from Eagle</label>
                 <div class="col-6">
-                    <input name="distance" class="form-control" type="text" value="{{$object->distance}}">
+                    <input name="distance" class="form-control" type="text" value="{{$object->distance}}" required>
                 </div>
                 <div class="col-6 p-0 pt-2 pl-1">
                     mile
@@ -66,9 +66,9 @@
         <input name="line2" class="mt-1 form-control" type="text" placeholder="Line 2" value="{{$object->line2}}">
 
         <div class="row m-0 p-0 row">
-            <input name="city" class="mt-1 mr-1 col-5 form-control" type="text" placeholder="City" value="{{$object->city}}">
-            <input name="state" class="mt-1 mr-1 col-2 form-control" type="text" placeholder="State" value="{{$object->state}}">
-            <input name="zip" class="mt-1 col-4 form-control" type="text" placeholder="Zip Code" value="{{$object->zip}}">
+            <input name="city" class="mt-1 mr-1 col-5 form-control" type="text" placeholder="City" value="{{$object->city}}" required>
+            <input name="state" class="mt-1 mr-1 col-2 form-control" type="text" placeholder="State" value="{{$object->state}}" required>
+            <input name="zip" class="mt-1 col-4 form-control" type="text" placeholder="Zip Code" value="{{$object->zip}}" required>
         </div>
     </div>
 

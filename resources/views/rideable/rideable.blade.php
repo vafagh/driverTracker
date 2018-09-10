@@ -39,7 +39,7 @@
                             @component('layouts.components.modal',[
                                 'modelName'=>'rideable',
                                 'action'=>'edit',
-                                'dingbats'=>'&#x2710;',
+                                'dingbats'=>'<i class="material-icons md-16">border_color</i>',
                                 'style'=>'badge badge-warning mr-1 float-left',
                                 'iterator'=>$key,
                                 'object'=>$rideable,
@@ -89,7 +89,9 @@
                                 <span title="{{$ride->pivot->created_at}}">{{ $ride->pivot->created_at->diffForHumans()}}</span>
                             </div>
                             @if (Auth::user()->role_id > 2)
-                                <a class="badge badge-danger" href="/ride/detach/{{$ride->id}}/{{$rideable->id}}">&#x2704;</a>
+                                <a class="badge badge-danger" href="/ride/detach/{{$ride->id}}/{{$rideable->id}}">
+                                    <i class="material-icons md-16">remove_circle_outline</i>
+                                </a>
                             @endif
                             @component('layouts.components.tooltip',['modelName'=>'truck','model'=>$ride->truck])@endcomponent
                         </div>

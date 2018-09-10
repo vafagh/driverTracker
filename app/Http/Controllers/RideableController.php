@@ -127,7 +127,7 @@ class RideableController extends Controller
         $rideable->save();
         Transaction::log(Route::getCurrentRoute()->getName(),'',$rideable);
 
-        return redirect()->back()->with('status', '#'.$rideable->invoice_number." added!");
+        return redirect()->back()->with('status', '#'.$rideable->invoice_number." updated!");
 
     }
 
@@ -142,7 +142,7 @@ class RideableController extends Controller
                 Rideable::destroy($rideable->id);
                 Transaction::log(Route::getCurrentRoute()->getName(),$rideable,false);
 
-                return redirect('/')->with('status', 'Rideable Destroid!');
+                return redirect()->back()->with('status', 'Rideable Destroid!');
             }
 
         return redirect()->back()->with('status', 'Access Denied. You are not the one '.$rideable->user->name.' who created it!');

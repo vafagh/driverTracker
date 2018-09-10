@@ -38,12 +38,12 @@
                             <th>{{--($op1=='Client') ? 'Invoice': 'Part'--}}#</th>
                             <th>Destination</th>
                             <th>Driver</th>
-                            <th>Create</th>
+                            <th>Assigned on</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($truck->rides as $key => $ride)
+                        @foreach ($truck->rides->sortByDesc('created_at') as $key => $ride)
                             <tr>
                                 <td>{{$ride->id}}</td>
                                 <td>
@@ -58,7 +58,12 @@
                                 <td>
                                     @component('layouts.components.tooltip',['modelName'=>'driver','model'=>$ride->driver])@endcomponent
                                 </td>
-                                <td><span title="{{$ride->created_at}}">{{$ride->created_at->diffForHumans()}}</span></td>
+                                <td>
+                                    <div title="{{$ride->created_at->diffForHumans()}}">
+                                        {{$ride->created_at->toFormattedDateString()}}
+                                        <span class="text-muted font-weight-light">{{$ride->created_at->toTimeString()}}</span>
+                                    </div>
+                                </td>
                                 <td>
                                     @if (Auth::user()->role_id > 3)
                                         @component('layouts.components.modal',[
@@ -89,7 +94,7 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Truck</th>
+                            <th>Driver</th>
                             <th>Gas Card</th>
                             <th>Gallons</th>
                             <th>Product</th>
@@ -104,12 +109,12 @@
                         @foreach ($truck->fillups as $key => $fillup)
                             <tr>
                                 <td>{{$fillup->id}}</td>
-                                <td>@component('layouts.components.tooltip',['modelName'=>'truck','model'=>$fillup->truck])@endcomponent</td>
+                                <td>@component('layouts.components.tooltip',['modelName'=>'driver','model'=>$fillup->driver])@endcomponent</td>
                                 <td>{{$fillup->gas_card}}</td>
                                 <td>{{$fillup->gallons}}</td>
                                 <td>{{$fillup->product}}</td>
-                                <td>{{$fillup->price_per_gallon}}</td>
-                                <td>{{$fillup->total}}</td>
+                                <td>${{$fillup->price_per_gallon}}</td>
+                                <td>${{$fillup->total}}</td>
                                 <td>{{$fillup->mileage}}</td>
                                 <td><span title="{{$fillup->created_at}}">{{$fillup->created_at->diffForHumans()}}</span></td>
                                 <td>
