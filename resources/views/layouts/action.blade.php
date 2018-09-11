@@ -27,25 +27,13 @@
                     'op2'=>'',
                     'dingbats'=>'<i class="material-icons md-16">drive_eta</i> ',
                     'file'=>false
-                ])
-                @endcomponent
-            @if ($user_role > 1 && $title=='Droped off')
-                <a class="badge badge-primary" href="/rideable/{{$rideable->id}}/Done">
-                    <i class="material-icons md-16">done</i>
-                    {{-- {{$title}} --}}
-                </a>
-            @endif
+                ])@endcomponent
+            @if ($title=='Droped off')<a class="badge badge-primary" href="/rideable/{{$rideable->id}}/Done"><i class="material-icons md-16">done</i>{{-- {{$title}} --}}</a>@endif
         @break
 
         @case('OnTheWay')
-            @if ($user_role == 3 || $user_role == 3 )<a class="badge badge-warning" href="/rideable/{{$rideable->id}}/NotAvailable">NON/A</a>@endif
-            @if ($user_id == $rideable->user_id)<a class="badge badge-warning" href="/rideable/{{$rideable->id}}/DeatachReqested"><i class="material-icons md-16">cancel</i></a>@endif
-            @if ($user_role > 1 )<a class="badge badge-primary" href="/rideable/{{$rideable->id}}/Done"><i class="material-icons md-16">done</i></a>@endif
-        @break
-
-        @case('Reactived')
-            @if ($user_role == 3 || $user_id == $rideable->user_id )<a class="badge badge-warning" href="/rideable/{{$rideable->id}}/NotAvailable">NON/A</a>@endif
-            @if ($user_id == $rideable->user_id)<a class="badge badge-warning" href="/rideable/{{$rideable->id}}/DeatachReqested"><i class="material-icons md-16">cancel</i></a>@endif
+            <a class="badge badge-warning" href="/rideable/{{$rideable->id}}/NotAvailable">NON/A</a>
+            @if ($user_role != 3)<a class="badge badge-warning" href="/rideable/{{$rideable->id}}/DeatachReqested"><i class="material-icons md-16">cancel</i></a>@endif
             <a class="badge badge-primary" href="/rideable/{{$rideable->id}}/Done"><i class="material-icons md-16">done</i></a>
         @break
 
@@ -56,12 +44,11 @@
         @break
 
         @case('NotAvailable')
-            @if ($user_id == $rideable->user_id || $user_role == 3 )<a class="badge badge-info" href="/rideable/{{$rideable->id}}/Reactived">Re-active</a>@endif
             @if ($user_id == $rideable->user_id || $user_role == 3 )<a class="badge badge-warning" href="/rideable/{{$rideable->id}}/Canceled"><i class="material-icons md-16">cancel</i></a>@endif
         @break
 
         @case('CancelReq')
-                @if ($user_role >= 3 || $user_role == 3 )<a class="badge badge-danger" href="/rideable/delete/{{$rideable->id}}/"><i class="material-icons md-16">cancel</i></a>@endif
+                <a class="badge badge-danger" href="/rideable/delete/{{$rideable->id}}/"><i class="material-icons md-16">cancel</i></a>
         @break
 
         @default
@@ -81,8 +68,7 @@
                     'op2'=>'',
                     'dingbats'=>'&#x2707;',
                     'file'=>false
-                ])
-                @endcomponent
+                ])@endcomponent
                 <a class="badge badge-danger" href="/rideable/delete/{{$rideable->id}}/"><i class="material-icons md-16">cancel</i></a>
                 +
             @endif

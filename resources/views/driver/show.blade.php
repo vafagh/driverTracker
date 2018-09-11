@@ -99,7 +99,7 @@
                                 <th>#</th>
                                 <th>Destination</th>
                                 <th>Truck</th>
-                                <th>Create</th>
+                                <th>Assigned on</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -119,7 +119,12 @@
                                     <td>
                                         @component('layouts.components.tooltip',['modelName'=>'truck','model'=>$ride->truck])@endcomponent
                                     </td>
-                                    <td><span title="{{$ride->created_at}}">{{$ride->created_at->diffForHumans()}}</span></td>
+                                    <td>
+                                        <div title="{{$ride->created_at->diffForHumans()}}">
+                                            {{$ride->created_at->toFormattedDateString()}}
+                                            <span class="text-muted font-weight-light">{{$ride->created_at->toTimeString()}}</span>
+                                        </div>
+                                    </td>
                                     <td>
                                         @if (Auth::user()->role_id > 3)
                                             @component('layouts.components.modal',[
