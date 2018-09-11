@@ -37,7 +37,7 @@ class RideableController extends Controller
             ->where('status', '!=', 'Done')
             ->where('status', '!=', 'Canceled')
             ->orderBy('location_id', 'desc')
-            ->paginate(20);
+            ->paginate(50);
         // $drivers = Driver::with('rides','rides.truck','rides.rideable','rides.rideable.location','fillups')
         //     ->whereHas('rides.rideable', function($q){
         //         $q->where('status', '!=', 'Done')
@@ -56,28 +56,19 @@ class RideableController extends Controller
 
     public function list(Request $request, $type)
     {
-        if($type == "delivery"){
-            $op1 = 'Client';
-            $op2 = 'Delivery';
-            $operator = '=';
-        }
-        else {
-            $op1 = 'Warehouse';
-            $op2 = 'Pickup';
-            $operator = '!=';
-        }
-        $rideables = Rideable::with('user','rides','rides.driver','rides.truck','location')
-        ->whereHas('location', function($q) use ($operator) {
-            $q->where('type', $operator, 'Client');
-        })
-        ->where('status','!=','Done')
-        ->where('status','!=','Canceled')
-        ->orderBy('location_id', 'desc')
-        ->paginate(15);
+        if($type == "delivery") { $op1 = 'Client';    $op2 = 'Delivery'; $operator = '=';  $orderColumn = 'invoice_number'; }
+        else                    { $op1 = 'Warehouse'; $op2 = 'Pickup';   $operator = '!='; $orderColumn = 'location_id';}
 
-        if($request!==null){
-            $flashId = $request->id;
-        }else $flashId = '1';
+        $rideables = Rideable::with('user','rides','rides.driver','rides.truck','location')
+            ->whereHas('location', function($q) use ($operator) {
+                $q->where('type', $operator, 'Client');
+            })
+            ->where('status','!=','Done')
+            ->where('status','!=','Canceled')
+            ->orderBy($orderColumn, 'desc')
+            ->paginate(50);
+        ($request!==null) ? $flashId = $request->id : $flashId = '1';
+
         return view('rideable.rideables',compact('rideables','op1','op2','flashId'));
     }
 
