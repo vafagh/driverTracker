@@ -46,8 +46,7 @@
         <textarea class="form-control" id="message-text" name="description"></textarea>
     </div>
 </div>
-@if (!empty($object->rides))
-
+@if ($object->rides->count()>0)
     <hr>
     <div class="">
         <h4>Assigned to:</h4>
