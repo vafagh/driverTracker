@@ -15,9 +15,11 @@
             ])@endcomponent
         </div>
     </li>
+
     <div class="pagination">
         {{ $collection->links("pagination::bootstrap-4") }}
     </div>
+
     <li class="{{$op2}} list-group-item p-0 list-group-item-secondary">
         <div class="row m-0 p-0">
             <div class="col-12 col-md-9 row m-0 p-0">
@@ -28,6 +30,7 @@
             <div class="col-12 col-md-3 row m-0 p-0  d-none d-sm-flex">Driver/Truck</div>
         </div>
     </li>
+
     @foreach ($collection as $key => $rideable)
         <li class="list-group-item row m-0 px-0 py-2 {{$rideable->status}}" id="rideable{{$rideable->id}}">
             <div class="row m-0 p-0" {{($flashId==$rideable->id)? 'id="flash"':''}}>

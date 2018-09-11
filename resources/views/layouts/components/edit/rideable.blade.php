@@ -1,29 +1,13 @@
     <div class="modal-body">
-    @if ($object->type == 'Delivery')
+    @if ($object->type == 'Delivery'||$object->type == 'Client')
         <div class="form-group autocomplete w-100">
             <label for="lname" class="col-form-label">To:</label>
             {{$object->location->longName}}
         </div>
-        {{-- <div class="form-group autocomplete w-100">
-            <label for="lname" class="col-form-label">To:</label><br>
-            Search by:
-            <div>
-                <div class="form-check form-check-inline" >
-                  <input class="form-check-input" type="radio" name="searchBy" id="cName" value="name" onclick="toggle()">
-                  <label class="form-check-label" for="cName">Name</label>
-                </div>
-                <div class="form-check form-check-inline" >
-                  <input class="form-check-input" type="radio" name="searchBy" id="cPhone" value="phone" onclick="toggle()">
-                  <label class="form-check-label" for="cPhone">Phone</label>
-                </div>
-            </div>
-            <input id="clientsName" type="text" name="locationName"  placeholder="Type shop full name" class="form-control form-control w-100" style="display:none">
-            <input id="clientsPhone" type="text" name="locationPhone"  placeholder="Type the shop number" class="form-control form-control w-100" style="display:none" >
-        </div> --}}
     @else
         <div class="form-group select">
             <label for="recipient-name" class="col-form-label">From:</label>
-            <select class="form-control form-control-lg locations" name="clientsName" required>
+            <select class="form-control locations" name="clientsName" required>
                 @foreach (App\Location::where('type','!=','Client')->orderBy('name')->get() as $location)
                     <option {{($location->id==$object->location_id) ? 'selected' : ''}} value="{{$location->id}}">
                         {{$location->name}}
@@ -62,6 +46,19 @@
         <textarea class="form-control" id="message-text" name="description"></textarea>
     </div>
 </div>
+@if (!empty($object->rides))
+
+    <hr>
+    <div class="">
+        <h4>Assigned to:</h4>
+        @foreach ($object->rides as $key => $ride)
+            <div>
+                {{$ride->id}}:{{$ride->driver->fname}} with {{$ride->truck->lable}}
+                <a href="/ride/detach/{{$ride->id}}/{{$object->id}}"><i class="material-icons md-16">remove_circle_outline</i></a>
+            </div>
+        @endforeach
+    </div>
+@endif
 <div class="modal-footer">
     <input type="hidden" name="type" value="{{$object->type}}">
     <input type="hidden" name="id" value="{{$object->id}}">
