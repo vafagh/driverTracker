@@ -45,6 +45,24 @@ class RideController extends Controller
 
     }
 
+    public function mapAttach(Rideable $rideable, Driver $driver)
+    {
+        $ride = new Ride;
+        $ride->rideable_id = $rideable->id;
+        $ride->driver_id   = $driver->id;
+        $ride->truck_id    = $driver->truck_id;
+        $ride->distance    = $rideable->location->distance;
+        $ride->save();
+
+        $rideable->status = 'OnTheWay';
+        $rideable->save();
+        $rideable->rides()->attach($ride->id);
+        Transaction::log(Route::getCurrentRoute()->getName(),$rideable,$ride);
+
+        return redirect()->route('home')->with('status', $driver->fname.' Assigned to '.$rideable->location->name.' rides');
+
+    }
+
     public function detach($ride_id,$rideable_id, Request $request)
     {
         $rideable=Rideable::find($rideable_id);

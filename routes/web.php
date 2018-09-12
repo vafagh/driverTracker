@@ -19,6 +19,7 @@ Route::POST('/ride/save/', 'RideController@update')->name('update.ride');
 Route::GET('/ride/delete/{ride}', 'RideController@destroy')->name('destroy.ride');
 Route::GET('/ride/create/{rideable}', 'RideController@create')->name('create.ride');
 Route::POST('/ride/store/', 'RideController@attach')->name('attach.ride');
+Route::GET('/ride/store/{rideable}/{driver}', 'RideController@mapAttach')->name('mapAttach.ride');
 Route::GET('/ride/detach/{ride}/{rideable}', 'RideController@detach')->name('detach.ride');
 Route::POST('/rideable/store', 'RideableController@store')->name('add.rideable');
 Route::POST('/rideable/save', 'RideableController@update')->name('update.rideable');
