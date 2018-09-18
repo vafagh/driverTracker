@@ -18,14 +18,14 @@
     <div class="form-group select">
         <label for="truck" class="col-form-label">Driving:</label>
         @php
-        $availableTrucks = App\Truck::whereNotIn('id',App\Driver::where('truck_id','!=',NULL)->get()->pluck('truck_id')->toArray());
+            $availableTrucks = App\Truck::whereNotIn('id',App\Driver::where('truck_id','!=',NULL)->get()->pluck('truck_id')->toArray());
         @endphp
-        @if ($availableTrucks->count()>0)
+        {{-- @if ($availableTrucks->count()>0) --}}
             <select class="form-control form-control locations" name="truck" required>
                 @if (!empty($object->truck_id))
-                    <option value='clear'>{{App\Truck::find($object->truck_id)->license_plate}}</option>
+                    <option value='{{$object->truck_id}}'>{{App\Truck::find($object->truck_id)->license_plate}}</option>
                 @else
-                    <option value='clear'></option>
+                    <option value='clear'>not available</option>
                 @endif
                 @foreach ($availableTrucks->orderBy('lable')->get() as $truck)
                     <option {{($truck->id==$object->truck_id) ? 'selected':''}} value="{{$truck->id}}">
@@ -33,14 +33,14 @@
                     </option>
                 @endforeach
             </select>
-        @else
+        {{-- @else
             <div class="">
                 All truck is occupaited by drivers.
                 <div class="text-muted">
                     To assign a truck to this driver: first you have to un-assign the target truck from current driver.
                 </div>
             </div>
-        @endif
+        @endif --}}
     </div>
     <div class="form-row ">
         <div class="row col-2">

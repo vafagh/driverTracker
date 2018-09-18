@@ -37,16 +37,11 @@ class RideableController extends Controller
             ->where('status', '!=', 'Done')
             ->where('status', '!=', 'Canceled')
             ->orderBy('location_id', 'desc')
-            ->paginate(50);
-        // $drivers = Driver::with('rides','rides.truck','rides.rideable','rides.rideable.location','fillups')
-        //     ->whereHas('rides.rideable', function($q){
-        //         $q->where('status', '!=', 'Done')
-        //           ->where('status', '!=', 'Canceled');
-        //     })
-        //     ->get();
+            ->get();
+        $activeDrivers = Driver::where('truck_id','!=',null)->get();
+        $warehouses =  Location::where('type','!=','Client')->get();
 
-        $warehouses = Location::where('type','!=','Client')->get();
-        return view('home',compact('rideables','flashId','warehouses'));
+        return view('home',compact('rideables','flashId','warehouses','activeDrivers'));
     }
 
     public function show(Rideable $rideable)

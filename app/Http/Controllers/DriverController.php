@@ -27,7 +27,7 @@ class DriverController extends Controller
         $driver->lname = $request->lname;
         $driver->phone = $request->phone;
         $driver->email = $request->email;
-        ($request->truck == 'clear') ? $driver->truck_id = 0 : $driver->truck_id = $request->truck;
+        ($request->truck == 'clear') ? $driver->truck_id = null : $driver->truck_id = $request->truck;
         if($request->file('avatar')!=NULL){
             $image = time().'.'. $request->file('avatar')->getClientOriginalExtension();
             $request->file('avatar')->move(public_path('img/driver'), $image);
@@ -52,23 +52,28 @@ class DriverController extends Controller
 
     public function update(Request $request)
     {
-        $driver = Driver::find($request->id);
-        $driver->fname = $request->fname;
-        $driver->lname = $request->lname;
-        $driver->phone = $request->phone;
-        $driver->email = $request->email;
-        ($request->truck == 'clear') ? '' : $driver->truck_id = $request->truck;
-        if($request->file('avatar')!=NULL){
-            $image = time().'.'. $request->file('avatar')->getClientOriginalExtension();
-            $request->file('avatar')->move(public_path('img/driver'), $image);
-            $driver->image = $image;
+        try{
+            $driver = Driver::find($request->id);
+            $driver->fname = $request->fname;
+            $driver->lname = $request->lname;
+            $driver->phone = $request->phone;
+            $driver->email = $request->email;
+            ($request->truck == 'clear') ?  $driver->truck_id=null : $driver->truck_id = $request->truck;
+            if($request->file('avatar')!=NULL){
+                $image = time().'.'. $request->file('avatar')->getClientOriginalExtension();
+                $request->file('avatar')->move(public_path('img/driver'), $image);
+                $driver->image = $image;
+            }
+
+            Transaction::log(Route::getCurrentRoute()->getName(),Driver::find($request->id),$driver);
+
+            $driver->save();
+
+            return redirect('/drivers/')->with('status', $driver->fname." Updated!");
         }
-
-        Transaction::log(Route::getCurrentRoute()->getName(),Driver::find($request->id),$driver);
-
-        $driver->save();
-
-        return redirect('/drivers/')->with('status', $driver->fname." Updated!");
+        catch(\Exception $e){
+            return back()->with('error', $e);
+        }
     }
 
     public function unassign(Driver $driver)

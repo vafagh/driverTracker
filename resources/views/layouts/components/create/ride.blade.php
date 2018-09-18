@@ -1,6 +1,6 @@
 <div class="modal-body">
     @php
-    $drivers = App\Driver::where('truck_id','!=','')->orderBy('fname')->get();
+    $drivers = App\Driver::where('truck_id','!=',null)->orderBy('fname')->get();
     @endphp
     {{$drivers->count()}} driver with truck found.
     <div class="form-group">
