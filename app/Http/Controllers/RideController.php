@@ -39,7 +39,7 @@ class RideController extends Controller
         $rideable->status = 'OnTheWay';
         $rideable->save();
         $rideable->rides()->attach($ride->id);
-        Transaction::log(Route::getCurrentRoute()->getName(),Rideable::find($request->id),$rideable);
+        Transaction::log(Route::getCurrentRoute()->getName(), $rideable, $ride);
 
         return redirect()->back()->with('status', 'Driver Assigned');
 
