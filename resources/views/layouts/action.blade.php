@@ -16,7 +16,7 @@ if($rideable->location->type=='DropOff')  $title = 'Droped off';
                 <i class="material-icons md-16">cancel</i>
             </a>
         @endif
-        @if (!$rideable->location->type == 'DropOff')
+        @if ($rideable->location->type != 'DropOff')
             @component('layouts.components.modal',[
                 'modelName'=>'ride',
                 'action'=>'create',
