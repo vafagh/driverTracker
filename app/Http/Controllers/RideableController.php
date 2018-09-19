@@ -15,23 +15,13 @@ class RideableController extends Controller
 {
     public function home(Request $request)
     {
-        // $deliveries = Rideable::with('user','rides','rides.driver','rides.truck','location')
-        //     ->whereHas('location',function($q){
-        //         $q->where('type', 'Client');
-        //     })
-        //     ->where('status', '!=', 'Done')
-        //     ->where('status', '!=', 'Canceled')
-        //     ->orderBy('location_id', 'asc')
-        //     ->orderBy('created_at', 'desc')
-        //     ->get();
-        // $pickups = Rideable::with('user','rides','rides.driver','rides.truck','location')
-        //     ->whereHas('location', function($q){
-        //         $q->where('type', '!=', 'Client');
-        //     })
-        //     ->where('status', '!=', 'Done')
-        //     ->where('status', '!=', 'Canceled')
-        //     ->orderBy('location_id', 'desc')
-        //     ->get();
+        $activeDrivers = Driver::where('truck_id','!=',null)->get();
+        $warehouses =  Location::where('type','!=','Client')->get();
+
+        return view('home',compact('rideables','flashId','warehouses','activeDrivers'));
+    }
+    public function map()
+    {
         $rideables = Rideable::with('user','rides','rides.driver','rides.truck','location')
             // ->whereHas('rides')
             ->where('status', '!=', 'Done')
@@ -39,9 +29,7 @@ class RideableController extends Controller
             ->orderBy('location_id', 'desc')
             ->get();
         $activeDrivers = Driver::where('truck_id','!=',null)->get();
-        $warehouses =  Location::where('type','!=','Client')->get();
-
-        return view('home',compact('rideables','flashId','warehouses','activeDrivers'));
+        return view('map',compact('rideables','activeDrivers'));
     }
 
     public function show(Rideable $rideable)
@@ -61,7 +49,7 @@ class RideableController extends Controller
             ->where('status','!=','Done')
             ->where('status','!=','Canceled')
             ->orderBy($orderColumn, 'desc')
-            ->paginate(50);
+            ->paginate(70);
         ($request!==null) ? $flashId = $request->id : $flashId = '1';
 
         return view('rideable.rideables',compact('rideables','op1','op2','flashId'));
