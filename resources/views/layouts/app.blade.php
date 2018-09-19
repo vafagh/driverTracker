@@ -35,19 +35,18 @@
 </head>
 <body onload="initialize()">
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+        <nav class="navbar navbar-expand-sm navbar-light navbar-laravel p-0 border">
             <div class="container-fluid">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Tracker') }}
-                </a>
-
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <a class="navbar-brand" href="{{ url('/') }}">
+                    <h1>{{ config('app.name', 'Tracker') }}</h1>
+                </a>
+                <div class="collapse navbar-collapse pl-sm-3" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     @guest
+                        Please log-in.
                     @else
                         <ul class="navbar-nav mr-auto">
                             @component('layouts.navs.accordion') @endcomponent
@@ -75,7 +74,7 @@
                                 </form>
                             </li>
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle p-2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle pt-3" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
@@ -91,6 +90,11 @@
                             </li>
                         @endguest
                     </ul>
+                </div>
+                <div class="nav-link">
+                    &#x276F; <span class="text-info fixedWidthFont h4">
+                        <span id="countdown"></span>"
+                    </span>
                 </div>
             </div>
         </nav>

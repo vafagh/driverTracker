@@ -1,12 +1,23 @@
 
 // Fonts
-@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600");
 
 // Variables
 @import "variables";
-
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+.navbar-collapse.collapse.show ul a{ padding:5px 0 5px 20px}
+.navbar-brand{
+    background: url(/img/logo.png) no-repeat left center;
+    width:128px; height:54px;
+}
+.navbar-brand h1{display:none;}
+.navbar-nav li{padding:0 2px 0 0}
+.navbar-nav li a{color:  #993300 !important;}
+.navbar-nav li a i,.navbar-nav a span{}
+.navbar-nav li a span{}
+.navbar-nav li a i{}
+.navbar-nav li:hover{text-decoration: none;background-color: #4d00000d;  }
 
 .navbar-laravel {
   background-color: #fff;
@@ -80,7 +91,9 @@
 .select .locations:focus {font: normal 2.0em monospace;}
 .select .locations *{}
 .NotAvailable{background-color:#ffd5d5}
+.DeatachReqested{background-color:#ffd5d5}
 .Created{background-color:#d5ffe6}
+.DriverDetached{background-color:#d5ffe6}
 .OnTheWay{background-color:#c9c6f4}
 .Reactived{background-color:#c9c6f4}
 .InvoiceNumber{font-size:1.5em}
