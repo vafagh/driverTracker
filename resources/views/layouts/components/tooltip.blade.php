@@ -2,7 +2,7 @@
 switch($modelName){
 
     case 'rideable':
-        $title = '<strong><pre >'.strtoupper($model->invoice_number).'</pre></strong>';
+        $title = '<pre>'.strtoupper($model->invoice_number).'</pre>';
     break;
 
     case 'location':

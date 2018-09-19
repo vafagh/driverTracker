@@ -10593,6 +10593,66 @@ a.text-dark:focus {
   max-height: 100px;
 }
 
+.minw-10 {
+  min-width: 10px;
+}
+
+.minw-20 {
+  min-width: 20px;
+}
+
+.minw-30 {
+  min-width: 30px;
+}
+
+.minw-40 {
+  min-width: 40px;
+}
+
+.minw-50 {
+  min-width: 50px;
+}
+
+.minw-60 {
+  min-width: 60px;
+}
+
+.minw-70 {
+  min-width: 70px;
+}
+
+.minw-80 {
+  min-width: 80px;
+}
+
+.minw-90 {
+  min-width: 90px;
+}
+
+.minw-100 {
+  min-width: 100px;
+}
+
+.minw-120 {
+  min-width: 120px;
+}
+
+.minw-130 {
+  min-width: 130px;
+}
+
+.minw-150 {
+  min-width: 150px;
+}
+
+.minw-200 {
+  min-width: 200px;
+}
+
+.minw-250 {
+  min-width: 250px;
+}
+
 .tip {
   color: #0a5d3e;
 }
