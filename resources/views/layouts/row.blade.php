@@ -7,8 +7,17 @@
         @foreach ($ardata as $key => $value)
             <div class="border mr-1 px-1 mb-1">
                 <div class="border-bottom ">{{$key}}</div>
-                <div>{{$value}}</div>
-            </div>
-        @endforeach
-    @endif
-</div>
+                <div>
+                    @if (gettype($value)=='array')
+                            @foreach ($value as $key => $val)
+                                    {{$val}}, 
+                            @endforeach
+                    @else
+                        {{$value}}
+                    @endif
+
+                    </div>
+                </div>
+            @endforeach
+        @endif
+    </div>

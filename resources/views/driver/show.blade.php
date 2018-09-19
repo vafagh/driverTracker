@@ -107,6 +107,7 @@
                             @foreach ($rides->sortByDesc('created_at') as $key => $ride)
                                 <tr>
                                     <td>{{$ride->id}}</td>
+                                    @if (!empty($ride->rideable))
                                     <td>
                                         @component('layouts.components.tooltip',['modelName'=>'location','model'=>$ride->rideable->location])@endcomponent
                                     </td>
@@ -116,6 +117,14 @@
                                     <td>
                                         {{$ride->rideable->status}}
                                     </td>
+                                    @else
+                                        <td colspan="3">
+                                            The ticket is deleted.
+                                            @if (Auth::user()->role_id>3)
+                                                <a href="/ride/delete/{{$ride->id}}">remove this line</a>
+                                            @endif
+                                        </td>
+                                    @endif
                                     <td>
                                         @component('layouts.components.tooltip',['modelName'=>'truck','model'=>$ride->truck])@endcomponent
                                     </td>

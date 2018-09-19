@@ -59,14 +59,14 @@ class RideController extends Controller
         $rideable->rides()->attach($ride->id);
         Transaction::log(Route::getCurrentRoute()->getName(),$rideable,$ride);
 
-        return redirect()->route('home')->with('status', $driver->fname.' Assigned to '.$rideable->location->name.' rides');
+        return redirect()->back()->with('status', $driver->fname.' Assigned to '.$rideable->location->name.' rides');
 
     }
 
     public function detach($ride_id,$rideable_id, Request $request)
     {
         $rideable=Rideable::find($rideable_id);
-        $rideable->status = 'Created';
+        $rideable->status = 'DriverDetached';
         $rideable->save();
         if($ride_id > 0){
             $rideable->rides()->detach($ride_id);
