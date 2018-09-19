@@ -112,6 +112,20 @@
                                         @component('layouts.components.tooltip',['modelName'=>'location','model'=>$ride->rideable->location])@endcomponent
                                     </td>
                                     <td class="fixedWidthFont">
+                                        @if (Auth::user()->role_id > 3 || Auth::user()->id == $ride->rideable->user_id )
+                                            @component('layouts.components.modal',[
+                                                'modelName'=>'rideable',
+                                                'action'=>'edit',
+                                                'dingbats'=>'<i class="material-icons md-16">border_color</i>',
+                                                'style'=>'badge badge-warning mr-1 float-left',
+                                                'iterator'=>$key,
+                                                'object'=>$ride->rideable,
+                                                'op1'=>$ride->rideable->type,
+                                                'op2'=>'',
+                                                'file'=>false,
+                                                'autocomplateOff'=>true])
+                                            @endcomponent
+                                        @endif
                                         @component('layouts.components.tooltip',['modelName'=>'rideable','model'=>$ride->rideable])@endcomponent
                                     </td>
                                     <td>
