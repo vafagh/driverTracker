@@ -1,9 +1,17 @@
 <ul class="deliveries list-group p-0" id='deliveries'>
-    <li class="row m-0 py-1 bg-primary text-white rounded-top">
-        <div class="col-6 col-md-9 col-lg-10">
-            <h3 class="m-0 p-0">{{$op2}}</h3>
+    <li class="d-flex justify-content-between m-0 py-1 bg-primary text-white rounded-top">
+        <div sclass="col-6 col-md-9 col-lg-6">
+            <h3 class="m-0 p-0 pl-2">{{$op2}}</h3>
         </div>
-        <div class="col-6 col-md-3 col-lg-2">
+
+        <div sclass="col-6 col-md-3 col-lg-4">
+<span class="badge">sort by: </span>
+            <a class="badge badge-primary   " href="?sortby=invoice_number">#</a>
+            <a class="badge badge-primary   " href="?sortby=location_id">Location</a>
+            <a class="badge badge-primary   " href="?sortby=created_at">Date</a>
+            <a class="badge badge-primary   " href="?sortby=updated_at">Update</a>
+            <a class="badge badge-primary   " href="?sortby=status">Status</a>
+            <a class="badge badge-primary   " href="?sortby=user_id">User</a>
             @component('layouts.components.modal',[
                 'modelName'=>'rideable',
                 'action'=>'create',

@@ -40,13 +40,14 @@ class DriverController extends Controller
         return redirect('/drivers/')->with('status', $driver->fname." added!");
     }
 
-    public function show($driver_id)
+    public function show($driver_id, Request $request)
     {
         $driver = Driver::with('rides','fillups','rides.truck','rides.rideable.location')->find($driver_id);
+        (empty($request->input('sortby'))) ? $rideSort = 'created_at': $rideSort = $request->input('sortby');
         $rides = $driver->rides()
         ->orderBy('created_at','desc')
         ->paginate(20);
-        return view('driver.show',compact('driver','rides'));
+        return view('driver.show',compact('driver','rides','rideSort'));
     }
 
 

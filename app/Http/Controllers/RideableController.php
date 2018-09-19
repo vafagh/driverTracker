@@ -41,14 +41,14 @@ class RideableController extends Controller
     {
         if($type == "delivery") { $op1 = 'Client';    $op2 = 'Delivery'; $operator = '=';  $orderColumn = 'invoice_number'; }
         else                    { $op1 = 'Warehouse'; $op2 = 'Pickup';   $operator = '!='; $orderColumn = 'location_id';}
-
+        (empty($request->input('sortby'))) ? $rideableSort = $orderColumn: $rideableSort = $request->input('sortby');
         $rideables = Rideable::with('user','rides','rides.driver','rides.truck','location')
             ->whereHas('location', function($q) use ($operator) {
                 $q->where('type', $operator, 'Client');
             })
             ->where('status','!=','Done')
             ->where('status','!=','Canceled')
-            ->orderBy($orderColumn, 'desc')
+            ->orderBy($rideableSort, 'desc')
             ->paginate(70);
         ($request!==null) ? $flashId = $request->id : $flashId = '1';
 
