@@ -100,6 +100,6 @@ class RideController extends Controller
         Ride::destroy($ride->id);
         Transaction::log(Route::getCurrentRoute()->getName(),$ride,false);
 
-        return redirect('/rides')->with('status', 'Ride Destroid!');
+        return redirect()->back()->with('status', 'Ride Destroid!');
     }
 }
