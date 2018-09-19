@@ -92,7 +92,7 @@ class RideableController extends Controller
     {
         $rideable = Rideable::find($request->id);
         // belowe line is commentet to preserve the original creator.
-        $rideable->user_id = Auth::user()->id;
+        // $rideable->user_id = Auth::user()->id;
         $rideable->invoice_number = $request->invoice_number;
         $rideable->type = $request->type;
         $rideable->type = $request->type;
