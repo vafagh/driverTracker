@@ -5,7 +5,7 @@
         </div>
 
         <div sclass="col-6 col-md-3 col-lg-4">
-<span class="badge">sort by: </span>
+            <span class="badge">sort by: </span>
             <a class="badge badge-primary   " href="?sortby=invoice_number">#</a>
             <a class="badge badge-primary   " href="?sortby=location_id">Location</a>
             <a class="badge badge-primary   " href="?sortby=created_at">Date</a>

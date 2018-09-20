@@ -64,23 +64,41 @@
                                 <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                             </li> --}}
                         @else
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <form method="get" action="/search/">
                                     <div class="d-block p-2">
                                         <input name="q" class="form-control d-inline-block" type="text" placeholder="Search...">
-                                        {{-- <button class="form-control btn d-inline w-25 mb-1" type="submit">Search</button> --}}
+                                        <!--<button class="form-control btn d-inline w-25 mb-1" type="submit">Search</button>-->
                                     </div>
                                     {{ csrf_field() }}
                                 </form>
+                            </li> --}}
+                            <li class="nav-item dropdown">
+                                <a id="searchDropdown" class="nav-link dropdown-toggle pt-3" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    Search <span class="caret"></span>
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="searchDropdown">
+                                    <form method="get" action="/search/">
+                                        <div class="d-block p-2">
+                                            <input name="q" class="form-control d-inline-block" type="text" placeholder="Search...">
+                                            <!--<button class="form-control btn d-inline w-25 mb-1" type="submit">Search</button>-->
+                                        </div>
+                                        {{ csrf_field() }}
+                                    </form>
+                                </div>
                             </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle pt-3" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                    {{ Auth::user()->name }}
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
+                                    </a>
+                                    <a class="dropdown-item" href="#">
+                                        Setting
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -110,6 +128,19 @@
         		@yield('content')
 
             </div>
+
+            @if (Auth::check() && env('APP_DEBUG')==true)
+                @if (Auth::user()->role_id >4)
+                    <div class="badge badge-pill badge-danger position-fixed zindex-tooltip" >
+                        <span class='d-sm-none d-md-none d-lg-none d-xl-none'>xs</span>
+                        <span class='d-none d-sm-inline d-md-none d-lg-none d-xl-none'>sm</span>
+                        <span class='d-none d-sm-none d-md-inline d-lg-none d-xl-none'>md</span>
+                        <span class='d-none d-sm-none d-md-none d-lg-inline d-xl-none'>lg</span>
+                        <span class='d-none d-sm-none d-md-none d-lg-none d-xl-inline'>xl</span>
+                    </div>
+                @endif
+            @endif
+
             <div class="side col-lg-12  col-xl-2 sticky-top pt-4 mt-3 p-0">
                 @include('layouts.side')
             </div>
@@ -120,7 +151,6 @@
             <audio autoplay src="/snd/BoxingBell.mp3">Your browser does not support the <code>audio</code> element.</audio>
         @endif
     @endif
-
     @yield('footer-scripts')
 </body>
 </html>
