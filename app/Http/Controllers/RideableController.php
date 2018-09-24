@@ -8,6 +8,7 @@ use App\Ride;
 use App\Location;
 use App\Driver;
 use App\Transaction;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -42,14 +43,40 @@ class RideableController extends Controller
         if($type == "delivery") { $op1 = 'Client';    $op2 = 'Delivery'; $operator = '=';  $orderColumn = 'invoice_number'; }
         else                    { $op1 = 'Warehouse'; $op2 = 'Pickup';   $operator = '!='; $orderColumn = 'location_id';}
         (empty($request->input('sortby'))) ? $rideableSort = $orderColumn: $rideableSort = $request->input('sortby');
+        $yesterNoon = Carbon::yesterday()->addHours(13);
+        $todayMorning = Carbon::today()->addHours(9);
+        $todayNoon = Carbon::today()->addHours(13);
+        $tomarowMorning = Carbon::today()->addDay(1)->addHours(9);
+        $shift = $request->input('shift');
+        if ($shift == 'first') {
+            $start = $yesterNoon;
+            $end = $todayMorning;
+        }
+        elseif($shift == 'second'){
+            $start = $todayMorning;
+            $end = $todayNoon;
+        }
+        elseif($shift == 'tomarow'){
+            $start = $todayNoon;
+            $end = $tomarowMorning;
+        }else{
+            $start = Carbon::today()->subYear(1);
+            $end = Carbon::today()->addYear(1);
+        }
+
         $rideables = Rideable::with('user','rides','rides.driver','rides.truck','location')
             ->whereHas('location', function($q) use ($operator) {
                 $q->where('type', $operator, 'Client');
             })
-            ->where('status','!=','Done')
-            ->where('status','!=','Canceled')
+            ->where([
+                ['status','!=','Done'],
+                ['status','!=','Canceled'],
+                ['created_at','>=',$start],
+                ['created_at','<=',$end]
+            ])
             ->orderBy($rideableSort, 'desc')
             ->paginate(70);
+            // dd('this is report for "'.$shift.'" between '.$start.' and '.$end);
         ($request!==null) ? $flashId = $request->id : $flashId = '1';
 
         return view('rideable.rideables',compact('rideables','op1','op2','flashId'));

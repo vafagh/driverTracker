@@ -5,7 +5,13 @@
         </div>
 
         <div sclass="col-6 col-md-3 col-lg-4">
-            <span class="badge">sort by: </span>
+            <span class="badge text-warning">Filter by: </span>
+            <a class="badge badge-primary   " href="?shift=first">First</a>
+            <a class="badge badge-primary   " href="?shift=second">Second</a>
+            <a class="badge badge-primary   " href="?shift=tomarow">Tomarow</a>
+            <a class="badge badge-primary   " href="?shift=all">All</a>
+|
+            <span class="badge text-warning">Sort by: </span>
             <a class="badge badge-primary   " href="?sortby=invoice_number">#</a>
             <a class="badge badge-primary   " href="?sortby=location_id">Location</a>
             <a class="badge badge-primary   " href="?sortby=created_at">Date</a>
