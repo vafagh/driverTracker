@@ -146,11 +146,11 @@
             </div>
         </div>
     </div>
-    @if (Auth::check())
+    {{-- @if (Auth::check())
         @if ($unasignedRideable->count()>0 && Auth::user()->role_id == 3)
             <audio autoplay src="/snd/BoxingBell.mp3">Your browser does not support the <code>audio</code> element.</audio>
         @endif
-    @endif
+    @endif --}}
     @yield('footer-scripts')
 </body>
 </html>

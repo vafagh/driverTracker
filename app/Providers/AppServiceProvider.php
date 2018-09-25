@@ -16,18 +16,13 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
-        view()->composer('layouts.app', function ($view)
+        view()->composer(['home','layouts.navs.accordion','map'], function ($view)
         {
             // get all rideable who dosnt have ride yet.
-            $unasignedRideable = \App\Rideable::where('status','Created')
-                    ->doesntHave('rides')
-                    ->where('type', '!=', 'DropOff')->get();
-                    // ->whereHas('location',function($q){
-                    //     $q->where('type', 'Client');
-                    // });
-            $view->with(compact('unasignedRideable'));
-            // dd($unasignedRideable);
-            // dd($unasignedRideable->count());
+            $activeDrivers = \App\Driver::where('truck_id','!=',null)->get();
+            $view->with(compact('activeDrivers'));
+            // dd($activeDrivers);
+            // dd($activeDrivers->count());
         });
 
     }

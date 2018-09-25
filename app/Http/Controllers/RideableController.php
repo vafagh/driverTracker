@@ -16,10 +16,8 @@ class RideableController extends Controller
 {
     public function home(Request $request)
     {
-        $activeDrivers = Driver::where('truck_id','!=',null)->get();
         $warehouses =  Location::where('type','!=','Client')->get();
-
-        return view('home',compact('rideables','flashId','warehouses','activeDrivers'));
+        return view('home',compact('rideables','flashId','warehouses'));
     }
     public function map()
     {
@@ -59,7 +57,8 @@ class RideableController extends Controller
         elseif($shift == 'tomarow'){
             $start = $todayNoon;
             $end = $tomarowMorning;
-        }else{
+        }
+        else{
             $start = Carbon::today()->subYear(1);
             $end = Carbon::today()->addYear(1);
         }
@@ -77,6 +76,7 @@ class RideableController extends Controller
             ->orderBy($rideableSort, 'desc')
             ->paginate(70);
             // dd('this is report for "'.$shift.'" between '.$start.' and '.$end);
+
         ($request!==null) ? $flashId = $request->id : $flashId = '1';
 
         return view('rideable.rideables',compact('rideables','op1','op2','flashId'));
@@ -121,8 +121,7 @@ class RideableController extends Controller
         // belowe line is commentet to preserve the original creator.
         // $rideable->user_id = Auth::user()->id;
         $rideable->invoice_number = $request->invoice_number;
-        $rideable->type = $request->type;
-        $rideable->type = $request->type;
+        // $rideable->type = $request->type;
         $rideable->status = $request->status;
         $rideable->description = $request->description;
         $rideable->save();

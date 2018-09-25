@@ -98,7 +98,7 @@ class RideController extends Controller
     public function destroy(Ride $ride)
     {
         Ride::destroy($ride->id);
-        Transaction::log(Route::getCurrentRoute()->getName(),$ride,false);
+        Transaction::log(Route::getCurrentRoute()->getName(),$ride,$ride);
 
         return redirect()->back()->with('status', 'Ride Destroid!');
     }

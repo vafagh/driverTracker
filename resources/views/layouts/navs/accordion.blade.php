@@ -13,20 +13,33 @@
 <li class="nav-item">
     <a class="nav-link pickup" href="/pickup" title="Pickups">
         <i class="material-icons d-md-inline d-lg-none">domain</i>
-        <span class="d-inline d-sm-none d-md-inline">Pickups</span>
+        <span class="d-inline d-sm-none d-md-none d-lg-inline">Pickups</span>
     </a>
 </li>
 <li class="nav-item">
     <a class="nav-link deliveries" href="/delivery" title="Deliveries">
         <i class="material-icons d-md-inline d-lg-none">store_mall_directory</i>
-        <span class="d-inline d-sm-none d-md-inline">Deliveries</span>
+        <span class="d-inline d-sm-none d-md-none d-lg-inline">Deliveries</span>
     </a>
 </li>
-<li class="nav-item">
-    <a class="nav-link drivers" href="/drivers" title="Drivers">
+<li class="nav-item dropdown">
+    <a id="driverDropdown" class="nav-link dropdown-toggle " href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
         <i class="material-icons">face</i>
         <span class="d-inline d-sm-none">Drivers</span>
     </a>
+
+    <div class="dropdown-menu dropdown-menu-left" aria-labelledby="driverDropdown">
+        @foreach ($activeDrivers as $key => $driver)
+            <a class="nav-link drivers row m-0 p-0" href="/driver/show/{{$driver->id}}" title="Drivers">
+                <span class="pr-2"> </span>
+                <img class="rounded-circle minh-40" src='/img/{{($driver->image == null) ? 'def.svg' : 'driver/'.$driver->image }}'>
+                <span class="">{{$driver->fname.' '.$driver->lname}}</span>
+            </a>
+        @endforeach
+        <a class="nav-link drivers" href="/drivers" title="Drivers">
+            <span class="">All Drivers</span>
+        </a>
+    </div>
 </li>
 <li class="nav-item">
     <a class="nav-link trucks" href="/trucks" title="Trucks">
