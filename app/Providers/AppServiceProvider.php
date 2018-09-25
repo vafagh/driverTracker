@@ -18,11 +18,11 @@ class AppServiceProvider extends ServiceProvider
 
         view()->composer(['home','layouts.navs.accordion','map'], function ($view)
         {
-            // get all rideable who dosnt have ride yet.
-            $activeDrivers = \App\Driver::where('truck_id','!=',null)->get();
+            $activeDrivers = \App\Driver::with('rides','rides.rideable','rides.truck')
+                    ->where('truck_id','!=',null)
+                    ->get();
+                    
             $view->with(compact('activeDrivers'));
-            // dd($activeDrivers);
-            // dd($activeDrivers->count());
         });
 
     }

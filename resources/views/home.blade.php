@@ -41,7 +41,7 @@
         <div class="card-body">
             <div class="row d-flex justify-content-around">
                 @foreach ($activeDrivers as $key => $driver)
-                    <div class="card col-6 col-sm-4 col-md-3 col-lg-2 col-xl-1 px-0">
+                    <div class="card col-6 col-sm-4 col-md-3 col-lg-2 px-0">
                         <div class="card-header text-center mh-20 px-0 py-1 ">
                             @component('layouts.components.tooltip',
                             ['modelName'=>'driver','model'=>$driver])@endcomponent
@@ -52,11 +52,19 @@
                                 <small class="text-muted">
                                     Total trip :{{ App\Ride::where('driver_id', $driver->id)->count() }}
                                 </small>
-                                @foreach (App\Ride::where([['created_at','=','Done'],['driver_id',$driver->id]])->whereDate('created_at', Carbon\Carbon::today())->get() as $key => $rides)
-                                    <div class="fixedWidthFont">
-                                        {{$rides->first()->rideable->invoice_number}}
-                                    </div>
-
+                                @foreach (App\Ride::where('driver_id',$driver->id)
+                                            ->whereDate('created_at', '=', Carbon\Carbon::today())
+                                            ->get()
+                                             as $key => $rides)
+                                                @if (isset($rides->rideable))
+                                                    @if ($rides->rideable->status !='Done')
+                                                        <div class="fixedWidthFont">
+                                                            {{$key+1}} : <span title="{{$rides->rideable->location->longName}}">{{$rides->rideable->invoice_number}}</span>
+                                                        </div>
+                                                    @endif
+                                                @else
+                                                {{$rides}}
+                                                @endif
                                 @endforeach
                             </p>
                         </div>

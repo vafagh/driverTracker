@@ -15,6 +15,7 @@ Route::GET('/truck/show/{truck}', 'TruckController@show');
 Route::POST('/truck/store', 'TruckController@store')->name('add.truck');
 Route::POST('/truck/save', 'TruckController@update')->name('save.truck');
 Route::GET('/rides/', 'RideController@index');
+Route::GET('/ride/show/{id}', 'RideController@show')->name('show.ride');
 Route::GET('/ride/edit/{ride}', 'RideController@edit')->name('edit.ride');
 Route::POST('/ride/save/', 'RideController@update')->name('update.ride');
 Route::GET('/ride/delete/{ride}', 'RideController@destroy')->name('destroy.ride');
