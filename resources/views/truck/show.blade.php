@@ -53,18 +53,19 @@
                         @foreach ($truck->rides->sortByDesc('created_at') as $key => $ride)
                             <tr>
                                 <td>{{$ride->id}}</td>
-                                <td>
-                                    @component('layouts.components.tooltip',['modelName'=>'location','model'=>$ride->rideable->location])@endcomponent
-                                </td>
-                                <td>
-                                    @component('layouts.components.tooltip',['modelName'=>'rideable','model'=>$ride->rideable])@endcomponent
-                                </td>
-                                <td>
-                                    {{$ride->rideable->status}}
-                                </td>
-                                <td>
-                                    @component('layouts.components.tooltip',['modelName'=>'driver','model'=>$ride->driver])@endcomponent
-                                </td>
+                                @if (!empty($ride->rideable))
+                                    <td>
+                                        @component('layouts.components.tooltip',['modelName'=>'location','model'=>$ride->rideable->location])@endcomponent
+                                    </td>
+                                    <td>
+                                        @component('layouts.components.tooltip',['modelName'=>'rideable','model'=>$ride->rideable])@endcomponent
+                                    </td>
+                                    <td>
+                                        {{$ride->rideable->status}}
+                                    </td>
+                                    <td>
+                                        @component('layouts.components.tooltip',['modelName'=>'driver','model'=>$ride->driver])@endcomponent
+                                    </td>
                                 <td>
                                     <div title="{{$ride->created_at->diffForHumans()}}">
                                         {{$ride->created_at->toFormattedDateString()}}
@@ -80,12 +81,19 @@
                                             'object'=>$ride,
                                             'btnSize'=>'small',
                                             'op1'=>'',
-                                            'op2'=>''
-                                        ])
+                                            'op2'=>''])
                                         @endcomponent
-                                        <a class="badge badge-danger" href="/ride/detach/{{$ride->id}}/{{$ride->rideable->id}}"> Delete</a>
+                                        <a class="badge badge-danger" href="/ride/detach/{{$ride->id}}/{{$ride->rideable->id}}"> Detach</a>
                                     @endif
                                 </td>
+                            @else
+                                <td colspan="6">
+                                    The ticket is deleted.
+                                    @if (Auth::user()->role_id>3)
+                                        <a href="/ride/delete/{{$ride->id}}">remove this line</a>
+                                    @endif
+                                </td>
+                            @endif
                             </tr>
                         @endforeach
                         <tr>
