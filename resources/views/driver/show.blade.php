@@ -152,7 +152,7 @@
                                                     'op2'=>''])@endcomponent
                                                     @if (Auth::user()->role_id > 3 && $ride->rideable->status!='Done')<a class="badge badge-primary" href="/rideable/{{$ride->rideable->id}}/Done">&#x2714; Done</a>
                                                     @endif
-                                                    <a class="badge badge-danger" href="/ride/detach/{{$ride->id}}/{{$ride->rideable->id}}"> Detache</a>
+                                                    <a class="badge badge-danger" href="/ride/detach/{{$ride->id}}/{{$ride->rideable->id}}"> Detach</a>
                                                 @endif
                                         </td>
                                     </tr>
