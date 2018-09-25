@@ -1,10 +1,10 @@
     <div class="modal-body">
-    @if ($object->type == 'Delivery'||$object->type == 'Client')
+    {{-- @if ($object->type == 'Delivery'||$object->type == 'Client') --}}
         <div class="form-group autocomplete w-100">
             <label for="lname" class="col-form-label">To:</label>
             {{$object->location->longName}}
         </div>
-    @else
+    {{-- @else
         <div class="form-group select">
             <label for="recipient-name" class="col-form-label">From:</label>
             <select class="form-control locations" name="clientsName" required>
@@ -16,7 +16,7 @@
                 <option class="text-muted" disabled>Not found? Create it first</option>
             </select>
         </div>
-    @endif
+    @endif --}}
     @if (Auth::user()->role_id > 2 || Auth::user()->id == $object->user_id)
 
         <div class="form-group select">

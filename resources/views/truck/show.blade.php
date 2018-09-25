@@ -83,7 +83,7 @@
                                             'op2'=>''
                                         ])
                                         @endcomponent
-                                        <a class="badge badge-danger" href="/ride/delete/{{$ride->id}}"> Delete</a>
+                                        <a class="badge badge-danger" href="/ride/detach/{{$ride->id}}/{{$ride->rideable->id}}"> Delete</a>
                                     @endif
                                 </td>
                             </tr>

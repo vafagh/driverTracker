@@ -28,8 +28,8 @@
                     </li>
                     <li class="list-group-item disabled py-2 active font-weight-bold">{{$driver->fname.' '.$driver->lname}}</li>
                     <li class="row m-0 p-0 mb-1 border  border-secondary">
-                        <div class="col-2 bg-danger p-0">
-                            <img class="w-100" src="{{($driver->image == null) ? '/img/def.svg' : '/img/driver/'.$driver->image }}" alt="">
+                        <div class="p-0">
+                            <img class="pl-2 minh-100 rounded-circle" src="{{($driver->image == null) ? '/img/def.svg' : '/img/driver/'.$driver->image }}" alt="">
                         </div>
                         <div class="col-10">
                             <div class="row mx-0  pt-2">
@@ -92,10 +92,9 @@
                                     <th>For</th>
                                     <th class="mw-100">#</th>
                                     <th>Status</th>
-                                    <th>Destination</th>
                                     <th>Truck</th>
                                     <th>Assigned on</th>
-                                    <th></th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -153,7 +152,7 @@
                                                     'op2'=>''])@endcomponent
                                                     @if (Auth::user()->role_id > 3 && $ride->rideable->status!='Done')<a class="badge badge-primary" href="/rideable/{{$ride->rideable->id}}/Done">&#x2714; Done</a>
                                                     @endif
-                                                    <a class="badge badge-danger" href="/ride/delete/{{$ride->id}}"> Delete</a>
+                                                    <a class="badge badge-danger" href="/ride/detach/{{$ride->id}}/{{$ride->rideable->id}}"> Detache</a>
                                                 @endif
                                         </td>
                                     </tr>
