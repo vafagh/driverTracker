@@ -149,11 +149,14 @@
                                                     'object'=>$ride,
                                                     'btnSize'=>'small',
                                                     'op1'=>'',
-                                                    'op2'=>''])@endcomponent
-                                                    @if (Auth::user()->role_id > 3 && $ride->rideable->status!='Done')<a class="badge badge-primary" href="/rideable/{{$ride->rideable->id}}/Done">&#x2714; Done</a>
-                                                    @endif
-                                                    <a class="badge badge-danger" href="/ride/detach/{{$ride->id}}/{{$ride->rideable->id}}"> Detach</a>
+                                                    'op2'=>''])
+                                                @endcomponent
+                                                @if (Auth::user()->role_id > 3 && $ride->rideable->status!='Done')
+                                                    <a class="badge badge-primary" href="/rideable/{{$ride->rideable->id}}/Done">&#x2714; Done</a>
                                                 @endif
+                                                    <a class="badge badge-danger" href="/ride/detach/{{$ride->id}}/{{$ride->rideable->id}}"> Detach</a>
+                                                    <a title="Returned" class="badge badge-danger" href="/rideable/{{$ride->rideable->id}}/Returned"><i class="material-icons md-16">keyboard_return</i></a>
+                                            @endif
                                         </td>
                                     </tr>
                                     @endforeach
