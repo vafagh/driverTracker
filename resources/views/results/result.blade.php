@@ -4,7 +4,7 @@
         <div class="card-header row m-0 bg-primary text-white">
             <div class="col-10 h3">Results</div>
         </div>
-        @if ($invoices->count()+$drivers->count()+$trucks->count()+$locations->count()+$fillups->count()>0)
+        @if ($invoices->count()+$drivers->count()+$trucks->count()+$locations->count()+$fillups->count()+$rides->count()>0)
 
             @component('results.show',['colection'=>$invoices])
             @endcomponent
@@ -19,6 +19,9 @@
             @endcomponent
 
             @component('results.show',['colection'=>$fillups])
+            @endcomponent
+
+            @component('results.show',['colection'=>$rides])
             @endcomponent
 
         @else

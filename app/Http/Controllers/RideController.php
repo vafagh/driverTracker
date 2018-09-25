@@ -15,12 +15,18 @@ class RideController extends Controller
     public function index()
     {
         $rides = Ride::with('rideable','rideable.location','driver','truck')
-            ->orderBy('id', 'desc')
-            ->paginate(10);
+                ->orderBy('id', 'desc')
+                ->paginate(10);
 
         return view('ride.rides',compact('rides'));
     }
-
+    public function show($ride_id)
+    {
+        $ride = Ride::with('rideable','rideable.location','driver','truck')->find($ride_id);
+        if ($ride==null) {
+            return redirect()->back()->with('error', 'Ride with Id of '.$ride_id.' no longer exict!');
+        }else return view('ride.show',compact('ride'));
+    }
     public function create(Rideable $rideable)
     {
         return view('ride.create',compact('rideable'));
