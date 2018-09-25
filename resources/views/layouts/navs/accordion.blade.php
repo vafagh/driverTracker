@@ -33,7 +33,7 @@
             <a class="nav-link drivers row m-0 p-0" href="/driver/show/{{$driver->id}}" title="Drivers">
                 <span class="pr-2"> </span>
                 <img class="rounded-circle minh-40" src='/img/{{($driver->image == null) ? 'def.svg' : 'driver/'.$driver->image }}'>
-                <span class="">{{$driver->fname.' '.$driver->lname}}</span>
+                <span class="">{{$driver->fname}}</span>
             </a>
         @endforeach
         <a class="nav-link drivers" href="/drivers" title="Drivers">
