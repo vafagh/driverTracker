@@ -74,7 +74,7 @@
                         '<strong>'+driver+'</strong><br>'+
                         'Assign it to:<div>'
                     @foreach ($activeDrivers as $key => $driver)
-                        +" <a href='/ride/store/"+rideable_id+"/{{$driver->id}}'><img width='25px' src='/img/driver/small/{{($driver->image == null) ? 'def.svg' : $driver->image }}' alt='{{$driver->fname}}'></a>"
+                        +" <a href='/ride/store/"+rideable_id+"/{{$driver->id}}'><img src='/img/driver/small/{{strtolower($driver->fname)}}.png' alt='{{$driver->fname}}'></a>"
                     @endforeach
                         +'</div>'
 
