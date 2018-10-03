@@ -4,12 +4,19 @@
         <span class="d-inline d-sm-none">Home</span>
     </a>
 </li>
-<li class="nav-item">
-    <a class="nav-link map" href="/map" title="Map">
+<li class="nav-item dropdown">
+    <a id="mapDropdown" class="nav-link dropdown-toggle " href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
         <i class="material-icons">map</i>
         <span class="d-inline d-sm-none">Map</span>
     </a>
+    <div class="dropdown-menu dropdown-menu-left" aria-labelledby="mapDropdown">
+        <a class="nav-link map" href="/map?shift=first">Morning Rounds</a>
+        <a class="nav-link map" href="/map?shift=second">Evening Rounds</a>
+        <a class="nav-link map" href="/map?shift=tomarow">Tomorrow's Round</a>
+        <a class="nav-link map" href="/map">All ongoing Rides</a>
+    </div>
 </li>
+
 <li class="nav-item">
     <a class="nav-link pickup" href="/pickup" title="Pickups">
         <i class="material-icons d-md-inline d-lg-none">domain</i>
@@ -32,7 +39,7 @@
         @foreach ($activeDrivers as $key => $driver)
             <a class="nav-link drivers row m-0 p-0" href="/driver/show/{{$driver->id}}" title="Drivers">
                 <span class="pr-2"> </span>
-                <img class="rounded-circle minh-40 align-" src='/img/{{($driver->image == null) ? 'def.svg' : 'driver/'.$driver->image }}'>
+                <img class="rounded-circle minh-40 align-" src="/img/driver/{{($driver->image == null) ? 'def.svg' : $driver->image }}">
                 <span class="">{{$driver->fname}}</span>
             </a>
         @endforeach

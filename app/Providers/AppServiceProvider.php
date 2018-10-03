@@ -16,12 +16,12 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
-        view()->composer(['home','layouts.navs.accordion','map'], function ($view)
+        view()->composer(['home','layouts.menu','map'], function ($view)
         {
             $activeDrivers = \App\Driver::with('rides','rides.rideable','rides.truck')
                     ->where('truck_id','!=',null)
                     ->get();
-                    
+
             $view->with(compact('activeDrivers'));
         });
 

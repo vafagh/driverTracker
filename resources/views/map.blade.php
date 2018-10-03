@@ -63,7 +63,8 @@
                         title: store,
                         position: latlngset,
                         icon: icons[driver].icon,
-                        // label: type
+                        // label: store,
+                        opacity: 0.7,
                     });
 
                     map.setCenter(marker.getPosition())
@@ -71,10 +72,11 @@
                     var content = "<h4>" + store + '</h4>'+
                         add+'<br>'+
                         '<strong>'+driver+'</strong><br>'+
-                        'Assign it to:<br>'
+                        'Assign it to:<div>'
                     @foreach ($activeDrivers as $key => $driver)
-                        +"<a href='/ride/store/"+rideable_id+"/{{$driver->id}}'>{{$driver->fname}}</a><br>"
+                        +" <a href='/ride/store/"+rideable_id+"/{{$driver->id}}'><img src='/img/driver/small/{{strtolower($driver->fname)}}.png' alt='{{$driver->fname}}'></a>"
                     @endforeach
+                        +'</div>'
 
                     var infowindow = new google.maps.InfoWindow()
                     google.maps.event.addListener(marker,'click',(function(marker,content,infowindow){
@@ -85,6 +87,7 @@
                     })(marker,content,infowindow));
                 }
             }
+
             </script>
             <script async defer src="https://maps.googleapis.com/maps/api/js?key={{env('GOOGLE_MAP_API')}}"></script>
 

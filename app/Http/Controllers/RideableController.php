@@ -19,12 +19,38 @@ class RideableController extends Controller
         $warehouses =  Location::where('type','!=','Client')->get();
         return view('home',compact('rideables','flashId','warehouses'));
     }
-    public function map()
+    public function map(Request $request)
     {
+        $yesterNoon = Carbon::yesterday()->addHours(13);
+        $todayMorning = Carbon::today()->addHours(9);
+        $todayNoon = Carbon::today()->addHours(13);
+        $tomarowMorning = Carbon::today()->addDay(1)->addHours(9);
+        $shift = $request->input('shift');
+        if ($shift == 'first') {
+            $start = $yesterNoon;
+            $end = $todayMorning;
+        }
+        elseif($shift == 'second'){
+            $start = $todayMorning;
+            $end = $todayNoon;
+        }
+        elseif($shift == 'tomarow'){
+            $start = $todayNoon;
+            $end = $tomarowMorning;
+        }
+        else{
+            $start = Carbon::today()->subYear(1);
+            $end = Carbon::today()->addYear(1);
+        }
+
         $rideables = Rideable::with('user','rides','rides.driver','rides.truck','location')
             // ->whereHas('rides')
-            ->where('status', '!=', 'Done')
-            ->where('status', '!=', 'Canceled')
+            ->where([
+                ['status', '!=', 'Done'],
+                ['status', '!=', 'Canceled'],
+                ['created_at','>=',$start],
+                ['created_at','<=',$end]
+            ])
             ->orderBy('location_id', 'desc')
             ->get();
         $activeDrivers = Driver::where('truck_id','!=',null)->get();
