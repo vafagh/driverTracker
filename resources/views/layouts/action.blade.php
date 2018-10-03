@@ -35,64 +35,64 @@ if($rideable->location->type=='DropOff')  $title = 'Droped off';
         @break
 
         @case('Returned')
-        @if ($user_id == $rideable->user_id)
-            <a class="text-danger" href="/rideable/delete/{{$rideable->id}}/">
-                <i class="material-icons">cancel</i>
-            </a>
-        @endif
-        @break
-
-        @case('DriverDetached')
-        @if ($user_id == $rideable->user_id)
-            <a title="Cancel" class="text-danger" href="/rideable/delete/{{$rideable->id}}/">
-                <i class="material-icons">cancel</i>
-            </a>
-        @endif
-        @if ($rideable->location->type != 'DropOff')
-            @component('layouts.components.modal',[
-                'modelName'=>'ride',
-                'action'=>'create',
-                'iterator'=>$rideable->id,
-                'object'=>$rideable,
-                'btnSize'=>'small',
-                'style'=>'text-info text-white ','op1'=>'','op2'=>'','dingbats'=>'<i class="material-icons">drive_eta</i> ','file'=>false])
-            @endcomponent
-        @endif
-        @if ($title=='Droped off')
-            <a class="" href="/rideable/{{$rideable->id}}/Done"><i class="material-icons">done</i>{{-- {{$title}} --}}</a>
-        @endif
-        @break
-
-        @case('OnTheWay')
-        @if ($title != 'Delivered')
-            <a title="Parts not available" class="text-danger" href="/rideable/{{$rideable->id}}/NotAvailable">
-                <i class="material-icons">priority_high</i>
-            </a>
-        @else
-            <a title="Returned" class="" href="/rideable/{{$rideable->id}}/Returned"><i class="material-icons">keyboard_return</i></a>
-        @endif
-        @if ($user_role != 3)
-            <a title="Request warehouse manager to dissmis driver from this ticket" class="text-warning" href="/rideable/{{$rideable->id}}/DeatachReqested"><i class="material-icons">cancel</i></a>
-        @endif
-        <a class="" href="/rideable/{{$rideable->id}}/Done"><i class="material-icons">done</i></a>
-        @break
-
-        @case('DeatachReqested')
-        @if ($user_role == 3)
-            >> The creator of this ticket asking you to remove <a class="text-danger" href="/ride/detach/{{$rideable->rides->first()->id}}/{{$rideable->id}}">&#x2702;</a> driver from this ticket.
-        @endif
-        @break
-
-        @case('NotAvailable')
-        @if (empty($rideable->rides))
-            @if (($user_id == $rideable->user_id || $user_role == 3))
-                <a title="Cancel" class="text-warning" href="/rideable/{{$rideable->id}}/Canceled">
+            @if ($user_id == $rideable->user_id)
+                <a class="text-danger" href="/rideable/delete/{{$rideable->id}}/">
                     <i class="material-icons">cancel</i>
                 </a>
             @endif
-        @else
-            Remove the attached driver
-        @endif
+        @break
+
+        @case('DriverDetached')
+            @if ($user_id == $rideable->user_id)
+                <a title="Cancel" class="text-danger" href="/rideable/delete/{{$rideable->id}}/">
+                    <i class="material-icons">cancel</i>
+                </a>
+            @endif
+            @if ($rideable->location->type != 'DropOff')
+                @component('layouts.components.modal',[
+                    'modelName'=>'ride',
+                    'action'=>'create',
+                    'iterator'=>$rideable->id,
+                    'object'=>$rideable,
+                    'btnSize'=>'small',
+                    'style'=>'text-info text-white ','op1'=>'','op2'=>'','dingbats'=>'<i class="material-icons">drive_eta</i> ','file'=>false])
+                @endcomponent
+            @endif
+            @if ($title=='Droped off')
+                <a class="" href="/rideable/{{$rideable->id}}/Done"><i class="material-icons">done</i>{{-- {{$title}} --}}</a>
+            @endif
+        @break
+
+        @case('OnTheWay')
+            @if ($title != 'Delivered')
+                <a title="Parts not available" class="text-danger" href="/rideable/{{$rideable->id}}/NotAvailable">
+                    <i class="material-icons">priority_high</i>
+                </a>
+            @else
+                <a title="Returned" class="" href="/rideable/{{$rideable->id}}/Returned"><i class="material-icons">keyboard_return</i></a>
+            @endif
+            @if ($user_role != 3)
+                <a title="Request warehouse manager to dissmis driver from this ticket" class="text-warning" href="/rideable/{{$rideable->id}}/DeatachReqested"><i class="material-icons">cancel</i></a>
+            @endif
+            <a class="" href="/rideable/{{$rideable->id}}/Done"><i class="material-icons">done</i></a>
+        @break
+
+        @case('DeatachReqested')
+            @if ($user_role == 3)
+                >> The creator of this ticket asking you to remove <a class="text-danger" href="/ride/detach/{{$rideable->rides->first()->id}}/{{$rideable->id}}">&#x2702;</a> driver from this ticket.
+            @endif
+        @break
+
+        @case('NotAvailable')
+            @if (empty($rideable->rides))
+                @if (($user_id == $rideable->user_id || $user_role == 3))
+                    <a title="Cancel" class="text-warning" href="/rideable/{{$rideable->id}}/Canceled">
+                        <i class="material-icons">cancel</i>
+                    </a>
+                @endif
+            @else
+                Remove the attached driver
+            @endif
         @break
 
         @case('CancelReq')
@@ -103,20 +103,21 @@ if($rideable->location->type=='DropOff')  $title = 'Droped off';
 
         @default
         @if (Auth::user()->role_id > 4)
-            <a title="Re Active" class="text-info" href="/rideable/{{$rideable->id}}/Reactived">Re-act</a>
+            <a title="Re Active" class="text-info" href="/rideable/{{$rideable->id}}/Reactived"><i class="material-icons">replay</i></a>
             <a title="Done" class="text-primary" href="/rideable/{{$rideable->id}}/Done"><i class="material-icons">done</i></a>
             <a title="Not available" class="text-danger" href="/rideable/{{$rideable->id}}/NotAvailable"><i class="material-icons">priority_high</i></a>
-            <a title="Request warehouse manager to dissmis driver from this ticket" class="text-danger" href="/rideable/{{$rideable->id}}/DeatachReqested">Deatach</a>
+            <a title="Request warehouse manager to dissmis driver from this ticket" class="text-danger" href="/rideable/{{$rideable->id}}/DeatachReqested"><i class="material-icons ">remove_circle_outline</i></a>
             @component('layouts.components.modal',[
                 'modelName'=>'ride',
                 'action'=>'create',
                 'iterator'=>'iterator',
                 'object'=>$rideable,
                 'btnSize'=>'small',
-                'style'=>'badge badge-info text-white ',
+                'style'=>' p-0 text-info ',
                 'op1'=>'',
                 'op2'=>'',
-                'dingbats'=>'&#x2707;',
+                // 'dingbats'=>'&#x2707;',
+                'dingbats'=>'<i class="material-icons">drive_eta</i>',
                 'file'=>false])
             @endcomponent
             <a title="Delete Ride!" class="text-danger" href="/rideable/delete/{{$rideable->id}}/"><i class="material-icons">cancel</i></a>

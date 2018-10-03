@@ -10,7 +10,7 @@
             <a class="badge badge-primary   " href="?shift=second">Second</a>
             <a class="badge badge-primary   " href="?shift=tomarow">Tomarow</a>
             <a class="badge badge-primary   " href="?shift=all">All</a>
-|
+            |
             <span class="badge text-warning">Sort by: </span>
             <a class="badge badge-primary   " href="?sortby=invoice_number">#</a>
             <a class="badge badge-primary   " href="?sortby=location_id">Location</a>
@@ -37,25 +37,25 @@
 
     <li class="{{$op2}} list-group-item p-0 list-group-item-secondary">
         <div class="row m-0 p-0">
-            <div class="col-12 col-md-9 row m-0 p-0">
+            <div class="col-12 col-sm 9 col-md-9 row m-0 p-0">
                 <div class=' pr-0 col-4'>location</div>
                 <div class=' pr-0 col-4'>{{($op1=='Client') ? 'Invoice': 'Part'}}#</div>
                 <div class=' pr-0 col-4'>Status</div>
             </div>
-            <div class="col-12 col-md-3 row m-0 p-0  d-none d-sm-flex">Driver/Truck</div>
+            <div class="col-12 col-sm-3 col-md-3 row m-0 p-0  d-none d-sm-flex">Driver/Truck</div>
         </div>
     </li>
 
     @foreach ($collection as $key => $rideable)
         <li class="list-group-item row m-0 p-0 {{$rideable->status}}" id="rideable{{$rideable->id}}">
             <div class="row m-0 p-0 py-2" {{($flashId==$rideable->id)? 'id="flash"':''}}>
-                <div class="col-12 col-lg-9 col-md-8 row m-0 p-0">
+                <div class="col-12 col-sm-9 col-md-8 col-lg-8 row m-0 p-0">
 
-                    <div class='location            col-6 col-md-4'>
+                    <div class='location            col-6 col-sm-4 col-md-4'>
                         @component('layouts.components.tooltip',['modelName'=>'location','model'=>$rideable->location])@endcomponent
                     </div>
 
-                    <div class='InvoiceNumber       col-12 col-md-4 fixedWidthFont'>
+                    <div class='InvoiceNumber       col-12 col-sm-4 col-md-4 fixedWidthFont'>
                         @if (Auth::user()->role_id > 3 || Auth::user()->id == $rideable->user_id )
                             @component('layouts.components.modal',[
                                 'modelName'=>'rideable',
@@ -73,11 +73,11 @@
                         @component('layouts.components.tooltip',['modelName'=>'rideable','model'=>$rideable])@endcomponent
                     </div>
 
-                    <div class='status              col-6 col-md-4'>
-                        <strong>{{$rideable->status}}</strong>
+                    <div class='status              col-6 col-sm-4 col-md-4'>
+                        <strong title="{{ $rideable->updated_at->diffForHumans()}} ({{$rideable->updated_at}} )">{{$rideable->status}}</strong>
                     </div>
 
-                    <div class="user text-secondary col-12 col-lg-4 col-md-5">
+                    <div class="user text-secondary col-12 col-sm-4 col-md-4 col-lg-4 ">
                         @if (Auth::user()->role_id > 4)
                             @component('layouts.components.tooltip',['modelName'=>'user','model'=>$rideable->user])@endcomponent
                             @else
@@ -86,7 +86,7 @@
                         <span title="{{$rideable->created_at}}">{{ $rideable->created_at->diffForHumans()}}</span>
                     </div>
 
-                    <div class="actions             col-12 col-lg-4 col-md-3">
+                    <div class="actions             col-12 col-sm-4 col-md-5 col-lg-4 ">
                         @component('layouts.action',[
                             'action' => $rideable->status,
                             'rideable' => $rideable,
@@ -96,21 +96,21 @@
                         ])@endcomponent
                     </div>
 
-                    <div class='updated             col-12 col-lg-4 col-md-3'>
+                    <div class='updated             col-12 col-sm-3 col-md-2 col-lg-4 d-sm-none'>
                         <span title="{{$rideable->updated_at}}">{{ $rideable->updated_at->diffForHumans()}}</span>
                     </div>
 
                 </div>
-                <div class="col-12 col-lg-3 col-md-4 row m-0 p-0">
+                <div class="col-12 col-sm-3 col-md-4 col-lg-4 row m-0 p-0">
                     @foreach ($rideable->rides as $ride)
-                        <div class='driver col-12 border-bottom border-secondary pb-0' style="background-image: url(/img/driver/{{$ride->driver->image}}); background-position: right top, left top; background-size:44px; background-repeat: no-repeat, repeat;">
+                        <div class='driver col-12 pb-0' style="background-image: url(/img/driver/{{$ride->driver->image}}); background-position: right top, left top; background-size:44px; background-repeat: no-repeat, repeat;">
                             <div>
                                 <span class="d-md-none text-muted">D/T: </span>
                                 @component('layouts.components.tooltip',['modelName'=>'driver','model'=>$ride->driver])@endcomponent
                                 <span title="{{$ride->pivot->created_at}}">{{ $ride->pivot->created_at->diffForHumans()}}</span>
                             </div>
-                            @if (Auth::user()->role_id > 2  && $loop->last)
-                                <a class="badge badge-danger" href="/ride/detach/{{$ride->id}}/{{$rideable->id}}">
+                            @if (Auth::user()->role_id > 2  && $loop->last && $rideable->status != 'Done'  )
+                                <a class="text-danger" href="/ride/detach/{{$ride ->id}}/{{$rideable->id}}">
                                     <i class="material-icons md-16">remove_circle_outline</i>
                                 </a>
                             @endif
