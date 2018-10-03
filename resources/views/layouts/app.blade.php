@@ -35,7 +35,7 @@
 </head>
 <body onload="initialize()">
     <div id="app">
-        <nav class="navbar navbar-expand-sm navbar-light navbar-laravel p-0 border">
+        <nav class="navbar navbar-expand-md navbar-light navbar-laravel p-0 border">
             <div class="container-fluid">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -49,7 +49,7 @@
                         Please log-in.
                     @else
                         <ul class="navbar-nav mr-auto">
-                            @component('layouts.navs.accordion') @endcomponent
+                            @component('layouts.menu') @endcomponent
                         </ul>
                     @endguest
 

@@ -25,6 +25,7 @@
                 'object'=>null,
                 'op1'=>$op1,
                 'op2'=>$op2,
+                'dingbats'=>'<i class="material-icons">add_box</i>',
                 'autocomplateOff'=>true
             ])@endcomponent
         </div>
