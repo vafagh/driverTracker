@@ -2,20 +2,6 @@
 @section('content')
     <div class="">
         <div class="card">
-            <div class="card-header row m-0">
-                <div class="col-10">
-                    Drivers
-                </div>
-                <div class="col-2">
-                    @component('layouts.components.modal',['modelName'=>'driver','action'=>'create',
-                    'object'=>null,
-                    'op1'=>'op1',
-                    'op2'=>'driver',
-                    'iterator'=>0,
-                    'file'=>true])@endcomponent
-                </div>
-
-            </div>
             <div class="card-body">
                 <ul class="list-group" id='driverd'>
                     <li class="driver list-group-item py-0 list-group-item-secondary">
@@ -29,7 +15,7 @@
                     <li class="list-group-item disabled py-2 active font-weight-bold">{{$driver->fname.' '.$driver->lname}}</li>
                     <li class="row m-0 p-0 mb-1 border  border-secondary">
                         <div class="p-0">
-                            <img class="pl-2 minh-100 rounded-circle" src="{{($driver->image == null) ? '/img/def.svg' : '/img/driver/'.$driver->image }}" alt="">
+                            <img class="pl-2 pt-2 minh-100 rounded-circle" src="{{($driver->image == null) ? '/img/def.svg' : '/img/driver/'.$driver->image }}" alt="">
                         </div>
                         <div class="col-10">
                             <div class="row mx-0  pt-2">
@@ -74,19 +60,19 @@
                     </ul>
                 </div>
                 <div class="card">
-                    <div class="card-header row m-0">
-                        All Rides
+                    <div class="card-header row h-100">
+                        <div class="col-3 align-middle">
+                            <span class="inline-block">
+                                All Rides
+                            </span>
+                        </div>
+                        <div class="pagination col-9 align-middle">
+                            {{ $rides->links("pagination::bootstrap-4") }}
+                        </div>
                     </div>
                     <div class="card-body">
                         <table class="table">
                             <thead>
-                                <tr>
-                                    <td colspan="6">
-                                        <div class="pagination">
-                                            {{ $rides->links("pagination::bootstrap-4") }}
-                                        </div>
-                                    </td>
-                                </tr>
                                 <tr>
                                     <th>ID</th>
                                     <th>For</th>
@@ -151,11 +137,11 @@
                                                     'op1'=>'',
                                                     'op2'=>''])
                                                 @endcomponent
-                                                @if (Auth::user()->role_id > 3 && $ride->rideable->status!='Done')
+                                                @if (Auth::user()->role_id > 3 && $ride->rideable->status!='Done' && $ride->rideable->status!='Returned')
                                                     <a class="badge badge-primary" href="/rideable/{{$ride->rideable->id}}/Done">&#x2714; Done</a>
-                                                @endif
-                                                    <a class="badge badge-danger" href="/ride/detach/{{$ride->id}}/{{$ride->rideable->id}}"> Detach</a>
+                                                    <a class="badge badge-danger" href="/ride/detach/{{$ride->id}}/{{$ride->rideable->id}}">Detach</a>
                                                     <a title="Returned" class="badge badge-danger" href="/rideable/{{$ride->rideable->id}}/Returned"><i class="material-icons md-16">keyboard_return</i></a>
+                                                @endif
                                             @endif
                                         </td>
                                     </tr>
