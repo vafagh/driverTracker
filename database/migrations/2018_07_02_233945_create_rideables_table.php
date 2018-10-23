@@ -22,6 +22,8 @@ class CreateRideablesTable extends Migration
             $table->string('image')->nullable();
             $table->string('phone')->unique();
             $table->string('distance')->nullable();
+            $table->float('lat')->nullable();
+            $table->float('lng')->nullable();
             $table->string('line1');
             $table->string('line2')->nullable();
             $table->string('city');
