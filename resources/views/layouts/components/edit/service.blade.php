@@ -1,15 +1,17 @@
 <div class="modal-body">
 
-    <fieldset>
+    <div class="form-group">
         <h5>Billing</h5>
         <div class="form-group row">
-            <div class="col-12">
-                <label for="voucher_number" class="col-form-label">Eagle Voucher Number</label>
-                <input name="voucher_number" value="{{$object->voucher_number}}" class="form-control form-control-sm" type="number" required>
-            </div>
+                <label for="voucher_number" class="col-form-label w-50">Eagle Voucher Number</label>
+                <input name="voucher_number" value="{{$object->voucher_number}}" class="form-control form-control-sm d-inline w-50" type="number">
         </div>
-    </fieldset>
+    </div>
     <hr>
+    <div class="form-group">
+        <label for="created_at" class="col-form-label">Service Date:</label>
+        <input name="created_at" class="form-control d-inline w-75" type="text" value="{{$object->created_at}}">
+    </div>
         <div class="form-group">
         <label for="fname" class="col-form-label">
             Driver: @component('layouts.components.tooltip',['modelName'=>'driver','model'=>$object->driver])@endcomponent
@@ -79,10 +81,14 @@
             </div>
 
         </div>
-        <div class="modal-footer">
-            <input name="id" type="hidden" value="{{$object->id}}">
-            <input name="truck_id" type="hidden" value="{{$object->truck->id}}">
-            <input name="driver_id" type="hidden" value="{{$object->driver->id}}">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Save</button>
-        </div>
+        @if (Auth::user()->role_id>3)
+            <div class="modal-footer">
+                <input name="id" type="hidden" value="{{$object->id}}">
+                <input name="truck_id" type="hidden" value="{{$object->truck->id}}">
+                <input name="driver_id" type="hidden" value="{{$object->driver->id}}">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        @else
+            You dont have enough permition to update service
+        @endif

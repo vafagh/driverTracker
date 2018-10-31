@@ -75,6 +75,25 @@ class CreateRideablesTable extends Migration
         });
 
 
+        Schema::create('services', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('truck_id')->nullable();
+            $table->unsignedInteger('driver_id')->nullable();
+            $table->longText('description')->nullable();
+            $table->string('product')->nullable();
+            $table->string('image')->nullable();
+            $table->string('mileage')->nullable();
+            $table->string('shop')->nullable();
+            $table->string('shop_phone')->nullable();
+            $table->string('voucher_number')->nullable();
+            $table->float('total');
+            $table->timestamps();
+            $table->foreign('truck_id')->references('id')->on('trucks')->onDelete('set null');
+            $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('set null');
+            $table->softDeletes();
+        });
+
+
         Schema::create('fillups', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('truck_id')->nullable();

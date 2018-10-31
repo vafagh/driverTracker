@@ -40,6 +40,9 @@ class ServiceController extends Controller
         $service->shop = $request->shop;
         $service->shop_phone = $request->shop_phone;
         $service->voucher_number = $request->voucher_number;
+        if ($request->created_at!='') {
+            $service->created_at = $request->created_at;
+        }
         if($request->file('image')!=NULL){
             $image = time().'.'. $request->file('image')->getClientOriginalExtension();
             $request->file('image')->move(public_path('img/service'), $image);
@@ -64,6 +67,9 @@ class ServiceController extends Controller
         $service->shop = $request->shop;
         $service->shop_phone = $request->shop_phone;
         $service->voucher_number = $request->voucher_number;
+        if ($request->created_at!='') {
+            $service->created_at = $request->created_at;
+        }
         if($request->file('image')!=NULL){
             $image = time().'.'. $request->file('image')->getClientOriginalExtension();
             $request->file('image')->move(public_path('img/service'), $image);

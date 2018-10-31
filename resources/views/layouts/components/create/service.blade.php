@@ -2,6 +2,10 @@
 
 
     <div class="form-group">
+        <label for="driver-name" class="col-form-label">Service Date:</label>
+        <input name="created_at" class="form-control d-inline w-75" type="date">
+    </div>
+    <div class="form-group">
         <label for="driver-name" class="col-form-label">Driver:</label>
         <select class="form-control form-control-lg" name="driver_id">
             @foreach (App\Driver::all() as $driver)
@@ -46,12 +50,12 @@
             <input name="mileage" class="form-control form-control-sm" type="text" required>
         </div>
         <div class="col-auto">
-            <label class="" for="total">Total charged</label>
+            <label class="" for="total">Total charge</label>
             <div class="input-group mb-2">
                 <div class="input-group-prepend">
                     <div class="input-group-text">$</div>
                 </div>
-                <input type="text" class="form-control" id="total" name="total" placeholder="0.00">
+                <input type="text" class="form-control" id="total" name="total" placeholder="0.00" required>
             </div>
         </div>
     </div>
@@ -62,7 +66,7 @@
         </div>
         <div class="col-6">
             <label for="shop_phone" class="col-form-label">Shop phone</label>
-            <input name="shop_phone" class="form-control form-control-sm" type="phone" required>
+            <input name="shop_phone" class="form-control form-control-sm" type="phone" >
         </div>
     </div>
     <div class="custom-file">
@@ -78,7 +82,7 @@
         <div class="form-group row">
             <div class="col-12">
                 <label for="voucher_number" class="col-form-label">Eagle Voucher Number</label>
-                <input name="voucher_number" class="form-control form-control-sm" type="number" required>
+                <input name="voucher_number" class="form-control form-control-sm" type="number">
             </div>
         </div>
     </fieldset>
