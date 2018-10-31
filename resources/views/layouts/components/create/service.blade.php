@@ -11,7 +11,6 @@
             @foreach (App\Driver::all() as $driver)
                 <option value="{{$driver->id}}">{{$driver->fname.', '.$driver->lname}}</option>
             @endforeach
-            <option value="0">Not applicable</option>
         </select>
     </div>
 
@@ -19,7 +18,7 @@
         <label for="truck-name" class="col-form-label">Truck:</label>
         <select class="form-control form-control-lg" name="truck_id">
             @foreach (App\Truck::all() as $truck)
-                <option value="{{$truck->id}}">{{$truck->lable.' '.$truck->license_plate.', '.$truck->last4vin}}</option>
+                <option value="{{$truck->id}}">{{$truck->lable.' '.$truck->license_plate}}</option>
             @endforeach
         </select>
     </div>

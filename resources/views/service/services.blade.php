@@ -32,7 +32,7 @@
                         <div class="text-truncate">
                             @if ($service->truck!='') @component('layouts.components.tooltip',['modelName'=>'truck','model'=>$service->truck]) @endcomponent @else{{$service->truck}} @endif
                         </div>
-                    <div class="text-truncate">@if ($service->driver) @component('layouts.components.tooltip',['modelName'=>'driver','model'=>$service->driver]) @endcomponent</div> @else{{$service->driver}}@endif</div>
+                    <div class="text-truncate">@if ($service->driver!=null) @component('layouts.components.tooltip',['modelName'=>'driver','model'=>$service->driver]) @endcomponent</div> @else{{$service->driver}}@endif</div>
                     <div class="{{$ser}} text-truncate">
                         @if ($service->image!='')@component('layouts.components.imgtooltip',['modelName'=>'service','model'=>$service]) @endcomponent @endif
                             <strong>{{$service->product}}: </strong><span title="{{$service->description}}">{{$service->description}}</span></div>

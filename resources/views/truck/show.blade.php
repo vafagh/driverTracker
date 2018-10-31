@@ -50,7 +50,7 @@
                                 </div>
                             </td>
                         </tr>
-                        @foreach ($truck->rides->sortByDesc('created_at') as $key => $ride)
+                        @foreach ($rides->sortByDesc('created_at') as $key => $ride)
                             <tr>
                                 <td>{{$ride->id}}</td>
                                 @if (!empty($ride->rideable))
