@@ -14,15 +14,11 @@ class DatabaseSeeder extends Seeder
         DB::table('users')->insert(['name' => 'Vafa', 'email' => 'goreyshi@'.env('APP_URL','gmail.com'), 'password' => bcrypt('123123'), 'remember_token' => str_random(10), ]);
         DB::table('users')->insert(['name' => 'Abraham', 'email' => 'abrahamkha@'.env('APP_URL','gmail.com'), 'password' => bcrypt('123123'), 'remember_token' => str_random(10), ]);
         DB::table('users')->insert(['name' => 'Ali', 'email' => 'ali@'.env('APP_URL','gmail.com'), 'password' => bcrypt('123123'), 'remember_token' => str_random(10), ]);
-        DB::table('users')->insert(['name' => 'Chris', 'email' => 'christ@'.env('APP_URL','gmail.com'), 'password' => bcrypt('123123'), 'remember_token' => str_random(10), ]);
-        DB::table('users')->insert(['name' => 'Enrique', 'email' => 'enriqueg@'.env('APP_URL','gmail.com'), 'password' => bcrypt('123123'), 'remember_token' => str_random(10), ]);
         DB::table('users')->insert(['name' => 'Eddy', 'email' => 'eddyl@'.env('APP_URL','gmail.com'), 'password' => bcrypt('123123'), 'remember_token' => str_random(10), ]);
         DB::table('users')->insert(['name' => 'Erika', 'email' => 'Erekav@'.env('APP_URL','gmail.com'), 'password' => bcrypt('123123'), 'remember_token' => str_random(10), ]);
         DB::table('users')->insert(['name' => 'Joe', 'email' => 'joel@'.env('APP_URL','gmail.com'), 'password' => bcrypt('123123'), 'remember_token' => str_random(10), ]);
         DB::table('users')->insert(['name' => 'Larry', 'email' => 'larryg@'.env('APP_URL','gmail.com'), 'password' => bcrypt('123123'), 'remember_token' => str_random(10), ]);
         DB::table('users')->insert(['name' => 'Mandy', 'email' => 'mandy@'.env('APP_URL','gmail.com'), 'password' => bcrypt('123123'), 'remember_token' => str_random(10), ]);
-        DB::table('users')->insert(['name' => 'Mike', 'email' => 'miker@'.env('APP_URL','gmail.com'), 'password' => bcrypt('123123'), 'remember_token' => str_random(10), ]);
-        DB::table('users')->insert(['name' => 'Patricia', 'email' => 'patriciar@'.env('APP_URL','gmail.com'), 'password' => bcrypt('123123'), 'remember_token' => str_random(10), ]);
         $this->call(trackerTableSeeder::class);
     }
 }

@@ -30,6 +30,28 @@
                     'file'=>true
                 ])
                 @endcomponent
+                @component('layouts.components.modal',[
+                    'modelName'=>'fillup',
+                    'action'=>'create',
+                    'object'=>null,
+                    'op1'=>'op1',
+                    'op2'=>'fillup',
+                    'style'=>'badge badge-success',
+                    'dingbats'=>'add gas',
+                    'iterator'=>0,
+                    'file'=>true])
+                @endcomponent
+                @component('layouts.components.modal',[
+                    'modelName'=>'service',
+                    'action'=>'create',
+                    'object'=>null,
+                    'op1'=>'op1',
+                    'op2'=>'service',
+                    'style'=>'badge badge-info',
+                    'dingbats'=>'add Service',
+                    'iterator'=>0,
+                    'file'=>true])
+                @endcomponent
                 <a class="badge badge-success" href="/truck/show/{{$truck->id}}">Details</a>
             @endif
         </div>

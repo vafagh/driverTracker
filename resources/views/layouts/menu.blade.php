@@ -74,6 +74,12 @@
         </a>
     </li>
     <li class="nav-item">
+        <a class="nav-link fillups" href="/services" title="Service">
+            <i class="material-icons">build</i>
+            <span class="d-inline d-sm-none">Service</span>
+        </a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link users" href="/users" title="Users">
             <i class="material-icons">supervised_user_circle</i>
             <span class="d-inline d-sm-none">Users</span>

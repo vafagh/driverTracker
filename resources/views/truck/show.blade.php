@@ -159,4 +159,52 @@
                 </table>
             </div>
         </div>
+        <div class="card">
+            <div class="card-header row m-0">
+                Services
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Driver</th>
+                            <th>Product</th>
+                            <th>Description</th>
+                            <th>Total</th>
+                            <th>Mileage</th>
+                            <th>On</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($truck->services as $key => $service)
+                            <tr>
+                                <td>{{$service->id}}</td>
+                                <td>@component('layouts.components.tooltip',['modelName'=>'driver','model'=>$service->driver])@endcomponent</td>
+                                <td>{{$service->product}}</td>
+                                <td>${{$service->description}}</td>
+                                <td>${{$service->total}}</td>
+                                <td>{{$service->mileage}}</td>
+                                <td><span title="{{$service->created_at}}">{{$service->created_at->diffForHumans()}}</span></td>
+                                <td>
+                                    @component('layouts.components.modal',[
+                                        'modelName'=>'service',
+                                        'action'=>'edit',
+                                        'iterator'=>$key,
+                                        'object'=>$service,
+                                        'btnSize'=>'small',
+                                        'op1'=>'',
+                                        'op2'=>'',
+                                        'file'=>true
+                                    ])
+                                    @endcomponent
+                                    <a class="badge badge-danger" href="/service/delete/{{$service->id}}"> Delete</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
 @endsection

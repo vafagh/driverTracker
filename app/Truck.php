@@ -21,4 +21,9 @@ class Truck extends Model
         return $this->hasMany(Fillup::class);
     }
 
+    public function services()
+    {
+        return $this->hasMany(Service::class);
+    }
+
 }
