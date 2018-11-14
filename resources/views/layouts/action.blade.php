@@ -14,7 +14,7 @@ if($rideable->location->type=='DropOff')  $title = 'Droped off';
         @case('Created')
             @if ($user_id == $rideable->user_id)
                 <a title="Cancel" class="text-danger" href="/rideable/delete/{{$rideable->id}}/">
-                    <i class="material-icons">cancel</i>
+                    <i class="material-icons">delete_forever</i>
                 </a>
             @endif
             @if ($rideable->location->type != 'DropOff')
@@ -43,7 +43,7 @@ if($rideable->location->type=='DropOff')  $title = 'Droped off';
         @case('DriverDetached')
             @if ($user_id == $rideable->user_id)
                 <a title="Cancel" class="text-danger" href="/rideable/delete/{{$rideable->id}}/">
-                    <i class="material-icons">cancel</i>
+                    <i class="material-icons">delete_forever</i>
                 </a>
             @endif
             @if ($rideable->location->type != 'DropOff')
@@ -76,26 +76,26 @@ if($rideable->location->type=='DropOff')  $title = 'Droped off';
         @break
 
         @case('DeatachReqested')
-            @if ($user_role == 3)
-                >> The creator of this ticket asking you to remove <a class="text-danger" href="/ride/detach/{{$rideable->rides->first()->id}}/{{$rideable->id}}">&#x2702;</a> driver from this ticket.
+            @if ($user_role > 3)
+                <a title="Done" class="text-primary" href="/rideable/{{$rideable->id}}/Done"><i class="material-icons">done</i></a>
             @endif
         @break
 
         @case('NotAvailable')
-            @if (empty($rideable->rides))
+            {{-- @if (empty($rideable->rides)) --}}
                 @if (($user_id == $rideable->user_id || $user_role == 3))
                     <a title="Cancel" class="text-warning" href="/rideable/{{$rideable->id}}/Canceled">
                         <i class="material-icons">cancel</i>
                     </a>
                 @endif
-            @else
-                Remove the attached driver
-            @endif
+            {{-- @else
+                Remove the attached driver --}}
+            {{-- @endif --}}
         @break
 
         @case('CancelReq')
             <a title="Cancel" class="text-danger" href="/rideable/delete/{{$rideable->id}}/">
-                <i class="material-icons">cancel</i>
+                <i class="material-icons">delete_forever</i>
             </a>
         @break
 
@@ -118,7 +118,7 @@ if($rideable->location->type=='DropOff')  $title = 'Droped off';
                 'dingbats'=>'<i class="material-icons">drive_eta</i>',
                 'file'=>false])
             @endcomponent
-            <a title="Delete Ride!" class="text-danger" href="/rideable/delete/{{$rideable->id}}/"><i class="material-icons">cancel</i></a>
+            <a title="Delete Ride!" class="text-danger" href="/rideable/delete/{{$rideable->id}}/"><i class="material-icons">delete_forever</i></a>
         @endif
     @endswitch
 @endif

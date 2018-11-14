@@ -6,7 +6,8 @@ switch($modelName){
         $stock=''; if ($model->stock) $stock ='<span class="text-primary"> Stock</span>';
         $qty ='x<span class="text-danger">'.$model->qty.'</span>';
         $title = strtoupper($model->invoice_number);
-        $title=$title.'<small><sup>'.$qty.' '.$stock.'</sup></small>'.$note;
+        if($model->type=='Client')$title=$title.$note;
+        else $title=$title.'<small><sup>'.$qty.' '.$stock.'</sup></small>'.$note;
     break;
 
     case 'location':

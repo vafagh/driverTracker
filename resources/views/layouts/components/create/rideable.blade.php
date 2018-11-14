@@ -125,16 +125,13 @@
     @endif
 
     @for ($i=0; $i < 10; $i++)
-        <div class="form-inline row m-0 " {{$i>0 ? "style=display:none":''}} id="line{{$i}}">
-            <div class="delete"><a class='text-danger' href="#" onclick="hideID(line{{$i}})">x</a></div>
-            <label class="sr-only" for="invoice_number{{$i}}">{{($op1=='Client') ? 'Invoice': 'Part'}} number:</label>
-            <input type="text" class="form-control mb-2 mr-sm-2 col-4"
-            onchange="showID(line{{$i+1}})"
-            id="invoice_number{{$i}}"
-            name="invoice_number{{$i}}"
-            placeholder="{{($op1=='Client') ? 'Invoice': 'Part'}} number">
+        <div class="form-inline row m-0" {{$i>0 ? "style=display:none":''}} id="line{{$i}}">
 
-            <div class="col-4  mb-2">
+            <label class="sr-only" for="invoice_number{{$i}}">{{($op1=='Client') ? 'Invoice': 'Part'}} number:</label>
+            <input class="form-control m-0 mb-2 col-4" onchange="showID(line{{$i+1}})" id="invoice_number{{$i}}" type="text" name="invoice_number{{$i}}" placeholder="{{($op1=='Client') ? 'Invoice': 'Part'}} number">
+            @if ($op1!='Client')
+
+            <div class="col-4 mb-2">
                 <div class="form-check" >
                     <input class="form-check-input" type="checkbox" id="stock{{$i}}" name="stock{{$i}}">
                     <label class="form-check-label" for="stock{{$i}}">
@@ -142,27 +139,35 @@
                     </label>
                 </div>
             </div>
-
-            <div class="form-group col-3  mb-2">
-                <select id="qty{{$i}}" name="qty{{$i}}" class="form-control">
-                    <option selected value='1'>QTY x1</option>
-                    <option value='2'>2</option>
-                    <option value='3'>3</option>
-                    <option value='4'>4</option>
-                    <option value='5'>5</option>
-                    <option value='6'>6</option>
-                    <option value='7'>7</option>
-                    <option value='8'>8</option>
-                    <option value='9'>9</option>
-                    <option value='10'>10</option>
-                </select>
+            <div class="col-4 row m-0 p-0">
+                <div class="form-group col-9 mb-2">
+                    <select id="qty{{$i}}" name="qty{{$i}}" class="form-control">
+                        <option selected value='1'>QTY x1</option>
+                        <option value='2'>2</option>
+                        <option value='3'>3</option>
+                        <option value='4'>4</option>
+                        <option value='5'>5</option>
+                        <option value='6'>6</option>
+                        <option value='7'>7</option>
+                        <option value='8'>8</option>
+                        <option value='9'>9</option>
+                        <option value='10'>10</option>
+                    </select>
+                </div>
+                <div class="delete col-2"><a class='text-danger' href="#" onclick="hideID('{{$i}}')"><i class="material-icons">delete_forever</i></a></div>
             </div>
+            @endif
         </div>
     @endfor
 
     <script type="text/javascript">
         function showID(id) { id.style.display = "flex"; }
-        function hideID(id) { id.style.display = "none"; }
+        function hideID(id) {
+            var lineNm = this["line"+id];
+            lineNm.style.display = "none";
+            var invNum = this["invoice_number"+id];
+            invNum.value = null;
+        }
     </script>
 
     <div class="form-group">
