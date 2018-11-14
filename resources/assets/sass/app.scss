@@ -20,8 +20,8 @@
 .navbar-nav li:hover{text-decoration: none;background-color: #4d00000d;  }
 
 .navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 //fixing modal issue with list-group
 .list-group-item, .list-group-item:hover{ z-index: auto; }
@@ -82,15 +82,19 @@
 .tip{color:#0a5d3e}
 .tip:hover{color:#da3b1f}
 .info>.card{
-    display:none ;
+    // display:none ;
+    // margin-top:-1em;
     z-index: 1200;
     position: absolute;
     background:white;
     border:1px solid #eee;
     box-shadow: 2px 3px 10px 0px #888;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 1s linear;
 }
 .info>.card.img{
-    display:none ;
+    // display:none ;
     z-index: 1200;
     position: absolute;
     background:white;
@@ -100,7 +104,12 @@
     top:20%;
     right:40%;
 }
-.info:hover>.card{display:block}
+.info:hover>.card{
+    // display:block
+    visibility: visible;
+    opacity: 1;
+}
+.info .card-body div{font-size:10px; padding: 0}
 .select .locations {font: normal 1.2em monospace;}
 .select .locations:focus {font: normal 2.0em monospace;}
 .select .locations *{}
@@ -130,38 +139,38 @@
 }
 
 .autocomplete {
-  /*the container must be positioned relative:*/
-  position: relative;
-  display: inline-block;
+    /*the container must be positioned relative:*/
+    position: relative;
+    display: inline-block;
 }
 .autocomplete-items {
-  position: absolute;
-  border: 1px solid #d4d4d4;
-  border-bottom: none;
-  border-top: none;
-  z-index: 99;
-  /*position the autocomplete items to be the same width as the container:*/
-  top: 100%;
-  left: 0;
-  right: 0;
+    position: absolute;
+    border: 1px solid #d4d4d4;
+    border-bottom: none;
+    border-top: none;
+    z-index: 99;
+    /*position the autocomplete items to be the same width as the container:*/
+    top: 100%;
+    left: 0;
+    right: 0;
 }
 .autocomplete-items div {
-  padding: 10px;
-  cursor: pointer;
-  background-color: #fff;
-  border-bottom: 1px solid #d4d4d4;
+    padding: 10px;
+    cursor: pointer;
+    background-color: #fff;
+    border-bottom: 1px solid #d4d4d4;
 }
 .autocomplete-items div:hover {
-  /*when hovering an item:*/
-  background-color: #e9e9e9;
+    /*when hovering an item:*/
+    background-color: #e9e9e9;
 }
 .autocomplete-active {
-  /*when navigating through the items using the arrow keys:*/
-  background-color: DodgerBlue !important;
-  color: #ffffff;
+    /*when navigating through the items using the arrow keys:*/
+    background-color: DodgerBlue !important;
+    color: #ffffff;
 }
 #map {
-  height: 100%;
+    height: 100%;
 }
 /* Rules for sizing the icon. */
 .material-icons.md-16 { font-size: 16px; }
@@ -180,19 +189,19 @@
 
 // GMAP vertex delete menu
 .delete-menu {
-        position: absolute;
-        background: white;
-        padding: 3px;
-        color: #666;
-        font-weight: bold;
-        border: 1px solid #999;
-        font-family: sans-serif;
-        font-size: 12px;
-        box-shadow: 1px 3px 3px rgba(0, 0, 0, .3);
-        margin-top: -10px;
-        margin-left: 10px;
-        cursor: pointer;
-      }
-      .delete-menu:hover {
-        background: #eee;
-      }
+    position: absolute;
+    background: white;
+    padding: 3px;
+    color: #666;
+    font-weight: bold;
+    border: 1px solid #999;
+    font-family: sans-serif;
+    font-size: 12px;
+    box-shadow: 1px 3px 3px rgba(0, 0, 0, .3);
+    margin-top: -10px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+.delete-menu:hover {
+    background: #eee;
+}

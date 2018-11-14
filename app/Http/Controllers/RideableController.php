@@ -120,25 +120,51 @@ class RideableController extends Controller
 
     public function store(Request $request)
     {
-        $rideable = new Rideable;
-        $rideable->user_id = Auth::id();
-        (is_null($request->locationName)) ? $locationName = $request->locationPhone : $locationName = $request->locationName;
-        if($request->type=='Delivery'){
-            if(Location::where('longName', $locationName)->first()==null) {return redirect()->back()->with('error', 'Location "'.$locationName.'" not exist. Make sure you select it from list. ');}
-            else{$rideable->location_id = Location::where('longName', $locationName)->first()->id;}
-        }else{
-            $rideable->location_id = $locationName;
+        for ($i=0,$j=0; $i < 10 ; $i++) {
+            $thisRequest = $request;
+            // $rideable->invoice_number = $request->{"invoice_number$i"};
+            // $rideable->qty = $request->{"qty$i"};
+            // $rideable->stock = $request->{"stock$i"};
+            if ($request->{"invoice_number$i"}!='') {
+                $rideable = new Rideable;
+                $rideable->user_id = Auth::id();
+                (is_null($request->locationName)) ? $locationName = $thisRequest->locationPhone : $locationName = $thisRequest->locationName;
+                if($thisRequest->type=='Delivery'){
+                    if(Location::where('longName', $locationName)->first()==null) {return redirect()->back()->with('error', 'Location "'.$locationName.'" not exist. Make sure you select it from list. ');}
+                    else{$rideable->location_id = Location::where('longName', $locationName)->first()->id;}
+                }else{
+                    $rideable->location_id = $locationName;
+                }
+                $msg = Location::addGeo(Location::find($rideable->location_id));
+                $rideable->invoice_number = $request->{"invoice_number$i"};
+                ($request->{"stock$i"} == 'on') ? $rideable->stock = true :'';
+                $rideable->qty = $request->{"qty$i"};
+                $rideable->type = Location::find($rideable->location_id)->type;
+                $rideable->status = 'Created';
+                $rideable->description = $thisRequest->description;
+                $rideable->save();
+                Transaction::log(Route::getCurrentRoute()->getName(),'',$rideable);
+
+            }
         }
-        $msg = Location::addGeo(Location::find($rideable->location_id));
-        $rideable->invoice_number = $request->invoice_number;
-        $rideable->type = Location::find($rideable->location_id)->type;
-        $rideable->status = 'Created';
-        $rideable->description = $request->description;
-        $rideable->save();
-        Transaction::log(Route::getCurrentRoute()->getName(),'',$rideable);
 
-        return redirect()->back()->with('status', '#'.$rideable->invoice_number." added! ".$msg);
+        return redirect()->back()->with('status', $j." part number has been added! ");
+        // return redirect()->back()->with('status', '#'.$rideable->invoice_number." added! ".$msg);
 
+    }
+
+    public function batchStore(Request $request)
+    {
+        for ($i=0,$j=0; $i < 10 ; $i++) {
+            $thisRequest = $request;
+            $thisRequest->request->add(['invoice_number', $request->{"invoice_number$i"} ]);
+            $thisRequest->request->add(['qty', $request->{"qty$i"} ]);
+            $thisRequest->request->add(['stock', $request->{"stock$i"} ]);
+            if ($thisRequest->invoice_number!=null) {
+                $this->store($thisRequest);
+                $j++;
+            }
+        }
     }
 
     public function update(Request $request)
@@ -148,6 +174,8 @@ class RideableController extends Controller
         // $rideable->user_id = Auth::user()->id;
         $rideable->invoice_number = $request->invoice_number;
         // $rideable->type = $request->type;
+        ($request->stock == 'on') ? $rideable->stock = true :'';
+        $rideable->qty = $request->qty;
         $rideable->status = $request->status;
         $rideable->description = $request->description;
         $rideable->save();

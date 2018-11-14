@@ -36,9 +36,7 @@ if($rideable->location->type=='DropOff')  $title = 'Droped off';
 
         @case('Returned')
             @if ($user_id == $rideable->user_id)
-                <a class="text-danger" href="/rideable/delete/{{$rideable->id}}/">
-                    <i class="material-icons">cancel</i>
-                </a>
+                <a class="text-primary" title="Make as a done" href="/rideable/{{$rideable->id}}/Done"><i class="material-icons">done</i></a>
             @endif
         @break
 

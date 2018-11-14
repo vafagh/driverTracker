@@ -36,6 +36,7 @@ class CreateRideablesTable extends Migration
         Schema::create('rideables', function (Blueprint $table) {
             $table->increments('id');
             $table->string('invoice_number');
+            $table->integer('qty')->nullable();
             $table->string('type');
             $table->string('status');
             $table->longText('description')->nullable();
@@ -60,7 +61,6 @@ class CreateRideablesTable extends Migration
             $table->softDeletes();
         });
 
-
         Schema::create('drivers', function (Blueprint $table) {
             $table->increments('id');
             $table->string('fname');
@@ -73,7 +73,6 @@ class CreateRideablesTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-
 
         Schema::create('services', function (Blueprint $table) {
             $table->increments('id');
@@ -93,7 +92,6 @@ class CreateRideablesTable extends Migration
             $table->softDeletes();
         });
 
-
         Schema::create('fillups', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('truck_id')->nullable();
@@ -111,7 +109,6 @@ class CreateRideablesTable extends Migration
             $table->softDeletes();
         });
 
-
         Schema::create('rides', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('rideable_id')->nullable();
@@ -125,7 +122,6 @@ class CreateRideablesTable extends Migration
             $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('set null');
             $table->softDeletes();
         });
-
 
         Schema::create('ride_rideable', function (Blueprint $table) {
             $table->unsignedInteger('rideable_id');
@@ -148,11 +144,13 @@ class CreateRideablesTable extends Migration
     public function down()
     {
         // $table->dropForeign('posts_user_id_foreign');
-        Schema::dropIfExists('rideable_ride');
+        Schema::dropIfExists('ride_rideable');
         Schema::dropIfExists('rides');
+        Schema::dropIfExists('fillups');
+        Schema::dropIfExists('services');
         Schema::dropIfExists('drivers');
         Schema::dropIfExists('trucks');
-        Schema::dropIfExists('locations');
         Schema::dropIfExists('rideables');
+        Schema::dropIfExists('locations');
     }
 }

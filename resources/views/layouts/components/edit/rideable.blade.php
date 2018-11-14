@@ -34,16 +34,35 @@
             </select>
         </div>
     @endif
-    <div class="form-group">
-        <label for="message-text" class="col-form-label">{{($op1=='Client') ? 'Invoice': 'Part'}}#:</label>
-        <textarea class="form-control" name="invoice_number" placeholder="Enter the number" required>{{$object->invoice_number}}</textarea>
-        <div class="text-muted">
-            Each part/invoice number on one line
+    <div class="form-inline row m-0">
+        <input value="{{$object->invoice_number}}" type="text" class="form-control mb-2 col-4" id="invoice_number" name="invoice_number" placeholder="{{($op1=='Client') ? 'Invoice': 'Part'}} number" required>
+
+        <div class="col-5 h6 mb-2  p-0 m-0">
+            <div class="form-check" >
+                <input  {{$object->stock ? 'checked' : ''}} class="form-check-input " type="checkbox" id="stock" name="stock">
+                    For Stock
+            </div>
+        </div>
+
+        <div class="form-group col-3  mb-2">
+            <select id="qty" name="qty" class="form-control" required>
+                <option disabled value=1 >qty</option>
+                <option {{$object->qty ==1 ? 'selected' : ''}}value=1>1</option>
+                <option {{$object->qty ==2 ? 'selected' : ''}}value=2>2</option>
+                <option {{$object->qty ==3 ? 'selected' : ''}}value=3>3</option>
+                <option {{$object->qty ==4 ? 'selected' : ''}}value=4>4</option>
+                <option {{$object->qty ==5 ? 'selected' : ''}}value=5>5</option>
+                <option {{$object->qty ==6 ? 'selected' : ''}}value=6>6</option>
+                <option {{$object->qty ==7 ? 'selected' : ''}}value=7>7</option>
+                <option {{$object->qty ==8 ? 'selected' : ''}}value=8>8</option>
+                <option {{$object->qty ==9 ? 'selected' : ''}}value=9>9</option>
+                <option {{$object->qty ==10 ? 'selected' : ''}}value=10>10</option>
+            </select>
         </div>
     </div>
     <div class="form-group">
         <label for="message-text" class="col-form-label">Note:</label>
-        <textarea class="form-control" id="message-text" name="description"></textarea>
+        <textarea class="form-control" id="message-text" name="description">{{$object->description}}</textarea>
     </div>
 </div>
 @if ($object->rides->count()>0)

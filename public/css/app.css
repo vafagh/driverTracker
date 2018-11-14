@@ -10662,17 +10662,19 @@ a.text-dark:focus {
 }
 
 .info > .card {
-  display: none;
   z-index: 1200;
   position: absolute;
   background: white;
   border: 1px solid #eee;
   -webkit-box-shadow: 2px 3px 10px 0px #888;
           box-shadow: 2px 3px 10px 0px #888;
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: visibility 0s, opacity 1s linear;
+  transition: visibility 0s, opacity 1s linear;
 }
 
 .info > .card.img {
-  display: none;
   z-index: 1200;
   position: absolute;
   background: white;
@@ -10685,7 +10687,13 @@ a.text-dark:focus {
 }
 
 .info:hover > .card {
-  display: block;
+  visibility: visible;
+  opacity: 1;
+}
+
+.info .card-body div {
+  font-size: 10px;
+  padding: 0;
 }
 
 .select .locations {

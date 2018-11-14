@@ -12,7 +12,7 @@
                         Part / Invoice:
                     </div>
                     <div class="fixedWidthFont h3">
-                        <pre>{{$rideable->invoice_number}}</pre>
+                        {{$rideable->invoice_number}}<span class="badge badge-secondary h6">ForStock</span> x {{$rideable->qty}}
                     </div>
                 </div>
                 <div class="col-6 col-md-4 col-lg-2">

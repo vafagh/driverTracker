@@ -60,8 +60,8 @@
                             @component('layouts.components.modal',[
                                 'modelName'=>'rideable',
                                 'action'=>'edit',
-                                'dingbats'=>'<i class="material-icons md-16">border_color</i>',
-                                'style'=>'badge badge-warning mr-1 float-left',
+                                'dingbats'=>'<i class="material-icons md-16">edit</i>',
+                                'style'=>'text-info pr-0',
                                 'iterator'=>$key,
                                 'object'=>$rideable,
                                 'op1'=>$rideable->type,

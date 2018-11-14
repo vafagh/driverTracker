@@ -2,7 +2,11 @@
 switch($modelName){
 
     case 'rideable':
-        $title = '<pre>'.strtoupper($model->invoice_number).'</pre>';
+        $note=''; if($model->description) $note="<i title='$model->description' class='material-icons'>event_note</i>";
+        $stock=''; if ($model->stock) $stock ='<span class="text-primary"> Stock</span>';
+        $qty ='x<span class="text-danger">'.$model->qty.'</span>';
+        $title = strtoupper($model->invoice_number);
+        $title=$title.'<small><sup>'.$qty.' '.$stock.'</sup></small>'.$note;
     break;
 
     case 'location':
