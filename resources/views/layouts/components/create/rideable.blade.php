@@ -128,7 +128,7 @@
         <div class="form-inline row m-0" {{$i>0 ? "style=display:none":''}} id="line{{$i}}">
 
             <label class="sr-only" for="invoice_number{{$i}}">{{($op1=='Client') ? 'Invoice': 'Part'}} number:</label>
-            <input class="form-control m-0 mb-2 col-4" onchange="showID(line{{$i+1}})" id="invoice_number{{$i}}" type="text" name="invoice_number{{$i}}" placeholder="{{($op1=='Client') ? 'Invoice': 'Part'}} number">
+            <input class="form-control m-0 mb-2 col-4" onclick="showID(line{{$i+1}})" id="invoice_number{{$i}}" type="text" name="invoice_number{{$i}}" placeholder="{{($op1=='Client') ? 'Invoice': 'Part'}} number">
             @if ($op1!='Client')
 
             <div class="col-4 mb-2">
