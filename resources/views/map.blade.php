@@ -11,8 +11,10 @@
 
             <script type="text/javascript">
             var locations = [
-                    @foreach ($rideables as $key => $rideable)[@if (!empty($rideable->location->lat))"{{$rideable->location->name}}",{{$rideable->location->lat}},{{$rideable->location->lng}},"{{$rideable->id}}","{{$rideable->rides->count()}}","{{(empty($rideable->rides->first()->driver)) ? "notAssigned".$rideable->type : $rideable->rides->first()->driver->fname.$rideable->type }}","{{$rideable->type}}","{{$rideable->location->line1." ".$rideable->location->city}}"@endif],
-                    @endforeach];
+                @foreach ($rideables as $key => $rideable)@if (!empty($rideable->location->lat)) @php $count--; @endphp
+                ["{{$rideable->location->name}}",{{$rideable->location->lat}},{{$rideable->location->lng}},"{{$rideable->id}}","{{$rideable->rides->count()}}","{{(empty($rideable->rides->first()->driver)) ? "notAssigned".$rideable->type : $rideable->rides->first()->driver->fname.$rideable->type }}","{{$rideable->type}}","{{$rideable->location->line1." ".$rideable->location->city}}"]{{($loop->last)?'':','}}@endif
+
+                @endforeach];
             var icons = {
                     @foreach ($activeDrivers as $key => $driver)"{{$driver->fname}}Warehouse": {"icon": "/img/driver/small/{{strtolower($driver->fname)}}Warehouse.png"},
                     "{{$driver->fname}}Client": {"icon": "/img/driver/small/{{strtolower($driver->fname)}}Client.png"},
@@ -93,6 +95,6 @@
 
         @endsection
     </div>
-    <div class="card-footer">All ongoing rides</div>
+    <div class="card-footer">All ongoing rides <sup> Exclude {{$count}} ride without geo location</sup></div>
 </div>
 @endsection

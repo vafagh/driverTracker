@@ -41,11 +41,11 @@ if($rideable->location->type=='DropOff')  $title = 'Droped off';
         @break
 
         @case('DriverDetached')
-            @if ($user_id == $rideable->user_id)
+            {{-- @if ($user_id == $rideable->user_id)
                 <a title="Cancel" class="text-danger" href="/rideable/delete/{{$rideable->id}}/">
                     <i class="material-icons">delete_forever</i>
                 </a>
-            @endif
+            @endif --}}
             @if ($rideable->location->type != 'DropOff')
                 @component('layouts.components.modal',[
                     'modelName'=>'ride',
@@ -69,9 +69,9 @@ if($rideable->location->type=='DropOff')  $title = 'Droped off';
             @else
                 <a title="Returned" class="" href="/rideable/{{$rideable->id}}/Returned"><i class="material-icons">keyboard_return</i></a>
             @endif
-            @if ($user_role != 3)
+            {{-- @if ($user_role != 3)
                 <a title="Request warehouse manager to dissmis driver from this ticket" class="text-warning" href="/rideable/{{$rideable->id}}/DeatachReqested"><i class="material-icons">cancel</i></a>
-            @endif
+            @endif --}}
             <a class="" href="/rideable/{{$rideable->id}}/Done"><i class="material-icons">done</i></a>
         @break
 
@@ -83,9 +83,9 @@ if($rideable->location->type=='DropOff')  $title = 'Droped off';
 
         @case('NotAvailable')
             {{-- @if (empty($rideable->rides)) --}}
-                @if (($user_id == $rideable->user_id || $user_role == 3))
-                    <a title="Cancel" class="text-warning" href="/rideable/{{$rideable->id}}/Canceled">
-                        <i class="material-icons">cancel</i>
+                @if (($user_role > 3))
+                    <a title="Clear line" class="text-danger" href="/rideable/{{$rideable->id}}/Canceled">
+                        <i class="material-icons">clear_all</i>
                     </a>
                 @endif
             {{-- @else

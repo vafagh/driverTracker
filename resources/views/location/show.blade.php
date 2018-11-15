@@ -51,7 +51,7 @@
                         <tr>
                             <td colspan="2">
 
-                                @if (Auth::user()->role_id > 3)
+                                @if (Auth::user()->role_id >= 2)
                                     @component('layouts.components.modal',[
                                         'modelName'=>'location',
                                         'action'=>'edit',

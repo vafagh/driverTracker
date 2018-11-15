@@ -53,8 +53,9 @@ class RideableController extends Controller
             ])
             ->orderBy('location_id', 'desc')
             ->get();
+        $count= $rideables->count();
         $activeDrivers = Driver::where('truck_id','!=',null)->get();
-        return view('map',compact('rideables','activeDrivers'));
+        return view('map',compact('rideables','activeDrivers','count'));
     }
 
     public function show(Rideable $rideable)
@@ -96,7 +97,7 @@ class RideableController extends Controller
             ->where([
                 ['status','!=','Done'],
                 ['status','!=','Canceled'],
-                ['status','!=','NotAvailable'],
+                // ['status','!=','NotAvailable'],
                 ['status','!=','Returned'],
                 ['created_at','>=',$start],
                 ['created_at','<=',$end]

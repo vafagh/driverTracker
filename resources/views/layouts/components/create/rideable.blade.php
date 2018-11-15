@@ -128,7 +128,7 @@
         <div class="form-inline row m-0" {{$i>0 ? "style=display:none":''}} id="line{{$i}}">
 
             <label class="sr-only" for="invoice_number{{$i}}">{{($op1=='Client') ? 'Invoice': 'Part'}} number:</label>
-            <input class="form-control m-0 mb-2 col-4" onclick="showID(line{{$i+1}})" id="invoice_number{{$i}}" type="text" name="invoice_number{{$i}}" placeholder="{{($op1=='Client') ? 'Invoice': 'Part'}} number">
+            <input class="form-control m-0 mb-2 col-4" onclick="showID(line{{$i+1}})" onblur="showID(line{{$i+1}})" id="invoice_number{{$i}}" type="text" name="invoice_number{{$i}}" placeholder="{{($op1=='Client') ? 'Invoice': 'Part'}} number">
             @if ($op1!='Client')
 
             <div class="col-4 mb-2">
@@ -154,17 +154,24 @@
                         <option value='10'>10</option>
                     </select>
                 </div>
-                <div class="delete col-2"><a class='text-danger' href="#" onclick="hideID('{{$i}}')"><i class="material-icons">delete_forever</i></a></div>
+                <div id="delete{{$i}}" class="col-2" style='display:flex;'><a class='text-danger' href="#" onclick="hideID('{{$i}}')"><i class="material-icons">delete_forever</i></a></div>
             </div>
             @endif
         </div>
     @endfor
 
     <script type="text/javascript">
-        function showID(id) { id.style.display = "flex"; }
+        function showID(id) {
+            id.style.display = "flex";
+            var lineNm = document.getElementById("delete0").style.display = "none";
+        }
         function hideID(id) {
-            var lineNm = this["line"+id];
-            lineNm.style.display = "none";
+            if(id!=0){
+                var lineNm = this["line"+id].style.display = "none";
+            }else{
+                var lineNm = document.getElementById("delete0").style.display = "none";
+
+            }
             var invNum = this["invoice_number"+id];
             invNum.value = null;
         }
