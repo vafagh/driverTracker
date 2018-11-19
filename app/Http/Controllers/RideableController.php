@@ -43,6 +43,7 @@ class RideableController extends Controller
             ->where([
                 ['status', '!=', 'Done'],
                 ['status', '!=', 'Canceled'],
+                ['status','!=','Returned'],
                 ['created_at','>=',$start],
                 ['created_at','<=',$end]
             ])
