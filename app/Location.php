@@ -39,13 +39,15 @@ class Location extends Model
 
     static public function addGeo(Location $location)
     {
-        $gmaprespond = $location->getGeo($location);
-        if($gmaprespond->status == 'OK' && ($location->lat)==null){
-            $location->lat = $gmaprespond->results[0]->geometry->location->lat;
-            $location->lng = $gmaprespond->results[0]->geometry->location->lng;
-            Transaction::log(Route::getCurrentRoute()->getName(),Location::find($location->id),$location);
-            $location->save();
-        }else{ return 'Google Map API:'.$gmaprespond->status;}
+        if($location->lat==Null || $location->lat=='' || $location->lng==Null || $location->lng=='' ){
+            $gmaprespond = $location->getGeo($location);
+            if($gmaprespond->status == 'OK' && ($location->lat)==null){
+                $location->lat = $gmaprespond->results[0]->geometry->location->lat;
+                $location->lng = $gmaprespond->results[0]->geometry->location->lng;
+                Transaction::log(Route::getCurrentRoute()->getName(),Location::find($location->id),$location);
+                $location->save();
+            }else{ return 'Google Map API:'.$gmaprespond->status;}
+        }
     }
 
 }
