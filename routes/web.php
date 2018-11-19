@@ -2,7 +2,7 @@
 
 Auth::routes();
 
-Route::GET('/', 'RideableController@home')->name('home');
+Route::GET('/', 'HomeController@home')->name('home');
 Route::GET('/map', 'RideableController@map')->name('map');
 Route::GET('/drivers', 'DriverController@index')->name('drivers');
 Route::GET('/driver/show/{driver}', 'DriverController@show');

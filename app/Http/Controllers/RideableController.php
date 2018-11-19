@@ -14,11 +14,6 @@ use Illuminate\Support\Facades\Route;
 
 class RideableController extends Controller
 {
-    public function home(Request $request)
-    {
-        $warehouses =  Location::where('type','!=','Client')->get();
-        return view('home',compact('rideables','flashId','warehouses'));
-    }
     public function map(Request $request)
     {
         $yesterNoon = Carbon::yesterday()->addHours(13);
