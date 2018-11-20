@@ -37,8 +37,8 @@
                                 </div>
                             </div>
                             <div class="row m-0  pb-2">
-                                <div class="col-5 ">
-                                    {{$driver->phone}}
+                                <div class="col-5 h3 ">
+                                    <a href="tel:{{$driver->phone}}" title="Click to Call!">{{$driver->phone}}</a>
                                 </div>
                                 <div class="col-7 text-right  pt-2">
                                     @if (Auth::user()->role_id > 2)
