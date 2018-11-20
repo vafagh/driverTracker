@@ -19,9 +19,6 @@ These instructions will get you a copy of the project up and running on your loc
 * JSON PHP Extension
 * [Composer](https://getcomposer.org/)
 
-```
-Give examples
-```
 
 ### Install
 
@@ -72,8 +69,11 @@ php artisan migrate
 ```shell
 php artisan db:seed
 ```
-
-
+### 5. Enable Google map API
+This application uses this API. You need to enable them and your API to .env file to get the maps and map functions to work.
+- Maps Static
+- Maps JavaScript
+- Geocoding API
 
 ## Built With
 
