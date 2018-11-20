@@ -25,6 +25,7 @@ class LocationController extends Controller
         }
         $location->type = $request->type;
         $location->name = $request->name;
+        $location->longName = $request->longName;
         $location->person = $request->person;
         $location->phone = $request->phone;
         $location->distance = $request->distance;

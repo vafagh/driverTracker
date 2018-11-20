@@ -26,9 +26,9 @@
                 <option {{('Created'==$object->status) ? 'selected' : ''}} value="Created">Created</option>
                 <option {{('OnTheWay'==$object->status) ? 'selected' : ''}} value="OnTheWay">On The Way</option>
                 <option {{('Done'==$object->status) ? 'selected' : ''}} value="Done">Done</option>
+                <option {{('Returned'==$object->status) ? 'selected' : ''}} value="Returned">Returned</option>
                 <option {{('CancelReq'==$object->status) ? 'selected' : ''}} value="CancelReq">Cancel Request</option>
                 <option {{('NotAvailable'==$object->status) ? 'selected' : ''}} value="NotAvailable">Not Available</option>
-                <option {{('DeatachReqested'==$object->status) ? 'selected' : ''}} value="DeatachReqested">Cancel this Ride</option>
                 <option {{('Reactived'==$object->status) ? 'selected' : ''}} value="Reactive">Re active</option>
                 <option {{('Canceled'==$object->status) ? 'selected' : ''}} value="Canceled">Cancel</option>
             </select>

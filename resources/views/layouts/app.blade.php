@@ -33,7 +33,7 @@
     @yield('head')
 
 </head>
-<body onload="initialize()">
+<body{!! (Request::is('map')==1) ? ' onload="initialize()"':''!!}>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel p-0 border">
             <div class="container-fluid">
