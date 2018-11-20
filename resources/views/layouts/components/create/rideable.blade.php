@@ -1,4 +1,5 @@
-<a href="/locations#op1location_create0">Create Location</a>
+<a href="/locations" data-target="#op1location_createlocation0"  data-toggle="modal">Create Location</a>
+
 <div class="modal-body">
 
     @if ($op1 == 'Client')
@@ -125,67 +126,80 @@
     @endif
 
     @for ($i=0; $i < 10; $i++)
-        <div class="form-inline row m-0" {{$i>0 ? "style=display:none":''}} id="line{{$i}}">
+        <div class="form-inline row m-0" {{$i>0 ? "style=display:none":'"style=display:flex"'}} id="line{{$i}}">
 
             <label class="sr-only" for="invoice_number{{$i}}">{{($op1=='Client') ? 'Invoice': 'Part'}} number:</label>
-            <input class="form-control m-0 mb-2 col-4" onclick="showID(line{{$i+1}})" onblur="showID(line{{$i+1}})" id="invoice_number{{$i}}" type="text" name="invoice_number{{$i}}" placeholder="{{($op1=='Client') ? 'Invoice': 'Part'}} number">
+            <input class="form-control m-0 mb-2 col-4" id="invoice_number{{$i}}" type="text" name="invoice_number{{$i}}" placeholder="{{($op1=='Client') ? 'Invoice': 'Part'}} number">
             @if ($op1!='Client')
-
-            <div class="col-4 mb-2">
-                <div class="form-check" >
-                    <input class="form-check-input" type="checkbox" id="stock{{$i}}" name="stock{{$i}}">
-                    <label class="form-check-label" for="stock{{$i}}">
-                        For Stock
-                    </label>
+                <div class="col-4 mb-2">
+                    <div class="form-check" >
+                        <input class="form-check-input" type="checkbox" id="stock{{$i}}" name="stock{{$i}}">
+                        <label class="form-check-label" for="stock{{$i}}">
+                            For Stock
+                        </label>
+                    </div>
                 </div>
-            </div>
-            <div class="col-4 row m-0 p-0">
-                <div class="form-group col-9 mb-2">
-                    <select id="qty{{$i}}" name="qty{{$i}}" class="form-control">
-                        <option selected value='1'>QTY x1</option>
-                        <option value='2'>2</option>
-                        <option value='3'>3</option>
-                        <option value='4'>4</option>
-                        <option value='5'>5</option>
-                        <option value='6'>6</option>
-                        <option value='7'>7</option>
-                        <option value='8'>8</option>
-                        <option value='9'>9</option>
-                        <option value='10'>10</option>
-                    </select>
-                </div>
-                <div id="delete{{$i}}" class="col-2" style='display:flex;'><a class='text-danger' href="#" onclick="hideID('{{$i}}')"><i class="material-icons">delete_forever</i></a></div>
-            </div>
             @endif
+                <div class="col-4 row m-0 p-0">
+                    @if ($op1!='Client')
+                        <div class="form-group col-9 mb-2">
+                            <select id="qty{{$i}}" name="qty{{$i}}" class="form-control">
+                                <option selected value='1'>QTY x1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                                <option value='6'>6</option>
+                                <option value='7'>7</option>
+                                <option value='8'>8</option>
+                                <option value='9'>9</option>
+                                <option value='10'>10</option>
+                            </select>
+                        </div>
+                    @endif
+                    <div id="delete{{$i}}" class="col-2" style='display:flex;'><a class='text-danger' href="#" onclick="hideID('{{$i}}')"><i class="material-icons">delete_forever</i></a></div>
+                </div>
         </div>
     @endfor
 
     <script type="text/javascript">
-        function showID(id) {
-            id.style.display = "flex";
-            var lineNm = document.getElementById("delete0").style.display = "none";
-        }
-        function hideID(id) {
-            if(id!=0){
-                var lineNm = this["line"+id].style.display = "none";
-            }else{
-                var lineNm = document.getElementById("delete0").style.display = "none";
 
-            }
-            var invNum = this["invoice_number"+id];
-            invNum.value = null;
+    function showID(id) {
+        if (id!=null) {
+            id.style.display = "flex";
+            let lineNm = document.getElementById("delete0").style.display = "none";
         }
+    }
+    function hideID(id) {
+        if(id!=0){
+            let lineNm = this["line"+id].style.display = "none";
+        }else{
+            let lineNm = document.getElementById("delete0").style.display = "none";
+        }
+        var invNum = this["invoice_number"+id];
+        invNum.value = null;
+    }
+    document.addEventListener("keydown", function (event) {
+        let currentIdNum = parseInt(event.srcElement.id.substr(event.srcElement.id.length - 1));
+        let theId = event.srcElement.id.substr(0,event.srcElement.id.length - 1)
+        let nextIdNum = currentIdNum+1;
+        showID(document.getElementById("line"+nextIdNum));
+        if (event.which==32 && nextIdNum!=NaN) {
+            document.getElementById('invoice_number'+nextIdNum).focus();
+        }
+    });
+
     </script>
 
     <div class="form-group">
-        <label for="message-text" class="col-form-label">Note:</label>
-        <textarea class="form-control" id="message-text" name="description"></textarea>
+    <label for="message-text" class="col-form-label">Note:</label>
+    <textarea class="form-control" id="message-text" name="description"></textarea>
     </div>
 
-</div>
-<div class="modal-footer">
+    </div>
+    <div class="modal-footer">
     <input type="hidden" name="type" value="{{$op2}}">
     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
     <button type="submit" id="{{$op2}}" class="btn btn-primary">Save it</button>
 
-</div>
+    </div>
