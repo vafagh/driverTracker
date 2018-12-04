@@ -103,6 +103,9 @@
                                                     'op2'=>'',
                                                     'file'=>false,
                                                     'autocomplateOff'=>true])@endcomponent
+                                                    @if ($ride->rideable->status!='Done' && $ride->rideable->status!='Returned')
+                                                        <a class="badge badge-primary" href="/rideable/{{$ride->rideable->id}}/Done">&#x2714; Done</a>
+                                                    @endif
                                                 @endif
                                                 @component('layouts.components.tooltip',['modelName'=>'rideable','model'=>$ride->rideable])
                                                 @endcomponent
@@ -138,7 +141,6 @@
                                                     'op2'=>''])
                                                 @endcomponent
                                                 @if (Auth::user()->role_id > 3 && $ride->rideable->status!='Done' && $ride->rideable->status!='Returned')
-                                                    <a class="badge badge-primary" href="/rideable/{{$ride->rideable->id}}/Done">&#x2714; Done</a>
                                                     <a class="badge badge-danger" href="/ride/detach/{{$ride->id}}/{{$ride->rideable->id}}">Detach</a>
                                                     <a title="Returned" class="badge badge-danger" href="/rideable/{{$ride->rideable->id}}/Returned"><i class="material-icons md-16">keyboard_return</i></a>
                                                 @endif
