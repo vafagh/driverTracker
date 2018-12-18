@@ -41,11 +41,11 @@ if($rideable->location->type=='DropOff')  $title = 'Droped off';
         @break
 
         @case('DriverDetached')
-            {{-- @if ($user_id == $rideable->user_id)
+            @if ($user_id == $rideable->user_id)
                 <a title="Cancel" class="text-danger" href="/rideable/delete/{{$rideable->id}}/">
                     <i class="material-icons">delete_forever</i>
                 </a>
-            @endif --}}
+            @endif
             @if ($rideable->location->type != 'DropOff')
                 @component('layouts.components.modal',[
                     'modelName'=>'ride',
