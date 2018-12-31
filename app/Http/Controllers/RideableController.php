@@ -173,7 +173,7 @@ class RideableController extends Controller
         // $rideable->user_id = Auth::user()->id;
         $rideable->invoice_number = $request->invoice_number;
         // $rideable->type = $request->type;
-        ($request->stock == 'on') ? $rideable->stock = true :'';
+        ($request->stock == 'on') ? $rideable->stock = true :$rideable->stock = false;
         $rideable->qty = $request->qty;
         $rideable->status = $request->status;
         $rideable->description = $request->description;
