@@ -42,7 +42,8 @@ if($rideable->location->type=='DropOff')  $title = 'Droped off';
 
         @case('DriverDetached')
             @if ($user_id == $rideable->user_id)
-                <a title="Cancel" class="text-danger" href="/rideable/delete/{{$rideable->id}}/">
+                <a title="
+                Cancel" class="text-danger" href="/rideable/delete/{{$rideable->id}}/">
                     <i class="material-icons">delete_forever</i>
                 </a>
             @endif
@@ -83,7 +84,7 @@ if($rideable->location->type=='DropOff')  $title = 'Droped off';
 
         @case('NotAvailable')
             {{-- @if (empty($rideable->rides)) --}}
-                @if (($user_role > 3))
+                @if (($user_role >= 3))
                     <a title="Clear line" class="text-danger" href="/rideable/{{$rideable->id}}/Canceled">
                         <i class="material-icons">clear_all</i>
                     </a>
