@@ -10866,3 +10866,6 @@ a.text-dark:focus {
 }
 
 .not-working img {
+  opacity: .2;
+  z-index: 1049;
+}
