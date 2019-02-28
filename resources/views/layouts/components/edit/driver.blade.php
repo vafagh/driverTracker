@@ -1,19 +1,29 @@
 <div class="modal-body">
-    <div class="form-group">
-        <label for="fname" class="col-form-label">First Name</label>
-        <input name="fname" class="form-control form-control" type="text" value="{{$object->fname}}" required>
-    </div>
-    <div class="form-group">
-        <label for="lname" class="col-form-label">Last Name</label>
-        <input name="lname" class="form-control form-control" type="text" value="{{$object->lname}}" required>
+    <div class="form-group row">
+        <div class="col-6">
+            <label for="fname" class="col-form-label">First Name</label>
+            <input name="fname" class="form-control" type="text" value="{{$object->fname}}" required>
+        </div>
+        <div class="col-6">
+            <label for="lname" class="col-form-label">Last Name</label>
+            <input name="lname" class="form-control" type="text" value="{{$object->lname}}" required>
+        </div>
     </div>
     <div class="form-group">
         <label for="phone" class="col-form-label">Phone number</label>
-        <input name="phone" class="form-control form-control" type="text" value="{{$object->phone}}">
+        <input name="phone" class="form-control" type="text" value="{{$object->phone}}">
     </div>
-    <div class="form-group">
-        <label for="email" class="col-form-label">Email Address</label>
-        <input name="email" class="form-control form-control" type="text" value="{{$object->email}}">
+    <div class="form-group row">
+        <div class="col-6">
+            <label for="email" class="col-form-label">Email Address</label>
+            <input name="email" class="form-control" type="text" value="{{$object->email}}">
+        </div>
+        <div class="col-6">
+            <div class="col-form-label">Status</div>
+            <input class="form-check-input pl-2" type="checkbox" {{($object->working)?'checked':''}} id="working"  name="working" >
+            <label for="working">Eagle Employee</label>
+        </div>
+
     </div>
     <div class="form-group select">
         <label for="truck" class="col-form-label">Driving:</label>
@@ -21,7 +31,7 @@
             $availableTrucks = App\Truck::whereNotIn('id',App\Driver::where('truck_id','!=',NULL)->get()->pluck('truck_id')->toArray());
         @endphp
         {{-- @if ($availableTrucks->count()>0) --}}
-            <select class="form-control form-control locations" name="truck" required>
+            <select class="form-control locations" name="truck" required>
                 @if (!empty($object->truck_id))
                     <option value='{{$object->truck_id}}'>{{App\Truck::find($object->truck_id)->license_plate}}</option>
                 @else

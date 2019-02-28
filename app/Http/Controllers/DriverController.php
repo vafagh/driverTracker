@@ -14,7 +14,8 @@ class DriverController extends Controller
     public function index()
     {
         $drivers = Driver::with('rides','fillups','rides.truck','rides.rideable.location')
-        ->orderBy('fname')
+        ->orderByDesc('working')
+        ->orderBy('truck_id')
         ->get();
 
         return view('driver.drivers',compact('drivers'));
@@ -54,12 +55,19 @@ class DriverController extends Controller
     public function update(Request $request)
     {
         try{
+
             $driver = Driver::find($request->id);
             $driver->fname = $request->fname;
             $driver->lname = $request->lname;
             $driver->phone = $request->phone;
             $driver->email = $request->email;
             ($request->truck == 'clear') ?  $driver->truck_id=null : $driver->truck_id = $request->truck;
+            if($request->working=='on'){
+                $driver->working = true;
+            } else {
+                $driver->working = false ;
+                $driver->truck_id = NULL;
+            }
             if($request->file('avatar')!=NULL){
                 $image = time().'.'. $request->file('avatar')->getClientOriginalExtension();
                 $request->file('avatar')->move(public_path('img/driver'), $image);

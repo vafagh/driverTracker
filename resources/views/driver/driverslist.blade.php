@@ -1,7 +1,7 @@
 <ul class="row m-0 p-0" id='driverd'>
 
     @foreach ($drivers as $key => $driver)
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-2">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-2{{($driver->working)?'':' not-working'}}">
             <div class="card">
                 <div class="card-img h-50">
                     <a href="/driver/show/{{$driver->id}}">
@@ -25,12 +25,15 @@
                             {{-- <div class="col-6 totalDistance"><div class="h3 mb-0">{{ $driver->totalDistance() }}</div>Mile</div> --}}
                             <div class="col-6 totalTrip"><div class="h3 mb-0">{{ $driver->totalTrip() }}</div>Trip</div>
                             <div class="col-12">
-                                {!!($driver->phone) ? '<span class="text-muted">&#x2706; </span>'.$driver->phone:''!!}
+                                {!!($driver->phone) ? '<span class="text-muted">&#x2706; </span><a href="tel:+1'.$driver->phone.'">'.$driver->phone.'</a>':''!!}
                             </div>
                             <div class="col-12">
                                 @if($driver->truck_id)
-                                    <div class="text-muted">Driving: </div>{{$truck = App\Truck::find($driver->truck_id)->license_plate}}
-                                    <a title="Remove Driver-Truck Joint" href="/driver/{{$driver->id}}/unassign"><i class="material-icons text-danger md-16">lock_open</i></a>
+                                    <div class="text-muted">Driving: </div>
+                                    <div class="text-truncate h4 text-primary">
+                                        {{$truck = App\Truck::find($driver->truck_id)->license_plate}}
+                                        <a title="Remove Driver-Truck Joint" href="/driver/{{$driver->id}}/unassign"><i class="material-icons text-danger md-16">lock_open</i></a>
+                                    </div>
                                 @endif
                             </div>
 

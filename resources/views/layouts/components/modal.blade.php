@@ -1,6 +1,7 @@
 @if (!isset($btnHide))
-    <a  class="navbar-toggler {{(isset($style) ? $style : 'btn btn-info ')}}{{(isset($btnSize) ? 'btn-sm mx-1' : '')}}"
+    <a  class="navbar-toggler {{(isset($style) ? $style : 'btn btn-info ')}}{{(isset($btnSize) ? $btnSize : '')}}"
         data-toggle="modal"
+        {{(isset($btnAttribute) ? $btnAttribute : '')}}
         data-target="#{{$op1.$op2.'_'.$action.$modelName.$iterator}}"
         data-whatever="@mdo"
         title="{{$action.' '.$modelName}}">
@@ -8,7 +9,7 @@
         {!!(isset($dingbats))? $dingbats : ucfirst($action)!!}
     </a>
 @endif
-<div class="modal fade text-dark" id="{{$op1.$op2.'_'.$action.$modelName.$iterator}}" tabindex="-1" role="dialog" aria-labelledby="{{$op2.$action.$modelName.$iterator}}" aria-hidden="true">
+<div class="modal fade text-dark h6" id="{{$op1.$op2.'_'.$action.$modelName.$iterator}}" tabindex="-1" role="dialog" aria-labelledby="{{$op2.$action.$modelName.$iterator}}" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
 
@@ -18,7 +19,6 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-
             @component('layouts.components.'.$action,[
             'modelName'=>$modelName,
             'op1'=>$op1,
