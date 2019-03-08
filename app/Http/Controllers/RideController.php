@@ -20,6 +20,7 @@ class RideController extends Controller
 
         return view('ride.rides',compact('rides'));
     }
+
     public function show($ride_id)
     {
         $ride = Ride::with('rideable','rideable.location','driver','truck')->find($ride_id);
@@ -27,6 +28,7 @@ class RideController extends Controller
             return redirect()->back()->with('error', 'Ride with Id of '.$ride_id.' no longer exict!');
         }else return view('ride.show',compact('ride'));
     }
+
     public function create(Rideable $rideable)
     {
         return view('ride.create',compact('rideable'));
@@ -36,18 +38,27 @@ class RideController extends Controller
     {
         $ride = new Ride;
         $ride->rideable_id = $request->id;
+        if(is_null($request->driver)){return redirect()->back()->with('error', 'Please choice the driver!');}
         $ride->truck_id    = Driver::find($request->driver)->truck_id;
         $ride->driver_id   = $request->driver;
+        $ride->shift       = $request->shift;
+        $ride->delivery_date = $request->delivery_date;
         $ride->distance    = $request->distance;
         $ride->save();
 
         $rideable=Rideable::find($request->id);
+        $msg = 'Driver Assigned';
+        // if($request->setShift == true){
+            $rideable->shift = $request->shift;
+            $rideable->delivery_date = $request->delivery_date;
+            $msg = $msg.' and delivery set.';
+        // }
         $rideable->status = 'OnTheWay';
         $rideable->save();
         $rideable->rides()->attach($ride->id);
         Transaction::log(Route::getCurrentRoute()->getName(), $rideable, $ride);
 
-        return redirect()->back()->with('status', 'Driver Assigned');
+        return redirect()->back()->with('status', $msg);
 
     }
 
@@ -58,6 +69,8 @@ class RideController extends Controller
         $ride->driver_id   = $driver->id;
         $ride->truck_id    = $driver->truck_id;
         $ride->distance    = $rideable->location->distance;
+        $ride->shift = $rideable->shift;
+        $ride->delivery_date = $rideable->delivery_date;
         $ride->save();
 
         $rideable->status = 'OnTheWay';
@@ -73,6 +86,9 @@ class RideController extends Controller
     {
         $rideable=Rideable::find($rideable_id);
         $rideable->status = 'DriverDetached';
+        $rideable->shift='';
+        $rideable->delivery_date=null;
+
         $rideable->save();
         if($ride_id > 0){
             $rideable->rides()->detach($ride_id);
@@ -95,10 +111,16 @@ class RideController extends Controller
         $ride = Ride::find($request->id);
         $ride->driver_id = $request->driver;
         $ride->truck_id = $request->truck;
+        $msg = 'Ride Updated!';
+        if($request->setShift == true){
+            $rideable->shift = $request->shift;
+            $rideable->delivery_date = $request->delivery_date;
+            $msg = $msg.' and new delivery set.';
+        }
         $ride->save();
         Transaction::log(Route::getCurrentRoute()->getName(),Ride::find($request->id),$ride);
 
-        return redirect('/rides')->with('status', 'Ride Updated!');
+        return redirect('/rides')->with('status', $msg);
     }
 
     public function destroy(Ride $ride)

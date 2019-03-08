@@ -39,6 +39,8 @@ class CreateRideablesTable extends Migration
             $table->integer('qty')->nullable();
             $table->string('type');
             $table->string('status');
+            $table->string('delivery_date')->nullable();
+            $table->string('shift')->nullable();
             $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -115,6 +117,8 @@ class CreateRideablesTable extends Migration
             $table->unsignedInteger('rideable_id')->nullable();
             $table->unsignedInteger('truck_id')->nullable();
             $table->unsignedInteger('driver_id')->nullable();
+            $table->string('delivery_date')->nullable();
+            $table->string('shift')->nullable();
             $table->string('distance');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->nullable();

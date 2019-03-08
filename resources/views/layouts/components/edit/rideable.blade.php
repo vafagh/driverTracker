@@ -1,27 +1,34 @@
     <div class="modal-body">
-    {{-- @if ($object->type == 'Delivery'||$object->type == 'Client') --}}
-        <div class="form-group autocomplete w-100">
+        @if ($object->location->type != 'DropOff')
+            <div class="form-group">
+                @if ($object->delivery_date!=null)
+                    <span class="h6">Delivery arranged for:</span>
+                    <div class="h4 text-center">
+                        {{ App\Helper::dateName($object->delivery_date)}}, {{$object->shift}}
+                    </div>
+                @endif
+                <a data-toggle="collapse" href="#collapse{{$object->id}}" role="button" aria-expanded="{{($object->delivery_date==null)?'true':'false'}}" aria-controls="collapse{{$object->id}}">
+                    Re-schedule
+                </a>
+                <div class="collapse{{($object->delivery_date==null)?' show':''}}" id="collapse{{$object->id}}">
+                    <div class="">
+                        @component('layouts.when',['object'=>$object,'model'=>'create.ride'])
+                        @endcomponent
+                    </div>
+                </div>
+            </div>
+        @endif
+        <div class="form-group ">
             <label for="lname" class="col-form-label">To:</label>
-            {{$object->location->longName}}
+            <div class="">
+                {{$object->location->longName}}
+            </div>
         </div>
-    {{-- @else
-        <div class="form-group select">
-            <label for="recipient-name" class="col-form-label">From:</label>
-            <select class="form-control locations" name="clientsName" required>
-                @foreach (App\Location::where('type','!=','Client')->orderBy('name')->get() as $location)
-                    <option {{($location->id==$object->location_id) ? 'selected' : ''}} value="{{$location->id}}">
-                        {{$location->name}}
-                    </option>
-                @endforeach
-                <option class="text-muted" disabled>Not found? Create it first</option>
-            </select>
-        </div>
-    @endif --}}
     @if (Auth::user()->role_id > 2 || Auth::user()->id == $object->user_id)
 
         <div class="form-group select">
             <label for="status" class="col-form-label">Status:</label>
-            <select class="form-control form-control-lg locations" name="status" required>
+            <select class="form-control locations" name="status" required>
                 <option class="text-muted" disabled> select</option>
                 <option {{('Created'==$object->status) ? 'selected' : ''}} value="Created">Created</option>
                 <option {{('OnTheWay'==$object->status) ? 'selected' : ''}} value="OnTheWay">On The Way</option>
@@ -67,7 +74,7 @@
     </div>
 </div>
 @if ($object->rides->count()>0)
-    <hr>
+    <hr class="mt-0">
     <div class="">
         <h4>Assigned to:</h4>
         @foreach ($object->rides as $key => $ride)

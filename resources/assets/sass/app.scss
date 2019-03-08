@@ -1,11 +1,9 @@
-
 // Fonts
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600");
-
 // Variables
 @import "variables";
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import 'node_modules/bootstrap/scss/bootstrap';
 .navbar-collapse.collapse.show ul a{ padding:5px 0 5px 20px}
 .navbar-brand{
     background: url(/img/logo.png) no-repeat left center;
@@ -23,6 +21,7 @@
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
+#countdown{font:bold 1em terminal}
 //fixing modal issue with list-group
 .list-group-item, .list-group-item:hover{ z-index: auto; }
 
@@ -79,6 +78,7 @@
 .minw-150{min-width:150px}
 .minw-200{min-width:200px}
 .minw-250{min-width:250px}
+.lh-40{line-height: 40px}
 .tip{color:#0a5d3e}
 .tip:hover{color:#da3b1f}
 .info>.card{
@@ -110,8 +110,6 @@
     opacity: 1;
 }
 .info .card-body div{font-size:10px; padding: 0}
-.select .locations {font: normal 1.2em monospace;}
-.select .locations:focus {font: normal 2.0em monospace;}
 .select .locations *{}
 .NotAvailable{background-color:#ffd5d5}
 .DeatachReqested{background-color:#ffd5d5}
@@ -205,4 +203,8 @@
 .delete-menu:hover {
     background: #eee;
 }
-.not-working{opacity:.4}
+.shiftSelect{background-image: url(/img/shifts.png); background-repeat: no-repeat; width:45px; height:40px; display:inline-block}
+.morning{background-position:bottom;}
+.evening{background-position:top;}
+.not-working img{opacity:.2; z-index:1049}
+.list-group-item.row.m-0.p-0 div{border:0px solid red}

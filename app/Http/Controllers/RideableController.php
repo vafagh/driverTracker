@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
 use Auth;
 use App\Rideable;
 use App\Ride;
@@ -121,10 +122,8 @@ class RideableController extends Controller
     {
         for ($i=0,$j=0; $i < 10 ; $i++) {
             $thisRequest = $request;
-            // $rideable->invoice_number = $request->{"invoice_number$i"};
-            // $rideable->qty = $request->{"qty$i"};
-            // $rideable->stock = $request->{"stock$i"};
             if ($request->{"invoice_number$i"}!='') {
+                $j++;
                 $rideable = new Rideable;
                 $rideable->user_id = Auth::id();
                 (is_null($request->locationName)) ? $locationName = $thisRequest->locationPhone : $locationName = $thisRequest->locationName;
@@ -139,15 +138,16 @@ class RideableController extends Controller
                 ($request->{"stock$i"} == 'on') ? $rideable->stock = true :'';
                 $rideable->qty = $request->{"qty$i"};
                 $rideable->type = Location::find($rideable->location_id)->type;
+                $rideable->shift = $request->shift;
+                $rideable->delivery_date = $request->delivery_date;
                 $rideable->status = 'Created';
                 $rideable->description = $thisRequest->description;
                 $rideable->save();
                 Transaction::log(Route::getCurrentRoute()->getName(),'',$rideable);
-
             }
         }
 
-        return redirect()->back()->with('status', $j." part number has been added! ");
+        return redirect()->back()->with('status', $j." part number has been added! ".' '.$msg);
         // return redirect()->back()->with('status', '#'.$rideable->invoice_number." added! ".$msg);
 
     }
@@ -177,6 +177,8 @@ class RideableController extends Controller
         $rideable->qty = $request->qty;
         $rideable->status = $request->status;
         $rideable->description = $request->description;
+        $rideable->shift = $request->shift;
+        $rideable->delivery_date = $request->delivery_date;
         $rideable->save();
         Transaction::log(Route::getCurrentRoute()->getName(),'',$rideable);
 
