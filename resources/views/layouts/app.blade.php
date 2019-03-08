@@ -110,7 +110,10 @@
                     </ul>
                 </div>
                 <div class="nav-link">
-                    &#x276F; <span class="text-info fixedWidthFont h4">
+                    <a href="?{{time()}}" title="Reload page">
+                        <i class="material-icons">refresh</i>
+                    </a>
+                    <span class="text-info fixedWidthFont h4">
                         <span id="countdown"></span>"
                     </span>
                 </div>
@@ -151,6 +154,7 @@
             <audio autoplay src="/snd/BoxingBell.mp3">Your browser does not support the <code>audio</code> element.</audio>
         @endif
     @endif --}}
+    <!-- yield footer scripts-->
     @yield('footer-scripts')
 </body>
 </html>

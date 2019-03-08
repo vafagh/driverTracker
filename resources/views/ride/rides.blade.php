@@ -19,7 +19,7 @@
                         <th>For</th>
                         <th>Driver</th>
                         <th>Truck</th>
-                        <th>Create</th>
+                        <th>Delivery</th>
                         <th>Actions</th>
                     </tr>
                 </thead>

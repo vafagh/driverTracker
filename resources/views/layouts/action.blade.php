@@ -18,15 +18,7 @@ if($rideable->location->type=='DropOff')  $title = 'Droped off';
                 </a>
             @endif
             @if ($rideable->location->type != 'DropOff')
-                @component('layouts.components.modal',['modelName'=>'ride','action'=>'create',
-                    'iterator'=>$rideable->id,
-                    'object'=>$rideable,
-                    'btnSize'=>'small',
-                    'style'=>'text-info text-white ',
-                    'op1'=>'',
-                    'op2'=>'',
-                    'dingbats'=>'<i class="material-icons">drive_eta</i> ',
-                    'file'=>false])
+                @component('layouts.components.modal',['modelName'=>'ride','action'=>'create','iterator'=>$rideable->id,'object'=>$rideable,'btnSize'=>'small','style'=>'text-info text-white ','op1'=>'','op2'=>'','dingbats'=>'<i class="material-icons">drive_eta</i> ','file'=>false])
                 @endcomponent
             @endif
             @if ($title=='Droped off')
