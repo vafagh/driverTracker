@@ -18,11 +18,6 @@ class LocationController extends Controller
     public function store(Request $request)
     {
         $location = new Location;
-        $gmaprespond = $location->getGeo($location);
-        if($gmaprespond->status == 'OK'){
-            $location->lat = $gmaprespond->results[0]->geometry->location->lat;
-            $location->lng = $gmaprespond->results[0]->geometry->location->lng;
-        }
         $location->type = $request->type;
         $location->name = $request->name;
         $location->longName = $request->longName;
@@ -42,6 +37,11 @@ class LocationController extends Controller
             }
             $request->file('image')->move(public_path('img/location'), $image);
             $location->image = $image;
+        }
+        $gmaprespond = $location->getGeo($location);
+        if($gmaprespond->status == 'OK'){
+            $location->lat = $gmaprespond->results[0]->geometry->location->lat;
+            $location->lng = $gmaprespond->results[0]->geometry->location->lng;
         }
         $location->save();
         Transaction::log(Route::getCurrentRoute()->getName(),'',$location);
@@ -65,13 +65,7 @@ class LocationController extends Controller
     public function update(Request $request)
     {
         $location = Location::find($request->id);
-        $gmaprespond = $location->getGeo($location);
         $msg = '';
-        if($gmaprespond->status == 'OK'){
-            $location->lat = $gmaprespond->results[0]->geometry->location->lat;
-            $location->lng = $gmaprespond->results[0]->geometry->location->lng;
-            $msg = $msg.'Geo data and other information for ';
-        }else{$msg = $msg.'Geo_'.$gmaprespond->status.'('.$gmaprespond->error_message.') but other info for ';}
         if($request->file('image')!=NULL){
             $image = time().'.'. $request->file('image')->getClientOriginalExtension();
             $structure = '../public/img/location/';
@@ -80,6 +74,8 @@ class LocationController extends Controller
             }
             $request->file('image')->move(public_path('img/location'), $image);
             $location->image = $image;
+        }elseif ($request->clearimg == 'on') {
+            $location->image = null;
         }
         $location->type = $request->type;
         $location->name = $request->name;
@@ -92,6 +88,14 @@ class LocationController extends Controller
         $location->city = $request->city;
         $location->state = $request->state;
         $location->zip = $request->zip;
+        if($location->lat == null || $location->lng == null){
+            $gmaprespond = $location->getGeo($location);
+            if($gmaprespond->status == 'OK'){
+                $location->lat = $gmaprespond->results[0]->geometry->location->lat;
+                $location->lng = $gmaprespond->results[0]->geometry->location->lng;
+                $msg = $msg.'Geo data and other information for ';
+            }else{$msg = $msg.'Geo_'.$gmaprespond->status.'('.$gmaprespond->error_message.') but other info for ';}
+        }
         Transaction::log(Route::getCurrentRoute()->getName(),Location::find($request->id),$location);
         $location->save();
 

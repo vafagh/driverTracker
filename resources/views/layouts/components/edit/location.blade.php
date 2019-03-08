@@ -15,16 +15,19 @@
         <input name="longName" class="form-control" type="text" value="{{$object->longName}}">
     </div>
 
-    <div class="form-row ">
+    <div class="form-row">
         @if ($object->image!='')
-            <label class="file-label" for="image">Update picture</label>
-            <div class="row col-2">
-                <div class="col-12 ">
+            <div class="currentimg col-6 row">
+                <div class="col-4">
                     <img class="w-100" src="/img/location/{{$object->image}}" alt="">
+                </div>
+                <div class="col-8">
+                    <input type="checkbox" name="clearimg" id="clearimg">
+                    <label class="file-label" for="clearimg">Clear</label>
                 </div>
             </div>
         @endif
-        <div class="col-10 ">
+        <div class="col-6">
             <input name="image" type="file" class="file-input">
         </div>
     </div>

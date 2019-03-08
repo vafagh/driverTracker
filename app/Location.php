@@ -13,6 +13,11 @@ class Location extends Model
 
     protected $dates = ['deleted_at'];
 
+    // use Notifiable;
+
+	protected $fillable = [
+        'type','name','longName','person','image','phone','distance','line1','line2','city','state','zip'
+	];
 
     public function rideables()
     {
@@ -22,7 +27,7 @@ class Location extends Model
     public function getGeo(Location $location)
     {
         $key = env('GOOGLE_MAP_API');
-        $address = str_replace(' ', '+', $this->line1.$this->city.$this->state);
+        $address = str_replace(' ', '+', $this->line1.'+'.$this->city.'+'.$this->state);
         $url = 'https://maps.googleapis.com/maps/api/geocode/json?';
         $request = $url.'address='.$address.'&key='.$key;
 
@@ -32,7 +37,6 @@ class Location extends Model
 
         $response = json_decode(curl_exec($ch));
         curl_close($ch);
-
         return $response;
 
     }
@@ -41,7 +45,7 @@ class Location extends Model
     {
         if($location->lat==Null || $location->lat=='' || $location->lng==Null || $location->lng=='' ){
             $gmaprespond = $location->getGeo($location);
-            if($gmaprespond->status == 'OK' && ($location->lat)==null){
+            if($gmaprespond->status == 'OK'){
                 $location->lat = $gmaprespond->results[0]->geometry->location->lat;
                 $location->lng = $gmaprespond->results[0]->geometry->location->lng;
                 Transaction::log(Route::getCurrentRoute()->getName(),Location::find($location->id),$location);
