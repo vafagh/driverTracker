@@ -4,9 +4,9 @@
             $date = new DateTime('tomorrow');
             $currentHoure = date('H');
             $forceMorning = false;
-            if(date("l")=='Friday'){
-                $deliverydate ='';
-            }elseif (date("l")=='Saturday') {
+            // if(date("l")=='Friday'){
+            //     $deliverydate ='';}
+            if (date("l")=='Saturday') {
                 $date->add(new DateInterval('P1D'));
                 $deliverydate = $date->format('Y-m-d');
                 $forceMorning = true;
