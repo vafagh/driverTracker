@@ -24,8 +24,8 @@
                         <th>name</th>
                         <th>Email</th>
                         <th>Role</th>
-                        <th>Updated At</th>
                         <th>Created At</th>
+                        <th>Updated At</th>
                         <th></th>
                     </tr>
                 </thead>
