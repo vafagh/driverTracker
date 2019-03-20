@@ -68,6 +68,8 @@
                                         'file'=>true,
                                         'op2'=>''])
                                     @endcomponent
+                                @endif
+                                @if ($rideables->count()<1)
                                     <a class="badge badge-danger mt-2 mx-auto" href="/location/delete/{{$location->id}}"> Delete</a>
                                 @endif
                             </td>

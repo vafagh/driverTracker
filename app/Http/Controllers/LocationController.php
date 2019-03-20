@@ -107,6 +107,6 @@ class LocationController extends Controller
         Location::destroy($location->id);
         Transaction::log(Route::getCurrentRoute()->getName(),$location,false);
 
-        return redirect()->back()->with($msg.$location->name.' updated');
+        return redirect('/locations')->with($location->name.' Deleted');
     }
 }

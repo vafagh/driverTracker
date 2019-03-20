@@ -78,9 +78,10 @@
                                         'op2'=>''])
                                     @endcomponent
                                     <br>
-
-                                    <a class="badge badge-danger mt-2 mx-auto" href="/location/delete/{{$location->id}}"> Delete</a>
                                 @endif
+                                {{-- @if (Auth::user()->role_id > 4)
+                                    <a class="badge badge-danger mt-2 mx-auto" href="/location/delete/{{$location->id}}"> Delete</a>
+                                @endif --}}
                             </td>
                         </tr>
                     @endforeach
