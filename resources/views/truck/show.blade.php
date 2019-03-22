@@ -36,10 +36,10 @@
                             <th>ID</th>
                             <th>For</th>
                             <th>{{--($op1=='Client') ? 'Invoice': 'Part'--}}#</th>
-                            <th>Destination</th>
+                            <th>Last Status</th>
                             <th>Driver</th>
-                            <th>Assigned on</th>
-                            <th></th>
+                            <th>Schaduled for</th>
+                            <th> Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -83,7 +83,9 @@
                                             'op1'=>'',
                                             'op2'=>''])
                                         @endcomponent
-                                        <a class="badge badge-danger" href="/ride/detach/{{$ride->id}}/{{$ride->rideable->id}}"> Detach</a>
+                                        @if (Auth::user()->role_id > 3 && $ride->rideable->status!='Done' && $ride->rideable->status!='Returned' && $ride->rideable->status!='Return')
+                                            <a class="badge badge-danger" href="/ride/detach/{{$ride->id}}/{{$ride->rideable->id}}"> Detach</a>
+                                        @endif
                                     @endif
                                 </td>
                             @else

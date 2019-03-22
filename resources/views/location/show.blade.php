@@ -11,11 +11,10 @@
                     <table class="table table-fluid">
                         <tr>
                             <th>
-                                #{{$location->id}}
+                                Web ID :
                             </th>
                             <td>
-                                @component('layouts.components.tooltip',['modelName'=>'location','model'=>$location])
-                                @endcomponent
+                                {{$location->id}}
                             </td>
                         </tr>
                         <tr>
@@ -30,12 +29,13 @@
                             <th>
                                 Phone :
                             </th>
-                            <td>{{$location->phone}}
+                            <td>
                             </td>
                         </tr>
                         <tr>
-                            <th>Location Name :</th>
-                            <td>{{$location->name}}</td>
+                            <th>EagleCode:</th>
+                            <td>
+                            {{$location->name}}</td>
                         </tr>
                         <tr>
                             <th>Location Long Name :</th>

@@ -60,7 +60,7 @@
                     </ul>
                 </div>
                 <div class="card">
-                    <div class="card-header row h-100">
+                    <div class="card-header row h-100 m-0">
                         <div class="col-3 align-middle">
                             <span class="inline-block">
                                 All Rides
@@ -79,7 +79,7 @@
                                     <th class="mw-100">#</th>
                                     <th>Status</th>
                                     <th>Truck</th>
-                                    <th>Assigned on</th>
+                                    <th>Schaduled for</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -106,7 +106,7 @@
                                                 @endif
                                                 @component('layouts.components.tooltip',['modelName'=>'rideable','model'=>$ride->rideable])
                                                 @endcomponent
-                                                @if (Auth::user()->role_id > 3 && $ride->rideable->status!='Done' && $ride->rideable->status!='Returned')
+                                                @if (Auth::user()->role_id > 3 && $ride->rideable->status!='Done' && $ride->rideable->status!='Returned' && $ride->rideable->status!='Return')
                                                     <a class="badge badge-primary" href="/rideable/{{$ride->rideable->id}}/Done">&#x2714; Done</a>
                                                 @endif
                                             </td>
@@ -125,8 +125,16 @@
                                         </td>
                                         <td>
                                             <div title="{{$ride->created_at->diffForHumans()}}">
-                                                {{$ride->created_at->toFormattedDateString()}}
-                                                <span class="text-muted font-weight-light">{{$ride->created_at->toTimeString()}}</span>
+                                                {{-- {{$ride->created_at->toFormattedDateString()}}
+                                                <span class="text-muted font-weight-light">{{$ride->created_at->toTimeString()}}</span> --}}
+                                                @if(!empty($ride->rideable) && $ride->rideable->location->type != 'DropOff' && $ride->rideable->delivery_date!=null)
+                                                    <span title="{{$ride->rideable->delivery_date.' '.$ride->rideable->shift}}">
+                                                        <i class="material-icons small">send</i>
+                                                        {{ App\Helper::dateName($ride->rideable->delivery_date)}}
+                                                        <i class="material-icons small">schedule</i>
+                                                        <span class="text-muted font-weight-light">{{ $ride->rideable->shift}}</span>
+                                                    </span>
+                                                @endif
                                             </div>
                                         </td>
                                         <td>
@@ -140,7 +148,7 @@
                                                     'op1'=>'',
                                                     'op2'=>''])
                                                 @endcomponent
-                                                @if (Auth::user()->role_id > 3 && $ride->rideable->status!='Done' && $ride->rideable->status!='Returned')
+                                                @if (Auth::user()->role_id > 3 && $ride->rideable->status!='Done' && $ride->rideable->status!='Returned' && $ride->rideable->status!='Return')
                                                     <a class="badge badge-danger" href="/ride/detach/{{$ride->id}}/{{$ride->rideable->id}}">Detach</a>
                                                     <a title="Returned" class="badge badge-danger" href="/rideable/{{$ride->rideable->id}}/Returned"><i class="material-icons md-16">keyboard_return</i></a>
                                                 @endif
