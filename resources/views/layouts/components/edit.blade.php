@@ -7,6 +7,7 @@
         'op1'=>$op1,
         'op2'=>$op2,
         'object'=>$object,
+        'componentName'=>'edit',
         'iterator'=>0
         ]) @endcomponent
 

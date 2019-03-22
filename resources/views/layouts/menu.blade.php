@@ -10,15 +10,18 @@
         <span class="d-inline d-sm-none">Map</span>
     </a>
     <div class="dropdown-menu dropdown-menu-left" aria-labelledby="mapDropdown">
-        <a class="nav-link map" href="/map?shift=first">Morning Rounds</a>
-        <a class="nav-link map" href="/map?shift=second">Evening Rounds</a>
-        <a class="nav-link map" href="/map?shift=tomarow">Tomorrow's Round</a>
-        <a class="nav-link map" href="/map">All ongoing Rides</a>
+        <a class="nav-link map" href="/map?shift=Morning&amp;delivery_date={{\Carbon\Carbon::yesterday()->toDateString()}}">Yesterday Morning</a>
+        <a class="nav-link map" href="/map?shift=Evening&amp;delivery_date={{\Carbon\Carbon::yesterday()->toDateString()}}">Yesterday Evening</a>
+        <a class="nav-link map" href="/map?shift=Morning&amp;delivery_date={{\Carbon\Carbon::today()->toDateString()}}">Today Morning</a>
+        <a class="nav-link map" href="/map?shift=Evening&amp;delivery_date={{\Carbon\Carbon::today()->toDateString()}}">Today Evening</a>
+        <a class="nav-link map" href="/map?shift=Morning&amp;delivery_date={{\Carbon\Carbon::tomorrow()->toDateString()}}">Tomorrow Morning</a>
+        <a class="nav-link map" href="/map?shift=Evening&amp;delivery_date={{\Carbon\Carbon::tomorrow()->toDateString()}}">Tomorrow Evening</a>
+        <a class="nav-link map" href="/map?delivery_date=all">All incomplete</a>
     </div>
 </li>
 
 <li class="nav-item">
-    <a class="nav-link pickup" href="/pickup" title="Pickups">
+    <a class="nav-link pickup" href="/pickup?delivery_date=all" title="Pickups">
         <i class="material-icons d-md-inline d-lg-none">domain</i>
         <span class="d-inline d-sm-none d-md-none d-lg-inline">Pickups</span>
     </a>

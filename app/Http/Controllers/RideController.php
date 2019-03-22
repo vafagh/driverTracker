@@ -86,8 +86,8 @@ class RideController extends Controller
     {
         $rideable=Rideable::find($rideable_id);
         $rideable->status = 'DriverDetached';
-        $rideable->shift='';
-        $rideable->delivery_date=null;
+        $rideable->shift = '';
+        // $rideable->delivery_date = null;
 
         $rideable->save();
         if($ride_id > 0){

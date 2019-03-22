@@ -17,26 +17,23 @@ class RideableController extends Controller
 {
     public function map(Request $request)
     {
-        $yesterNoon = Carbon::yesterday()->addHours(13);
-        $todayMorning = Carbon::today()->addHours(9);
-        $todayNoon = Carbon::today()->addHours(13);
-        $tomarowMorning = Carbon::today()->addDay(1)->addHours(9);
-        $shift = $request->input('shift');
-        if ($shift == 'first') {
-            $start = $yesterNoon;
-            $end = $todayMorning;
+        if(is_null($request->input('shift'))){
+            $shiftOperator = '!=';
+            $shift = Null;
+        }else {
+            $shiftOperator = '=';
+            $shift = $request->input('shift');
         }
-        elseif($shift == 'second'){
-            $start = $todayMorning;
-            $end = $todayNoon;
-        }
-        elseif($shift == 'tomarow'){
-            $start = $todayNoon;
-            $end = $tomarowMorning;
-        }
-        else{
-            $start = Carbon::today()->subYear(1);
-            $end = Carbon::today()->addYear(1);
+
+        if(is_null($request->input('delivery_date'))){
+            $delivery_dateOperator = '=';
+            $delivery_date = Carbon::today()->toDateString();
+        }elseif($request->input('delivery_date') == 'all' ){
+            $delivery_dateOperator = '!=';
+            $delivery_date = null; // to return all rows
+        }else{
+            $delivery_dateOperator = '=';
+            $delivery_date = $request->input('delivery_date');
         }
 
         $rideables = Rideable::with('user','rides','rides.driver','rides.truck','location')
@@ -45,8 +42,9 @@ class RideableController extends Controller
                 ['status', '!=', 'Done'],
                 ['status', '!=', 'Canceled'],
                 ['status','!=','Returned'],
-                ['created_at','>=',$start],
-                ['created_at','<=',$end]
+                ['status','!=','Return'],
+                ['delivery_date',$delivery_dateOperator,$delivery_date],
+                ['shift',$shiftOperator,$shift]
             ])
             ->orderBy('location_id', 'desc')
             ->get();
@@ -65,26 +63,35 @@ class RideableController extends Controller
         if($type == "delivery") { $op1 = 'Client';    $op2 = 'Delivery'; $operator = '=';  $orderColumn = 'invoice_number'; }
         else                    { $op1 = 'Warehouse'; $op2 = 'Pickup';   $operator = '!='; $orderColumn = 'location_id';}
         (empty($request->input('sortby'))) ? $rideableSort = $orderColumn: $rideableSort = $request->input('sortby');
-        $yesterNoon = Carbon::yesterday()->addHours(13);
-        $todayMorning = Carbon::today()->addHours(9);
-        $todayNoon = Carbon::today()->addHours(13);
-        $tomarowMorning = Carbon::today()->addDay(1)->addHours(9);
-        $shift = $request->input('shift');
-        if ($shift == 'first') {
-            $start = $yesterNoon;
-            $end = $todayMorning;
+
+        if(is_null($request->input('shift'))){
+            $shift = 'NA';//to return all rows
+            $shiftOperator = '!=';
+        }else {
+            $shift = $request->input('shift');
+            $shiftOperator = '=';
         }
-        elseif($shift == 'second'){
-            $start = $todayMorning;
-            $end = $todayNoon;
+
+        if(is_null($request->input('status'))){
+            $status0 = 'Returned';
+            $statusOperator0 = '!=';
+        }else {
+            $status0 = $request->input('status');
+            $statusOperator0 = '=';
         }
-        elseif($shift == 'tomarow'){
-            $start = $todayNoon;
-            $end = $tomarowMorning;
-        }
-        else{
-            $start = Carbon::today()->subYear(1);
-            $end = Carbon::today()->addYear(1);
+
+        if(is_null($request->input('delivery_date'))){
+            $delivery_dateOperator = '=';
+            $delivery_date = Carbon::today()->toDateString();
+        }elseif($request->input('delivery_date') == 'all' && $type == "delivery" ){
+            $delivery_dateOperator = '!=';
+            $delivery_date = '007'; // to return all rows
+        }elseif($request->input('delivery_date') == 'all' && $type != "delivery" ){
+            $delivery_dateOperator = '!=';
+            $delivery_date = 'NA'; // to return all rows
+        }else{
+            $delivery_dateOperator = '=';
+            $delivery_date = $request->input('delivery_date');
         }
 
         $rideables = Rideable::with('user','rides','rides.driver','rides.truck','location')
@@ -94,14 +101,13 @@ class RideableController extends Controller
             ->where([
                 ['status','!=','Done'],
                 ['status','!=','Canceled'],
-                // ['status','!=','NotAvailable'],
-                ['status','!=','Returned'],
-                ['created_at','>=',$start],
-                ['created_at','<=',$end]
+                ['status','!=','Return'],
+                ['status',$statusOperator0,$status0],
+                ['delivery_date',$delivery_dateOperator,$delivery_date],
+                ['shift',$shiftOperator,$shift]
             ])
             ->orderBy($rideableSort, 'desc')
             ->paginate(70);
-            // dd('this is report for "'.$shift.'" between '.$start.' and '.$end);
 
         ($request!==null) ? $flashId = $request->id : $flashId = '1';
 
@@ -183,7 +189,6 @@ class RideableController extends Controller
         Transaction::log(Route::getCurrentRoute()->getName(),'',$rideable);
 
         return redirect()->back()->with('status', '#'.$rideable->invoice_number." updated!");
-
     }
 
     public function destroy(Rideable $rideable,Request $request)

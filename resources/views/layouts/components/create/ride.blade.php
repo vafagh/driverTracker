@@ -10,10 +10,10 @@
                 {{ App\Helper::dateName($object->delivery_date)}}, {{$object->shift}}
             </div>
         @endif
-        <a data-toggle="collapse" href="#collapse{{$object->id}}" role="button" aria-expanded="{{($object->delivery_date==null)?'true':'false'}}" aria-controls="collapse{{$object->id}}">
+        <a data-toggle="collapse" href="#collapse-reschedule-{{$object->id}}" role="button" aria-expanded="{{($object->delivery_date==null)?'true':'false'}}" aria-controls="collapse-reschedule-{{$object->id}}">
             Re-schedule
         </a>
-        <div class="collapse{{($object->delivery_date==null)?' show':''}}" id="collapse{{$object->id}}">
+        <div class="collapse{{($object->delivery_date==null)?' show':''}}" id="collapse-reschedule-{{$object->id}}">
             <div class="card card-body">
                 @component('layouts.when',['object'=>$object,'model'=>'create.ride'])
                 @endcomponent

@@ -4,32 +4,38 @@
             <h3 class="m-0 p-0 pl-2">{{$op2}}</h3>
         </div>
 
-        <div>
-            <div class="d-none d-sm-inline btn-group" role="group">
-                <button id="filterlist" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i title="Filter" class="material-icons">filter_list</i>
-                </button>
-                <div class="dropdown-menu" aria-labelledby="filterlist">
-                    <a class="dropdown-item" href="?shift=first">First</a>
-                    <a class="dropdown-item" href="?shift=second">Second</a>
-                    <a class="dropdown-item" href="?shift=tomarow">Tomarow</a>
-                    <a class="dropdown-item" href="?shift=all">All</a>
+            <div>
+                @if ($op2 == 'Delivery')
+                <div class="d-none d-sm-inline btn-group" role="group">
+                    <button id="filterlist" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i title="Filter" class="material-icons">filter_list</i>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="filterlist">
+                        <a class="dropdown-item" href="?shift=Morning&amp;delivery_date={{\Carbon\Carbon::yesterday()->toDateString()}}">Yesterday Morning</a>
+                        <a class="dropdown-item" href="?shift=Evening&amp;delivery_date={{\Carbon\Carbon::yesterday()->toDateString()}}">Yesterday Evening</a>
+                        <a class="dropdown-item" href="?shift=Morning&amp;delivery_date={{\Carbon\Carbon::today()->toDateString()}}">Today Morning</a>
+                        <a class="dropdown-item" href="?shift=Evening&amp;delivery_date={{\Carbon\Carbon::today()->toDateString()}}">Today Evening</a>
+                        <a class="dropdown-item" href="?shift=Morning&amp;delivery_date={{\Carbon\Carbon::tomorrow()->toDateString()}}">Tomorrow Morning</a>
+                        <a class="dropdown-item" href="?shift=Evening&amp;delivery_date={{\Carbon\Carbon::tomorrow()->toDateString()}}">Tomorrow Evening</a>
+                        <a class="dropdown-item" href="?delivery_date=all">All incomplete</a>
+                        <a class="dropdown-item" href="?delivery_date=all&amp;status=returned">All Returned</a>
+                    </div>
                 </div>
-            </div>
 
-            <div class="btn-group" role="group">
-                <button id="sortList" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i title="Sort" class="material-icons">sort</i>
-                </button>
-                <div class="dropdown-menu" aria-labelledby="sortList">
-                    <a class="dropdown-item" href="?sortby=invoice_number">#</a>
-                    <a class="dropdown-item" href="?sortby=location_id">Location</a>
-                    <a class="dropdown-item" href="?sortby=created_at">Date</a>
-                    <a class="dropdown-item" href="?sortby=updated_at">Update</a>
-                    <a class="dropdown-item" href="?sortby=status">Status</a>
-                    <a class="dropdown-item" href="?sortby=user_id">User</a>
+                <div class="btn-group" role="group">
+                    <button id="sortList" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i title="Sort" class="material-icons">sort</i>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="sortList">
+                        <a class="dropdown-item" href="?sortby=invoice_number">#</a>
+                        <a class="dropdown-item" href="?sortby=location_id">Location</a>
+                        <a class="dropdown-item" href="?sortby=created_at">Date</a>
+                        <a class="dropdown-item" href="?sortby=updated_at">Update</a>
+                        <a class="dropdown-item" href="?sortby=status">Status</a>
+                        <a class="dropdown-item" href="?sortby=user_id">User</a>
+                    </div>
                 </div>
-            </div>
+            @endif
 
             @component('layouts.components.modal',[
                 'modelName'=>'rideable',
@@ -50,20 +56,24 @@
     </div>
 
     <li class="row  m-0 p-0 {{$op2}} ">
-        <div class="col-5  col-sm-3  col-md-2 col-lg-2              col-xl-1 ">
-            location
+        <div class="location col-5  col-sm-2  col-md-2 col-lg-2 col-xl-2 ">location</div>
+        <div class="InvoiceNum col-7  col-sm-3  col-md-3 col-lg-3 col-xl-3">{{($op1=='Client') ? 'Invoice': 'Part'}}#</div>
+        <div class="user d-none d-sm-none d-md-none  col-md-3 d-lg-none d-xl-inline col-xl-1">By</div>
+        <div class="status col-4  col-sm-2  col-md-2 col-lg-2 col-xl-1">Status</div>
+        <div class="row col-6  col-sm-4  col-md-4 col-lg-4 col-xl-4">
+            <div class="actions col-12 col-sm-4 col-md-4  col-lg-4 col-xl-4">Action</div>
+            <div class='delivery col-12 col-sm-8 col-md-8 col-lg-8 col-xl-8'>Scheduled</div>
         </div>
-        <div class=" col-7  col-sm-6  col-md-3 col-lg-3              col-xl-3 ">
-            {{($op1=='Client') ? 'Invoice': 'Part'}}#
-        </div>
+
     </li>
 
     @foreach ($collection as $key => $rideable)
         <li class="list-group-item row m-0 p-0 {{$rideable->status}}" id="rideable{{$rideable->id}}">
-            <div class="row m-0 p-0 py-2 h-100" {{($flashId==$rideable->id)? 'id="flash"':''}}>
-                <div class='location        col-5  col-sm-2  col-md-2 col-lg-2              col-xl-2 pl-1 pr-1 text-truncate'>
-                    @component('layouts.components.tooltip',['modelName'=>'location','model'=>$rideable->location])
-                    @endcomponent
+            <div class="row m-0 p-0 py-1 h-100" {{($flashId==$rideable->id)? 'id="flash"':''}}>
+                <div class='location        col-5  col-sm-2  col-md-2 col-lg-2              col-xl-2 pl-2 pr-1 text-truncate'>{{-- @component('layouts.components.tooltip',['modelName'=>'location','model'=>$rideable->location]) @endcomponent --}}
+                    <a href="/location/show/{{$rideable->location->id}}">
+                        {{$rideable->location->longName}}
+                    </a>
                 </div>
 
                 <div class='InvoiceNum      col-7  col-sm-3  col-md-3 col-lg-3              col-xl-3 p-0 text-truncate'>
@@ -95,7 +105,7 @@
                         @component('layouts.components.tooltip',['modelName'=>'user','model'=>$rideable->user])
                         @endcomponent
                     @else --}}
-                        by <strong>{{$rideable->user->name}}</strong>
+                        <strong>{{$rideable->user->name}}</strong>
                     {{-- @endif --}}
                     {{-- <span ></span> --}}
                 </div>
@@ -116,16 +126,16 @@
                         @endcomponent
                     </div>
                     <div class='delivery    col-12 col-sm-8 col-md-8  col-lg-8              col-xl-8 p-0'>
-                    {{-- <span title="{{$rideable->updated_at}}">{{ $rideable->updated_at->diffForHumans()}}</span> --}}
-                    @if($rideable->location->type != 'DropOff' && $rideable->delivery_date!=null)
-                        <span title="{{$rideable->delivery_date.' '.$rideable->shift}}">
-                            <i class="material-icons small">send</i>
-                            {{ App\Helper::dateName($rideable->delivery_date)}}
-                            <i class="material-icons small">schedule</i>
-                            {{ $rideable->shift}}
-                        </span>
-                    @endif
-                </div>
+                        {{-- <span title="{{$rideable->updated_at}}">{{ $rideable->updated_at->diffForHumans()}}</span> --}}
+                        @if($rideable->location->type != 'DropOff' && $rideable->delivery_date!=null)
+                            <span title="{{$rideable->delivery_date.' '.$rideable->shift}}">
+                                <i class="material-icons small">send</i>
+                                {{ App\Helper::dateName($rideable->delivery_date)}}
+                                <i class="material-icons small">schedule</i>
+                                {{ $rideable->shift}}
+                            </span>
+                        @endif
+                    </div>
                 </div>
 
                 @foreach ($rideable->rides as $ride)

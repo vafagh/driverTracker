@@ -27,8 +27,9 @@ if($rideable->location->type=='DropOff')  $title = 'Droped off';
         @break
 
         @case('Returned')
-            @if ($user_id == $rideable->user_id)
-                <a class="text-primary" title="Make as a done" href="/rideable/{{$rideable->id}}/Done"><i class="material-icons">done</i></a>
+            @if ($user_role >3)
+                <a class="text-primary" title="Archive it" href="/rideable/{{$rideable->id}}/Return"><i class="material-icons">done</i></a>
+                <a class="text-primary" title="Send driver back" href="/rideable/{{$rideable->id}}/Reschadule"><i class="material-icons">refresh</i></a>
             @endif
         @break
 
@@ -40,13 +41,23 @@ if($rideable->location->type=='DropOff')  $title = 'Droped off';
                 </a>
             @endif
             @if ($rideable->location->type != 'DropOff')
-                @component('layouts.components.modal',[
-                    'modelName'=>'ride',
-                    'action'=>'create',
-                    'iterator'=>$rideable->id,
-                    'object'=>$rideable,
-                    'btnSize'=>'small',
-                    'style'=>'text-info text-white ','op1'=>'','op2'=>'','dingbats'=>'<i class="material-icons">drive_eta</i> ','file'=>false])
+                @component('layouts.components.modal',['modelName'=>'ride','action'=>'create','iterator'=>$rideable->id,'object'=>$rideable,'btnSize'=>'small','style'=>'text-info text-white ','op1'=>'','op2'=>'','dingbats'=>'<i class="material-icons">drive_eta</i> ','file'=>false])
+                @endcomponent
+            @endif
+            @if ($title=='Droped off')
+                <a class="" href="/rideable/{{$rideable->id}}/Done"><i class="material-icons">done</i>{{-- {{$title}} --}}</a>
+            @endif
+        @break
+
+        @case('Reschadule')
+            @if ($user_id == $rideable->user_id)
+                <a title="
+                Cancel" class="text-danger" href="/rideable/delete/{{$rideable->id}}/">
+                    <i class="material-icons">delete_forever</i>
+                </a>
+            @endif
+            @if ($rideable->location->type != 'DropOff')
+                @component('layouts.components.modal',['modelName'=>'ride','action'=>'create','iterator'=>$rideable->id,'object'=>$rideable,'btnSize'=>'small','style'=>'text-info text-white ','op1'=>'','op2'=>'','dingbats'=>'<i class="material-icons">drive_eta</i> ','file'=>false])
                 @endcomponent
             @endif
             @if ($title=='Droped off')
