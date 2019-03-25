@@ -41,7 +41,7 @@ class RideController extends Controller
         if(is_null($request->driver)){return redirect()->back()->with('error', 'Please choice the driver!');}
         $ride->truck_id    = Driver::find($request->driver)->truck_id;
         $ride->driver_id   = $request->driver;
-        $ride->shift       = $request->shift;
+        $ride->shift       = (!is_null($request->shift))?$request->shift:((date('H') <= 14) ? 'Morning' : 'Eevening');
         $ride->delivery_date = $request->delivery_date;
         $ride->distance    = $request->distance;
         $ride->save();
@@ -69,16 +69,17 @@ class RideController extends Controller
         $ride->driver_id   = $driver->id;
         $ride->truck_id    = $driver->truck_id;
         $ride->distance    = $rideable->location->distance;
-        $ride->shift = $rideable->shift;
+        if(!is_null($rideable->shift) && ($rideable->shift!='')) $rideable->shift; else (date('H') <= 14) ? $ride->shift='Morning' : $ride->shift='Eevening';
         $ride->delivery_date = $rideable->delivery_date;
         $ride->save();
 
         $rideable->status = 'OnTheWay';
+        $rideable->shift = $ride->shift;
         $rideable->save();
         $rideable->rides()->attach($ride->id);
         Transaction::log(Route::getCurrentRoute()->getName(),$rideable,$ride);
 
-        return redirect()->back()->with('status', $driver->fname.' Assigned to '.$rideable->location->name.' rides');
+        return redirect()->back()->with('status', $driver->fname.' Assigned to '.$rideable->invoice_number.' For '.$rideable->location->name.' on '.$ride->shift.' shift');
 
     }
 

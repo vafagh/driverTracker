@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Ride;
 use App\Driver;
+use App\Rideable;
+use Carbon\Carbon;
 use App\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -46,9 +48,22 @@ class DriverController extends Controller
         $driver = Driver::with('rides','fillups','rides.truck','rides.rideable.location')->find($driver_id);
         (empty($request->input('sortby'))) ? $rideSort = 'created_at': $rideSort = $request->input('sortby');
         $rides = $driver->rides()
-        ->orderBy('created_at','desc')
-        ->paginate(20);
-        return view('driver.show',compact('driver','rides','rideSort'));
+            ->orderBy('created_at','desc')
+            ->paginate(20);
+
+        $currentUnassign = Rideable::doesntHave('rides')
+            ->where([
+                ['status','!=','Done'],
+                ['status','!=','Canceled'],
+                ['status','!=','Return'],
+                ['delivery_date','=',Carbon::today()->toDateString()],
+                // ['shift','=',(date('H')<14) ? 'Morning' : 'Evening']
+                // ['status','=','Created'],
+                // ['status','=','DriverDetached'],
+            ])
+            ->orderBy('id', 'desc')->get();
+            // dd($currentUnassign->get());
+        return view('driver.show',compact('driver','rides','rideSort','currentUnassign'));
     }
 
 

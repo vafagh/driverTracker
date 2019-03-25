@@ -171,6 +171,8 @@
     height: 100%;
 }
 /* Rules for sizing the icon. */
+.material-icons.md-12 { font-size: 12px; }
+.material-icons.md-14 { font-size: 14px; }
 .material-icons.md-16 { font-size: 16px; }
 .material-icons.md-18 { font-size: 18px; }
 .material-icons.md-24 { font-size: 24px; }
@@ -184,7 +186,7 @@
 /* Rules for using icons as white on a dark background. */
 .material-icons.md-light { color: rgba(255, 255, 255, 1); }
 .material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
-
+.pagination-sm ul.pagination {margin-bottom:0}
 // GMAP vertex delete menu
 .delete-menu {
     position: absolute;
@@ -203,8 +205,14 @@
 .delete-menu:hover {
     background: #eee;
 }
+.add:hover i{color:white !important;}
 .shiftSelect{background-image: url(/img/shifts.png); background-repeat: no-repeat; width:45px; height:40px; display:inline-block}
 .morning{background-position:bottom;}
 .evening{background-position:top;}
 .not-working img{opacity:.2; z-index:1049}
 .list-group-item.row.m-0.p-0 div{border:0px solid red}
+.bordering>div{border:1px solid red}
+.bordering>div>div{border:1px solid #C2C0E8}
+.bordering>div>div>div{border:1px dotted #C2C0E8}
+.bordering>div>div>div>div{border:1px dotted #E0EC77}
+.bordering span{background-color: #F2D8AB}
