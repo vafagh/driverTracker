@@ -11681,6 +11681,10 @@ a.text-dark:focus {
   z-index: auto;
 }
 
+.table-compact td {
+  padding: 6px 1px 2px;
+}
+
 .bg-000 {
   background-color: #000;
 }
@@ -12107,6 +12111,10 @@ a.text-dark:focus {
 
 .add:hover i {
   color: white !important;
+}
+
+.add a {
+  border: 2px solid #f7f7f7;
 }
 
 .shiftSelect {

@@ -51,19 +51,22 @@
                     </div>
                     @if ($currentUnassign->count()>0)
                         <span class="btn btn-sm ml-4">Available:</span>
+                        <span class='add badge badge-sm badge-success'>Delivery</span>
+                        <span class='mr-4 add badge badge-sm badge-info'>Pickup</span>
                         @foreach ($currentUnassign as $rideable)
-                            <span class="btn btn-success btn-sm add">
-                                <a class="text-white" title="{{$rideable->location->name}}" href="/ride/store/{{$rideable->id}}/{{$driver->id}}">
-                                    <i class="material-icons md-14 text-dark">add</i>
-                                    {{$rideable->invoice_number}}
-                                </a>
-                            </span>
+                            <div class="add d-inline">
+                                    <a class="btn btn-{{($rideable->type=='Client')?'success':'info'}} btn-sm text-white h-75" title="{{$rideable->location->name}}" href="/ride/store/{{$rideable->id}}/{{$driver->id}}">
+                                        <i class="material-icons md-14 text-dark">add</i>
+                                        {{$rideable->invoice_number}}
+                                    </a>
+                            </div>
                         @endforeach
+
                     @endif
 
                 </div>
-                <div class="card-body">
-                    <table class="table">
+                <div class="card-body p-0">
+                    <table class="table table-compact">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -78,13 +81,13 @@
                         <tbody>
                             @foreach ($rides as $key => $ride)
                                 <tr>
-                                    <td>{{$ride->id}}</td>
+                                    <td class='pl-2'>{{$ride->id}}</td>
                                     @if (!empty($ride->rideable))
-                                        <td>
+                                        <td class="location text-truncate">
                                             @component('layouts.components.tooltip',['modelName'=>'location','model'=>$ride->rideable->location])
                                             @endcomponent
                                         </td>
-                                        <td class="fixedWidthFont font-weight-bold h4 minw-200">
+                                        <td class="invoice fixedWidthFont font-weight-bold h4 minw-200">
                                             @if (Auth::user()->role_id > 3 || Auth::user()->id == $ride->rideable->user_id )
                                                 @component('layouts.components.modal',['modelName'=>'rideable','action'=>'edit','dingbats'=>'<i class="material-icons md-16">border_color</i>','style'=>'badge badge-warning mr-1 float-left','iterator'=>$key,'object'=>$ride->rideable,'op1'=>$ride->rideable->type,'op2'=>'','file'=>false,'autocomplateOff'=>true])
                                                 @endcomponent
