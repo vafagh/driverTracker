@@ -1,5 +1,5 @@
 @if (!isset($btnHide))
-    <a  class="navbar-toggler {{(isset($style) ? $style : 'btn btn-info ')}}{{(isset($btnSize) ? $btnSize : '')}}"
+    <a  class="{{(isset($style) ? $style : 'btn btn-primary')}}{{(isset($btnSize) ? $btnSize : '')}}"
         data-toggle="modal"
         {{(isset($btnAttribute) ? $btnAttribute : '')}}
         data-target="#{{$op1.$op2.'_'.$action.$modelName.$iterator}}"

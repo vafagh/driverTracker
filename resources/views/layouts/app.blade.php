@@ -64,20 +64,19 @@
                                 <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                             </li> --}}
                         @else
-                            {{-- <li class="nav-item">
+                            <li class="nav-item d-md-none d-xl-inline">
                                 <form method="get" action="/search/">
                                     <div class="d-block p-2">
                                         <input name="q" class="form-control d-inline-block" type="text" placeholder="Search...">
-                                        <!--<button class="form-control btn d-inline w-25 mb-1" type="submit">Search</button>-->
+                                        {{-- <button class="form-control btn d-inline w-25 mb-1" type="submit">Search</button> --}}
                                     </div>
                                     {{ csrf_field() }}
                                 </form>
-                            </li> --}}
-                            <li class="nav-item dropdown">
+                            </li>
+                            <li class="nav-item dropdown d-none d-sm-inline d-xl-none">
                                 <a id="searchDropdown" class="nav-link dropdown-toggle pt-3" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     Search <span class="caret"></span>
                                 </a>
-
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="searchDropdown">
                                     <form method="get" action="/search/">
                                         <div class="d-block p-2">
@@ -88,11 +87,11 @@
                                     </form>
                                 </div>
                             </li>
-                            <li class="nav-item dropdown">
+
+                            {{-- <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle pt-3" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
-
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
@@ -105,21 +104,21 @@
                                         @csrf
                                     </form>
                                 </div>
+                            </li> --}}
+
+                            <li class="nav-item line">
+                                <a class="nav-link showOnHover" href="?{{time()}}" title="Reload page">
+                                    <i class="material-icons">refresh</i>
+                                    <span class="nav-link hideOnHover text-info fixedWidthFont h4 p-0 m-0">
+                                        <span id="countdown"></span>"
+                                    </span>
+                                </a>
                             </li>
                         @endguest
                     </ul>
                 </div>
-                <div class="nav-link">
-                    <a href="?{{time()}}" title="Reload page">
-                        <i class="material-icons">refresh</i>
-                    </a>
-                    <span class="text-info fixedWidthFont h4">
-                        <span id="countdown"></span>"
-                    </span>
-                </div>
-            </div>
-        </nav>
-        <div class="fluid-container row mx-auto p-0">
+            </nav>
+            <div class="fluid-container row mx-auto p-0">
             <div class="main col-lg-12 col-xl-12 mt-1">
 
                 @if (session('info'))<div class="alert alert-info mt-3 mx-auto">{{ session('info') }}</div>@endif

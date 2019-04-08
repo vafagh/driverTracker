@@ -1,4 +1,5 @@
 @php
+    $hover = false;
 switch($modelName){
 
     case 'rideable':
@@ -11,6 +12,7 @@ switch($modelName){
     break;
 
     case 'location':
+    $hover = true;
     $mouseOver ='onmouseover="loadStatImg(\'https://maps.googleapis.com/maps/api/staticmap?center='.$model->line1.',+'.$model->city.',+'.$model->state.',+'.$model->zip.'&zoom=9&size=200x200&maptype=roadmap&key='.env('GOOGLE_MAP_API').'&markers=size:mid%7Ccolor:0xff0000%7Clabel:%7C'.$model->line1.',+'.$model->city.',+'.$model->state.',+'.$model->zip.'\',\'stMap'.$model->id.'\')"';
         ($model->lat=='' || $model->lat==null) ? $title='<i class="material-icons md-18 float-left">not_listed_location</i>' : $title='';
         if($model->image != ''){
@@ -48,27 +50,24 @@ switch($modelName){
 @if($title!='?')
 {!!isset($script) ? $script : ''!!}
     <div class="info d-inline ">
-        <a class='tip ' href="/{{$modelName}}/show/{{$model->id}}">
+        <a class='tip{{isset($class) ? ' '.$class : ''}}' href="/{{$modelName}}/show/{{$model->id}}">
             @if (isset($element))
                 {!!'<'.$element.'>'.$title.'</'.$element.'>'!!}
             @else
                 {!!$title!!}
             @endif
         </a>
-        <div class="card">
-            {{-- <div class="card-header">
-                {!!$modelName.': '.$title!!}
-            </div> --}}
-
+        @if ($hover)
+            <div class="card">
+            {{-- <div class="card-header">{!!$modelName.': '.$title!!}</div> --}}
             <div class="card-body">
                 @if ($modelName == 'location')
                     <a target="_blank" href="https://www.google.com/maps/dir/1628+E+Main+St,+Grand+Prairie,+TX+75050/{{$model->line1}},+{{$model->city}},+{{$model->state}},+{{$model->zip}}">
                         {{-- <img class="w-100" src="https://maps.googleapis.com/maps/api/staticmap?center={{$model->line1}},+{{$model->city}},+{{$model->state}},+{{$model->zip}}&zoom=10&size=400x400&maptype=roadmap&key=AIzaSyBWE7jcte-d6FLo0rYxQFManjv6rzi0Ysc&markers=size:mid%7Ccolor:0xff0000%7Clabel:%7C{{$model->line1}},+{{$model->city}},+{{$model->state}},+{{$model->zip}}" alt="{{$model->name}} Maps"> --}}
                         <img src="/img/gif/loading.gif" class="stMap{{$model->id}}" />
                     </a>
-
-
                 @else
+
                 @foreach ($model->toArray() as $key => $value)
                     @if (gettype($value)=='string' || gettype($value)=='integer')
                         <div class="d-flex justify-content-between">
@@ -86,6 +85,8 @@ switch($modelName){
             @endif
             </div>
         </div>
+        @endif
+
     </div>
 @else Not Found
 @endif

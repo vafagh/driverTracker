@@ -57,11 +57,11 @@ class DriverController extends Controller
                 ['status','!=','Canceled'],
                 ['status','!=','Return'],
                 ['delivery_date','=',Carbon::today()->toDateString()],
-                // ['shift','=',(date('H')<14) ? 'Morning' : 'Evening']
+                // ['shift','=',(date('H')<15) ? 'Morning' : 'Evening']
                 // ['status','=','Created'],
                 // ['status','=','DriverDetached'],
             ])
-            ->orderBy('id', 'desc')->get();
+            ->orderBy('invoice_number', 'asc')->get();
             // dd($currentUnassign->get());
         return view('driver.show',compact('driver','rides','rideSort','currentUnassign'));
     }

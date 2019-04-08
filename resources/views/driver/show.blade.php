@@ -4,7 +4,7 @@
         <div class="card">
             <div class="card-body p-0">
                 <ul class="list-group" id='driverd'>
-                    <li class="row m-0 p-0 mb-1 border  border-secondary  m-0">
+                    <li class="row m-0 p-0 mb-1 bg-primary text-light  m-0">
                         <div class="image       col-1 ">
                             <img class="pl-2 minh-100 rounded" src="{{($driver->image == null) ? '/img/def.svg' : '/img/driver/'.$driver->image }}" alt="">
                         </div>
@@ -12,7 +12,7 @@
                             <div class="name        col-12 py-1 bg-primary text-light font-weight-bold h3">{{$driver->fname.' '.$driver->lname}}</div>
                             <div class="phone       col-3">
                                 <div class="title">Phone</div>
-                                <a class="h3" href="tel:{{$driver->phone}}" title="Click to Call!">{{$driver->phone}}</a>
+                                <a class="h3 text-light" href="tel:{{$driver->phone}}" title="Click to Call!">{{$driver->phone}}</a>
                             </div>
                             <div class="miles       col-2">
                                 <span class="h2 mb-0">
@@ -25,11 +25,10 @@
                                     {{ $driver->totalTrip() }}
                                 </span>Trip
                             </div>
-                            <div class="truck       col-2">
-                                @component('layouts.components.tooltip',['modelName'=>'truck','model'=>App\Truck::find($driver->truck_id)])
-                                @endcomponent
+                            <div class="truck       col-3 ">
+                                <a class="text-light" href="/truck/show/{{$driver->truck_id}}">{{App\Truck::find($driver->truck_id)->lable}}</a>
                             </div>
-                            <div class="timestamp   col-3">
+                            <div class="timestamp   col-2">
                                 <div class="title">Created at</div>
                                 <span>{{$driver->created_at}}</span>
                             </div>
@@ -118,7 +117,11 @@
                                             @if(!empty($ride->rideable) && $ride->rideable->location->type != 'DropOff' && $ride->rideable->delivery_date!=null)
                                                 <span title="{{$ride->rideable->delivery_date.' '.$ride->rideable->shift}}">
                                                     <i class="material-icons small">send</i>
-                                                    {{ App\Helper::dateName($ride->rideable->delivery_date)}}
+                                                    @if(App\User::setting('humanDate') && Auth::user()->role_id!=3)
+                                                        {{ App\Helper::dateName($ride->rideable->delivery_date)}}
+                                                    @else
+                                                        {{$ride->rideable->delivery_date}}
+                                                    @endif
                                                     <i class="material-icons small">schedule</i>
                                                     <span class="text-muted font-weight-light">{{ $ride->rideable->shift}}</span>
                                                 </span>
@@ -127,18 +130,11 @@
                                     </td>
                                     <td>
                                         @if (Auth::user()->role_id > 3 && $ride->rideable != null)
-                                            @component('layouts.components.modal',[
-                                                'modelName'=>'ride',
-                                                'action'=>'edit',
-                                                'iterator'=>$key,
-                                                'object'=>$ride,
-                                                'btnSize'=>'small',
-                                                'op1'=>'',
-                                                'op2'=>''])
+                                            @component('layouts.components.modal',['modelName'=>'ride','action'=>'edit','iterator'=>$key,'object'=>$ride,'btnSize'=>'small','op1'=>'','op2'=>''])
                                             @endcomponent
                                             @if (Auth::user()->role_id > 3 && $ride->rideable->status!='Done' && $ride->rideable->status!='Returned' && $ride->rideable->status!='Return')
-                                                <a class="badge badge-danger" href="/ride/detach/{{$ride->id}}/{{$ride->rideable->id}}">Detach</a>
-                                                <a title="Returned" class="badge badge-danger" href="/rideable/{{$ride->rideable->id}}/Returned"><i class="material-icons md-16">keyboard_return</i></a>
+                                                <a title="Remove driver from this invoice" class="badge badge-danger" href="/ride/detach/{{$ride->id}}/{{$ride->rideable->id}}">Detach</a>
+                                                <a title="Returned" class="badge badge-danger" href="/rideable/{{$ride->rideable->id}}/Returned"><i class="material-icons md-">keyboard_return</i></a>
                                             @endif
                                         @endif
                                     </td>
