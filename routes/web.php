@@ -50,4 +50,5 @@ Route::POST('/user/store', 'UserController@store')->name('add.user');
 Route::POST('/user/save', 'UserController@update')->name('update.user');
 Route::GET('/search', 'HomeController@find')->name('search');
 
+Route::GET('/{type}/massUpdate/', 'RideableController@batchUpdate');
 Route::GET('/{type}', 'RideableController@list');

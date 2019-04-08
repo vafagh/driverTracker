@@ -11,7 +11,7 @@
 }
 .navbar-brand h1{display:none;}
 .navbar-nav li{padding:0 2px 0 0}
-.navbar-nav li a{color:  #993300 !important;}
+.navbar-nav li a{color:  #993300 !important; font-size:16px}
 .navbar-nav li a i,.navbar-nav a span{}
 .navbar-nav li a span{}
 .navbar-nav li a i{}
@@ -114,11 +114,26 @@
 .NotAvailable{background-color:#ffd5d5}
 .DeatachReqested{background-color:#ffd5d5}
 .Created{background-color:#d5ffe6}
+.Reschadule{background-color:#d5ffe6}
 .DriverDetached{background-color:#d5ffe6}
 .OnTheWay{background-color:#c9c6f4}
 .Reactived{background-color:#c9c6f4}
 .InvoiceNumber{font-size:1.5em}
 .fixedWidthFont{font-family: monospace;}
+.driver .icon{
+    max-width:38px;
+    max-height:38px;
+}
+.line .hideOnHover{    visibility: visible;;;}
+.line .showOnHover{    visibility: hidden;}
+.line .showOnHover div{    visibility: visible;}
+.line .showOnHover .modal{    visibility: visible;  transition: opacity 0s linear}
+.line:hover .showOnHover{    visibility: visible;;}
+.line:hover .hideOnHover{    visibility: hidden;}
+.line:hover .hideOnHover div{    visibility: visible;}
+
+.list-group-item .row{}
+.list-group-item .row:hover{opacity:1}
 #flash {
     -webkit-animation-name: colorsTransition;
     -webkit-animation-duration: .4s;
@@ -169,6 +184,10 @@
 }
 #map {
     height: 100%;
+}
+
+.textIcons {
+  line-height: 1;
 }
 /* Rules for sizing the icon. */
 .material-icons.md-12 { font-size: 12px; }

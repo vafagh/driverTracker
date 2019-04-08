@@ -11659,6 +11659,7 @@ a.text-dark:focus {
 
 .navbar-nav li a {
   color: #993300 !important;
+  font-size: 16px;
 }
 
 .navbar-nav li:hover {
@@ -11948,6 +11949,10 @@ a.text-dark:focus {
   background-color: #d5ffe6;
 }
 
+.Reschadule {
+  background-color: #d5ffe6;
+}
+
 .DriverDetached {
   background-color: #d5ffe6;
 }
@@ -11966,6 +11971,45 @@ a.text-dark:focus {
 
 .fixedWidthFont {
   font-family: monospace;
+}
+
+.driver .icon {
+  max-width: 38px;
+  max-height: 38px;
+}
+
+.line .hideOnHover {
+  visibility: visible;
+}
+
+.line .showOnHover {
+  visibility: hidden;
+}
+
+.line .showOnHover div {
+  visibility: visible;
+}
+
+.line .showOnHover .modal {
+  visibility: visible;
+  -webkit-transition: opacity 0s linear;
+  transition: opacity 0s linear;
+}
+
+.line:hover .showOnHover {
+  visibility: visible;
+}
+
+.line:hover .hideOnHover {
+  visibility: hidden;
+}
+
+.line:hover .hideOnHover div {
+  visibility: visible;
+}
+
+.list-group-item .row:hover {
+  opacity: 1;
 }
 
 #flash {
@@ -12033,6 +12077,10 @@ a.text-dark:focus {
 
 #map {
   height: 100%;
+}
+
+.textIcons {
+  line-height: 1;
 }
 
 /* Rules for sizing the icon. */

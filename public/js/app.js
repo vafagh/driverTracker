@@ -13775,7 +13775,7 @@ __webpack_require__(12);
     setTimeout(function () {
         countdown(remaining - 1);
     }, 1000);
-})(360);
+})(500);
 
 /***/ }),
 /* 12 */

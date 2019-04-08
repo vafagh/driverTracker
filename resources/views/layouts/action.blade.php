@@ -1,11 +1,11 @@
 @php
-$user_role = Auth::user()->role_id;
-$user_id = Auth::user()->id;
-$admin = 5;
-$title = 'Done';
-if($rideable->location->type=='Client')   $title = 'Delivered';
-if($rideable->location->type=='Warehouse')  $title = 'Picked up';
-if($rideable->location->type=='DropOff')  $title = 'Droped off';
+    $user_role = Auth::user()->role_id;
+    $user_id = Auth::user()->id;
+    $admin = 5;
+    $title = 'Done';
+    if($rideable->location->type=='Client')   $title = 'Delivered';
+    if($rideable->location->type=='Warehouse')  $title = 'Picked up';
+    if($rideable->location->type=='DropOff')  $title = 'Droped off';
 @endphp
 
 @if (($user_id == $rideable->user_id) || $user_role > 2 )
@@ -13,7 +13,7 @@ if($rideable->location->type=='DropOff')  $title = 'Droped off';
 
         @case('Created')
             @if ($user_id == $rideable->user_id)
-                <a title="Cancel" class="text-danger" href="/rideable/delete/{{$rideable->id}}/">
+                <a title="Cancel" class="text-danger showOnHover" href="/rideable/delete/{{$rideable->id}}/">
                     <i class="material-icons">delete_forever</i>
                 </a>
             @endif
@@ -22,21 +22,20 @@ if($rideable->location->type=='DropOff')  $title = 'Droped off';
                 @endcomponent
             @endif
             @if ($title=='Droped off')
-                <a class="text-primary" title="Done" href="/rideable/{{$rideable->id}}/Done"><i class="material-icons">done</i>{{-- {{$title}} --}}</a>
+                <a class="text-primary showOnHover" title="Done" href="/rideable/{{$rideable->id}}/Done"><i class="material-icons">done</i>{{-- {{$title}} --}}</a>
             @endif
         @break
 
         @case('Returned')
             @if ($user_role >3)
-                <a class="text-primary" title="Archive it" href="/rideable/{{$rideable->id}}/Return"><i class="material-icons">done</i></a>
-                <a class="text-primary" title="Send driver back" href="/rideable/{{$rideable->id}}/Reschadule"><i class="material-icons">refresh</i></a>
+                <a class="text-primary showOnHover" title="Archive it" href="/rideable/{{$rideable->id}}/Return"><i class="material-icons">done</i></a>
+                <a class="text-primary showOnHover" title="Send driver back" href="/rideable/{{$rideable->id}}/Reschadule"><i class="material-icons">refresh</i></a>
             @endif
         @break
 
         @case('DriverDetached')
             @if ($user_id == $rideable->user_id)
-                <a title="
-                Cancel" class="text-danger" href="/rideable/delete/{{$rideable->id}}/">
+                <a title="Cancel" class="text-danger showOnHover" href="/rideable/delete/{{$rideable->id}}/">
                     <i class="material-icons">delete_forever</i>
                 </a>
             @endif
@@ -45,14 +44,13 @@ if($rideable->location->type=='DropOff')  $title = 'Droped off';
                 @endcomponent
             @endif
             @if ($title=='Droped off')
-                <a class="" href="/rideable/{{$rideable->id}}/Done"><i class="material-icons">done</i>{{-- {{$title}} --}}</a>
+                <a class=" showOnHover" href="/rideable/{{$rideable->id}}/Done"><i class="material-icons">done</i>{{-- {{$title}} --}}</a>
             @endif
         @break
 
         @case('Reschadule')
             @if ($user_id == $rideable->user_id)
-                <a title="
-                Cancel" class="text-danger" href="/rideable/delete/{{$rideable->id}}/">
+                <a title="Cancel" class="text-danger showOnHover" href="/rideable/delete/{{$rideable->id}}/">
                     <i class="material-icons">delete_forever</i>
                 </a>
             @endif
@@ -61,22 +59,22 @@ if($rideable->location->type=='DropOff')  $title = 'Droped off';
                 @endcomponent
             @endif
             @if ($title=='Droped off')
-                <a class="" href="/rideable/{{$rideable->id}}/Done"><i class="material-icons">done</i>{{-- {{$title}} --}}</a>
+                <a class=" showOnHover" href="/rideable/{{$rideable->id}}/Done"><i class="material-icons">done</i>{{-- {{$title}} --}}</a>
             @endif
         @break
 
         @case('OnTheWay')
             @if ($title != 'Delivered')
-                <a title="Parts not available" class="text-danger" href="/rideable/{{$rideable->id}}/NotAvailable">
+                <a title="Parts not available" class="text-danger showOnHover" href="/rideable/{{$rideable->id}}/NotAvailable">
                     <i class="material-icons">priority_high</i>
                 </a>
             @else
-                <a title="Returned" class="" href="/rideable/{{$rideable->id}}/Returned"><i class="material-icons">keyboard_return</i></a>
+                <a title="Returned" class=" showOnHover" href="/rideable/{{$rideable->id}}/Returned"><i class="material-icons">keyboard_return</i></a>
             @endif
             {{-- @if ($user_role != 3)
                 <a title="Request warehouse manager to dissmis driver from this ticket" class="text-warning" href="/rideable/{{$rideable->id}}/DeatachReqested"><i class="material-icons">cancel</i></a>
             @endif --}}
-            <a class="" href="/rideable/{{$rideable->id}}/Done"><i class="material-icons">done</i></a>
+            <a class=" showOnHover" href="/rideable/{{$rideable->id}}/Done"><i class="material-icons">done</i></a>
         @break
 
         @case('DeatachReqested')

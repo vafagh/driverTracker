@@ -11,7 +11,7 @@
                 $deliverydate = $date->format('Y-m-d');
                 $forceMorning = true;
             }else {
-                if($currentHoure<13){
+                if($currentHoure <= 14){
                     $deliverydate = date('Y-m-d');
                 }else{
                     $deliverydate = $date->format('Y-m-d');
@@ -38,14 +38,14 @@
             </div>
         </div>
         <div class="form-check mb-2 p-2">
-            <input class="form-check-input mh-40" type="radio" name="shift" id="shift1_{{$model}}_{{(isset($object->id))?$object->id:''}}" value="Morning" {{--($currentHoure >= 13 or $forceMorning)?'checked':''--}}{{$morning}}>
+            <input class="form-check-input mh-40" type="radio" name="shift" id="shift1_{{$model}}_{{(isset($object->id))?$object->id:''}}" value="Morning" {{$morning}}>
             <label class="form-check-label mh-40 lh-40" for="shift1_{{$model}}_{{(isset($object->id))?$object->id:''}}">
                 <div class="shiftSelect morning"></div>
                 Morning 08:00 to 13:00
             </label>
         </div>
         <div class="form-check p-2">
-            <input class="form-check-input mh-40" type="radio" name="shift" id="shift2_{{$model}}_{{(isset($object->id))?$object->id:''}}" value="Evening" {{--($currentHoure < 13 and !$forceMorning)?'checked':''--}} {{$evening}}>
+            <input class="form-check-input mh-40" type="radio" name="shift" id="shift2_{{$model}}_{{(isset($object->id))?$object->id:''}}" value="Evening" {{$evening}}>
             <label class="form-check-label mh-40 lh-40" for="shift2_{{$model}}_{{(isset($object->id))?$object->id:''}}">
                 <div class="shiftSelect evening"></div>
                 Evening 14:00 to 17:00
