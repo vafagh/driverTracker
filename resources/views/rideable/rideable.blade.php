@@ -71,8 +71,12 @@
         <li class="list-group-item row m-0 p-0 {{$rideable->status}}" id="rideable{{$rideable->id}}">
             <div class="row m-0 p-0 py-1 h-100" {{($flashId==$rideable->id)? 'id="flash"':''}}>
                 <div class='location        col-5  col-sm-2  col-md-2 col-lg-2              col-xl-2 pl-2 pr-1 text-truncate'>{{-- @component('layouts.components.tooltip',['modelName'=>'location','model'=>$rideable->location]) @endcomponent --}}
-                    <a href="/location/show/{{$rideable->location->id}}">
-                        {{$rideable->location->longName}}
+                    <a class="text-dark" href="/location/show/{{$rideable->location->id}}">
+                        @if (empty($rideable->location->image))
+                            {{$rideable->location->longName}}
+                        @else
+                            <img  class="minh-30" src="/img/location/{{$rideable->location->image}}">
+                        @endif
                     </a>
                 </div>
 

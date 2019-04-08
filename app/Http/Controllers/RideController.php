@@ -69,10 +69,15 @@ class RideController extends Controller
         $ride->driver_id   = $driver->id;
         $ride->truck_id    = $driver->truck_id;
         $ride->distance    = $rideable->location->distance;
-        if(!is_null($rideable->shift) && ($rideable->shift!='')) $rideable->shift; else (date('H') <= 14) ? $ride->shift='Morning' : $ride->shift='Eevening';
+        if(!is_null($rideable->shift) && ($rideable->shift!='') && ($rideable->shift!=' ') ) {
+            $rideable->shift;
+        }else{
+            if(date('H') <= 14) {
+                $ride->shift='Morning';
+            }else $ride->shift='Evening';
+        }
         $ride->delivery_date = $rideable->delivery_date;
         $ride->save();
-
         $rideable->status = 'OnTheWay';
         $rideable->shift = $ride->shift;
         $rideable->save();
