@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use App\Ride;
 use App\Driver;
+use App\Helper;
 use App\Rideable;
 use App\Transaction;
 use Illuminate\Http\Request;
@@ -69,12 +70,16 @@ class RideController extends Controller
         $ride->driver_id   = $driver->id;
         $ride->truck_id    = $driver->truck_id;
         $ride->distance    = $rideable->location->distance;
-        if(!is_null($rideable->shift) && ($rideable->shift!='') && ($rideable->shift!=' ') ) {
-            $rideable->shift;
+        if(!empty($rideable->shift) ) {
+            $ride->shift = $rideable->shift;
         }else{
-            if(date('H') <= 14) {
-                $ride->shift='Morning';
-            }else $ride->shift='Evening';
+            $shifSetting = Helper::shift('Morning',1);
+            if((date('H') > ($shifSetting['starts'] + $shifSetting['tolerance'])) && date('H') < $shifSetting['ends'] + $shifSetting['tolerance'])
+            {
+                $ride->shift='Evening'
+            }else {
+                 $ride->shift='Morning';
+            }
         }
         $ride->delivery_date = $rideable->delivery_date;
         $ride->save();
