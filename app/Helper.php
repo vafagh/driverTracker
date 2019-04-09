@@ -7,6 +7,23 @@ use Carbon\Carbon;
 class Helper
 {
 
+    public static function shift($shiftName, $tolerance = 4)
+    {
+        switch ($shiftName) {
+            case 'Morning':
+            return array('starts' => 8, 'ends' => 14, 'tolerance' => $tolerance);
+            break;
+
+            case 'Evening':
+            return array('starts' => 15, 'ends' => 18, 'tolerance' => $tolerance);
+            break;
+
+            default:
+            return 'Wrong call. Eather Morning or Evening. Helper::shift("Morning")';
+            break;
+        }
+    }
+
     public static function dateName($date)
     {
         $today = Carbon::today()->toDateString();
@@ -14,21 +31,22 @@ class Helper
         $yesterday = Carbon::yesterday()->toDateString();
         switch ($date) {
             case $yesterday:
-                $dateName = 'Yesterday';
-                break;
+            $dateName = 'Yesterday';
+            break;
 
             case $today:
-                $dateName = 'Today';
-                break;
+            $dateName = 'Today';
+            break;
 
             case $tomorrow:
-                $dateName = 'Tomorrow';
-                break;
+            $dateName = 'Tomorrow';
+            break;
 
             default:
-                $dateName = $date;
-                break;
+            $dateName = $date;
+            break;
         }
         return $dateName;
     }
+
 }
