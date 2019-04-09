@@ -76,7 +76,7 @@ class RideController extends Controller
             $shifSetting = Helper::shift('Morning',1);
             if((date('H') > ($shifSetting['starts'] + $shifSetting['tolerance'])) && date('H') < $shifSetting['ends'] + $shifSetting['tolerance'])
             {
-                $ride->shift='Evening'
+                $ride->shift='Evening';
             }else {
                  $ride->shift='Morning';
             }
