@@ -129,12 +129,10 @@
                                         </div>
                                     </td>
                                     <td>
-                                        @if (Auth::user()->role_id > 3 && $ride->rideable != null)
-                                            @component('layouts.components.modal',['modelName'=>'ride','action'=>'edit','iterator'=>$key,'object'=>$ride,'btnSize'=>'small','op1'=>'','op2'=>''])
-                                            @endcomponent
-                                            @if (Auth::user()->role_id > 3 && $ride->rideable->status!='Done' && $ride->rideable->status!='Returned' && $ride->rideable->status!='Return')
-                                                <a title="Remove driver from this invoice" class="badge badge-danger" href="/ride/detach/{{$ride->id}}/{{$ride->rideable->id}}">Detach</a>
-                                                <a title="Returned" class="badge badge-danger" href="/rideable/{{$ride->rideable->id}}/Returned"><i class="material-icons md-">keyboard_return</i></a>
+                                        @if (Auth::user()->role_id >= 3 && $ride->rideable != null && $ride->rideable->status!='Done' && $ride->rideable->status!='Returned' && $ride->rideable->status!='Return')
+                                            <a title="Remove driver from this invoice" class="badge badge-danger" href="/ride/detach/{{$ride->id}}/{{$ride->rideable->id}}">Detach</a>
+                                            @if (Auth::user()->role_id > 3 )
+                                                <a title="Returned" class="badge badge-danger" href="/rideable/{{$ride->rideable->id}}/Returned"><i class="material-icons md-14">keyboard_return</i></a>
                                             @endif
                                         @endif
                                     </td>
