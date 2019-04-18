@@ -45,22 +45,19 @@
             <div class="card-body">
                 <div class="card-header  m-0 justify-around">
                     <span class="inline-block">All Rides</span>
-                    <div class="d-inline-block pagination-sm">
-                        {{ $finishedRides->links("pagination::bootstrap-4") }}
-                    </div>
+
                     @if ($currentUnassign->count()>0)
                         <span class="btn btn-sm ml-4">Available:</span>
                         <span class='add badge badge-sm badge-success'>Delivery</span>
                         <span class='mr-4 add badge badge-sm badge-info'>Pickup</span>
                         @foreach ($currentUnassign as $rideable)
                             <div class="add d-inline">
-                                    <a class="btn btn-{{($rideable->type=='Client')?'success':'info'}} btn-sm text-white h-75" title="{{$rideable->location->name}}" href="/ride/store/{{$rideable->id}}/{{$driver->id}}">
+                                    <a class="btn btn-{{($rideable->type=='Client') ? 'success':'info'}}{{(Auth::user()->role_id==3 && $rideable->type!='Client') ?' d-none':''}} btn-sm text-white h-75" title="{{$rideable->location->name}}" href="/ride/store/{{$rideable->id}}/{{$driver->id}}">
                                         <i class="material-icons md-14 text-dark">add</i>
                                         {{$rideable->invoice_number}}
                                     </a>
                             </div>
                         @endforeach
-
                     @endif
 
                 </div>
@@ -138,7 +135,13 @@
                                     </td>
                                 </tr>
                             @endforeach
-                            <tr class="table-danger"><td colspan="7 bg-black"></td></tr>
+                            <tr class="table-dangers">
+                                <td colspan="7 bg-black">
+                                    <div class="d-inline-block pagination-sm">
+                                        {{ $finishedRides->links("pagination::bootstrap-4") }}
+                                    </div>
+                                </td>
+                            </tr>
                             @foreach ($finishedRides as $key => $ride)
                                 <tr>
                                     <td class='pl-2'>{{$ride->id}}</td>
