@@ -48,18 +48,19 @@ class DriverController extends Controller
         $driver = Driver::with('rides','fillups','rides.truck','rides.rideable','rides.rideable.location')->find($driver_id);
         (empty($request->input('sortby'))) ? $rideSort = 'created_at': $rideSort = $request->input('sortby');
 
+        $ongoingRides = $driver->rides()
+        ->whereHas('rideable', function($q) {
+            $q->where('status','OnTheWay');
+        })
+        ->orderBy('created_at','desc')
+        ->get();
+
         $finishedRides = $driver->rides()
             ->whereHas('rideable', function($q) {
-                $q->where('status', 'OnTHeWay');
+                $q->where('status', '!=', 'OnTheWay');
             })
             ->orderBy('created_at','desc')
-            ->paginate(20);
-        $ongoingRides = $driver->rides()
-            ->whereHas('rideable', function($q) {
-                $q->where('status', '!=','OnTHeWay');
-            })
-            ->orderBy('created_at','desc')
-            ->get();
+            ->paginate(10);
 
         $currentUnassign = Rideable::doesntHave('rides')
             ->where([
@@ -73,7 +74,7 @@ class DriverController extends Controller
             ])
             ->orderBy('invoice_number', 'asc')->get();
 
-        return view('driver.show',compact('driver','finishedRides','ongoingRides','rideSort','currentUnassign'));
+        return view('driver.show',compact('driver', 'ongoingRides', 'finishedRides', 'rideSort', 'currentUnassign'));
     }
 
 
