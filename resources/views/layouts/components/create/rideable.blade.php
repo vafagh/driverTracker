@@ -92,29 +92,32 @@
                             closeAllLists(e.target);
                         });
                     }
-                    var cliName = {@foreach ($locations = App\Location::where('type',$op1)->orderBy('phone')->get() as $location)@if($loop->last)"{!!$location->longName.'":"'.$location->longName.' , '.$location->phone!!}"@else"{!!$location->longName.'":"'.$location->longName.' , '.$location->phone!!}",@endif @endforeach};
-                    var cliPhone = {@foreach ($locations = App\Location::where('type',$op1)->orderBy('phone')->get() as $location)@if($loop->last)"{!!$location->longName.'":"'.$location->phone.' , '.$location->longName!!}"@else"{!!$location->longName.'":"'.$location->phone.' , '.$location->longName!!}",@endif @endforeach};
+
+                    var cliName  = {{!!App\Helper::locations($op1,'longName')!!}};
+                    var cliPhone  = {{!!App\Helper::locations($op1,'phone')!!}};
+
                     autocomplete(document.getElementById("clientsName"), cliName);
                     autocomplete(document.getElementById("clientsPhone"), cliPhone);
-                    function toggle() {
-                    var cName = document.getElementById("cName");
-                    var cPhone = document.getElementById("cPhone");
-                    var clientsName = document.getElementById("clientsName");
-                    var clientsPhone = document.getElementById("clientsPhone");
 
-                    if (cName.checked){
-                        clientsPhone.value = "";
-                        clientsPhone.style.display = "none";
-                        clientsName.style.display = "block";
-                        clientsName.focus();
+                    function toggle() {
+                        var cName = document.getElementById("cName");
+                        var cPhone = document.getElementById("cPhone");
+                        var clientsName = document.getElementById("clientsName");
+                        var clientsPhone = document.getElementById("clientsPhone");
+
+                        if (cName.checked){
+                            clientsPhone.value = "";
+                            clientsPhone.style.display = "none";
+                            clientsName.style.display = "block";
+                            clientsName.focus();
+                        }
+                        if(cPhone.checked){
+                            clientsName.value = "";
+                            clientsPhone.style.display = "block";
+                            clientsName.style.display = "none";
+                            clientsPhone.focus();
+                        }
                     }
-                    if(cPhone.checked){
-                        clientsName.value = "";
-                        clientsPhone.style.display = "block";
-                        clientsName.style.display = "none";
-                        clientsPhone.focus();
-                    }
-                }
                 </script>
             @endsection
         </fieldset>
@@ -135,10 +138,10 @@
     @endif
 
     @for ($i=0; $i < 10; $i++)
-        <div class="form-inline row m-0" {{$i>0 ? "style=display:none":'"style=display:flex"'}} id="line{{$i}}">
+        <div class="form-inline row m-0" style='display:{{$i>0 ? "none":"flex"}}' id="line{{$i}}">
 
             <label class="sr-only" for="invoice_number{{$i}}">{{($op1=='Client') ? 'Invoice': 'Part'}} number:</label>
-            <input class="form-control m-0 mb-2 col-4 text-uppercase" id="invoice_number{{$i}}" type="text" name="invoice_number{{$i}}" placeholder="{{($op1=='Client') ? 'Invoice': 'Part'}} number">
+            <input class="form-control m-0 mb-2 col-4 text-uppercase" id="invoice_number{{$i}}" type="text" name="invoice_number{{$i}}" placeholder="{{($op1=='Client') ? 'Invoice': 'Part'}} number" {{($i==0) ? 'required':''}}>
             @if ($op1!='Client')
                 <div class="col-4 mb-2">
                     <div class="form-check" >
@@ -172,22 +175,22 @@
     @endfor
 
     <script type="text/javascript">
-        function showID(id) {
-            if (id!=null) {
-                id.style.display = "flex";
-                let lineNm = document.getElementById("delete0").style.display = "none";
-            }
+    function showID(id) {
+        if (id!=null) {
+            id.style.display = "flex";
+            let lineNm = document.getElementById("delete0").style.display = "none";
         }
-        function hideID(id) {
-            if(id!=0){
-                let lineNm = this["line"+id].style.display = "none";
-            }else{
-                let lineNm = document.getElementById("delete0").style.display = "none";
-            }
-            var invNum = this["invoice_number"+id];
-            invNum.value = null;
+    }
+    function hideID(id) {
+        if(id!=0){
+            let lineNm = this["line"+id].style.display = "none";
+        }else{
+            let lineNm = document.getElementById("delete0").style.display = "none";
         }
-        document.addEventListener("keydown", function (event) {
+        var invNum = this["invoice_number"+id];
+        invNum.value = null;
+    }
+    document.addEventListener("keydown", function (event) {
         let currentIdNum = parseInt(event.srcElement.id.substr(event.srcElement.id.length - 1));
         let theId = event.srcElement.id.substr(0,event.srcElement.id.length - 1)
         let nextIdNum = currentIdNum+1;

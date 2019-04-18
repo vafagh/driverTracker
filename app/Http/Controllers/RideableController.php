@@ -15,54 +15,12 @@ use Illuminate\Support\Facades\Route;
 
 class RideableController extends Controller
 {
-    public function map(Request $request)
-    {
-        if(is_null($request->input('shift'))){
-            $shiftOperator = '!=';
-            $shift = Null;
-        }else {
-            $shiftOperator = '=';
-            $shift = $request->input('shift');
-        }
-
-        if(is_null($request->input('delivery_date'))){
-            $delivery_dateOperator = '=';
-            $delivery_date = Carbon::today()->toDateString();
-        }elseif($request->input('delivery_date') == 'all' ){
-            $delivery_dateOperator = '!=';
-            $delivery_date = null; // to return all rows
-        }else{
-            $delivery_dateOperator = '=';
-            $delivery_date = $request->input('delivery_date');
-        }
-
-        $rideables = Rideable::with('user','rides','rides.driver','rides.truck','location')
-            // ->whereHas('rides')
-            ->where([
-                ['status', '!=', 'Done'],
-                ['status', '!=', 'Canceled'],
-                ['status','!=','Returned'],
-                ['status','!=','Return'],
-                ['delivery_date',$delivery_dateOperator,$delivery_date],
-                ['shift',$shiftOperator,$shift]
-            ])
-            ->orderBy('location_id', 'desc')
-            ->get();
-        $count= $rideables->count();
-        $activeDrivers = Driver::where('truck_id','!=',null)->get();
-        return view('map',compact('rideables','activeDrivers','count'));
-    }
-
-    public function show(Rideable $rideable)
-    {
-        return view('rideable.show',compact('rideable','clients'));
-    }
-
     public function list(Request $request, $type)
     {
-        if($type == "delivery") { $op1 = 'Client';    $op2 = 'Delivery'; $operator = '=';  $orderColumn = 'invoice_number'; }
-        else                    { $op1 = 'Warehouse'; $op2 = 'Pickup';   $operator = '!='; $orderColumn = 'location_id';}
 
+        if($type == "delivery") { $op1 = 'Client';    $op2 = 'Delivery'; $operator = '=';  $orderColumn = 'created_at'; }
+        else                    { $op1 = 'Warehouse'; $op2 = 'Pickup';   $operator = '!='; $orderColumn = 'location_id';}
+         
         (empty($request->input('sortby'))) ? $rideableSort = $orderColumn: $rideableSort = $request->input('sortby');
 
         if($request->filled('status')){
@@ -107,23 +65,66 @@ class RideableController extends Controller
         }
 
         $rideables = Rideable::with('user','rides','rides.driver','rides.truck','location')
-            ->whereHas('location', function($q) use ($operator) {
-                $q->where('type', $operator, 'Client');
-            })
-            ->where([
-                ['status','!=','Done'],
-                ['status','!=','Canceled'],
-                ['status','!=','Return'],
-                [$field0Name,$field0Operator,$field0Value],
-                [$field1Name,$field1Operator,$field1Value],
-                [$field2Name,$field2Operator,$field2Value]
-            ])
-            ->orderBy($rideableSort, 'asc')
-            ->paginate(70);
+        ->whereHas('location', function($q) use ($operator) {
+            $q->where('type', $operator, 'Client');
+        })
+        ->where([
+        ['status','!=','Done'],
+        ['status','!=','Canceled'],
+        ['status','!=','Return'],
+        [$field0Name,$field0Operator,$field0Value],
+        [$field1Name,$field1Operator,$field1Value],
+        [$field2Name,$field2Operator,$field2Value]
+        ])
+        ->orderBy($rideableSort, 'asc')
+        ->paginate(70);
 
         ($request!==null) ? $flashId = $request->id : $flashId = '1';
 
         return view('rideable.rideables',compact('rideables','op1','op2','flashId'));
+    }
+
+    public function map(Request $request)
+    {
+        if(empty($request->input('shift'))){
+            $shiftOperator = '!=';
+            $shift = Null;
+        }else {
+            $shiftOperator = '=';
+            $shift = $request->input('shift');
+        }
+
+        if(empty($request->input('delivery_date'))){
+            $delivery_dateOperator = '=';
+            $delivery_date = Carbon::today()->toDateString();
+        }elseif($request->input('delivery_date') == 'all' ){
+            $delivery_dateOperator = '!=';
+            $delivery_date = null; // to return all rows
+        }else{
+            $delivery_dateOperator = '=';
+            $delivery_date = $request->input('delivery_date');
+        }
+
+        $rideables = Rideable::with('user','rides','rides.driver','rides.truck','location')
+            // ->whereHas('rides')
+            ->where([
+                ['status', '!=', 'Done'],
+                ['status', '!=', 'Canceled'],
+                ['status','!=','Returned'],
+                ['status','!=','Return'],
+                ['delivery_date',$delivery_dateOperator,$delivery_date],
+                ['shift',$shiftOperator,$shift]
+            ])
+            ->orderBy('location_id', 'desc')
+            ->get();
+        $count= $rideables->count();
+        $activeDrivers = Driver::where('truck_id','!=',null)->get();
+        return view('map',compact('rideables','activeDrivers','count'));
+    }
+
+    public function show(Rideable $rideable)
+    {
+        return view('rideable.show',compact('rideable','clients'));
     }
 
     public function status(Request $request)
@@ -183,19 +184,20 @@ class RideableController extends Controller
             }
         }
     }
+
     public function batchUpdate(Request $request,$type)
     {
         if($type == "delivery") { $op1 = 'Client';    $op2 = 'Delivery'; $operator = '='; }
         else                    { $op1 = 'Warehouse'; $op2 = 'Pickup';   $operator = '!=';}
 
         if($request->filled('shift')){
-            $field1Name = 'id';
-            $field1Operator = '!=';
-            $field1Value = 0;//to return all rows
-        }else {
             $field1Name = 'shift';
             $field1Operator = '=';
             $field1Value = $request->input('shift');
+        }else {
+            $field1Name = 'id';
+            $field1Operator = '!=';
+            $field1Value = 0; //to return all rows
         }
 
         if(!$request->filled('delivery_date')){

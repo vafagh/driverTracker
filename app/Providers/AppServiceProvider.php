@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
-        view()->composer(['home','layouts.menu','map'], function ($view)
+        view()->composer(['home','layouts.menu','map','layouts.components.create.service','layouts.components.create.fillup'], function ($view)
         {
             $activeDrivers = \App\Driver::with('rides','rides.rideable','rides.truck')
                     ->where('truck_id','!=',null)

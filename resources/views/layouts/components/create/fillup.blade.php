@@ -4,7 +4,7 @@
     <div class="form-group">
         <label for="driver-name" class="col-form-label">Driver:</label>
         <select class="form-control form-control-lg" name="driver_id">
-            @foreach (App\Driver::all() as $driver)
+            @foreach ($activeDrivers as $driver)
                 <option value="{{$driver->id}}">{{$driver->fname.', '.$driver->lname}}</option>
             @endforeach
         </select>

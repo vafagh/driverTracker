@@ -64,28 +64,30 @@
         </div>
 
         <h5 class="mx-4">Activity:</h5>
-        <div class="card-body">
+        <div class="card-body p-0">
 
             <div class="pagination">
                 {{ $transactions->links("pagination::bootstrap-4") }}
             </div>
-            <div class="header row">
+            <div class="header row m-0">
                 <div class="col-4 col-sm-2 col-md-2 col-lg-2">By</div>
                 <div class="col-5 col-sm-3 col-md-3 col-lg-2">Table</div>
-                <div class="col-3 col-sm-1 col-md-1 col-lg-2">Row</div>
+                <div class="col-3 col-sm-2 col-md-1 col-lg-2">Row</div>
                 <div class="col-4 col-sm-3 col-md-3 col-lg-4">Action</div>
-                <div class="col-8 col-sm-3 col-md-3 col-lg-2">Create</div>
+                <div class="col-8 col-sm-2 col-md-3 col-lg-2">Create</div>
             </div>
             <div id="accordion">
                 @foreach ($transactions as $key => $transaction)
                     <div class="card mb-1">
                         <div class="card-header" id="heading{{$key}}">
                                 <div class="h5 my-0 row" data-toggle="collapse" data-target="#collapse{{$key}}" aria-expanded="true" aria-controls="collapse{{$key}}">
-                                    <a    class="col-4 col-sm-2 col-md-2 col-lg-2" href="/user/show/{{$transaction->user_id}}">{{$transaction->user->name}}</a>
-                                    <a    class="col-5 col-sm-3 col-md-3 col-lg-2" href="/{{$transaction->table_name}}">{{$transaction->table_name}}</a>
-                                    <a    class="col-3 col-sm-1 col-md-1 col-lg-2" href="/{{str_singular($transaction->table_name)}}/show/{{$transaction->row_id}}">{{$transaction->row_id}}</a>
-                                    <span class="col-4 col-sm-3 col-md-3 col-lg-4 {{($transaction->action=='destroy') ? 'text-danger':''}}">{{$transaction->action}}</span>
-                                    <span class="col-8 col-sm-3 col-md-3 col-lg-2" title="{{$transaction->created_at}}">{{$transaction->created_at->diffForHumans()}}</span>
+                                    <a    class="col-4 col-sm-4 col-md-4 col-lg-2" href="/user/show/{{$transaction->user_id}}">{{$transaction->user->name}}</a>
+                                    <a    class="col-4 col-sm-3 col-md-3 col-lg-2" href="/{{$transaction->table_name}}">{{$transaction->table_name}}</a>
+                                    <a    class="col-4 col-sm-5 col-md-5 col-lg-2" href="/{{str_singular($transaction->table_name)}}/show/{{$transaction->row_id}}">{{$transaction->row_id}}</a>
+                                    <span class="col-5 col-sm-5 col-md-5 col-lg-2 {{($transaction->action=='destroy') ? 'text-danger':''}}">{{$transaction->action}}</span>
+                                    <span class="col-6 col-sm-6 col-md-6 col-lg-3" title="{{$transaction->created_at}}">{{$transaction->created_at->diffForHumans()}}</span>
+                                    <i    class="col-1 folding more material-icons">unfold_more</i>
+                                    <i    class="col-1 folding less material-icons">unfold_less</i>
                                 </div>
                         </div>
                         <div id="collapse{{$key}}" class="collapse" aria-labelledby="heading{{$key}}" data-parent="#accordion">

@@ -12210,3 +12210,15 @@ a.text-dark:focus {
   background-color: #F2D8AB;
 }
 
+.show .folding .less {
+  display: block;
+}
+
+.show .folding .more {
+  display: none;
+}
+
+.folding .less {
+  display: none;
+}
+

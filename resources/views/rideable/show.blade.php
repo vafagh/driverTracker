@@ -21,7 +21,7 @@
         </div>
 
         <div class="card-body row  ">
-            <div class="Invoice  col-4 col-sm-4 col-md-3 col-lg-2 col-xl-2 m-0 border">
+            <div class="Invoice     col-4  col-sm-4  col-md-3 col-lg-2 col-xl-2 m-0 border">
                 <div class="label">
                     Part / Invoice:
                 </div>
@@ -31,7 +31,7 @@
                     {!! ($rideable->stock==1) ? '<small><sup class="text-primary"> Stock</sup></small>' : '' !!}
                 </div>
             </div>
-            <div class="location col-8 col-sm-8 col-md-5 col-lg-3 col-xl-4 m-0 border">
+            <div class="location    col-8  col-sm-8  col-md-5 col-lg-3 col-xl-4 m-0 border">
                 <div class="data h3 pt-3">
                     <i class="material-icons">
                         @if ($rideable->type)
@@ -43,7 +43,7 @@
                     @endcomponent
                 </div>
             </div>
-            <div class="status   col-3 col-sm-3 col-md-4 col-lg-2 col-xl-2 m-0 border">
+            <div class="status      col-3  col-sm-3  col-md-4 col-lg-2 col-xl-2 m-0 border">
                 <div class="label">
                     status:
                 </div>
@@ -51,7 +51,7 @@
                     {{$rideable->status}}
                 </div>
             </div>
-            <div class="user     col-3 col-sm-3 col-md-2 col-lg-2 col-xl-2 m-0 border">
+            <div class="user        col-3  col-sm-3  col-md-2 col-lg-2 col-xl-2 m-0 border">
                 <div class="label">
                     Created by
                 </div>
@@ -59,7 +59,7 @@
                     {{$rideable->user->name}}
                 </div>
             </div>
-            <div class="date     col-6 col-sm-6 col-md-5 col-lg-3 col-xl-2 m-0 border">
+            <div class="date        col-6  col-sm-6  col-md-5 col-lg-3 col-xl-2 m-0 border">
                 <div class="label">
                     created_at:
                 </div>
@@ -67,7 +67,7 @@
                     {{$rideable->created_at}}
                 </div>
             </div>
-            <div class="delivery col-12 col-sm-12 col-md-5 col-lg-4 col-xl-4 m-0 border">
+            <div class="delivery    col-12 col-sm-12 col-md-5 col-lg-4 col-xl-4 m-0 border">
                 <div class="label">
                     Delivery
                 </div>
@@ -76,7 +76,7 @@
                     {{$rideable->shift}}
                 </div>
             </div>
-            <div class="description col-6 col-sm-7 col-md-8 col-lg-5 col-xl-6 m-0 border">
+            <div class="description col-6  col-sm-7  col-md-8 col-lg-5 col-xl-6 m-0 border">
                 <div class="label">
                     description:
                 </div>
@@ -84,7 +84,7 @@
                     {{$rideable->description}}
                 </div>
             </div>
-            <div class="update   col-6 col-sm-5 col-md-4 col-lg-3 col-xl-2 m-0 border">
+            <div class="update      col-6  col-sm-5  col-md-4 col-lg-3 col-xl-2 m-0 border">
                 <div class="label">
                     updated_at:
                 </div>
@@ -117,10 +117,10 @@
         </div>
         <div class="card-body">
             @foreach (App\Transaction::where('table_name','rideables')->where('row_id',$rideable->id)->orderByDesc('created_at')->get() as $key => $transaction)
-                <div class="card mb-1">
+                <div class="card mb-1" id='accordion'>
                     <div class="card-header" id="heading{{$key}}">
                         <div class="h5 my-0 row" data-toggle="collapse" data-target="#collapse{{$key}}" aria-expanded="true" aria-controls="collapse{{$key}}">
-                            <a    class="col-6 col-sm-4 col-md-3 col-lg-2" href="/{{$transaction->user->name}}">{{$transaction->user->name}}</a>
+                            <a    class="col-6 col-sm-3 col-md-3 col-lg-2" href="/{{$transaction->user->name}}">{{$transaction->user->name}}</a>
                             <span class="col-6 col-sm-3 col-md-3 col-lg-6 {{($transaction->action=='destroy') ? 'text-danger':''}}">{{$transaction->action}}</span>
                             <span class="col-10 col-sm-3 col-md-3 col-lg-2" title="{{$transaction->created_at}}">{{$transaction->created_at->diffForHumans()}}</span>
                         </div>

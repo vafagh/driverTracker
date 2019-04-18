@@ -3,9 +3,21 @@
 namespace App;
 
 use Carbon\Carbon;
+use Locations;
 
 class Helper
 {
+
+    public static function locations($op1,$sortBy)
+    {
+        $cliName='';
+        foreach (Location::where('type',$op1)->orderBy($sortBy)->get() as $location){
+            $locName = str_replace('"','',$location->name);
+            if($sortBy=='longName')  $cliName .= '"'.$locName.'":"'.$locName.'",';
+            else                    $cliName .= '"'.$locName.'":"'.$location->phone.' , '.$locName.'",';
+        }
+        return $cliName;
+    }
 
     public static function shift($shiftName, $tolerance = 4)
     {

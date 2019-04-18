@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <div class="">
+
         <div class="card">
             <div class="card-body p-0">
                 <ul class="list-group" id='driverd'>
@@ -42,11 +42,11 @@
                     </li>
                 </ul>
             </div>
-            <div class="card">
+            <div class="card-body">
                 <div class="card-header  m-0 justify-around">
                     <span class="inline-block">All Rides</span>
                     <div class="d-inline-block pagination-sm">
-                        {{ $rides->links("pagination::bootstrap-4") }}
+                        {{ $finishedRides->links("pagination::bootstrap-4") }}
                     </div>
                     @if ($currentUnassign->count()>0)
                         <span class="btn btn-sm ml-4">Available:</span>
@@ -78,7 +78,68 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($rides as $key => $ride)
+                            @foreach ($finishedRides as $key => $ride)
+                                <tr>
+                                    <td class='pl-2'>{{$ride->id}}</td>
+                                @if (!empty($ride->rideable))
+                                    <td class="location text-truncate">
+                                        @component('layouts.components.tooltip',['modelName'=>'location','model'=>$ride->rideable->location])
+                                        @endcomponent
+                                    </td>
+                                    <td class="invoice fixedWidthFont font-weight-bold h4 minw-200">
+                                        @if (Auth::user()->role_id > 3 || Auth::user()->id == $ride->rideable->user_id )
+                                            @component('layouts.components.modal',['modelName'=>'rideable','action'=>'edit','dingbats'=>'<i class="material-icons md-16">border_color</i>','style'=>'badge badge-warning mr-1 float-left','iterator'=>$key,'object'=>$ride->rideable,'op1'=>$ride->rideable->type,'op2'=>'','file'=>false,'autocomplateOff'=>true])
+                                            @endcomponent
+                                        @endif
+                                        @component('layouts.components.tooltip',['modelName'=>'rideable','model'=>$ride->rideable])
+                                        @endcomponent
+                                        @if (Auth::user()->role_id > 3 && $ride->rideable->status!='Done' && $ride->rideable->status!='Returned' && $ride->rideable->status!='Return')
+                                            <a class="badge badge-primary" href="/rideable/{{$ride->rideable->id}}/Done">&#x2714; Done</a>
+                                        @endif
+                                    </td>
+                                    <td>{{$ride->rideable->status}}</td>
+                                @else
+                                    <td class='no-info' colspan="3">
+                                        The ticket is deleted.
+                                        @if (Auth::user()->role_id>3)
+                                            <a href="/ride/delete/{{$ride->id}}">remove this line</a>
+                                        @endif
+                                    </td>
+                                @endif
+                                    <td class="truck text-truncate">
+                                        @component('layouts.components.tooltip',['modelName'=>'truck','model'=>$ride->truck])
+                                        @endcomponent
+                                    </td>
+                                    <td>
+                                        <div title="{{$ride->created_at->diffForHumans()}}">
+                                            {{-- {{$ride->created_at->toFormattedDateString()}}
+                                            <span class="text-muted font-weight-light">{{$ride->created_at->toTimeString()}}</span> --}}
+                                            @if(!empty($ride->rideable) && $ride->rideable->location->type != 'DropOff' && $ride->rideable->delivery_date!=null)
+                                                <span title="{{$ride->rideable->delivery_date.' '.$ride->rideable->shift}}">
+                                                    <i class="material-icons small">send</i>
+                                                    @if(App\User::setting('humanDate') && Auth::user()->role_id!=3)
+                                                        {{ App\Helper::dateName($ride->rideable->delivery_date)}}
+                                                    @else
+                                                        {{$ride->rideable->delivery_date}}
+                                                    @endif
+                                                    <i class="material-icons small">schedule</i>
+                                                    <span class="text-muted font-weight-light">{{ $ride->rideable->shift}}</span>
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @if (Auth::user()->role_id >= 3 && $ride->rideable != null && $ride->rideable->status!='Done' && $ride->rideable->status!='Returned' && $ride->rideable->status!='Return')
+                                            <a title="Remove driver from this invoice" class="badge badge-danger" href="/ride/detach/{{$ride->id}}/{{$ride->rideable->id}}">Detach</a>
+                                            @if (Auth::user()->role_id > 3 )
+                                                <a title="Returned" class="badge badge-danger" href="/rideable/{{$ride->rideable->id}}/Returned"><i class="material-icons md-14">keyboard_return</i></a>
+                                            @endif
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                            <tr class="bg-black"><td colspan="4 bg-black"></td></tr>
+                            @foreach ($ongoingRides as $key => $ride)
                                 <tr>
                                     <td class='pl-2'>{{$ride->id}}</td>
                                     @if (!empty($ride->rideable))
@@ -141,7 +202,7 @@
                             <tr>
                                 <td colspan="6">
                                     <div class="pagination">
-                                        {{ $rides->links("pagination::bootstrap-4") }}
+                                        {{ $finishedRides->links("pagination::bootstrap-4") }}
                                     </div>
                                 </td>
                             </tr>
@@ -149,7 +210,7 @@
                     </table>
                 </div>
             </div>
-            <div class="card">
+            <div class="card-body">
                 <div class="card-header row m-0">
                     Fillups
                 </div>
@@ -204,5 +265,4 @@
                 </div>
             </div>
         </div>
-    </div>
 @endsection

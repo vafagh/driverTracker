@@ -55,8 +55,8 @@
                     {{ $transactions->links("pagination::bootstrap-4") }}
                 </div>
                 <div class="header row">
-                    <div class="col-4 col-sm-4 col-md-3 col-lg-2">Table</div>
-                    <div class="col-2 col-sm-2 col-md-3 col-lg-2">Row</div>
+                    <div class="col-4 col-sm-4 col-md-3 col-lg-2">Ta00ble</div>
+                    <div class="col-2 col-sm-3 col-md-3 col-lg-2">Row</div>
                     <div class="col-3 col-sm-3 col-md-3 col-lg-6">Action</div>
                     <div class="col-3 col-sm-3 col-md-3 col-lg-2">Create</div>
                 </div>
@@ -66,10 +66,11 @@
                         <div class="card mb-1">
                             <div class="card-header" id="heading{{$key}}">
                                     <div class="h5 my-0 row" data-toggle="collapse" data-target="#collapse{{$key}}" aria-expanded="true" aria-controls="collapse{{$key}}">
-                                        <a    class="col-6 col-sm-4 col-md-3 col-lg-2" href="/{{$transaction->table_name}}">{{$transaction->table_name}}</a>
-                                        <a    class="col-2 col-sm-2 col-md-3 col-lg-2" href="/{{str_singular($transaction->table_name)}}/show/{{$transaction->row_id}}">{{$transaction->row_id}}</a>
+                                        <a    class="col-6 col-sm-3 col-md-3 col-lg-2" href="/{{$transaction->table_name}}">{{$transaction->table_name}}</a>
+                                        <a    class="col-3 col-sm-3 col-md-3 col-lg-2" href="/{{str_singular($transaction->table_name)}}/show/{{$transaction->row_id}}">{{$transaction->row_id}}</a>
                                         <span class="col-6 col-sm-3 col-md-3 col-lg-6 {{($transaction->action=='destroy') ? 'text-danger':''}}">{{$transaction->action}}</span>
                                         <span class="col-10 col-sm-3 col-md-3 col-lg-2" title="{{$transaction->created_at}}">{{$transaction->created_at->diffForHumans()}}</span>
+                                        <i    class="col-6 col-sm-4 col-md-3 col-lg-2 material-icons">minimize</i>
                                     </div>
                             </div>
                             <div id="collapse{{$key}}" class="collapse" aria-labelledby="heading{{$key}}" data-parent="#accordion">
