@@ -81,7 +81,7 @@
         </div>
 
         <div class="row col-6  col-sm-4  col-md-4 col-lg-4 col-xl-4">
-            <div class="actions col-12 col-sm-4 col-md-4  col-lg-4 col-xl-4"><a href="#">Action</a></div>
+            <div class="actions col-12 col-sm-4 col-md-4  col-lg-4 col-xl-4"><a class="dropdown-item" href="#">Action</a></div>
             <div class='delivery col-12 col-sm-8 col-md-8 col-lg-8 col-xl-8'>
                 <a class="dropdown-item" href="{{str_replace(URL::current(),'',URL::full())}}&amp;sortby=delivery_date">Update</a>
             </div>
