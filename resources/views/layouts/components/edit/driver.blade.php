@@ -39,7 +39,7 @@
                 @endif
                 @foreach ($availableTrucks->orderBy('lable')->get() as $truck)
                     <option {{($truck->id==$object->truck_id) ? 'selected':''}} value="{{$truck->id}}">
-                        ({{$truck->id.'):'.$truck->label.' LP:'.$truck->license_plate.' VIN:'.$truck->last4vin}}
+                        ({{$truck->id.'):'.$truck->lable.' LP:'.$truck->license_plate.' VIN:'.$truck->last4vin}}
                     </option>
                 @endforeach
             </select>
