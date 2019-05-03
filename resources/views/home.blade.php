@@ -116,9 +116,7 @@
             <div class="row d-flex justify-content-around">
                 @foreach ($activeDrivers as $key => $driver)
                     @php
-                    $totalRides = App\Ride::where('driver_id',$driver->id)
-                                ->whereDate('created_at', '=', Carbon\Carbon::today())
-                                ->get();
+                        $totalRides = App\Ride::where('driver_id',$driver->id)->whereDate('created_at', '=', $dates['today'])->get();
                     @endphp
 
                     <div class="card col-6 col-sm-4 col-md-3 col-lg-2 px-0 {{$totalRides->count() > 0 ? '' : 'd-none' }}">
@@ -144,7 +142,7 @@
                             @endforeach
                         </div>
 
-                        <div class="card-footer row font-70">
+                        <div class="card-footer row statistic font-70">
                             <small class=" col-12 text-muted pm-0">
                                 Trip Counter : from total of
                                 {{ $totalTrip = App\Ride::where('driver_id', $driver->id)->count() }}

@@ -20,7 +20,7 @@
             @if ($rideable->location->type == 'Client')
                 @component('layouts.components.modal',['modelName'=>'ride','action'=>'create','iterator'=>$rideable->id,'object'=>$rideable,'btnSize'=>'small','style'=>'text-info text-white ','op1'=>'','op2'=>'','dingbats'=>'<i class="material-icons">drive_eta</i> ','file'=>false])
                 @endcomponent
-            @elseif (!empty($rideable->location->driver_id))
+            @elseif (!empty($rideable->location->driver_id) || $rideable->location->type == 'DropOff')
                 <a title="Parts not available" class="text-danger showOnHover" href="/rideable/{{$rideable->id}}/NotAvailable"><i class="material-icons">priority_high</i></a>
                 <a class="text-primary showOnHover" title="Done" href="/rideable/{{$rideable->id}}/Done"><i class="material-icons">done</i></a>
             @endif
