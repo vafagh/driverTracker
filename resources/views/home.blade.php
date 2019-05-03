@@ -127,24 +127,48 @@
                             ['modelName'=>'driver','model'=>$driver])@endcomponent
                         </div>
 
-                        <div class="">
-                                <small class="text-muted">
-                                    Total trip :{{ App\Ride::where('driver_id', $driver->id)->count() }}
-                                </small>
-                                @foreach ($totalRides as $key => $rides)
-                                                @if (isset($rides->rideable))
-                                                    @if ($rides->rideable->status !='Done')
-                                                        <div class="fixedWidthFont">
-                                                            <a title="{{$rides->rideable->location->longName}}" href="/rideable/show/{{$rides->rideable->id}}">{{$rides->rideable->invoice_number}}</a>
-                                                            @if ($rides->rideable->status =='Returned')
-                                                                <i class="material-icons size-14">keyboard_return</i>
-                                                            @endif
-                                                        </div>
-                                                    @endif
-                                                @else
-                                                {{$rides}}
-                                                @endif
-                                @endforeach
+                        <div class="card-body">
+                            @foreach ($totalRides as $key => $rides)
+                                @if (isset($rides->rideable))
+                                    @if ($rides->rideable->status !='Done')
+                                        <div class="fixedWidthFont">
+                                            <a title="{{$rides->rideable->location->longName}}" href="/rideable/show/{{$rides->rideable->id}}">{{$rides->rideable->invoice_number}}</a>
+                                            @if ($rides->rideable->status =='Returned')
+                                                <i class="material-icons size-14">keyboard_return</i>
+                                            @endif
+                                        </div>
+                                    @endif
+                                @else
+                                    {{$rides}}
+                                @endif
+                            @endforeach
+                        </div>
+
+                        <div class="card-footer row font-70">
+                            <small class=" col-12 text-muted pm-0">
+                                Trip Counter : from total of
+                                {{ $totalTrip = App\Ride::where('driver_id', $driver->id)->count() }}
+                            </small>
+                            <div class="col-3 pm-0">
+                                <div>{{ App\Ride::where([
+                                    ['driver_id', $driver->id],
+                                    ["delivery_date","=",$dates['today']]
+                                    ])->count() }}</div>
+                                <div>Today</div>
+                            </div>
+                            <div class="col-3 pm-0">
+                                <div>{{ App\Ride::where('driver_id', $driver->id)->whereDate("delivery_date",">",$dates['firstDayOfWeek'])->whereDate("delivery_date","<=",$dates['today'])->count() }}</div>
+                                <div>L.Week</div>
+                            </div>
+                            <div class="col-3 pm-0">
+                                <div>{{ App\Ride::where('driver_id', $driver->id)->whereDate("delivery_date",">",$dates['firstDayOfMonth'])->whereDate("delivery_date","<=",$dates['today'])->count() }}</div>
+                                <div>L.Month</div>
+                            </div>
+                            <div class="col-3 pm-0">
+                                <div>{{ round($totalTrip/App\Ride::distinct()->select('delivery_date')->where('driver_id', 9)->count(),1) }} /day</div>
+
+                                <div>Average</div>
+                            </div>
                         </div>
                     </div>
                 @endforeach
