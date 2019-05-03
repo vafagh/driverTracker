@@ -57,42 +57,55 @@
                                 </div>
                             @endforeach
                         </div>
-                        <div class="card-footer p-0">
-                            @php  $defDriver = App\Driver::find($warehouse->driver_id);  @endphp
-                            <span class="text-muted progress">Pickup by: {{$defDriver->fname}}</span>
-                            <div class="d-flex justify-content-around px-1" id="heading{{$warehouse->id}}">
-                            </div>
-                            <div>
-                                @foreach ($activeDrivers as $key => $driver)
-                                            <a  class="{{($driver->fname==$defDriver->fname)? "":"disable"}} rounded-circle" href='/location/{{$warehouse->id}}/driver/{{$driver->id}}' title="{{$driver->fname}}">
-                                                <img src="/img/driver/small/{{strtolower($driver->fname)}}.png" alt="{{$driver->fname}}">
-                                            </a>
-                                        @endforeach
-                                        <a href='/drivers' title="Assign Driver To Track">
-                                            <i class="material-icons md-14">person_add</i>
-                                        </a>
-                                    </div>
-                            </div>
-                            {{-- <div class="d-flex justify-content-around px-1" id="heading{{$warehouse->id}}">
-                                @php  $defDriver = App\Driver::find($warehouse->driver_id);  @endphp
-                                <div class="">
-                                    <img src="/img/driver/small/{{strtolower($defDriver->fname)}}.png" alt="{{$defDriver->fname}}">
-                                    {{ $defDriver->fname}}
-                                </div>
-                                <button class="btn btn-link p-0" data-toggle="collapse" data-target="#select{{$warehouse->id}}" aria-expanded="true" aria-controls="select{{$warehouse->id}}">
-                                    <i class="material-icons">people_outline</i>
-                                </button>
-                            </div> --}}
 
-                            {{-- <div id="select{{$warehouse->id}}" class="collapse hide" aria-labelledby="heading{{$warehouse->id}}" data-parent="#accordion">
-                                @foreach ($activeDrivers as $key => $driver)
-                                            <a href='/location/{{$warehouse->id}}/driver/{{$driver->id}}' title="{{$driver->fname}}">
-                                                <img src="/img/driver/small/{{strtolower($driver->fname)}}.png" alt="{{$driver->fname}}" >
-                                            </a>
-                                        @endforeach
-                                    </div>
-                            </div> --}}
+                        <div class="card-footer p-0">
+                            @if ($warehouse->type=='DropOff')
+                                <div class="px-3  text-muted "> Drop Off</div>
+                            @else
+                                @php
+                                    $defDriver = App\Driver::find($warehouse->driver_id);
+                                    $defDriver_fname = (empty($defDriver->fname)) ? null: $defDriver->fname;
+                                @endphp
+                                <span class="text-muted progress">
+                                    @if (empty($defDriver))
+                                        Not assigned yet
+                                    @else
+                                        Pickup by: {{$defDriver_fname}}
+                                    @endif
+                                </span>
+                                <div class="d-flex justify-content-around px-1" id="heading{{$warehouse->id}}">
+                                </div>
+                                <div>
+                                    @foreach ($activeDrivers as $key => $driver)
+                                        <a  class="{{($driver->fname==$defDriver_fname)? "":"disable"}} rounded-circle" href='/location/{{$warehouse->id}}/driver/{{$driver->id}}' title="{{$driver->fname}}">
+                                            <img src="/img/driver/small/{{strtolower($driver->fname)}}.png" alt="{{$driver->fname}}">
+                                        </a>
+                                    @endforeach
+                                    <a href='/drivers' title="Assign Driver To Track">
+                                        <i class="material-icons md-14">person_add</i>
+                                    </a>
+                                </div>
+                            @endif
                         </div>
+                        {{-- <div class="d-flex justify-content-around px-1" id="heading{{$warehouse->id}}">
+                        @php  $defDriver = App\Driver::find($warehouse->driver_id);  @endphp
+                        <div class="">
+                        <img src="/img/driver/small/{{strtolower($defDriver_fname)}}.png" alt="{{$defDriver_fname}}">
+                        {{ $defDriver_fname}}
+                    </div>
+                    <button class="btn btn-link p-0" data-toggle="collapse" data-target="#select{{$warehouse->id}}" aria-expanded="true" aria-controls="select{{$warehouse->id}}">
+                    <i class="material-icons">people_outline</i>
+                </button>
+            </div> --}}
+                        {{-- <div id="select{{$warehouse->id}}" class="collapse hide" aria-labelledby="heading{{$warehouse->id}}" data-parent="#accordion">
+            @foreach ($activeDrivers as $key => $driver)
+            <a href='/location/{{$warehouse->id}}/driver/{{$driver->id}}' title="{{$driver->fname}}">
+            <img src="/img/driver/small/{{strtolower($driver->fname)}}.png" alt="{{$driver->fname}}" >
+        </a>
+    @endforeach
+</div>
+</div> --}}
+                    </div>
                 @endforeach
             </div>
         </div>
