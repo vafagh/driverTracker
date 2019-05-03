@@ -12186,6 +12186,11 @@ a.text-dark:focus {
   z-index: 1049;
 }
 
+.disable img {
+  opacity: .4;
+  z-index: 1049;
+}
+
 .list-group-item.row.m-0.p-0 div {
   border: 0px solid red;
 }
@@ -12210,15 +12215,19 @@ a.text-dark:focus {
   background-color: #F2D8AB;
 }
 
-.show .folding .less {
+.row.collapsed .folding.less {
   display: block;
 }
 
-.show .folding .more {
+.row.collapsed .folding.more {
   display: none;
 }
 
-.folding .less {
+.row .folding.less {
   display: none;
+}
+
+.row .folding.more {
+  display: block;
 }
 

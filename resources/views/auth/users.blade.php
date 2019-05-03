@@ -51,8 +51,7 @@
                                         'op1'=>'',
                                         'op2'=>'',
                                         'style'=>'badge badge-warning',
-                                        'file'=>true
-                                    ])
+                                        'file'=>true])
                                     @endcomponent
                                     <a class="badge badge-danger" href="/user/delete/{{$user->id}}"> Delete</a>
                                 @endif

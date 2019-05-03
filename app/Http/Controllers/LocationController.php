@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Driver;
 use App\Location;
 use App\Transaction;
 use Illuminate\Http\Request;
@@ -97,6 +98,25 @@ class LocationController extends Controller
             }else{$msg = $msg.'Geo_'.$gmaprespond->status.'('.$gmaprespond->error_message.') but other info for ';}
         }
         Transaction::log(Route::getCurrentRoute()->getName(),Location::find($request->id),$location);
+        $location->save();
+
+        return redirect()->back()->with('status',$msg.$location->name.' updated');
+    }
+
+    public function defaultDriver(Location $location, Driver $driver)
+    {
+        $oldLocation = $location;
+        $msg = 'Default driver and ';
+        $location->driver_id = $driver->id;
+        if($location->lat == null || $location->lng == null){
+            $gmaprespond = $location->getGeo($location);
+            if($gmaprespond->status == 'OK'){
+                $location->lat = $gmaprespond->results[0]->geometry->location->lat;
+                $location->lng = $gmaprespond->results[0]->geometry->location->lng;
+                $msg = $msg.'Geo data and other information for ';
+            }else{$msg = $msg.'Geo_'.$gmaprespond->status.'('.$gmaprespond->error_message.') but other info for ';}
+        }
+        Transaction::log(Route::getCurrentRoute()->getName(),$oldLocation,$location);
         $location->save();
 
         return redirect()->back()->with('status',$msg.$location->name.' updated');

@@ -4,12 +4,10 @@
 </a>
 
 <div class="modal-body">
-    <div class="{{($op1 == 'Client')?'':'d-none'}}">
-
+    
+    @if($op1 == 'Client')
         @component('layouts.when',['object'=>$object,'model'=>'create.rideable'])
         @endcomponent
-    </div>
-    @if($op1 == 'Client')
         <fieldset class="border px-2 pb-2 mb-2 form-group autocomplete w-100">
             <legend class="w-auto px-2 my-0">To</legend>
             Search by:

@@ -3,36 +3,96 @@
 @section('content')
 
     <div class="locations card">
-        <div class="card-header">Today's Pickups by locations</div>
+        <div class="card-header bg-primary text-light d-flex justify-content-between">
+            <div class="">
+                Pickups by locations
+            </div>
+            <div class="">
+                @component('layouts.components.modal',[
+                    'modelName'=>'rideable',
+                    'action'=>'create',
+                    'iterator'=>0,
+                    'object'=>null,
+                    'op1'=>'Warehouse',
+                    'op2'=>'Pickup',
+                    'style' => '',
+                    'dingbats'=>'<i class="material-icons">add_box</i>',
+                    'autocomplateOff'=>true])
+                @endcomponent
+            </div>
+        </div>
         <div class="card-body">
             <div class="row d-flex justify-content-around">
                 @foreach ($warehouses as $key => $warehouse)
                     @php
-                        $rideable = $warehouse->rideables->whereIn('status',['OnTheWay','Created','NotAvailable','Returned','DriverDetached','DeatachReqested']);
+                        $rideables = $warehouse->rideables->whereIn('status',['OnTheWay','Created','NotAvailable','Returned','DriverDetached','DeatachReqested']);
                     @endphp
-                    @if ($rideable->count()>0)
-                        <div class="card col-6 col-sm-4 col-md-3 col-lg-2 px-0">
-                            <div class="card-header text-center mh-20 px-0 py-1 ">
-                                @component('layouts.components.tooltip',
-                                ['modelName'=>'location','model'=>$warehouse])@endcomponent
-                            </div>
-
-                            <div class="card-body px-1">
-                                <p class="card-text">
-                                    <small class="text-muted">
-                                        Total trip :{{ App\Rideable::where('location_id', $warehouse->id)->count() }}
-                                    </small>
-                                    {{-- @foreach (App\Rideable::where([['status','!=','Done'],['status','!=','Canceled'],['status','!=','Delete'],['location_id',$warehouse->id]])->get() as $key => $value) --}}
-                                     @foreach ($rideable as $key => $value)
-                                        <div class="fixedWidthFont">
-                                            {{$value->invoice_number}}
-                                        </div>
-
-                                    @endforeach
-                                </p>
-                            </div>
+                    <div class="card col-{{12/$warehouses->count()}} px-0">
+                        <div class="card-header text-center mh-20 px-0d-flex justify-content-around">
+                            @component('layouts.components.tooltip',['modelName'=>'location','model'=>$warehouse])
+                            @endcomponent
+                            @if (Auth::user()->role_id > 3)
+                                <small class="text-muted">
+                                    Total trip :{{ App\Rideable::where('location_id', $warehouse->id)->count() }}
+                                </small>
+                            @endif
                         </div>
-                    @endif
+
+                        <div class="card-body">
+                            @foreach ($rideables as $key => $rideable)
+                                <div class="InvoiceNumber d-flex justify-content-between {{$rideable->status}} px-1 text-uppercase">
+                                    <div class="">
+                                        {{$rideable->invoice_number}}
+                                    </div>
+                                    <div class="">
+                                        @component('layouts.action',[
+                                            'action' => $rideable->status,
+                                            'rideable' => $rideable,
+                                            'object' => $rideable,
+                                            'iterator' => $key,
+                                            'op1'=>'Warehouse',
+                                            'op2'=>'Pickup'])
+                                        @endcomponent
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="card-footer p-0">
+                            @php  $defDriver = App\Driver::find($warehouse->driver_id);  @endphp
+                            <span class="text-muted progress">Pickup by: {{$defDriver->fname}}</span>
+                            <div class="d-flex justify-content-around px-1" id="heading{{$warehouse->id}}">
+                            </div>
+                            <div>
+                                @foreach ($activeDrivers as $key => $driver)
+                                            <a  class="{{($driver->fname==$defDriver->fname)? "":"disable"}} rounded-circle" href='/location/{{$warehouse->id}}/driver/{{$driver->id}}' title="{{$driver->fname}}">
+                                                <img src="/img/driver/small/{{strtolower($driver->fname)}}.png" alt="{{$driver->fname}}">
+                                            </a>
+                                        @endforeach
+                                        <a href='/drivers' title="Assign Driver To Track">
+                                            <i class="material-icons md-14">person_add</i>
+                                        </a>
+                                    </div>
+                            </div>
+                            {{-- <div class="d-flex justify-content-around px-1" id="heading{{$warehouse->id}}">
+                                @php  $defDriver = App\Driver::find($warehouse->driver_id);  @endphp
+                                <div class="">
+                                    <img src="/img/driver/small/{{strtolower($defDriver->fname)}}.png" alt="{{$defDriver->fname}}">
+                                    {{ $defDriver->fname}}
+                                </div>
+                                <button class="btn btn-link p-0" data-toggle="collapse" data-target="#select{{$warehouse->id}}" aria-expanded="true" aria-controls="select{{$warehouse->id}}">
+                                    <i class="material-icons">people_outline</i>
+                                </button>
+                            </div> --}}
+
+                            {{-- <div id="select{{$warehouse->id}}" class="collapse hide" aria-labelledby="heading{{$warehouse->id}}" data-parent="#accordion">
+                                @foreach ($activeDrivers as $key => $driver)
+                                            <a href='/location/{{$warehouse->id}}/driver/{{$driver->id}}' title="{{$driver->fname}}">
+                                                <img src="/img/driver/small/{{strtolower($driver->fname)}}.png" alt="{{$driver->fname}}" >
+                                            </a>
+                                        @endforeach
+                                    </div>
+                            </div> --}}
+                        </div>
                 @endforeach
             </div>
         </div>
@@ -54,8 +114,7 @@
                             ['modelName'=>'driver','model'=>$driver])@endcomponent
                         </div>
 
-                        <div class="card-body px-1">
-                            <p class="card-text">
+                        <div class="">
                                 <small class="text-muted">
                                     Total trip :{{ App\Ride::where('driver_id', $driver->id)->count() }}
                                 </small>
@@ -73,7 +132,6 @@
                                                 {{$rides}}
                                                 @endif
                                 @endforeach
-                            </p>
                         </div>
                     </div>
                 @endforeach

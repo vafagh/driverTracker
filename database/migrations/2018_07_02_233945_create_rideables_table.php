@@ -29,6 +29,7 @@ class CreateRideablesTable extends Migration
             $table->string('city');
             $table->string('state');
             $table->string('zip');
+            $table->integer('driver_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

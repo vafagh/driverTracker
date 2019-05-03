@@ -20,7 +20,12 @@ class HomeController extends Controller
 
     public function home(Request $request)
     {
-        $warehouses =  Location::with('rideables','rideables.rides')->where('type','!=','Client')->get();
+        $warehouses = Location::with('rideables','rideables.rides')
+                              ->whereHas('rideables', function($q) {
+                                  $q->where('status', 'Created');
+                              })
+                              ->where('type','!=','Client')
+                              ->get();
         return view('home',compact('rideables','warehouses'));
     }
 

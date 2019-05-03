@@ -17,11 +17,13 @@
                     <i class="material-icons">delete_forever</i>
                 </a>
             @endif
-            @if ($rideable->location->type != 'DropOff')
+            @if ($rideable->location->type == 'Client')
                 @component('layouts.components.modal',['modelName'=>'ride','action'=>'create','iterator'=>$rideable->id,'object'=>$rideable,'btnSize'=>'small','style'=>'text-info text-white ','op1'=>'','op2'=>'','dingbats'=>'<i class="material-icons">drive_eta</i> ','file'=>false])
                 @endcomponent
-            @endif
-            @if ($title=='Droped off')
+            @else
+                    <a title="Parts not available" class="text-danger showOnHover" href="/rideable/{{$rideable->id}}/NotAvailable">
+                        <i class="material-icons">priority_high</i>
+                    </a>
                 <a class="text-primary showOnHover" title="Done" href="/rideable/{{$rideable->id}}/Done"><i class="material-icons">done</i>{{-- {{$title}} --}}</a>
             @endif
         @break
@@ -39,11 +41,10 @@
                     <i class="material-icons">delete_forever</i>
                 </a>
             @endif
-            @if ($rideable->location->type != 'DropOff')
+            @if ($rideable->location->type  == 'Client')
                 @component('layouts.components.modal',['modelName'=>'ride','action'=>'create','iterator'=>$rideable->id,'object'=>$rideable,'btnSize'=>'small','style'=>'text-info text-white ','op1'=>'','op2'=>'','dingbats'=>'<i class="material-icons">drive_eta</i> ','file'=>false])
                 @endcomponent
-            @endif
-            @if ($title=='Droped off')
+            @else
                 <a class=" showOnHover" href="/rideable/{{$rideable->id}}/Done"><i class="material-icons">done</i>{{-- {{$title}} --}}</a>
             @endif
         @break
@@ -64,7 +65,7 @@
         @break
 
         @case('OnTheWay')
-            @if ($title != 'Delivered')
+            @if ($title != 'Delivered' || $rideable->location->type != 'Client')
                 <a title="Parts not available" class="text-danger showOnHover" href="/rideable/{{$rideable->id}}/NotAvailable">
                     <i class="material-icons">priority_high</i>
                 </a>

@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use DateTime;
 use Auth;
-use App\Rideable;
 use App\Ride;
-use App\Location;
+use App\Helper;
 use App\Driver;
+use App\Location;
+use App\Rideable;
 use App\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -131,6 +132,11 @@ class RideableController extends Controller
     {
         $rideable=Rideable::find($request->rideable);
         $rideable->status = $request->status;
+        if($rideable->type !='Client'){
+            $today = new Carbon();
+            $rideable->delivery_date = $today->format('Y-m-d');
+            $rideable->shift =  date('H:i');
+        }
         Transaction::log(Route::getCurrentRoute()->getName(),Rideable::find($request->rideable),$rideable);
         $rideable->save();
 
