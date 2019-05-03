@@ -58,24 +58,34 @@
                 </ul>
             </div>
             <div class="card-body">
-                <div class="card-header  m-0 justify-around">
-                    <span class="inline-block">All Rides</span>
+                @if ($defaultPickups->count()>0)
+                    <div class="card-header">
+                        <span>
+                            <i class="material-icons md-1">business</i>
+                            Assigned to pickup from:
+                        </span>
+                        @foreach ($defaultPickups as $location)
+                            @component('layouts.components.tooltip',
+                            ['modelName'=>'location','model'=>$location])@endcomponent,
+                        @endforeach
+                    </div>
+                @endif
 
-                    @if ($currentUnassign->count()>0)
-                        <span class="btn btn-sm ml-4">Available:</span>
-                        <span class='add badge badge-sm badge-success'>Delivery</span>
-                        <span class='mr-4 add badge badge-sm badge-info'>Pickup</span>
+                <div class="card-header  m-0 justify-around">
+                    @if ($currentUnassign->count()>0 && $driver->truck_id != null)
+                        <i class="material-icons md-1">store_mall_directory</i>
+                        <span class="btn btn-sm ml-4">Un-assigned deliveries:</span>
                         @foreach ($currentUnassign as $rideable)
                             <div class="add d-inline">
-                                    <a class="btn btn-{{($rideable->type=='Client') ? 'success':'info'}}{{(Auth::user()->role_id==3 && $rideable->type!='Client') ?' d-none':''}} btn-sm text-white h-75" title="{{$rideable->location->name}}" href="/ride/store/{{$rideable->id}}/{{$driver->id}}">
+                                    <a class="btn btn-success{{(Auth::user()->role_id==3 && $rideable->type!='Client') ?' d-none':''}} btn-sm text-white h-75" title="{{$rideable->location->name}}" href="/ride/store/{{$rideable->id}}/{{$driver->id}}">
                                         <i class="material-icons md-14 text-dark">add</i>
                                         {{$rideable->invoice_number}}
                                     </a>
                             </div>
                         @endforeach
                     @endif
-
                 </div>
+
                 <div class="card-body p-0">
                     <table class="table table-compact">
                         <thead>

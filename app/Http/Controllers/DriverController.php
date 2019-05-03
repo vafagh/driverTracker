@@ -107,7 +107,7 @@ class DriverController extends Controller
 
             $driver->save();
 
-            return redirect('/drivers/')->with('status', $driver->fname." Updated!");
+            return back()->with('status', $driver->fname." Updated!");
         }
         catch(\Exception $e){
             return back()->with('error', $e);
