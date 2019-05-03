@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Ride;
 use App\Driver;
+use App\Location;
 use App\Rideable;
 use Carbon\Carbon;
 use App\Transaction;
@@ -74,7 +75,9 @@ class DriverController extends Controller
             ])
             ->orderBy('invoice_number', 'asc')->get();
 
-        return view('driver.show',compact('driver', 'ongoingRides', 'finishedRides', 'rideSort', 'currentUnassign'));
+        $defaultPickups = Location::where('driver_id',$driver_id)->get();
+
+        return view('driver.show',compact('driver', 'ongoingRides', 'finishedRides', 'rideSort', 'currentUnassign','defaultPickups'));
     }
 
 
