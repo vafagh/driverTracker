@@ -8,6 +8,48 @@ use Locations;
 class Helper
 {
 
+    public static function when($rideable,$ahead = true,$forceChoiceSaturday = true)
+    {
+        $forceMorning = false;
+        $forceFriday = false;
+        $today = new Carbon();
+        $today = $today->format('Y-m-d');
+        $tomorrow = new Carbon('tomorrow');
+        $tomorrow = $tomorrow->format('Y-m-d');
+        $currentHoure = date('H');
+        $day = date("l");
+        $m = 'Morning';
+        $e = 'Evening';
+        if($ahead){
+            $start = 9;
+            $middle = 13;
+        }else{
+            $start = 13;
+            $middle = 16;
+        }
+        if (empty($rideable->delivery_date)) {
+            if($day == 'Friday' && $forceFriday){
+                $deliverydate = 0;
+            }elseif($day == 'Saturday') {
+                $tomorrow->add(new DateInterval('P1D'));
+                $deliverydate = $tomorrow;
+                $forceMorning = true;
+            }else $deliverydate = $today;
+
+            if(($ahead && $currentHoure >= $start && $currentHoure <= $middle) || (!$ahead && $currentHoure >= $middle) ){
+                $shift = $e;
+            }else $shift = $m;
+
+            if($ahead && $currentHoure >= $middle){
+                $deliverydate = $tomorrow;
+            }
+        }else{
+            $deliverydate = $rideable->delivery_date;
+            $shift = $rideable->shift;
+        }
+        return array('date' => $deliverydate, 'shift' => $shift, 'day' => $day);
+    }
+
     public static function locations($op1,$sortBy)
     {
         $cliName='';

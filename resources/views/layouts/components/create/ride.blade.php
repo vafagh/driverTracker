@@ -15,7 +15,7 @@
         </a>
         <div class="collapse{{($object->delivery_date==null)?' show':''}}" id="collapse-reschedule-{{$object->id}}">
             <div class="card card-body">
-                @component('layouts.when',['object'=>$object,'model'=>'create.ride'])
+                @component('layouts.when',['object'=>$object,'model'=>'create.ride', 'when' => App\Helper::when($object)])
                 @endcomponent
             </div>
         </div>

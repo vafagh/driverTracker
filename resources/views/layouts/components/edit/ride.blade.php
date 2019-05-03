@@ -2,7 +2,7 @@
     <div class="form-group">
         <label class="col-form-label">ID : {{$object->id}}</label>
     </div>
-        @component('layouts.when',['object'=>$object,'model'=>'edit.rideable'])
+        @component('layouts.when',['object'=>$object,'model'=>'edit.rideable', 'when' => App\Helper::when($object)])
         @endcomponent
     @if ($object->rideable!=null)
     <div class="form-group">

@@ -4,9 +4,9 @@
 </a>
 
 <div class="modal-body">
-    
+
     @if($op1 == 'Client')
-        @component('layouts.when',['object'=>$object,'model'=>'create.rideable'])
+        @component('layouts.when',['object' => $object, 'model' => 'create.rideable', 'when' => App\Helper::when($object)])
         @endcomponent
         <fieldset class="border px-2 pb-2 mb-2 form-group autocomplete w-100">
             <legend class="w-auto px-2 my-0">To</legend>
