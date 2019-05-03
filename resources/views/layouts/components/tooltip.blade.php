@@ -36,7 +36,7 @@ switch($modelName){
     break;
 
     case 'driver':
-    $title = $model->fname.' '.$model->lname;
+    $title = (!empty($model->fname)) ? $model->fname.' '.$model->lname: 'NoTitle!';
     break;
 
     case 'fillup':
