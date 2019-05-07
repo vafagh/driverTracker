@@ -78,6 +78,12 @@ class Helper
         }
     }
 
+    public static function col($min)
+    {
+        while(is_float(12/$min)) $min+=1;
+        return 12/$min;
+    }
+
     public static function dateName($date)
     {
         $today = Carbon::today()->toDateString();
