@@ -20,9 +20,13 @@
             @if ($rideable->location->type == 'Client')
                 @component('layouts.components.modal',['modelName'=>'ride','action'=>'create','iterator'=>$rideable->id,'object'=>$rideable,'btnSize'=>'small','style'=>'text-info text-white ','op1'=>'','op2'=>'','dingbats'=>'<i class="material-icons">drive_eta</i> ','file'=>false])
                 @endcomponent
-            @elseif (!empty($rideable->location->driver_id) || $rideable->location->type == 'DropOff')
-                <a title="Parts not available" class="text-danger showOnHover" href="/rideable/{{$rideable->id}}/NotAvailable"><i class="material-icons">priority_high</i></a>
-                <a class="text-primary showOnHover" title="Done" href="/rideable/{{$rideable->id}}/Done"><i class="material-icons">done</i></a>
+            @else
+                <a title="Parts not available" class="text-danger" href="/rideable/{{$rideable->id}}/NotAvailable"><i class="material-icons">priority_high</i></a>
+                @if($rideable->location->type == 'DropOff')
+                    <a class="text-primary" title="Done" href="/rideable/{{$rideable->id}}/Done"><i class="material-icons">done</i></a>
+                @elseif(!empty($rideable->location->driver_id) && $rideable->location->type == 'Warehouse')
+                    <a class="text-primary" title="Attach and Done" href='/ride/store/{{$rideable->id}}/{{$rideable->location->driver_id}}/Done'><i class="material-icons">done_outline</i></a>
+                @endif
             @endif
         @break
 
@@ -101,7 +105,7 @@
         @break
 
         @default
-        @if (Auth::user()->role_id > 4)
+        @if (Auth::user()->role_id > 6)
             <a title="Re Active" class="text-info" href="/rideable/{{$rideable->id}}/Reactived"><i class="material-icons">replay</i></a>
             <a title="Done" class="text-primary" href="/rideable/{{$rideable->id}}/Done"><i class="material-icons">done</i></a>
             <a title="Not available" class="text-danger" href="/rideable/{{$rideable->id}}/NotAvailable"><i class="material-icons">priority_high</i></a>

@@ -11979,33 +11979,33 @@ a.text-dark:focus {
 }
 
 .line .hideOnHover {
-  visibility: visible;
+  display: inline;
 }
 
 .line .showOnHover {
-  visibility: hidden;
+  display: none;
 }
 
 .line .showOnHover div {
-  visibility: visible;
+  display: inline;
 }
 
 .line .showOnHover .modal {
-  visibility: visible;
+  display: inline;
   -webkit-transition: opacity 0s linear;
   transition: opacity 0s linear;
 }
 
 .line:hover .showOnHover {
-  visibility: visible;
+  display: inline;
 }
 
 .line:hover .hideOnHover {
-  visibility: hidden;
+  display: none;
 }
 
 .line:hover .hideOnHover div {
-  visibility: visible;
+  display: inline;
 }
 
 .list-group-item .row:hover {

@@ -124,19 +124,20 @@
                     </div>
                 </div>
 
-                <div class="user            d-none d-sm-none d-md-none d-lg-none col-xl-1 d-xl-inline text-secondary text-truncate"
-                    title="{{$rideable->created_at}} {{ $rideable->created_at->diffForHumans()}}">
+                <div class="user            d-none d-sm-none d-md-none d-lg-none col-xl-1 d-xl-inline text-secondary text-truncate line" title=" {{ $rideable->created_at->diffForHumans()}}">
                     {{-- @if (Auth::user()->role_id > 4)
                         @component('layouts.components.tooltip',['modelName'=>'user','model'=>$rideable->user])
                         @endcomponent
                     @else --}}
-                        <strong>{{$rideable->user->name}}</strong>
+                        <strong class="hideOnHover">{{$rideable->user->name}}</strong>
+                        <strong class="showOnHover">{{$rideable->created_at}}</strong>
                     {{-- @endif --}}
                     {{-- <span ></span> --}}
                 </div>
 
-                <div class='status          col-4  col-sm-2 col-md-2 col-lg-2    col-xl-1 p-0 text-truncate'>
-                    <strong title="{{$rideable->updated_at}} {{ $rideable->updated_at->diffForHumans()}}">{{$rideable->status}}</strong>
+                <div class='status          col-4  col-sm-2 col-md-2 col-lg-2    col-xl-1 p-0 text-truncate line'>
+                    <strong class="hideOnHover" title="{{$rideable->updated_at}} {{ $rideable->updated_at->diffForHumans()}}">{{$rideable->status}}</strong>
+                    <strong class="showOnHover">{{$rideable->updated_at}}</strong>
                 </div>
 
                 <div class="row             col-6  col-sm-4 col-md-4 col-lg-4    col-xl-4 m-0 p-0 text-truncate">

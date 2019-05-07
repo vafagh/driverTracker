@@ -5,7 +5,9 @@
     <div class="locations card">
         <div class="card-header bg-primary text-light d-flex justify-content-between">
             <div class="">
-                Pickups by locations
+                Pickups by locations on {{$history}}
+                <br>
+                {{(isset($sql))?$sql:''}}
             </div>
             <div class="">
                 @component('layouts.components.modal',[
@@ -25,9 +27,11 @@
             <div class="row d-flex justify-content-around">
                 @foreach ($warehouses as $key => $warehouse)
                     @php
-                        $rideables = $warehouse->rideables->whereIn('status',['OnTheWay','Created','NotAvailable','Returned','DriverDetached','DeatachReqested']);
+                          $rideables = ($history==$dates['today']) ? $warehouse->rideables : $rideables = $warehouse->rideables->whereIn('delivery_date',$dates['today']);
+                        // $rideables->all();
+                        // dd($rideables);
                     @endphp
-                    <div class="card col-{{12/$warehouses->count()}} px-0">
+                    <div class="card col-{{App\Helper::col($warehouses->count())}} px-0">
                         <div class="card-header text-center mh-20 px-0d-flex justify-content-around">
                             @component('layouts.components.tooltip',['modelName'=>'location','model'=>$warehouse])
                             @endcomponent
@@ -40,19 +44,31 @@
 
                         <div class="card-body">
                             @foreach ($rideables as $key => $rideable)
-                                <div class="InvoiceNumber d-flex justify-content-between {{$rideable->status}} px-1 text-uppercase">
-                                    <div class="">
-                                        {{$rideable->invoice_number}}
+                                <div class=" d-flex justify-content-between {{$rideable->status}} px-1 text-uppercase">
+                                    <div class="InvoiceNumber font-90 line">
+                                        <span class="hideOnHover">
+                                            {{$rideable->invoice_number}}
+                                        </span>
+                                        <span class="showOnHover">
+                                            {{$rideable->user->name}}
+                                            {{$rideable->created_at}}
+                                        </span>
                                     </div>
-                                    <div class="">
-                                        @component('layouts.action',[
-                                            'action' => $rideable->status,
-                                            'rideable' => $rideable,
-                                            'object' => $rideable,
-                                            'iterator' => $key,
-                                            'op1'=>'Warehouse',
-                                            'op2'=>'Pickup'])
-                                        @endcomponent
+                                    <div class="action line">
+                                        <span class="showOnHover">
+                                            @component('layouts.action',[
+                                                'action' => $rideable->status,
+                                                'rideable' => $rideable,
+                                                'object' => $rideable,
+                                                'iterator' => $key,
+                                                'op1'=>'Warehouse',
+                                                'op2'=>'Pickup'])
+                                            @endcomponent
+                                        </span>
+                                        <span class="hideOnHover font-50">
+                                            {{($rideable->status)}}
+                                        </span>
+
                                     </div>
                                 </div>
                             @endforeach
@@ -76,11 +92,13 @@
                                 <div class="d-flex justify-content-around px-1" id="heading{{$warehouse->id}}">
                                 </div>
                                 <div>
-                                    @foreach ($activeDrivers as $key => $driver)
-                                        <a  class="{{($driver->fname==$defDriver_fname)? "":"disable"}} rounded-circle" href='/location/{{$warehouse->id}}/driver/{{$driver->id}}' title="{{$driver->fname}}">
-                                            <img src="/img/driver/small/{{strtolower($driver->fname)}}.png" alt="{{$driver->fname}}">
-                                        </a>
-                                    @endforeach
+                                    @if (Auth::user()->role_id = 3)
+                                        @foreach ($activeDrivers as $key => $driver)
+                                            <a  class="{{($driver->fname==$defDriver_fname)? "":"disable"}} rounded-circle" href='/location/{{$warehouse->id}}/driver/{{$driver->id}}' title="{{$driver->fname}}">
+                                                <img src="/img/driver/small/{{strtolower($driver->fname)}}.png" alt="{{$driver->fname}}">
+                                            </a>
+                                        @endforeach
+                                    @endif
                                     <a href='/drivers' title="Assign Driver To Track">
                                         <i class="material-icons md-14">person_add</i>
                                     </a>

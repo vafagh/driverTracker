@@ -8,6 +8,7 @@ use App\Driver;
 use App\Helper;
 use App\Rideable;
 use App\Transaction;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -83,6 +84,28 @@ class RideController extends Controller
         }
         $ride->delivery_date = $rideable->delivery_date;
         $ride->save();
+        $rideable->status = $status;
+        $rideable->shift = $ride->shift;
+        $rideable->save();
+        $rideable->rides()->attach($ride->id);
+        Transaction::log(Route::getCurrentRoute()->getName(),$rideable,$ride);
+
+        return redirect()->back()->with('status', $driver->fname.' Assigned to '.$rideable->invoice_number.' For '.$rideable->location->name.' on '.$ride->shift.' shift');
+
+    }
+
+    public function receive(Rideable $rideable, Driver $driver, $status)
+    {
+        $ride = new Ride;
+        $today = new Carbon();
+        $ride->rideable_id = $rideable->id;
+        $ride->driver_id   = $driver->id;
+        $ride->truck_id    = $driver->truck_id;
+        $ride->distance    = $rideable->location->distance;
+        // $ride->shift       = date('H:i');
+        $ride->delivery_date = $today->format('Y-m-d');
+        $ride->save();
+
         $rideable->status = $status;
         $rideable->shift = $ride->shift;
         $rideable->save();

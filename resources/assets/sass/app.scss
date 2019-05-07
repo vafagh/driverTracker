@@ -124,13 +124,14 @@
     max-width:38px;
     max-height:38px;
 }
-.line .hideOnHover{    visibility: visible;;;}
-.line .showOnHover{    visibility: hidden;}
-.line .showOnHover div{    visibility: visible;}
-.line .showOnHover .modal{    visibility: visible;  transition: opacity 0s linear}
-.line:hover .showOnHover{    visibility: visible;;}
-.line:hover .hideOnHover{    visibility: hidden;}
-.line:hover .hideOnHover div{    visibility: visible;}
+
+.line .hideOnHover{    display: inline;}
+.line .showOnHover{    display: none;}
+.line .showOnHover div{    display: inline;}
+.line .showOnHover .modal{    display: inline;  transition: opacity 0s linear}
+.line:hover .showOnHover{    display: inline;;}
+.line:hover .hideOnHover{    display: none;}
+.line:hover .hideOnHover div{    display: inline;}
 
 .list-group-item .row{}
 .list-group-item .row:hover{opacity:1}
