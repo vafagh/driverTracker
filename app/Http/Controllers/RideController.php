@@ -63,7 +63,7 @@ class RideController extends Controller
 
     }
 
-    public function mapAttach(Rideable $rideable, Driver $driver)
+    public function mapAttach(Rideable $rideable, Driver $driver, $status)
     {
         $ride = new Ride;
         $ride->rideable_id = $rideable->id;
@@ -83,7 +83,7 @@ class RideController extends Controller
         }
         $ride->delivery_date = $rideable->delivery_date;
         $ride->save();
-        $rideable->status = 'OnTheWay';
+        $rideable->status = $status;
         $rideable->shift = $ride->shift;
         $rideable->save();
         $rideable->rides()->attach($ride->id);

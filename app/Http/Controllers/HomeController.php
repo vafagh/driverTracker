@@ -9,6 +9,7 @@ use App\Service;
 use App\Driver;
 use App\Location;
 use App\Rideable;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -20,13 +21,24 @@ class HomeController extends Controller
 
     public function home(Request $request)
     {
-        $warehouses = Location::with('rideables','rideables.rides')
-                              ->whereHas('rideables', function($q) {
-                                  $q->where('status', 'Created');
-                              })
-                              ->where('type','!=','Client')
-                              ->get();
-        return view('home',compact('rideables','warehouses'));
+        $today = new Carbon();
+        if (empty($request->history)) {
+            $history = $today->format('Y-m-d');
+            $warehousesBuild = Location::with('rideables')
+                                        ->whereHas('rideables')
+                                        ->where('type','!=','Client');
+        }else {
+            $history = $request->history;
+            $warehousesBuild = Location::with('rideables')
+                                        ->whereHas('rideables', function($q) use($history){
+                                            $q->whereDate('created_at', '=', $history);
+                                        })
+                                        ->where('type','!=','Client');
+        }
+                              $warehouses = $warehousesBuild->get();
+                              $sql = $warehousesBuild->toSql();
+                              // dd($warehouses);
+        return view('home',compact('warehouses','history'));
     }
 
     public function find(Request $request)
