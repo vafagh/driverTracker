@@ -25,7 +25,9 @@ class HomeController extends Controller
         if (empty($request->history)) {
             $history = $today->format('Y-m-d');
             $warehousesBuild = Location::with('rideables')
-                                        ->whereHas('rideables')
+                                        ->whereHas('rideables', function($q) use($history){
+                                            $q->where('status', '=', 'created');
+                                        })
                                         ->where('type','!=','Client');
         }else {
             $history = $request->history;
