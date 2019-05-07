@@ -50,7 +50,6 @@
                                         </span>
                                         <span class="showOnHover">
                                             {{$rideable->user->name}}
-                                            {{$rideable->created_at}}
                                         </span>
                                     </div>
                                     <div class="action line">
