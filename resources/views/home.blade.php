@@ -27,9 +27,8 @@
             <div class="row d-flex justify-content-around">
                 @foreach ($warehouses as $key => $warehouse)
                     @php
-                          $rideables = ($history==$dates['today']) ? $warehouse->rideables : $rideables = $warehouse->rideables->whereIn('delivery_date',$dates['today']);
-                        // $rideables->all();
-                        // dd($rideables);
+                          $rideables = ($history==$dates['today']) ? $warehouse->rideables->whereIn('status',['Created']) : $rideables = $warehouse->rideables->whereIn('delivery_date',$history);
+                        $rideables->all();
                     @endphp
                     <div class="card col-{{App\Helper::col($warehouses->count())}} px-0">
                         <div class="card-header text-center mh-20 px-0d-flex justify-content-around">
