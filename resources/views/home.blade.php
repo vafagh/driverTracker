@@ -122,7 +122,7 @@
                                         <div class="fixedWidthFont">
                                             <a title="{{$rides->rideable->location->longName}}" href="/rideable/show/{{$rides->rideable->id}}">{{$rides->rideable->invoice_number}}</a>
                                             @if ($rides->rideable->status =='Returned')
-                                                <i class="material-icons size-14">keyboard_return</i>
+                                                <span class="badge badge-pill badge-danger position-fixed zindex-tooltip">Returned</span>
                                             @endif
                                         </div>
                                     @endif
