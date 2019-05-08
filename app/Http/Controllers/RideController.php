@@ -64,7 +64,7 @@ class RideController extends Controller
 
     }
 
-    public function mapAttach(Rideable $rideable, Driver $driver, $status)
+    public function mapAttach(Rideable $rideable, Driver $driver)
     {
         $ride = new Ride;
         $ride->rideable_id = $rideable->id;
@@ -84,7 +84,7 @@ class RideController extends Controller
         }
         $ride->delivery_date = $rideable->delivery_date;
         $ride->save();
-        $rideable->status = $status;
+        $rideable->status = 'OnTheWay';
         $rideable->shift = $ride->shift;
         $rideable->save();
         $rideable->rides()->attach($ride->id);
@@ -102,12 +102,13 @@ class RideController extends Controller
         $ride->driver_id   = $driver->id;
         $ride->truck_id    = $driver->truck_id;
         $ride->distance    = $rideable->location->distance;
-        // $ride->shift       = date('H:i');
+        $ride->shift       = date('H:i');
         $ride->delivery_date = $today->format('Y-m-d');
         $ride->save();
 
         $rideable->status = $status;
         $rideable->shift = $ride->shift;
+        $rideable->delivery_date = $ride->delivery_date;
         $rideable->save();
         $rideable->rides()->attach($ride->id);
         Transaction::log(Route::getCurrentRoute()->getName(),$rideable,$ride);

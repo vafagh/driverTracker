@@ -21,7 +21,7 @@ class RideableController extends Controller
 
         if($type == "delivery") { $op1 = 'Client';    $op2 = 'Delivery'; $operator = '=';  $orderColumn = 'created_at'; }
         else                    { $op1 = 'Warehouse'; $op2 = 'Pickup';   $operator = '!='; $orderColumn = 'location_id';}
-         
+
         (empty($request->input('sortby'))) ? $rideableSort = $orderColumn: $rideableSort = $request->input('sortby');
 
         if($request->filled('status')){
@@ -125,7 +125,7 @@ class RideableController extends Controller
 
     public function show(Rideable $rideable)
     {
-        return view('rideable.show',compact('rideable','clients'));
+        return view('rideable.show',compact('rideable'));
     }
 
     public function status(Request $request)

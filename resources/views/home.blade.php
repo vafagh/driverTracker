@@ -9,17 +9,8 @@
                 <br>
                 {{(isset($sql))?$sql:''}}
             </div>
-            <div class="">
-                @component('layouts.components.modal',[
-                    'modelName'=>'rideable',
-                    'action'=>'create',
-                    'iterator'=>0,
-                    'object'=>null,
-                    'op1'=>'Warehouse',
-                    'op2'=>'Pickup',
-                    'style' => '',
-                    'dingbats'=>'<i class="material-icons">add_box</i>',
-                    'autocomplateOff'=>true])
+            <div class="create">
+                @component('layouts.components.modal',['modelName'=>'rideable','action'=>'create','iterator'=>0,'object'=>null,'op1'=>'Warehouse','op2'=>'Pickup','style' => '','dingbats'=>'<i class="material-icons">add_box</i>','autocomplateOff'=>true])
                 @endcomponent
             </div>
         </div>
@@ -44,9 +35,10 @@
                         <div class="card-body">
                             @foreach ($rideables as $key => $rideable)
                                 <div class=" d-flex justify-content-between {{$rideable->status}} px-1 text-uppercase">
-                                    <div class="InvoiceNumber font-90 line">
+                                    <div class="InvoiceNumbers line">
                                         <span class="hideOnHover">
-                                            {{$rideable->invoice_number}}
+                                            {{-- {{$rideable->invoice_number}} --}}
+                                            {{$rideable->delivery_date}}
                                         </span>
                                         <span class="showOnHover">
                                             {{$rideable->user->name}}
@@ -54,16 +46,10 @@
                                     </div>
                                     <div class="action line">
                                         <span class="showOnHover">
-                                            @component('layouts.action',[
-                                                'action' => $rideable->status,
-                                                'rideable' => $rideable,
-                                                'object' => $rideable,
-                                                'iterator' => $key,
-                                                'op1'=>'Warehouse',
-                                                'op2'=>'Pickup'])
+                                            @component('layouts.action',['action' => $rideable->status,'rideable' => $rideable,'object' => $rideable,'iterator' => $key,'op1'=>'Warehouse','op2'=>'Pickup'])
                                             @endcomponent
                                         </span>
-                                        <span class="hideOnHover font-50">
+                                        <span class="hideOnHover font-60">
                                             {{($rideable->status)}}
                                         </span>
 
