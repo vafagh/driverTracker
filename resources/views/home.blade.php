@@ -42,15 +42,23 @@
                             @foreach ($rideables as $key => $rideable)
                                 <div class=" d-flex justify-content-between {{$rideable->status}} px-1 text-uppercase mb-1">
                                     <div class="InvoiceNumber line ">
-                                        <span class="hideOnHover font-90">
-                                            {{$rideable->invoice_number}}
-                                        </span>
-                                        <span class="showOnHover">
-                                            {{$rideable->user->name}}
+                                        <span class="font-80">
+                                            {{-- {{$rideable->invoice_number}} --}}
+                                            @if (Auth::user()->role_id > 3 || Auth::user()->id == $rideable->user_id )
+                                                <span class=" d-inline  ">
+                                                    @component('layouts.components.modal',['modelName'=>'rideable','action'=>'edit','dingbats'=>'<i class="material-icons md-16">edit</i>','style'=>'text-info pr-0','iterator'=>$key,'object'=>$rideable,'op1'=>$rideable->type,'op2'=>'','file'=>false,'autocomplateOff'=>true])
+                                                    @endcomponent
+                                                </span>
+                                            @endif
+                                            <span class="InvoiceNumber fixedWidthFont d-inline">
+                                                @component('layouts.components.tooltip',['modelName'=>'rideable','model'=>$rideable])
+                                                @endcomponent
+                                            </span>
                                         </span>
                                     </div>
                                     <div class="action line">
                                         <span class="showOnHover">
+                                            {{$rideable->user->name}}
                                             @component('layouts.action',['action' => $rideable->status,'rideable' => $rideable,'object' => $rideable,'iterator' => $key,'op1'=>'Warehouse','op2'=>'Pickup'])
                                             @endcomponent
                                         </span>
@@ -122,7 +130,7 @@
                                         <div class="fixedWidthFont">
                                             <a title="{{$rides->rideable->location->longName}}" href="/rideable/show/{{$rides->rideable->id}}">{{$rides->rideable->invoice_number}}</a>
                                             @if ($rides->rideable->status =='Returned')
-                                                <span class="badge badge-pill badge-danger position-fixed zindex-tooltip">Returned</span>
+                                                <span class="badge badge-pill badge-danger zindex-tooltip">Returned</span>
                                             @endif
                                         </div>
                                     @endif
