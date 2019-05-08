@@ -22,24 +22,16 @@ class HomeController extends Controller
     public function home(Request $request)
     {
         $today = new Carbon();
-        if (empty($request->history)) {
-            $history = $today->format('Y-m-d');
-            $warehousesBuild = Location::with('rideables')
-                                        ->whereHas('rideables', function($q) use($history){
-                                            $q->where('status', '=', 'created');
-                                        })
-                                        ->where('type','!=','Client');
-        }else {
-            $history = $request->history;
-            $warehousesBuild = Location::with('rideables')
-                                        ->whereHas('rideables', function($q) use($history){
-                                            $q->whereDate('created_at', '=', $history);
-                                        })
-                                        ->where('type','!=','Client');
-        }
-                              $warehouses = $warehousesBuild->get();
-                              $sql = $warehousesBuild->toSql();
-                              // dd($warehouses);
+        $history = (empty($request->history)) ? $today->format('Y-m-d') : $request->history;
+        $warehousesBuild = Location::with('rideables')
+                                    ->whereHas('rideables', function($q) use($history){
+                                        // $q->whereDate('created_at', '=', $history);
+                                        $q->where('status', '=', 'Created');
+                                    })
+                                    ->where('type','!=','Client');
+        $warehouses = $warehousesBuild->get();
+        // $sql = $warehousesBuild->toSql();
+
         return view('home',compact('warehouses','history'));
     }
 

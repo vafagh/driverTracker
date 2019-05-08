@@ -18,10 +18,16 @@
             <div class="row d-flex justify-content-around">
                 @foreach ($warehouses as $key => $warehouse)
                     @php
-                          $rideables = ($history==$dates['today']) ? $warehouse->rideables->whereIn('status',['Created']) : $rideables = $warehouse->rideables->whereIn('delivery_date',$history);
-                        $rideables->all();
+                          // $rideables = ($history==$dates['today']) ? $warehouse->rideables->whereIn('status',['Created','Done']) : $rideables = $warehouse->rideables->whereIn('delivery_date',$history);
+                         if($history==$dates['today']) {
+                              $rideables = $warehouse->rideables->whereIn('status',['Created']);
+                              // $rideables1 = $warehouse->rideables->whereIn('delivery_date', $dates['today']);
+                              // $rideables = $rideables0->merge($rideables1);
+                          }else $rideables = $warehouse->rideables->whereIn('delivery_date',[$history]);
+
+                        // $rideables->all();
                     @endphp
-                    <div class="card col-{{App\Helper::col($warehouses->count())}} px-0">
+                    <div class="card col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2{{--App\Helper::col($warehouses->count())--}} mb-4 ml-1 p-0">
                         <div class="card-header text-center mh-20 px-0d-flex justify-content-around">
                             @component('layouts.components.tooltip',['modelName'=>'location','model'=>$warehouse])
                             @endcomponent
@@ -32,13 +38,12 @@
                             @endif
                         </div>
 
-                        <div class="card-body">
+                        <div class="card-body p-0">
                             @foreach ($rideables as $key => $rideable)
-                                <div class=" d-flex justify-content-between {{$rideable->status}} px-1 text-uppercase">
-                                    <div class="InvoiceNumbers line">
-                                        <span class="hideOnHover">
-                                            {{-- {{$rideable->invoice_number}} --}}
-                                            {{$rideable->delivery_date}}
+                                <div class=" d-flex justify-content-between {{$rideable->status}} px-1 text-uppercase mb-1">
+                                    <div class="InvoiceNumber line ">
+                                        <span class="hideOnHover font-90">
+                                            {{$rideable->invoice_number}}
                                         </span>
                                         <span class="showOnHover">
                                             {{$rideable->user->name}}
@@ -49,7 +54,7 @@
                                             @component('layouts.action',['action' => $rideable->status,'rideable' => $rideable,'object' => $rideable,'iterator' => $key,'op1'=>'Warehouse','op2'=>'Pickup'])
                                             @endcomponent
                                         </span>
-                                        <span class="hideOnHover font-60">
+                                        <span class="hideOnHover font-90">
                                             {{($rideable->status)}}
                                         </span>
 
@@ -89,30 +94,13 @@
                                 </div>
                             @endif
                         </div>
-                        {{-- <div class="d-flex justify-content-around px-1" id="heading{{$warehouse->id}}">
-                        @php  $defDriver = App\Driver::find($warehouse->driver_id);  @endphp
-                        <div class="">
-                        <img src="/img/driver/small/{{strtolower($defDriver_fname)}}.png" alt="{{$defDriver_fname}}">
-                        {{ $defDriver_fname}}
-                    </div>
-                    <button class="btn btn-link p-0" data-toggle="collapse" data-target="#select{{$warehouse->id}}" aria-expanded="true" aria-controls="select{{$warehouse->id}}">
-                    <i class="material-icons">people_outline</i>
-                </button>
-            </div> --}}
-                        {{-- <div id="select{{$warehouse->id}}" class="collapse hide" aria-labelledby="heading{{$warehouse->id}}" data-parent="#accordion">
-            @foreach ($activeDrivers as $key => $driver)
-            <a href='/location/{{$warehouse->id}}/driver/{{$driver->id}}' title="{{$driver->fname}}">
-            <img src="/img/driver/small/{{strtolower($driver->fname)}}.png" alt="{{$driver->fname}}" >
-        </a>
-    @endforeach
-</div>
-</div> --}}
+
                     </div>
                 @endforeach
             </div>
         </div>
     </div>
-    <div class="drivers card">
+    <div class="drivers card mt-4">
         <div class="card-header">Today's ride by driver</div>
         <div class="card-body">
             <div class="row d-flex justify-content-around">
