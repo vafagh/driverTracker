@@ -5,7 +5,7 @@ switch($modelName){
     case 'rideable':
         $note=''; if($model->description) $note="<i title='$model->description' class='material-icons'>event_note</i>";
         $stock=''; if ($model->stock) $stock =' <span class="text-primary">Stock</span>';
-        $qty =' x<span class="text-danger">'.$model->qty.'</span>';
+        $qty =($model->qty>1)?' x<span class="text-danger">'.$model->qty.'</span>':'';
         $title = strtoupper($model->invoice_number);
         if($model->type=='Client')$title=$title.$note;
         else $title=$title.'<small><sup>'.$qty.$stock.'</sup></small>'.$note;
