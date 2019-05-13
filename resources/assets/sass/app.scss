@@ -252,3 +252,15 @@
 .font-80{font-size: 80%}
 .font-90{font-size: 90%}
 .pm-0{padding:0; margin:0}
+.mapMarkerLabel {
+    width: 50px;
+    height: 20px;
+    border: 1px solid #eb3a44;
+    border-radius: 5px;
+    background: #fee1d7;
+    text-align: center;
+    line-height: 20px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #eb3a44;
+}

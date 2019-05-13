@@ -6,6 +6,7 @@ use Auth;
 use App\Ride;
 use App\Driver;
 use App\Helper;
+use App\Location;
 use App\Rideable;
 use App\Transaction;
 use Carbon\Carbon;
@@ -64,14 +65,15 @@ class RideController extends Controller
 
     }
 
-    public function mapAttach(Rideable $rideable, Driver $driver)
+    public function fastAttach(Rideable $rideable, Driver $driver)
     {
         $ride = new Ride;
         $ride->rideable_id = $rideable->id;
         $ride->driver_id   = $driver->id;
         $ride->truck_id    = $driver->truck_id;
         $ride->distance    = $rideable->location->distance;
-        if(!empty($rideable->shift) ) {
+        if(!empty($rideable->shift) )
+        {
             $ride->shift = $rideable->shift;
         }else{
             $shifSetting = Helper::shift('Morning',1);
@@ -91,6 +93,42 @@ class RideController extends Controller
         Transaction::log(Route::getCurrentRoute()->getName(),$rideable,$ride);
 
         return redirect()->back()->with('status', $driver->fname.' Assigned to '.$rideable->invoice_number.' For '.$rideable->location->name.' on '.$ride->shift.' shift');
+
+    }
+
+    public function mapAttach(Location $location, Driver $driver)
+    {
+        $invoice_numbers = '';
+        foreach ($location->rideables->whereIn('status',['Created','DriverDetached','Reschadule','OnTheWay','NotAvailable','CancelReq']) as $rideable) {
+            $ride = new Ride;
+            $ride->rideable_id = $rideable->id;
+            $ride->driver_id   = $driver->id;
+            $ride->truck_id    = $driver->truck_id;
+            $ride->distance    = $rideable->location->distance;
+            if(!empty($rideable->shift) ) {
+                $ride->shift = $rideable->shift;
+            }else{
+                $shifSetting = Helper::shift('Morning',1);
+                if((date('H') > ($shifSetting['starts'] + $shifSetting['tolerance'])) && date('H') < $shifSetting['ends'] + $shifSetting['tolerance'])
+                {
+                    $ride->shift='Evening';
+                }else {
+                    $ride->shift='Morning';
+                }
+            }
+            $ride->delivery_date = $rideable->delivery_date;
+            $ride->save();
+            $invoice_numbers .= $rideable->invoice_number.', ';
+            $rideable->status = 'OnTheWay';
+            $rideable->shift = $ride->shift;
+            $rideable->save();
+            $rideable->rides()->attach($ride->id);
+            $location->driver_id = $driver->id;
+            $location->save();
+        }
+        Transaction::log(Route::getCurrentRoute()->getName(),$rideable,$ride);
+
+        return redirect()->back()->with('status', $driver->fname.' Assigned to '.$invoice_numbers.' For '.$location->name.' on '.$ride->shift.' shift');
 
     }
 

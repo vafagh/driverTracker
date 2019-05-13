@@ -21,7 +21,7 @@ Route::POST('/ride/save/', 'RideController@update')->name('update.ride');
 Route::GET('/ride/delete/{ride}', 'RideController@destroy')->name('destroy.ride');
 Route::GET('/ride/create/{rideable}', 'RideController@create')->name('create.ride');
 Route::POST('/ride/store/', 'RideController@attach')->name('attach.ride');
-Route::GET('/ride/store/{rideable}/{driver}', 'RideController@mapAttach')->name('mapAttach.ride');
+Route::GET('/ride/store/{rideable}/{driver}', 'RideController@fastAttach')->name('fastAttach.ride');
 Route::GET('/ride/store/{rideable}/{driver}/{status}', 'RideController@receive')->name('received.ride');
 Route::GET('/ride/detach/{ride}/{rideable}', 'RideController@detach')->name('detach.ride');
 Route::POST('/rideable/store', 'RideableController@store')->name('add.rideable');
@@ -35,6 +35,7 @@ Route::GET('/location/delete/{location}', 'LocationController@destroy')->name('d
 Route::POST('/location/save', 'LocationController@update')->name('update.location');
 Route::POST('/location/store', 'LocationController@store')->name('add.location');
 Route::GET('/location/show/{location}', 'LocationController@show');
+Route::GET('/location/{location}/{driver}', 'RideController@mapAttach')->name('mapAttach.ride');
 Route::GET('/location/{location}/driver/{driver}', 'LocationController@defaultDriver')->name('SetDefaultDriver.location');
 Route::GET('/fillups', 'FillupController@index')->name('fillups');
 Route::POST('/fillup/store/', 'FillupController@store')->name('add.fillup');
