@@ -85,44 +85,6 @@ class RideableController extends Controller
         return view('rideable.rideables',compact('rideables','op1','op2','flashId'));
     }
 
-    public function oldmap(Request $request)
-    {
-        if(empty($request->input('shift'))){
-            $shiftOperator = '!=';
-            $shift = Null;
-        }else {
-            $shiftOperator = '=';
-            $shift = $request->input('shift');
-        }
-
-        if(empty($request->input('delivery_date'))){
-            $delivery_dateOperator = '=';
-            $delivery_date = Carbon::today()->toDateString();
-        }elseif($request->input('delivery_date') == 'all' ){
-            $delivery_dateOperator = '!=';
-            $delivery_date = null; // to return all rows
-        }else{
-            $delivery_dateOperator = '=';
-            $delivery_date = $request->input('delivery_date');
-        }
-
-        $rideables = Rideable::with('user','rides','rides.driver','location')
-            // ->whereHas('rides')
-            ->where([
-                ['status', '!=', 'Done'],
-                ['status', '!=', 'Canceled'],
-                ['status','!=','Returned'],
-                ['status','!=','Return'],
-                ['delivery_date',$delivery_dateOperator,$delivery_date],
-                ['shift',$shiftOperator,$shift]
-            ])
-            ->orderBy('location_id', 'desc')
-            ->get();
-        $count= $rideables->count();
-        $activeDrivers = Driver::where('truck_id','!=',null)->get();
-        return view('map',compact('rideables','activeDrivers','count'));
-    }
-
     public function map(Request $request)
     {
         if(empty($request->input('shift'))){
@@ -196,7 +158,8 @@ class RideableController extends Controller
         $rawInvoices=explode("\r\n",$request->rawData);
         $invoices= array();
         foreach ($rawInvoices as $key => $rawInvoice) {
-            array_push($invoices,(array_map('trim',array_filter(explode(" │ ",$rawInvoice)))));
+            // array_push($invoices,(array_map('trim',array_filter(explode(" │ ",$rawInvoice)))));
+            array_push($invoices,(explode(" │ ",$rawInvoice)));
         }
 
         return view('rideable.batchConfirm', compact('invoices','rawData'));
