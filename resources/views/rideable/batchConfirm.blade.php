@@ -23,23 +23,22 @@
                     $location = App\Location::where('name', '=', $invoice[2])->get();
                     $returnedRideable = App\Rideable::where('invoice_number', '=', $invoice[0])->get();
                     $rideable = $returnedRideable->first();
-
                     $date = explode("/",$invoice[1]);
-                    $delivery_date = '20'.$date[2].'/'.$date[1].'/'.$date[0];
+                    $delivery_date = '20'.$date[2].'/'.$date[0].'/'.$date[1];
                     @endphp
 
                     @if ($returnedRideable->count()==0)
                         <div class="row mb-2">
                             <form  enctype="multipart/form-data"  method="POST" action="/rideable/store" method="post">
-                                <input class="col-2 ml-1 " name="invoice_number0" value={{$invoice[0]}}>
-                                <input class="col-2 ml-1 " name="delivery_date" value={{$delivery_date}}>
+                                <input class="col-2 ml-1 " name="invoice_number0" value="{{$invoice[0]}}">
+                                <input class="col-2 ml-1 " name="delivery_date" value="{{$delivery_date}}">
                                 <input class="col-2 ml-1 {{($location->count() == 0)? 'bg-danger': 'bg-success'}}" name="locationName" value={{$invoice[2]}}>
                                 <input class="col-2 ml-1 " name="phone" placeholder="enter phone" {{($location->count() == 0)? 'required': ''}} >
-                                <input class="col-2 ml-1 " name="total" value={{$invoice[4]}}>
+                                <input class="col-2 ml-1 " name="total" value="{{$invoice[4]}}">
                                 <input type="hidden" name="rawData" value="{{$rawData}}">
                                 <input type="hidden" name="redirect" value="back">
                                 <input type="hidden" name="submitType" value="batch">
-                                <button type="submit" class="btn btn-primary"  {{($location->count() == 0)? 'disabled': ''}} >Confirm</button>
+                                <button type="submit"  {{($location->count() == 0)? 'disabled class=btn-secondary': 'class=btn btn-primary'}}>Confirm</button>
                                 {{ csrf_field() }}
                             </form>
                         </div>
