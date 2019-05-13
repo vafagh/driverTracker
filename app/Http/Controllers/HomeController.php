@@ -29,10 +29,21 @@ class HomeController extends Controller
                                         $q->where('status', '=', 'Created');
                                     })
                                     ->where('type','!=','Client');
-        $warehouses = $warehousesBuild->get();
         // $sql = $warehousesBuild->toSql();
+        $warehouses = $warehousesBuild->get();
 
-        return view('home',compact('warehouses','history'));
+        $tickets = Rideable::with('location')
+                            ->whereDoesntHave('rides')
+                            ->where('type','=','Client')
+                            ->orderBy('location_id')
+                            ->get();
+                            
+        $spots = Location::with('rideables')
+                            ->whereDoesntHave('rideables.rides')
+                            ->where('type','=','Client')
+                            ->get();
+
+        return view('home',compact('warehouses','history','tickets','spots'));
     }
 
     public function find(Request $request)

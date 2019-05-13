@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="locations card">
+    <div class="pickups card">
         <div class="card-header bg-primary text-light d-flex justify-content-between">
             <div class="">
                 Pickups by locations on {{$history}}
@@ -20,7 +20,7 @@
                     @php
                           // $rideables = ($history==$dates['today']) ? $warehouse->rideables->whereIn('status',['Created','Done']) : $rideables = $warehouse->rideables->whereIn('delivery_date',$history);
                          if($history==$dates['today']) {
-                              $rideables = $warehouse->rideables->whereIn('status',['Created']);
+                              $rideables = $warehouse->rideables->whereIn('status',['Created','NotAvailable','DriverDetached']);
                               // $rideables1 = $warehouse->rideables->whereIn('delivery_date', $dates['today']);
                               // $rideables = $rideables0->merge($rideables1);
                           }else $rideables = $warehouse->rideables->whereIn('delivery_date',[$history]);
@@ -42,7 +42,7 @@
                             @foreach ($rideables as $key => $rideable)
                                 <div class=" d-flex justify-content-between {{$rideable->status}} px-1 text-uppercase mb-1">
                                     <div class="InvoiceNumber line ">
-                                        <span class="font-80">
+                                        <span class="font-70">
                                             {{-- {{$rideable->invoice_number}} --}}
                                             @if (Auth::user()->role_id > 3 || Auth::user()->id == $rideable->user_id )
                                                 <span class=" d-inline  ">
@@ -56,14 +56,13 @@
                                             </span>
                                         </span>
                                     </div>
-                                    <div class="action line">
+                                    <div class="action line pt-2 pl-4 ">
                                         <span class="showOnHover">
-                                            {{$rideable->user->name}}
                                             @component('layouts.action',['action' => $rideable->status,'rideable' => $rideable,'object' => $rideable,'iterator' => $key,'op1'=>'Warehouse','op2'=>'Pickup'])
                                             @endcomponent
                                         </span>
-                                        <span class="hideOnHover font-90">
-                                            {{($rideable->status)}}
+                                        <span class="hideOnHover">
+                                            {{($rideable->user->name)}}
                                         </span>
 
                                     </div>
@@ -79,7 +78,7 @@
                                     $defDriver = App\Driver::find($warehouse->driver_id);
                                     $defDriver_fname = (empty($defDriver->fname)) ? null: $defDriver->fname;
                                 @endphp
-                                <span class="text-muted progress">
+                                <span class="text-muted font-80">
                                     @if (empty($defDriver))
                                         Not assigned yet
                                     @else
@@ -89,7 +88,7 @@
                                 <div class="d-flex justify-content-around px-1" id="heading{{$warehouse->id}}">
                                 </div>
                                 <div>
-                                    @if (Auth::user()->role_id = 3)
+                                    @if (Auth::user()->role_id >= 3)
                                         @foreach ($activeDrivers as $key => $driver)
                                             <a  class="{{($driver->fname==$defDriver_fname)? "":"disable"}} rounded-circle" href='/location/{{$warehouse->id}}/driver/{{$driver->id}}' title="{{$driver->fname}}">
                                                 <img src="/img/driver/small/{{strtolower($driver->fname)}}.png" alt="{{$driver->fname}}">
@@ -108,6 +107,7 @@
             </div>
         </div>
     </div>
+
     <div class="drivers card mt-4">
         <div class="card-header">Today's ride by driver</div>
         <div class="card-body">
@@ -169,6 +169,36 @@
                     </div>
                 @endforeach
             </div>
+        </div>
+
+        <div class="card-footer">
+            <span>Total of {{$spots->count()}} unassigned ticket.</span>
+            @foreach ($spots as $spot)
+                <div class="line d-inline-block bg-secondary p-1 border">
+                        {{$spot->name}}:
+{{--
+                    <span class="hideOnHover">
+                    </span>
+                    <div class="showOnHover p-0">
+                        @if (Auth::user()->role_id > 3)
+                            @foreach ($activeDrivers as $key => $driver)
+                                <a  class="" href='/location/{{$spot->id}}/driver/{{$driver->id}}' title="{{$driver->fname}}">
+                                    <img src="/img/driver/small/{{strtolower($driver->fname)}}.png" alt="{{$driver->fname}}">
+                                </a>
+                            @endforeach
+                        @endif
+                        <a href='/drivers' title="Assign Driver To Track">
+                            <i class="material-icons md-14">person_add</i>
+                        </a>
+                    </div> --}}
+
+                    @foreach (App\Rideable::where('location_id',$spot->id)->whereDoesntHave('rides')->get() as $unassignedTicket)
+                        <span class="btn btn-success btn-sm text-white h-75">
+                            {{$unassignedTicket->invoice_number}}
+                        </span>
+                    @endforeach
+                </div>
+            @endforeach
         </div>
     </div>
 @endsection
