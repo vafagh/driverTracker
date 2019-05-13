@@ -1,5 +1,5 @@
-    <div class="modal-body">
-        @if ($object->location->type != 'DropOff')
+<div class="modal-body">
+        @if($object->location->type == 'Client')
             <div class="form-group">
                 @if ($object->delivery_date!=null)
                     <span class="h6">Delivery arranged for:</span>
@@ -18,12 +18,12 @@
                 </div>
             </div>
         @endif
-        <div class="form-group ">
-            <label for="lname" class="col-form-label">To:</label>
-            <div class="">
-                {{$object->location->longName}}
-            </div>
+    <div class="form-group ">
+        <label for="lname" class="col-form-label">To:</label>
+        <div class="">
+            {{$object->location->longName}}
         </div>
+    </div>
     @if (Auth::user()->role_id > 2 || Auth::user()->id == $object->user_id)
 
         <div class="form-group select">
@@ -44,28 +44,28 @@
     <div class="form-inline row m-0">
         <input value="{{$object->invoice_number}}" type="text" class="form-control mb-2 col-4" id="invoice_number" name="invoice_number" placeholder="{{($op1=='Client') ? 'Invoice': 'Part'}} number" required>
         @if ($op1!='Client')
-        <div class="col-5 h6 mb-2  p-0 m-0">
-            <div class="form-check" >
-                <input  {{$object->stock ? 'checked' : ''}} class="form-check-input " type="checkbox" id="stock" name="stock">
+            <div class="col-5 h6 mb-2  p-0 m-0">
+                <div class="form-check" >
+                    <input  {{$object->stock ? 'checked' : ''}} class="form-check-input " type="checkbox" id="stock" name="stock">
                     For Stock
+                </div>
             </div>
-        </div>
 
-        <div class="form-group col-3  mb-2">
-            <select id="qty" name="qty" class="form-control" required>
-                <option disabled value=1 >qty</option>
-                <option {{$object->qty ==1 ? 'selected' : ''}} value=1>1</option>
-                <option {{$object->qty ==2 ? 'selected' : ''}} value=2>2</option>
-                <option {{$object->qty ==3 ? 'selected' : ''}} value=3>3</option>
-                <option {{$object->qty ==4 ? 'selected' : ''}} value=4>4</option>
-                <option {{$object->qty ==5 ? 'selected' : ''}} value=5>5</option>
-                <option {{$object->qty ==6 ? 'selected' : ''}} value=6>6</option>
-                <option {{$object->qty ==7 ? 'selected' : ''}} value=7>7</option>
-                <option {{$object->qty ==8 ? 'selected' : ''}} value=8>8</option>
-                <option {{$object->qty ==9 ? 'selected' : ''}} value=9>9</option>
-                <option {{$object->qty ==10 ? 'selected' : ''}} value=10>10</option>
-            </select>
-        </div>
+            <div class="form-group col-3  mb-2">
+                <select id="qty" name="qty" class="form-control" required>
+                    <option disabled value=1 >qty</option>
+                    <option {{$object->qty ==1 ? 'selected' : ''}} value=1>1</option>
+                    <option {{$object->qty ==2 ? 'selected' : ''}} value=2>2</option>
+                    <option {{$object->qty ==3 ? 'selected' : ''}} value=3>3</option>
+                    <option {{$object->qty ==4 ? 'selected' : ''}} value=4>4</option>
+                    <option {{$object->qty ==5 ? 'selected' : ''}} value=5>5</option>
+                    <option {{$object->qty ==6 ? 'selected' : ''}} value=6>6</option>
+                    <option {{$object->qty ==7 ? 'selected' : ''}} value=7>7</option>
+                    <option {{$object->qty ==8 ? 'selected' : ''}} value=8>8</option>
+                    <option {{$object->qty ==9 ? 'selected' : ''}} value=9>9</option>
+                    <option {{$object->qty ==10 ? 'selected' : ''}} value=10>10</option>
+                </select>
+            </div>
         @endif
     </div>
     <div class="form-group">

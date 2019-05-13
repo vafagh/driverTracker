@@ -48,6 +48,7 @@ class Helper
             $deliverydate = $rideable->delivery_date;
             $shift = $rideable->shift;
         }
+
         return array('date' => $deliverydate, 'shift' => $shift, 'day' => $day);
     }
 
@@ -55,8 +56,8 @@ class Helper
     {
         $cliName='';
         foreach (Location::where('type',$op1)->orderBy($sortBy)->get() as $location){
-            $locName = str_replace('"','',$location->longName);
-            if($sortBy=='longName')  $cliName .= '"'.$locName.'":"'.$locName.'",';
+            $locName = str_replace('"','',$location->name);
+            if($sortBy=='name')  $cliName .= '"'.$locName.'":"'.$locName.'",';
             else                    $cliName .= '"'.$locName.'":"'.$location->phone.' , '.$locName.'",';
         }
         return $cliName;

@@ -91,7 +91,7 @@
                         });
                     }
 
-                    var cliName  = {{!!App\Helper::locations($op1,'longName')!!}};
+                    var cliName  = {{!!App\Helper::locations($op1,'name')!!}};
                     var cliPhone  = {{!!App\Helper::locations($op1,'phone')!!}};
 
                     autocomplete(document.getElementById("clientsName"), cliName);
@@ -125,7 +125,7 @@
             <div class="form-group select">
                 <select class="form-control locations" name="locationName" required>
                     @foreach (App\Location::where('type','!=','Client')->orderBy('name')->get() as $location)
-                        <option value="{{$location->id}}">
+                        <option value="{{$location->name}}">
                             {{$location->name}}
                         </option>
                     @endforeach

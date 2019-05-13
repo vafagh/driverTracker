@@ -190,6 +190,18 @@ class RideableController extends Controller
         return redirect()->back()->with('status', $rideable->status.' set');
     }
 
+    public function analyseRaw(Request $request)
+    {
+        $rawData = $request->rawData;
+        $rawInvoices=explode("\r\n",$request->rawData);
+        $invoices= array();
+        foreach ($rawInvoices as $key => $rawInvoice) {
+            array_push($invoices,(array_map('trim',array_filter(explode(" │ ",$rawInvoice)))));
+        }
+
+        return view('rideable.batchConfirm', compact('invoices','rawData'));
+    }
+
     public function store(Request $request)
     {
         for ($i=0,$j=0; $i < 10 ; $i++) {
@@ -199,13 +211,10 @@ class RideableController extends Controller
                 $rideable = new Rideable;
                 $rideable->user_id = Auth::id();
                 (is_null($request->locationName)) ? $locationName = $thisRequest->locationPhone : $locationName = $thisRequest->locationName;
-                if($thisRequest->type=='Delivery'){
-                    if(Location::where('longName', $locationName)->first()==null) {return redirect()->back()->with('error', 'Location "'.$locationName.'" not exist. Make sure you select it from list. ');}
-                    else{$rideable->location_id = Location::where('longName', $locationName)->first()->id;}
-                }else{
-                    $rideable->location_id = $locationName;
-                }
-                $msg = Location::addGeo(Location::find($rideable->location_id));
+                $location = Location::where('name', $locationName)->first();
+                ($thisRequest->type == 'Delivery' && $location == null ) ? redirect()->back()->with('error', 'Location "'.$locationName.'" not exist. Make sure you select it from list. '):"";
+                $rideable->location_id = $location->id;
+                $msg = Location::addGeo($location);
                 $rideable->invoice_number = $request->{"invoice_number$i"};
                 ($request->{"stock$i"} == 'on') ? $rideable->stock = true :'';
                 $rideable->qty = $request->{"qty$i"};
@@ -218,9 +227,8 @@ class RideableController extends Controller
                 Transaction::log(Route::getCurrentRoute()->getName(),'',$rideable);
             }
         }
-
-        return redirect()->back()->with('status', $j." part number has been added! ".' '.$msg);
-        // return redirect()->back()->with('status', '#'.$rideable->invoice_number." added! ".$msg);
+        if($request->submitType=='batch') {$invoices=null; $rawData = $request->rawData; return view('rideable.batchConfirm', compact('invoices','rawData'))->with('status', $j." part number has been added! ".' '.$msg);}
+        else return redirect()->back()->with('status', $j." part number has been added! ".' '.$msg);
 
     }
 
@@ -310,17 +318,21 @@ class RideableController extends Controller
     public function destroy(Rideable $rideable,Request $request)
     {
             if(Auth::user()->id==$rideable->user_id){
-                if($rideable->rides()->first()!=null){
-                    $ride_id = $rideable->rides()->first()->id;
-                    $rideable->rides()->detach($ride_id);
-                    Ride::destroy($ride_id);
-                }
+                if($rideable->rides()->count() > 0){
+                    $rideable->rides()->detach();
+                    $driversName='';
+                    foreach (Ride::where('rideable_id',$rideable->id)->get() as $child) {
+                        Ride::destroy($child->id);
+                        $driversName .= $child->driver->fname.', ';
+                    }
+                    $msg = 'attached ride destroyed { '.$driversName.'}';
+                }else{ $msg = 'no attached ride to destroy!';}
                 Rideable::destroy($rideable->id);
                 Transaction::log(Route::getCurrentRoute()->getName(),$rideable,false);
 
-                return redirect()->back()->with('status', 'Rideable Destroid!');
+                return redirect()->back()->with('status', 'Rideable Destroid! and '.$msg);
             }
 
-        return redirect()->back()->with('status', 'Access Denied. You are not the one '.$rideable->user->name.' who created it!');
+        return redirect()->back()->with('status', 'Access Denied. '.$rideable->user->name.' created it and only one who can destroy it!');
     }
 }
