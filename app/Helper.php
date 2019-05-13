@@ -31,9 +31,10 @@ class Helper
             if($day == 'Friday' && $forceFriday){
                 $deliverydate = 0;
             }elseif($day == 'Saturday') {
-                $tomorrow->add(new DateInterval('P1D'));
-                $deliverydate = $tomorrow;
+                $mondey = new Carbon('next monday');
+                $deliverydate = $mondey->format('Y-m-d');
                 $forceMorning = true;
+                $ahead = false;
             }else $deliverydate = $today;
 
             if(($ahead && $currentHoure >= $start && $currentHoure <= $middle) || (!$ahead && $currentHoure >= $middle) ){

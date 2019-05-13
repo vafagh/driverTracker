@@ -99,6 +99,7 @@
                         @else
                             <img  class="minh-30" src="/img/location/{{$rideable->location->image}}">
                         @endif
+                    </a>
                 </div>
 
                 <div class='InvoiceNum      col-7  col-sm-3 col-md-3 col-lg-3    col-xl-3 p-0 text-truncate '>
