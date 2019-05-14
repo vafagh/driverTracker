@@ -248,7 +248,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Driver</th>
+                                <th>Truck</th>
                                 <th>Gas Card</th>
                                 <th>Gallons</th>
                                 <th>Product</th>
@@ -263,7 +263,7 @@
                             @foreach ($driver->fillups as $key => $fillup)
                                 <tr>
                                     <td>{{$fillup->id}}</td>
-                                    <td>@component('layouts.components.tooltip',['modelName'=>'driver','model'=>$fillup->driver])@endcomponent</td>
+                                    <td>@component('layouts.components.tooltip',['modelName'=>'truck','model'=>$fillup->truck])@endcomponent</td>
                                         <td>{{$fillup->gas_card}}</td>
                                         <td>{{$fillup->gallons}}</td>
                                         <td>{{$fillup->product}}</td>
@@ -314,7 +314,7 @@
                         <div class="row py-2 mb-1 border">
                             <div class="{{$tr}}">
                                 <div class="text-truncate">
-                                        {{$service->driver}}
+                                        {{$service->truck->lable}}
                                 </div>
                             </div>
                             <div class="{{$ser}} text-truncate">
