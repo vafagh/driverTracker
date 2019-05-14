@@ -29,7 +29,13 @@
     </div>
 
     <div class="form-group">
-        <label for="fname" class="col-form-label" title="Default Driver: {{(App\Driver::where('truck_id','=',$object->truck->id)->first()->fname)}}">
+        @php
+            $defDriver = App\Driver::where('truck_id','=',$object->truck->id)->first();
+            if (!empty($defDriver)) {
+                $defDriverName = $defDriver->fname;
+            } else $defDriverName = 'N/A';
+        @endphp
+        <label for="fname" class="col-form-label" title="Default Driver: {{$defDriverName}}">
             Truck:  @component('layouts.components.tooltip',['modelName'=>'truck','model'=>$object->truck])
             @endcomponent
         </label>
