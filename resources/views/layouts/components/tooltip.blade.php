@@ -47,7 +47,7 @@ switch($modelName){
     isset($model->name) ? $title = $model->name: $title = '?';
 }
 @endphp
-@if($title!='?')
+@if($title!='?' && isset($model->id))
 {!!isset($script) ? $script : ''!!}
     <div class="info d-inline ">
         <a class='tip{{isset($class) ? ' '.$class : ''}}' href="/{{$modelName}}/show/{{$model->id}}">
@@ -86,7 +86,6 @@ switch($modelName){
             </div>
         </div>
         @endif
-
     </div>
 @else Not Found
 @endif
