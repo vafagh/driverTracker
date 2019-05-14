@@ -21,6 +21,11 @@ class Driver extends Model
         return $this->hasMany(Fillup::class);
     }
 
+    public function services()
+    {
+        return $this->hasMany(Service::class);
+    }
+
     public function totalDistance()
     {
         return Ride::where('driver_id', $this->id)->sum('distance');
