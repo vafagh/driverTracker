@@ -199,7 +199,7 @@
                         @endif
                         <div class="{{$ac}}">
                             <a href="/service/show/{{$service->id}}"><i class="material-icons">pageview</i></a>
-                                @if (Auth::user()->role_id > 3)
+                                @if (Auth::user()->role_id > 3 && isset($service->id))
                                 @component('layouts.components.modal',[
                                     'modelName'=>'service',
                                     'action'=>'edit',
