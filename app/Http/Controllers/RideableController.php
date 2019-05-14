@@ -152,14 +152,24 @@ class RideableController extends Controller
         return redirect()->back()->with('status', $rideable->status.' set');
     }
 
+    // This function is for inserting new invoices into system using excisting multiple line text from other systems.
     public function analyseRaw(Request $request)
     {
+        // Sample raw data
+        // 432975 │ 05/13/19 │ PAUL'SCOLL │ PAUL'S COLLISSION REPAIR    │         79.00
+        // 432976 │ 05/13/19 │ FREEDOMAUT │ FREEDOM AUTO MOTORS(G.P.)   │         80.00
+        // 432977 │ 05/13/19 │ IND        │ RENE                        │         27.06
+        // 432978 │ 05/13/19 │ BUSY BODY  │ BUSY BODYS AUTO PAINTING    │         42.00
+
+        // rawData will provided to next manual itaraion due to non javascrip blade
         $rawData = $request->rawData;
+        // breaking each line to array row
         $rawInvoices=explode("\r\n",$request->rawData);
         $invoices= array();
         foreach ($rawInvoices as $key => $rawInvoice) {
-            // array_push($invoices,(array_map('trim',array_filter(explode(" │ ",$rawInvoice)))));
+            // each line is going be one row and each row will brake into multiple string(devided by | ) nested in parents array
             array_push($invoices,(explode(" │ ",$rawInvoice)));
+            // array_push($invoices,(array_map('trim',array_filter(explode(" │ ",$rawInvoice)))));
         }
 
         return view('rideable.batchConfirm', compact('invoices','rawData'));
