@@ -11,7 +11,6 @@
     <div class="form-group">
         <label for="created_at" class="col-form-label">Service Date:</label>
         <input name="created_at" class="form-control d-inline w-75" type="text" value="{{$object->created_at}}">
-        {{$object}}
     </div>
     <div class="form-group">
         @if (Auth::user()->role_id > 3)
@@ -30,7 +29,7 @@
     </div>
 
     <div class="form-group">
-        <label for="fname" class="col-form-label">
+        <label for="fname" class="col-form-label" title="Default Driver: {{(App\Driver::where('truck_id','=',$object->truck->id)->first()->fname)}}">
             Truck:  @component('layouts.components.tooltip',['modelName'=>'truck','model'=>$object->truck])
             @endcomponent
         </label>
