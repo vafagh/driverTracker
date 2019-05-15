@@ -57,7 +57,7 @@
                                     @endforeach
                                 ];
                                 var icons = {
-                                    @foreach ($activeDrivers as $key => $driver)
+                                    @foreach (App\Driver::all() as $key => $driver)
                                     "{{$driver->fname}}Warehouse": {"icon": "/img/driver/small/{{strtolower($driver->fname)}}Warehouse.png", "type":"FORWARD_CLOSED_ARROW"},
                                     "{{$driver->fname}}Client": {"icon": "/img/driver/small/{{strtolower($driver->fname)}}Client.png", "type":"BACKWARD_CLOSED_ARROW"},
                                     @endforeach"notAssigned": {"icon": "/img/driver/small/notAssigned.png", "type":"BACKWARD_CLOSED_ARROW"},
