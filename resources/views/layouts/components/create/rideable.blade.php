@@ -21,8 +21,8 @@
                     <label class="form-check-label" for="cPhone">Phone</label>
                 </div>
             </div>
-            <input id="clientsName" type="text" name="locationName"  placeholder="Type shop full name" class="form-control form-control w-100" style="display:none">
-            <input id="clientsPhone" type="text" autofocus name="locationPhone"  placeholder="Type the shop number" class="form-control form-control w-100" style="display:block" >
+            <input id="clientsName" type="text" name="locationName0"  placeholder="Type shop full name" class="form-control form-control w-100" style="display:none">
+            <input id="clientsPhone" type="text" autofocus name="locationPhone0"  placeholder="Type the shop number" class="form-control form-control w-100" style="display:block" >
             @section('footer-scripts')
                 <script type="text/javascript">
                     function autocomplete(inp, phoneBook) {
@@ -123,7 +123,7 @@
         <fieldset class="border p-2 mb-2 form-group autocomplete w-100">
             <legend class="w-auto px-2 my-0">From</legend>
             <div class="form-group select">
-                <select class="form-control locations" name="locationName" required>
+                <select class="form-control locations" name="locationName0" required>
                     @foreach (App\Location::where('type','!=','Client')->orderBy('name')->get() as $location)
                         <option value="{{$location->name}}">
                             {{$location->name}}
@@ -207,6 +207,7 @@
 </div>
 <div class="modal-footer">
     <input type="hidden" name="type" value="{{$op2}}">
+    <input type="hidden" name="n" value="10">
     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
     <button type="submit" id="{{$op2}}" class="btn btn-primary">Save it</button>
 </div>
