@@ -18,6 +18,7 @@ class LocationController extends Controller
 
     public function store(Request $request)
     {
+        try{
         $location = new Location;
         $location->type = $request->type;
         $location->name = $request->name;
@@ -45,9 +46,12 @@ class LocationController extends Controller
             $location->lng = $gmaprespond->results[0]->geometry->location->lng;
         }
         $location->save();
+        }catch(\Exception $e){
+            return back()->with('error', $e->errorInfo[2]);
+        }
         Transaction::log(Route::getCurrentRoute()->getName(),'',$location);
 
-        return redirect('locations')->with($location->name.' Added');
+        return redirect('locations')->with('status', $location->name.' Added');
     }
 
     public function show(Location $location)
