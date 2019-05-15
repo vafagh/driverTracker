@@ -126,8 +126,10 @@ class RideableController extends Controller
                                 ]);
                             })
                             ->get();
-        // dd($spots);?
 
+        foreach ($spots as $key => $value) {
+            Location::addGeo($value);
+        }
         $count= $spots->count();
         return view('map',compact('spots','count'));
     }
@@ -167,27 +169,33 @@ class RideableController extends Controller
         $rawInvoices=explode("\r\n",$request->rawData);
         $invoices= array();
         foreach ($rawInvoices as $key => $rawInvoice) {
-            // each line is going be one row and each row will brake into multiple string(devided by | ) nested in parents array
-            array_push($invoices,(explode(" │ ",$rawInvoice)));
-            // array_push($invoices,(array_map('trim',array_filter(explode(" │ ",$rawInvoice)))));
+            // each line is going be one row and each row will brake into multiple string(devided by | ), clean from extra white spaces and nested in parents array
+            array_push($invoices,(array_map('trim',array_filter(explode(" │ ",$rawInvoice)))));
         }
+        $n = 0;
 
-        return view('rideable.batchConfirm', compact('invoices','rawData'));
+        return view('rideable.batchConfirm', compact('invoices','rawData','n'));
     }
 
     public function store(Request $request)
     {
-        for ($i=0,$j=0; $i < 10 ; $i++) {
+
+        $msg = '';
+        for ($i=0,$j=0; $i <= $request->n ; $i++) {
             $thisRequest = $request;
             if ($request->{"invoice_number$i"}!='') {
                 $j++;
                 $rideable = new Rideable;
                 $rideable->user_id = Auth::id();
-                (is_null($request->locationName)) ? $locationName = $thisRequest->locationPhone : $locationName = $thisRequest->locationName;
+                if($request->submitType!='batch') {
+                    $thisRequest->{"locationName$i"} = $thisRequest->locationName0;
+                    $thisRequest->{"locationPhone$i"} = $thisRequest->locationPhone0;
+                }
+                (is_null($request->{"locationName$i"})) ? $locationName = $thisRequest->{"locationPhone$i"} : $locationName = $thisRequest->{"locationName$i"};
                 $location = Location::where('name', $locationName)->first();
-                ($thisRequest->type == 'Delivery' && $location == null ) ? redirect()->back()->with('error', 'Location "'.$locationName.'" not exist. Make sure you select it from list. '):"";
+                ($thisRequest->type == 'Delivery' && $location == null ) ? redirect()->back()->with('error', 'Location "'.$locationName.'" not exist. Please create it. '):"";
                 $rideable->location_id = $location->id;
-                $msg = Location::addGeo($location);
+                $msg .= Location::addGeo($location);
                 $rideable->invoice_number = $request->{"invoice_number$i"};
                 ($request->{"stock$i"} == 'on') ? $rideable->stock = true :'';
                 $rideable->qty = $request->{"qty$i"};
@@ -200,7 +208,12 @@ class RideableController extends Controller
                 Transaction::log(Route::getCurrentRoute()->getName(),'',$rideable);
             }
         }
-        if($request->submitType=='batch') {$invoices=null; $rawData = $request->rawData; return view('rideable.batchConfirm', compact('invoices','rawData'))->with('status', $j." part number has been added! ".' '.$msg);}
+        if($request->submitType=='batch') {
+            $invoices=null;
+            $rawData = $request->rawData;
+            $n = 0;
+            return view('rideable.batchConfirm', compact('invoices','rawData','n'))->with('status', $j." part number has been added! ".' ');
+        }
         else return redirect()->back()->with('status', $j." part number has been added! ".' '.$msg);
 
     }
