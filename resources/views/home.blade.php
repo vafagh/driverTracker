@@ -171,27 +171,11 @@
             </div>
         </div>
 
-        <div class="card-footer">
+        {{-- <div class="card-footer ">
             <span>Total of {{$spots->count()}} unassigned ticket.</span>
             @foreach ($spots as $spot)
                 <div class="line d-inline-block bg-secondary p-1 border">
                         {{$spot->name}}:
-{{--
-                    <span class="hideOnHover">
-                    </span>
-                    <div class="showOnHover p-0">
-                        @if (Auth::user()->role_id > 3)
-                            @foreach ($activeDrivers as $key => $driver)
-                                <a  class="" href='/location/{{$spot->id}}/driver/{{$driver->id}}' title="{{$driver->fname}}">
-                                    <img src="/img/driver/small/{{strtolower($driver->fname)}}.png" alt="{{$driver->fname}}">
-                                </a>
-                            @endforeach
-                        @endif
-                        <a href='/drivers' title="Assign Driver To Track">
-                            <i class="material-icons md-14">person_add</i>
-                        </a>
-                    </div> --}}
-
                     @foreach (App\Rideable::where('location_id',$spot->id)->whereDoesntHave('rides')->get() as $unassignedTicket)
                         <span class="btn btn-success btn-sm text-white h-75">
                             {{$unassignedTicket->invoice_number}}
@@ -199,6 +183,6 @@
                     @endforeach
                 </div>
             @endforeach
-        </div>
+        </div> --}}
     </div>
 @endsection
