@@ -40,30 +40,43 @@
 
                         <div class="card-body p-0">
                             @foreach ($rideables as $key => $rideable)
-                                <div class=" d-flex justify-content-between {{$rideable->status}} px-1 text-uppercase mb-1">
-                                    <div class="InvoiceNumber line ">
-                                        <span class="font-70">
-                                            {{-- {{$rideable->invoice_number}} --}}
+                                <div class="row {{$rideable->status}} m-0 p-0 text-uppercase border-bottom mb-1">
+                                    <div class="InvoiceNumber col-7 line text-truncate px-0">
+                                        <div class="font-70">
                                             @if (Auth::user()->role_id > 3 || Auth::user()->id == $rideable->user_id )
-                                                <span class=" d-inline  ">
-                                                    @component('layouts.components.modal',['modelName'=>'rideable','action'=>'edit','dingbats'=>'<i class="material-icons md-16">edit</i>','style'=>'text-info pr-0','iterator'=>$key,'object'=>$rideable,'op1'=>$rideable->type,'op2'=>'','file'=>false,'autocomplateOff'=>true])
+                                                <div class="d-inline">
+                                                    @component('layouts.components.modal',[
+                                                        'modelName'=>'rideable',
+                                                        'action'=>'edit',
+                                                        'object'=>$rideable,
+                                                        // 'object'=>(isset($rideable))? $rideable:false,
+                                                        'iterator'=>$key,
+                                                        'op1'=>$rideable->type,
+                                                        'op2'=>'',
+                                                        'dingbats'=>'<i class="material-icons md-16">edit</i>',
+                                                        'style'=>'text-info pr-0',
+                                                        'file'=>false,
+                                                        'autocomplateOff'=>true])
                                                     @endcomponent
-                                                </span>
+                                                </div>
                                             @endif
-                                            <span class="InvoiceNumber fixedWidthFont d-inline">
+                                            <div class="InvoiceNumber fixedWidthFont d-inline">
                                                 @component('layouts.components.tooltip',['modelName'=>'rideable','model'=>$rideable])
                                                 @endcomponent
-                                            </span>
-                                        </span>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="action line pt-2 pl-4 ">
-                                        <span class="showOnHover">
-                                            @component('layouts.action',['action' => $rideable->status,'rideable' => $rideable,'object' => $rideable,'iterator' => $key,'op1'=>'Warehouse','op2'=>'Pickup'])
-                                            @endcomponent
-                                        </span>
-                                        <span class="hideOnHover">
-                                            {{($rideable->user->name)}}
-                                        </span>
+
+                                    <div class="action col-5 line p-0 text-right pr-2">
+                                        <div class="showOnHover">
+                                                @component('layouts.action',['action' => $rideable->status,'rideable' => $rideable,'iterator' => $rideable->id,'op1'=>'Warehouse','op2'=>'Pickup'])
+                                                @endcomponent
+                                        </div>
+                                        <div class="hideOnHover">
+                                            <div class="mt-1">
+                                                {{($rideable->user->name)}}
+                                            </div>
+                                        </div>
 
                                     </div>
                                 </div>

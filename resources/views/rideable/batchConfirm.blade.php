@@ -17,7 +17,7 @@
             </div>
             @if ($invoices!=Null)
 
-                <form  enctype="multipart/form-data"  method="POST" action="/rideable/store" method="post">
+                <form  enctype="multipart/form-data"  method="POST" action="/rideable/store">
                     @foreach ($invoices as $key => $invoice)
                         @php
                         $location = App\Location::where('name', '=', $invoice[2])->get();
@@ -35,7 +35,7 @@
                                     $n++;
                                 }
                                 else
-                                $propertyName = 'data';
+                                $propertyName = 'data-toggle';
                             @endphp
                             <div class="row mb-2">
                                 <input class="col-2 ml-1" {{$propertyName}}="invoice_number{{$n}}" value="{{$invoice[0]}}">
@@ -56,22 +56,6 @@
 
                             <div class="row m-0 p-0 h-100 pt-1" >
                                 <div class='InvoiceNum      col-7  col-sm-3 col-md-3 col-lg-3    col-xl-3 p-0 text-truncate '>
-                                    @if (Auth::user()->role_id > 3 || Auth::user()->id == $rideable->user_id )
-                                        <div class=" d-inline  ">
-                                            @component('layouts.components.modal',[
-                                                'modelName'=>'rideable',
-                                                'action'=>'edit',
-                                                'dingbats'=>'<i class="material-icons md-16">edit</i>',
-                                                'style'=>'text-info pr-0',
-                                                'iterator'=>$key,
-                                                'object'=>$rideable,
-                                                'op1'=>'Client',
-                                                'op2'=>'Delivery',
-                                                'file'=>false,
-                                                'autocomplateOff'=>true])
-                                            @endcomponent
-                                        </div>
-                                    @endif
                                     <div class="InvoiceNumber fixedWidthFont d-inline">
                                         @component('layouts.components.tooltip',['modelName'=>'rideable','model'=>$rideable])
                                         @endcomponent

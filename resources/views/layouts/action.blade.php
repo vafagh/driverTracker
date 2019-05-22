@@ -3,6 +3,7 @@
     $user_id = Auth::user()->id;
     $admin = 5;
     $title = 'Done';
+
     if($rideable->location->type=='Client')   $title = 'Delivered';
     if($rideable->location->type=='Warehouse')  $title = 'Picked up';
     if($rideable->location->type=='DropOff')  $title = 'Droped off';
@@ -13,7 +14,7 @@
 
         @case('Created')
             @if ($user_id == $rideable->user_id)
-                <a title="Cancel" class="text-danger showOnHover" href="/rideable/delete/{{$rideable->id}}/">
+                <a title="Cancel" class="text-danger" href="/rideable/delete/{{$rideable->id}}/">
                     <i class="material-icons">delete_forever</i>
                 </a>
             @endif

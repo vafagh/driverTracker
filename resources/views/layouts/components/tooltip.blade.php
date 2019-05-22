@@ -16,7 +16,7 @@ switch($modelName){
     $mouseOver ='onmouseover="loadStatImg(\'https://maps.googleapis.com/maps/api/staticmap?center='.$model->line1.',+'.$model->city.',+'.$model->state.',+'.$model->zip.'&zoom=9&size=200x200&maptype=roadmap&key='.env('GOOGLE_MAP_API').'&markers=size:mid%7Ccolor:0xff0000%7Clabel:%7C'.$model->line1.',+'.$model->city.',+'.$model->state.',+'.$model->zip.'\',\'stMap'.$model->id.'\')"';
         ($model->lat=='' || $model->lat==null) ? $title='<i class="material-icons md-18 float-left">not_listed_location</i>' : $title='';
         if($model->image != ''){
-            $title = $title.'<img  class="minh-30" src="/img/location/'.$model->image.'" '.$mouseOver.'>';
+            $title = $title.'<img  class="minh-30" src="/img/location/'.$model->image.'" '.$mouseOver.' alt="'.$model->name.'">';
         }else {
             $title = $title.'<span class="mb-0 h5" '.$mouseOver.'>'.$model->name.'</span>';
         }
@@ -62,9 +62,9 @@ switch($modelName){
             {{-- <div class="card-header">{!!$modelName.': '.$title!!}</div> --}}
             <div class="card-body">
                 @if ($modelName == 'location')
-                    <a target="_blank" href="https://www.google.com/maps/dir/1628+E+Main+St,+Grand+Prairie,+TX+75050/{{$model->line1}},+{{$model->city}},+{{$model->state}},+{{$model->zip}}">
+                    <a target="_blank" href="https://www.google.com/maps/dir/1628+E+Main+St,+Grand+Prairie,+TX+75050/{{str_replace(' ','+',$model->line1)}},+{{str_replace(' ','+',$model->city)}},+{{$model->state}},+{{$model->zip}}">
                         {{-- <img class="w-100" src="https://maps.googleapis.com/maps/api/staticmap?center={{$model->line1}},+{{$model->city}},+{{$model->state}},+{{$model->zip}}&zoom=10&size=400x400&maptype=roadmap&key={{env('GOOGLE_MAP_API')}}&markers=size:mid%7Ccolor:0xff0000%7Clabel:%7C{{$model->line1}},+{{$model->city}},+{{$model->state}},+{{$model->zip}}" alt="{{$model->name}} Maps"> --}}
-                        <img src="/img/gif/loading.gif" class="stMap{{$model->id}}" />
+                        <img src="/img/gif/loading.gif" class="stMap{{$model->id}}" alt="loading" />
                     </a>
                 @else
 

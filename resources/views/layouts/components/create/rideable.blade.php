@@ -124,6 +124,9 @@
             <legend class="w-auto px-2 my-0">From</legend>
             <div class="form-group select">
                 <select class="form-control locations" name="locationName0" required>
+                    <option value>
+                        Select one
+                    </option>
                     @foreach (App\Location::where('type','!=','Client')->orderBy('name')->get() as $location)
                         <option value="{{$location->name}}">
                             {{$location->name}}
@@ -199,7 +202,7 @@
     });
     </script>
 
-    <div clas}s="form-group">
+    <div class="form-group">
         <label for="message-text" class="col-form-label">Note:</label>
         <textarea class="form-control" id="message-text" name="description"></textarea>
     </div>

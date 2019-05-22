@@ -1,6 +1,6 @@
 <ul class="deliveries list-group p-0" id='deliveries'>
     <li class=" d-flex justify-content-between m-0 py-1 bg-primary text-white rounded-top">
-        <div cxlass="col-6 col-md-9 col-lg-6">
+        <div class="col-6 col-md-9 col-lg-6">
             <div class=" m-0 p-0 pl-2">
                 <span class="h3">
                     {{$op2}}
@@ -10,68 +10,68 @@
                 </span>
             </div>
         </div>
-            <div class="row m-0" >
-                @if ($collection->count()>0)
-                    {{-- @if (strstr(URL::full(),'delivery_date') && strstr(URL::full(),'shift')) --}}
-                    @if (strstr(URL::full(),'delivery_date'))
-                        <div class="batchUpdate d-none d-sm-inline btn-group" role="group">
-                            <button id="filterlist" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i title="Filter" class="material-icons">play_for_work</i> Move all to
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="filterlist">
-                                <a class="dropdown-item" href="{{strtolower($op2)}}/massUpdate{{str_replace(URL::current(),'',URL::full())}}&amp;newShift=Morning&amp;newDelivery_date={{\Carbon\Carbon::today()->toDateString()}}">Today Morning</a>
-                                <a class="dropdown-item" href="{{strtolower($op2)}}/massUpdate{{str_replace(URL::current(),'',URL::full())}}&amp;newShift=Evening&amp;newDelivery_date={{\Carbon\Carbon::today()->toDateString()}}">Today Evening</a>
-                            </div>
-                        </div>
-                    @endif
-                @endif
-
-                @if ($op2 == 'Delivery')
-                    <div class="filter btn-group col" role="group">
+        <div class="row m-0" >
+            @if ($collection->count()>0)
+                @if (strstr(URL::full(),'delivery_date'))
+                    <div class="batchUpdate d-none d-sm-inline btn-group" role="group">
                         <button id="filterlist" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i title="Filter" class="material-icons">filter_list</i>
+                            <i title="Filter" class="material-icons">play_for_work</i> Move all to
                         </button>
                         <div class="dropdown-menu" aria-labelledby="filterlist">
-                            <a class="dropdown-item" href="?shift=Morning&amp;delivery_date={{\Carbon\Carbon::yesterday()->toDateString()}}">Yesterday Morning</a>
-                            <a class="dropdown-item" href="?shift=Evening&amp;delivery_date={{\Carbon\Carbon::yesterday()->toDateString()}}">Yesterday Evening</a>
-                            <a class="dropdown-item" href="?shift=Morning&amp;delivery_date={{\Carbon\Carbon::today()->toDateString()}}">Today Morning</a>
-                            <a class="dropdown-item" href="?shift=Evening&amp;delivery_date={{\Carbon\Carbon::today()->toDateString()}}">Today Evening</a>
-                            <a class="dropdown-item" href="?shift=Morning&amp;delivery_date={{\Carbon\Carbon::tomorrow()->toDateString()}}">Tomorrow Morning</a>
-                            <a class="dropdown-item" href="?shift=Evening&amp;delivery_date={{\Carbon\Carbon::tomorrow()->toDateString()}}">Tomorrow Evening</a>
-                            <a class="dropdown-item" href="?delivery_date=all">All incomplete</a>
-                            <a class="dropdown-item" href="?delivery_date=all&amp;status=returned">All Returned</a>
+                            <a class="dropdown-item" href="{{strtolower($op2)}}/massUpdate{{str_replace(URL::current(),'',URL::full())}}&amp;newShift=Morning&amp;newDelivery_date={{\Carbon\Carbon::today()->toDateString()}}">Today Morning</a>
+                            <a class="dropdown-item" href="{{strtolower($op2)}}/massUpdate{{str_replace(URL::current(),'',URL::full())}}&amp;newShift=Evening&amp;newDelivery_date={{\Carbon\Carbon::today()->toDateString()}}">Today Evening</a>
                         </div>
                     </div>
                 @endif
+            @endif
 
-                @component('layouts.components.modal',[
-                    'modelName'=>'rideable',
-                    'action'=>'create',
-                    'iterator'=>0,
-                    'object'=>null,
-                    'op1'=>$op1,
-                    'op2'=>$op2,
-                    'dingbats'=>'<i class="material-icons">add_box</i>',
-                    'autocomplateOff'=>true])
-                @endcomponent
+            @if ($op2 == 'Delivery')
+                <div class="filter btn-group col" role="group">
+                    <button id="filterlist" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i title="Filter" class="material-icons">filter_list</i>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="filterlist">
+                        <a class="dropdown-item" href="?shift=Morning&amp;delivery_date={{\Carbon\Carbon::yesterday()->toDateString()}}">Yesterday Morning</a>
+                        <a class="dropdown-item" href="?shift=Evening&amp;delivery_date={{\Carbon\Carbon::yesterday()->toDateString()}}">Yesterday Evening</a>
+                        <a class="dropdown-item" href="?shift=Morning&amp;delivery_date={{\Carbon\Carbon::today()->toDateString()}}">Today Morning</a>
+                        <a class="dropdown-item" href="?shift=Evening&amp;delivery_date={{\Carbon\Carbon::today()->toDateString()}}">Today Evening</a>
+                        <a class="dropdown-item" href="?shift=Morning&amp;delivery_date={{\Carbon\Carbon::tomorrow()->toDateString()}}">Tomorrow Morning</a>
+                        <a class="dropdown-item" href="?shift=Evening&amp;delivery_date={{\Carbon\Carbon::tomorrow()->toDateString()}}">Tomorrow Evening</a>
+                        <a class="dropdown-item" href="?delivery_date=all">All incomplete</a>
+                        <a class="dropdown-item" href="?delivery_date=all&amp;status=returned">All Returned</a>
+                    </div>
+                </div>
+            @endif
 
-                @component('layouts.components.modal',[
-                    'modelName'=>'rideable',
-                    'action'=>'batch',
-                    'iterator'=>0,
-                    'object'=>null,
-                    'op1'=>$op1,
-                    'op2'=>$op2,
-                    'dingbats'=>'<i class="material-icons">playlist_add</i>',
-                    'autocomplateOff'=>true])
-                @endcomponent
-            </div>
+            @component('layouts.components.modal',[
+                'modelName'=>'rideable',
+                'action'=>'create',
+                'iterator'=>0,
+                'object'=>null,
+                'op1'=>$op1,
+                'op2'=>$op2,
+                'dingbats'=>'<i class="material-icons">add_box</i>',
+                'autocomplateOff'=>true])
+            @endcomponent
+
+            @component('layouts.components.modal',[
+                'modelName'=>'rideable',
+                'action'=>'batch',
+                'iterator'=>0,
+                'object'=>null,
+                'op1'=>$op1,
+                'op2'=>$op2,
+                'dingbats'=>'<i class="material-icons">playlist_add</i>',
+                'autocomplateOff'=>true])
+            @endcomponent
+        </div>
 
     </li>
-
-    <div class="pagination">
-        {{ $collection->links("pagination::bootstrap-4") }}
-    </div>
+    <li>
+        <div class="pagination">
+            {{ $collection->links("pagination::bootstrap-4") }}
+        </div>
+    </li>
 
     <li class="row  m-0 p-0 {{$op2}} ">
 
@@ -137,14 +137,9 @@
                 </div>
 
                 <div class="user            d-none d-sm-none d-md-none d-lg-none col-xl-1 d-xl-inline text-secondary text-truncate line" title=" {{ $rideable->created_at->diffForHumans()}}">
-                    {{-- @if (Auth::user()->role_id > 4)
-                        @component('layouts.components.tooltip',['modelName'=>'user','model'=>$rideable->user])
-                        @endcomponent
-                    @else --}}
-                        <strong class="hideOnHover">{{$rideable->user->name}}</strong>
-                        <strong class="showOnHover">{{$rideable->created_at}}</strong>
+                    <strong class="hideOnHover">{{$rideable->user->name}}</strong>
+                    <strong class="showOnHover">{{$rideable->created_at}}</strong>
                     {{-- @endif --}}
-                    {{-- <span ></span> --}}
                 </div>
 
                 <div class='status          col-4  col-sm-2 col-md-2 col-lg-2    col-xl-1 p-0 text-truncate line'>
@@ -177,22 +172,24 @@
                 </div>
 
                 <div class='driver row      col-1                    col-lg-1 text-truncate p-0'>
-                @foreach ($rideable->rides as $ride)
-                    <div class='line col-{{12/($rideable->rides->count())}} p-0 text-right'>
-                        <img class="NOhideOnHover icon position-relative"  title='{{$ride->driver->fname}}' src="/img/driver/small/{{strtolower($ride->driver->fname)}}.png">
-                        @if (Auth::user()->role_id > 2  && $loop->last && $rideable->status != 'Done' &&  $rideable->status != 'Reschadule' )
-                            <a class="showOnHover text-danger position-relative" title='Remove {{$ride->driver->fname}}' href="/ride/detach/{{$ride ->id}}/{{$rideable->id}}">
-                                <i class="material-icons md-16">remove_circle_outline</i>
-                            </a>
-                        @endif
-                    </div>
-                @endforeach
-            </div>
+                    @foreach ($rideable->rides as $ride)
+                        <div class='line col-{{12/($rideable->rides->count())}} p-0 text-right'>
+                            <img class="NOhideOnHover icon position-relative"  title='{{$ride->driver->fname}}' src="/img/driver/small/{{strtolower($ride->driver->fname)}}.png">
+                            @if (Auth::user()->role_id > 2  && $loop->last && $rideable->status != 'Done' &&  $rideable->status != 'Reschadule' )
+                                <a class="showOnHover text-danger position-relative" title='Remove {{$ride->driver->fname}}' href="/ride/detach/{{$ride ->id}}/{{$rideable->id}}">
+                                    <i class="material-icons md-16">remove_circle_outline</i>
+                                </a>
+                            @endif
+                        </div>
+                    @endforeach
+                </div>
 
             </div>
         </li>
     @endforeach
-    <div class="pagination">
-        {{ $collection->links("pagination::bootstrap-4") }}
-    </div>
+    <li>
+        <div class="pagination">
+            {{ $collection->links("pagination::bootstrap-4") }}
+        </div>
+    </li>
 </ul>

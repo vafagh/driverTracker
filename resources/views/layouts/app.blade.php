@@ -73,7 +73,7 @@
                             </form>
                         </li>
                         <li class="nav-item dropdown d-none d-sm-inline d-xl-none">
-                            <a id="searchDropdown" class="nav-link dropdown-toggle pt-3" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            <a id="searchDropdown" class="nav-link dropdown-toggle pt-3" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Search <span class="caret"></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="searchDropdown">
@@ -89,7 +89,7 @@
 
                         {{-- comment it  --}}
                         <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle pt-3" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle pt-3" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                                 {{ Auth::user()->name }}
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -118,48 +118,49 @@
                     </li>
                 </ul>
             </div>
-        </nav>
-        <div class="fluid-container row mx-auto p-0">
-            <div class="main col-lg-12 col-xl-12 mt-1">
-                @if (session('info'))
-                    <div class="alert alert-info mt-3 mx-auto">{{ session('info') }}</div>
-                @endif
-                @if (session('error'))
-                    <div class="alert alert-danger mt-3 mx-auto">{{ session('error') }}</div>
-                @endif
-                @if (session('warning'))
-                    <div class="alert alert-warning mt-3 mx-auto">{{ session('warning') }}</div>
-                @endif
-                @if (session('success'))
-                    <div class="alert alert-success mt-3 mx-auto">{{ session('success') }}</div>
-                @endif
-                @if (session('status'))
-                    <div class="alert alert-info mt-3 mx-auto">{{ session('status') }}</div>
-                @endif
-
-                @yield('content')
-
-            </div>
-
-            @if (Auth::check() && env('APP_DEBUG')==true)
-                @if (Auth::user()->role_id >3)
-                    <div class="badge badge-pill badge-danger position-fixed zindex-tooltip" >
-                        <span class='d-sm-none d-md-none d-lg-none d-xl-none'>xs</span>
-                        <span class='d-none d-sm-inline d-md-none d-lg-none d-xl-none'>sm</span>
-                        <span class='d-none d-sm-none d-md-inline d-lg-none d-xl-none'>md</span>
-                        <span class='d-none d-sm-none d-md-none d-lg-inline d-xl-none'>lg</span>
-                        <span class='d-none d-sm-none d-md-none d-lg-none d-xl-inline'>xl</span>
-                    </div>
-                @endif
-            @endif
-
-            <div class="side col-lg-12  col-xl-2 sticky-top pt-4 mt-3 p-0">
-                @include('layouts.side')
-            </div>
         </div>
     </nav>
-    {{-- @if (Auth::check()) @if ($unasignedRideable->count()>0 && Auth::user()->role_id == 3) <audio autoplay src="/snd/BoxingBell.mp3">Your browser does not support the <code>audio</code> element.</audio> @endif @endif --}}
-    <!-- yield footer scripts-->
-    @yield('footer-scripts')
+    <div class="fluid-container row mx-auto p-0">
+        <div class="main col-lg-12 col-xl-12 mt-1">
+            @if (session('info'))
+                <div class="alert alert-info mt-3 mx-auto">{{ session('info') }}</div>
+            @endif
+            @if (session('error'))
+                <div class="alert alert-danger mt-3 mx-auto">{{ session('error') }}</div>
+            @endif
+            @if (session('warning'))
+                <div class="alert alert-warning mt-3 mx-auto">{{ session('warning') }}</div>
+            @endif
+            @if (session('success'))
+                <div class="alert alert-success mt-3 mx-auto">{{ session('success') }}</div>
+            @endif
+            @if (session('status'))
+                <div class="alert alert-info mt-3 mx-auto">{{ session('status') }}</div>
+            @endif
+
+            @yield('content')
+
+        </div>
+
+        @if (Auth::check() && env('APP_DEBUG')==true)
+            @if (Auth::user()->role_id >3)
+                <div class="badge badge-pill badge-danger position-fixed zindex-tooltip" >
+                    <span class='d-sm-none d-md-none d-lg-none d-xl-none'>xs</span>
+                    <span class='d-none d-sm-inline d-md-none d-lg-none d-xl-none'>sm</span>
+                    <span class='d-none d-sm-none d-md-inline d-lg-none d-xl-none'>md</span>
+                    <span class='d-none d-sm-none d-md-none d-lg-inline d-xl-none'>lg</span>
+                    <span class='d-none d-sm-none d-md-none d-lg-none d-xl-inline'>xl</span>
+                </div>
+            @endif
+        @endif
+
+        <div class="side col-lg-12  col-xl-2 sticky-top pt-4 mt-3 p-0">
+            @include('layouts.side')
+        </div>
+    </div>
+</div>
+{{-- @if (Auth::check()) @if ($unasignedRideable->count()>0 && Auth::user()->role_id > 2) <audio autoplay src="/snd/BoxingBell.mp3">Your browser does not support the <code>audio</code> element.</audio> @endif @endif --}}
+<!-- yield footer scripts-->
+@yield('footer-scripts')
 </body>
 </html>
