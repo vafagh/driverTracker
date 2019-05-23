@@ -11890,6 +11890,26 @@ a.text-dark:focus {
   min-width: 250px;
 }
 
+.lh-25 {
+  line-height: 25px;
+}
+
+.lh-26 {
+  line-height: 26px;
+}
+
+.lh-27 {
+  line-height: 27px;
+}
+
+.lh-28 {
+  line-height: 28px;
+}
+
+.lh-29 {
+  line-height: 29px;
+}
+
 .lh-40 {
   line-height: 40px;
 }
@@ -12165,20 +12185,28 @@ a.text-dark:focus {
   border: 2px solid #f7f7f7;
 }
 
-.shiftSelect {
-  background-image: url(/img/shifts.png);
-  background-repeat: no-repeat;
-  width: 45px;
-  height: 40px;
+.shiftSelect input {
+  height: 35px;
+  line-height: 30px;
+}
+
+.shiftSelect label {
+  height: 42px;
   display: inline-block;
+  text-indent: 50px;
+  line-height: 45px;
 }
 
 .morning {
-  background-position: bottom;
+  background-image: url(/img/shifts.png);
+  background-repeat: no-repeat;
+  background-position: bottom left;
 }
 
 .evening {
-  background-position: top;
+  background-image: url(/img/shifts.png);
+  background-repeat: no-repeat;
+  background-position: left top;
 }
 
 .not-working img {

@@ -78,6 +78,11 @@
 .minw-150{min-width:150px}
 .minw-200{min-width:200px}
 .minw-250{min-width:250px}
+.lh-25{line-height: 25px}
+.lh-26{line-height: 26px}
+.lh-27{line-height: 27px}
+.lh-28{line-height: 28px}
+.lh-29{line-height: 29px}
 .lh-40{line-height: 40px}
 .tip{color:#0a5d3e}
 .tip:hover{color:#da3b1f}
@@ -227,9 +232,10 @@
 }
 .add:hover i{color:white !important;}
 .add a{border:2px solid rgba(247, 247, 247, 1)}
-.shiftSelect{background-image: url(/img/shifts.png); background-repeat: no-repeat; width:45px; height:40px; display:inline-block}
-.morning{background-position:bottom;}
-.evening{background-position:top;}
+.shiftSelect input {  height:35px;line-height: 30px;}
+.shiftSelect label {  height:42px; display:inline-block; text-indent: 50px; line-height: 45px;}
+.morning{background-image: url(/img/shifts.png); background-repeat: no-repeat; background-position:bottom left; }
+.evening{background-image: url(/img/shifts.png); background-repeat: no-repeat; background-position: left top;}
 .not-working img{opacity:.2; z-index:1049}
 .disable img{opacity:.4; z-index:1049}
 .list-group-item.row.m-0.p-0 div{border:0px solid red}
