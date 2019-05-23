@@ -53,5 +53,9 @@ class Location extends Model
             }else{ return 'Google Map API:'.$gmaprespond->status;}
         }
     }
+    // static public function favorites(Location $location)
+    // {
+    //     //select invoice_number , count(*) as ordered from rideables where locatio4 group by invoice_number order by ordered DESC limit 10 ;
+    // }
 
 }

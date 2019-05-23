@@ -179,7 +179,6 @@ class RideableController extends Controller
 
     public function store(Request $request)
     {
-
         $msg = '';
         for ($i=0,$j=0; $i <= $request->n ; $i++) {
             $thisRequest = $request;
