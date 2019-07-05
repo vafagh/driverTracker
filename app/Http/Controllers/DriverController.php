@@ -51,7 +51,7 @@ class DriverController extends Controller
 
         $ongoingRides = $driver->rides()
         ->whereHas('rideable', function($q) {
-            $q->where('status','OnTheWay');
+            $q->where('status','OnTheWay')->orWhere('status','Reschedule');
         })
         ->orderBy('created_at','desc')
         ->get();
