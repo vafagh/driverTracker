@@ -3,56 +3,83 @@
     <div class="card mb-4">
         <div class="card-header row m-0 h4 bg-primary text-light">
             <span class="col-10">
-                Batch add
+                Batch import
             </span>
         </div>
         <div class="card-body">
 
-            <div class="row">
-                <div class="col-2">Invoice Number</div>
-                <div class="col-2">Invoice Date</div>
-                <div class="col-2"> Customer Name</div>
-                {{-- <div class="col-2"> Customer Number</div> --}}
-                <div class="col-2"> Invoice total</div>
+            <div class="row ">
+                <div class="col-2 ">Invoice Number</div>
+                <div class="col-2 ">Invoice Date / Delivery Date</div>
+                <div class="col-4  row p-0 m-0">
+                    <div class="col-12 text-center">Shifts</div>
+                    {{-- <div class="col-4">Morning</div>
+                    <div class="col-4">Evening</div>
+                    <div class="col-4">Not Clear</div> --}}
+                </div>
+                <div class="col-2 ">Customer Name</div>
+                <div class="col-2 ">Invoice total</div>
             </div>
             @if ($invoices!=Null)
-
-                <form  enctype="multipart/form-data"  method="POST" action="/rideable/store">
+                <form enctype="multipart/form-data"  method="POST" action="/rideable/store">
                     @foreach ($invoices as $key => $invoice)
                         @php
-                        $location = App\Location::where('name', '=', $invoice[2])->get();
-                        $returnedRideable = App\Rideable::where('invoice_number', '=', $invoice[0])->get();
-                        $rideable = $returnedRideable->first();
-                        $date = explode("/",$invoice[1]);
-                        $delivery_date = '20'.$date[2].'/'.$date[0].'/'.$date[1];
+                            $location = App\Location::where('name', '=', $invoice[2])->get();
+                            $returnedRideable = App\Rideable::where('invoice_number', '=', $invoice[0])->get();
+                            $rideable = $returnedRideable->first();
+                            $date = explode("/",$invoice[1]);
+                            $when=App\Helper::when(null);
+                            $invoice_date = App\Helper::dateName('20'.$date[2].'-'.$date[0].'-'.$date[1]);
+                            $delivery_date = $when['date'];
+                            $shift = $when['shift'];
                         @endphp
 
                         @if ($returnedRideable->count()==0)
                             @php
-                                if($location->count() == 1)
-                                {
+                                if($location->count() == 1){
                                     $propertyName = 'name';
                                     $n++;
                                 }
                                 else
                                 $propertyName = 'data-toggle';
                             @endphp
-                            <div class="row mb-2">
-                                <input class="col-2 ml-1" {{$propertyName}}="invoice_number{{$n}}" value="{{$invoice[0]}}">
-                                <input class="col-2 ml-1" {{$propertyName}}="delivery_date{{$n}}" value="{{$delivery_date}}">
-                                <input class="col-2 ml-1 {{($location->count() == 0)? 'bg-danger': 'bg-success'}}" {{$propertyName}}="locationName{{$n}}" value="{{$invoice[2]}}">
-                                {{-- <input class="col-2 ml-1" {{$propertyName}}="phone{{$n}}" placeholder="enter phone" {{($location->count() == 0)? 'disabled': 'value='.$location->first()->phone}} > --}}
-                                {{-- <input class="col-2 ml-1" {{$propertyName}}="phone{{$n}}" placeholder="enter phone" {{($location->count() == 0)? 'required': 'value='.$location->first()->phone}} > --}}
-                                <input class="col-2 ml-1" {{$propertyName}}="qty{{$n}}" value="{{$invoice[4]}}">
+                            <div class="row mb-2 {{($propertyName=="data-toggle")?'op-03':''}}">
+                                <div   class="col-2 input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input type="checkbox" name="item_{{$n}}" {{($location->count() == 0)? 'disabled': 'checked'}}>
+                                        </div>
+                                    </div>
+                                    <input class="form-control " {{$propertyName}}="invoice_number{{$n}}" value="{{$invoice[0]}}">
+                                </div>
+                                <div class="row col-2 m-0">
+                                    <input class="col-6" value="{{$invoice_date}}" disabled>
+                                    <input class="col-6" {{$propertyName}}="delivery_date{{$n}}" value="{{$delivery_date}}">
+                                </div>
+                                @if ($invoice_date==$delivery_date)
+                                    <input class="col-2 " {{$propertyName}}="delivery_date{{$n}}" value="{{$delivery_date}}">
+                                @else
+                                @endif
+
+                                <div   class="row col-4 m-0 ">
+                                    <div class="col-4 form-check form-check-inline m-0">
+                                        <input class="form-check-input" type="radio" {{$propertyName}}="shift{{$n}}" id="{{$propertyName}}Morning{{$n}}" value='Morning' {{($shift=="Morning")?'checked':''}} {{($propertyName=="data-toggle")?'disabled':''}}>
+                                        <label class="form-check-label" for="{{$propertyName}}Morning" title="Morning">Morning</label>
+                                    </div>
+                                    <div class="col-4 form-check form-check-inline m-0">
+                                        <input class="form-check-input" type="radio" {{$propertyName}}="shift{{$n}}" id="{{$propertyName}}Evening{{$n}}" value='Evening' {{($shift=="Evening")?'checked':''}} {{($propertyName=="data-toggle")?'disabled':''}}>
+                                        <label class="form-check-label" for="{{$propertyName}}Evening" title="Evening">Evening</label>
+                                    </div>
+                                    <div class="col-4 form-check form-check-inline m-0">
+                                        <input class="form-check-input" type="radio" {{$propertyName}}="shift{{$n}}" id="{{$propertyName}}Notclear{{$n}}" value='Notclear' {{($propertyName=="data-toggle")?'disabled':''}}>
+                                        <label class="form-check-label" for="inlineRadio3">Not Clear</label>
+                                    </div>
+                                </div>
+                                <input class="col-2  {{($location->count() == 0)? 'bg-danger': 'bg-success'}}" {{$propertyName}}="locationName{{$n}}" value="{{$invoice[2]}}">
+                                <input class="col-2 " {{$propertyName}}="qty{{$n}}" value="{{$invoice[4]}}">
                             </div>
                         @else
-                            {{-- <div class="row mb-2">
-                                <input class="col-2 ml-1 {{($returnedRideable->count()>0)?'bg-success':''}}"  value="{{$invoice[0]}}">
-                                <input class="col-2 ml-1 " value="{{$delivery_date}}">
-                                <input class="col-2 ml-1 {{($location->count() == 0)? 'bg-danger': 'bg-success'}}"  value="{{$invoice[2]}}">
-                                <input class="col-2 ml-1 "  placeholder="enter phone" {{($location->count() == 0)? 'required': ''}} >
-                                <input class="col-2 ml-1 " value="{{$invoice[4]}}">
-                            </div> --}}
+                            {{-- <div class="row mb-2"><input class="col-2 ml-1 {{($returnedRideable->count()>0)?'bg-success':''}}"  value="{{$invoice[0]}}"><input class="col-2 ml-1 " value="{{$delivery_date}}"><input class="col-2 ml-1 {{($location->count() == 0)? 'bg-danger': 'bg-success'}}"  value="{{$invoice[2]}}"><input class="col-2 ml-1 "  placeholder="enter phone" {{($location->count() == 0)? 'required': ''}} ><input class="col-2 ml-1 " value="{{$invoice[4]}}"></div> --}}
 
                             <div class="row m-0 p-0 h-100 pt-1" >
                                 <div class='InvoiceNum      col-7  col-sm-3 col-md-3 col-lg-3    col-xl-3 p-0 text-truncate '>
@@ -76,14 +103,7 @@
                                 </div>
                                 <div class="row             col-6  col-sm-4 col-md-4 col-lg-4    col-xl-4 m-0 p-0 text-truncate">
                                     <div class="actions     col-12 col-sm-4 col-md-4 col-lg-4    col-xl-4 p-0 text-truncate">
-                                        {{-- @component('layouts.action',[
-                                            'action' => $rideable->status,
-                                            'rideable' => $rideable,
-                                            'object' => $rideable,
-                                            'iterator' => $key,
-                                            'op1'=>'Client',
-                                            'op2'=>'Delivery'])
-                                        @endcomponent --}}
+                                        {{--@component('layouts.action',['action' => $rideable->status,'rideable' => $rideable,'object' => $rideable,'iterator' => $key,'op1'=>'Client','op2'=>'Delivery'])@endcomponent--}}
                                     </div>
                                     <div class='delivery    col-12 col-sm-8 col-md-8 col-lg-8    col-xl-8 p-0'>
                                         @if($rideable->location->type != 'DropOff' && $rideable->delivery_date!=null)
@@ -100,7 +120,7 @@
                                     @foreach ($rideable->rides as $ride)
                                         <div class='line col-{{12/($rideable->rides->count())}} p-0 text-right'>
                                             <img class="NOhideOnHover icon position-relative"  title='{{$ride->driver->fname}}' src="/img/driver/small/{{strtolower($ride->driver->fname)}}.png">
-                                            @if (Auth::user()->role_id > 3  && $loop->last && $rideable->status != 'Done' &&  $rideable->status != 'Reschadule' )
+                                            @if (Auth::user()->role_id > 3  && $loop->last && $rideable->status != 'Done' &&  $rideable->status != 'Reschedule' )
                                                 <a class="showOnHover text-danger position-relative" title='Remove {{$ride->driver->fname}}' href="/ride/detach/{{$ride ->id}}/{{$rideable->id}}">
                                                     <i class="material-icons md-16">remove_circle_outline</i>
                                                 </a>
@@ -116,25 +136,30 @@
                     <input type="hidden" name="n" value="{{$n}}">
                     <input type="hidden" name="redirect" value="back">
                     <input type="hidden" name="submitType" value="batch">
-                    <button type="submit">Add {{$n}} green locations</button>
+                     <div class="">
+                         {{$n}} Ticket is available to add
+                     </div>
+                     <div class="">
+                         <button type="submit" class="btn btn-primary ">Add selected line</button>
+                     </div>
                     {{ csrf_field() }}
                 </form>
             @endif
-            <div class="card-footer">
-
-                <form method="POST" action="/rideable/batch">
+            <div class="card-footer mt-4">
+                <form method="POST" action="/rideable/batch" class="border p-3 text-center">
                     {{ csrf_field() }}
-
-                    <div class="form-group">
-                        <label for="message-text" class="col-form-label">Your raw data:</label>
-                        <textarea class="form-control" id="message-text" name="rawData" cols="100">{{$rawData}}</textarea>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Update</button>
-                    </div>
+                        <div class="form-group">
+                            <label for="rawtext">Raw data:</label>
+                        </div>
+                        <div class="form-group ">
+                            <textarea class="fixedWidthFont px-4 m-auto" id="rawtext" name="rawData" cols="78" rows="{{(!empty($invoices))?count($invoices):'10'}}">{{$rawData}}</textarea>
+                        </div>
+                        <div class="">
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
 
                 </form>
             </div>
         </div>
-    @endsection
+    </div>
+@endsection
