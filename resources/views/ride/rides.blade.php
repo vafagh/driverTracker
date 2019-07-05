@@ -26,7 +26,7 @@
                 <tbody>
                     @foreach ($rides as $key => $ride)
                         <tr>
-                            <td>{{$ride->id}}</td>
+                            <td title="{{$ride->created_at->diffForHumans()}}">{{$ride->id}}</td>
                             <td>
                                 @if ($ride->rideable!=null)
                                     @component('layouts.components.tooltip',['modelName'=>'location','model'=>$ride->rideable->location])@endcomponent
@@ -38,7 +38,12 @@
                             <td>
                                 @component('layouts.components.tooltip',['modelName'=>'truck','model'=>$ride->truck])@endcomponent
                             </td>
-                            <td><span title="{{$ride->created_at}}">{{$ride->created_at->diffForHumans()}}</span></td>
+                            <td>
+                                @if ($ride->rideable->location->type == 'Client')
+                                    <span>{{$ride->delivery_date}} :: {{$ride->shift}}</span></td>
+                                @else
+                                    Pickup {{$ride->delivery_date}} :: {{$ride->shift}}
+                                @endif
                             <td>
                                 @if (Auth::user()->role_id > 3)
                                     @component('layouts.components.modal',[
