@@ -69,7 +69,7 @@
             </div>
             <div class="delivery    col-12 col-sm-12 col-md-5 col-lg-4 col-xl-4 m-0 border">
                 <div class="label">
-                    Delivery
+                    {{ ($pickup) ? 'Pickup on' : 'Delivery on' }}
                 </div>
                 <div class="data h3">
                     {{App\Helper::dateName($rideable->delivery_date)}},

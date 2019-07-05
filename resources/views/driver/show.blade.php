@@ -86,6 +86,11 @@
                             </a>
                         </div>
                     @endforeach
+                    @if (empty($request->input('date')))
+                        <div class="add d-inline"><a class="btn btn-success{{(Auth::user()->role_id==3 && $rideable->type!='Client') ?' d-none':''}} btn-sm text-white h-75" title="See other days" href="?date=all"><i class="material-icons md-14 text-dark">calendar_today</i>More</a></div>
+                    @else
+                        <div class="add d-inline"><a class="btn btn-success{{(Auth::user()->role_id==3 && $rideable->type!='Client') ?' d-none':''}} btn-sm text-white h-75" title="See other days" href="?date="><i class="material-icons md-14 text-dark">today</i>Less</a></div>
+                    @endif
                 @endif
             </div>
 
@@ -119,7 +124,7 @@
                                         @component('layouts.components.tooltip',['modelName'=>'rideable','model'=>$ride->rideable])
                                         @endcomponent
                                         @if (Auth::user()->role_id > 3 && $ride->rideable->status!='Done' && $ride->rideable->status!='Returned' && $ride->rideable->status!='Return')
-                                            <a class="badge badge-primary" href="/rideable/{{$ride->rideable->id}}/Done">&#x2714; Done</a>
+                                            <a title="Part Delivered" class="badge badge-primary" href="/rideable/{{$ride->rideable->id}}/Done"><i class="material-icons md-16">done</i></a>
                                         @endif
                                     </td>
                                     <td>{{$ride->rideable->status}}</td>
@@ -155,9 +160,12 @@
                                 </td>
                                 <td>
                                     @if (Auth::user()->role_id >= 3 && $ride->rideable != null && $ride->rideable->status!='Done' && $ride->rideable->status!='Returned' && $ride->rideable->status!='Return')
-                                        <a title="Remove driver from this invoice" class="badge badge-danger" href="/ride/detach/{{$ride->id}}/{{$ride->rideable->id}}">Detach</a>
+                                        <a title="{{$driver->fname}} didn't went to {{$ride->rideable->location->name}}" class="badge badge-danger" href="/ride/detach/{{$ride->id}}/{{$ride->rideable->id}}">
+                                            <i class="material-icons md-18">link_off</i>
+                                            {{-- Detach --}}
+                                        </a>
                                         @if (Auth::user()->role_id > 3 )
-                                            <a title="Returned" class="badge badge-danger" href="/rideable/{{$ride->rideable->id}}/Returned"><i class="material-icons md-14">keyboard_return</i></a>
+                                            <a title="{{$driver->fname}} went to {{$ride->rideable->location->name}} but the part rerurned to eagle" class="badge badge-danger" href="/rideable/{{$ride->rideable->id}}/Returned"><i class="material-icons md-18">keyboard_return</i></a>
                                         @endif
                                     @endif
                                 </td>

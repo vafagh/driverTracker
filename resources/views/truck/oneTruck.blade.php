@@ -53,6 +53,7 @@
                     'file'=>true])
                 @endcomponent
                 <a class="badge badge-success" href="/truck/show/{{$truck->id}}">Details</a>
+                <a class="badge badge-success" href="/truck/envelope/{{$truck->id}}"><i class="material-icons">mail_outline</i></a>
             @endif
         </div>
 </li>

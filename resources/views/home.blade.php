@@ -171,19 +171,5 @@
                 @endforeach
             </div>
         </div>
-
-        {{-- <div class="card-footer ">
-            <span>Total of {{$spots->count()}} unassigned ticket.</span>
-            @foreach ($spots as $spot)
-                <div class="line d-inline-block bg-secondary p-1 border">
-                        {{$spot->name}}:
-                    @foreach (App\Rideable::where('location_id',$spot->id)->whereDoesntHave('rides')->get() as $unassignedTicket)
-                        <span class="btn btn-success btn-sm text-white h-75">
-                            {{$unassignedTicket->invoice_number}}
-                        </span>
-                    @endforeach
-                </div>
-            @endforeach
-        </div> --}}
     </div>
 @endsection

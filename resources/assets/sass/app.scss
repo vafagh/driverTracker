@@ -119,7 +119,7 @@
 .NotAvailable{background-color:#ffd5d5}
 .DeatachReqested{background-color:#ffd5d5}
 .Created{background-color:#d5ffe6}
-.Reschadule{background-color:#d5ffe6}
+.Reschedule{background-color:#d5ffe6}
 .DriverDetached{background-color:#d5ffe6}
 .OnTheWay{background-color:#c9c6f4}
 .Reactived{background-color:#c9c6f4}
@@ -140,6 +140,16 @@
 
 .list-group-item .row{}
 .list-group-item .row:hover{opacity:1}
+.op-01{opacity:0.1}
+.op-02{opacity:0.2}
+.op-03{opacity:0.3}
+.op-04{opacity:0.4}
+.op-05{opacity:0.5}
+.op-06{opacity:0.6}
+.op-07{opacity:0.7}
+.op-08{opacity:0.8}
+.op-09{opacity:0.9}
+.op-1{opacity:1}
 #flash {
     -webkit-animation-name: colorsTransition;
     -webkit-animation-duration: .4s;
@@ -196,6 +206,7 @@
   line-height: 1;
 }
 /* Rules for sizing the icon. */
+nav .material-icons{    position: relative;top: 5px; }
 .material-icons.md-12 { font-size: 12px; }
 .material-icons.md-14 { font-size: 14px; }
 .material-icons.md-16 { font-size: 16px; }
