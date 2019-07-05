@@ -8,6 +8,7 @@
                 Pickups by locations on {{$history}}
                 <br>
                 {{(isset($sql))?$sql:''}}
+                <a class="text-light" title="Today" href="/"><i class="material-icons">today</i></a>
             </div>
             <div class="create">
                 @component('layouts.components.modal',['modelName'=>'rideable','action'=>'create','iterator'=>0,'object'=>null,'op1'=>'Warehouse','op2'=>'Pickup','style' => '','dingbats'=>'<i class="material-icons">add_box</i>','autocomplateOff'=>true])
