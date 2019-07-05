@@ -30,7 +30,7 @@
             <label for="status{{$object->id}}" class="col-form-label">Status:</label>
             <select class="form-control locations" name="status" id="status{{$object->id}}" required>
                 <option value>Select one</option>
-                @php $selectValues = ['Created','OnTheWay','Done','Returned','CancelReq','NotAvailable','Reactived','Canceled']; @endphp
+                @php $selectValues = ['Created','OnTheWay','Done','Returned','Return','CancelReq','NotAvailable','Reactived','Canceled','Double Entry']; @endphp
                 @foreach ($selectValues as $value)
                     <option {{($value==$object->status) ? 'selected' : ''}} value="{{ $value }}">{{ $value }}</option>
                 @endforeach

@@ -65,19 +65,19 @@ class RideableController extends Controller
         }
 
         $rideables = Rideable::with('user','rides','rides.driver','rides.truck','location')
-        ->whereHas('location', function($q) use ($operator) {
-            $q->where('type', $operator, 'Client');
-        })
-        ->where([
-        ['status','!=','Done'],
-        ['status','!=','Canceled'],
-        ['status','!=','Return'],
-        [$field0Name,$field0Operator,$field0Value],
-        [$field1Name,$field1Operator,$field1Value],
-        [$field2Name,$field2Operator,$field2Value]
-        ])
-        ->orderBy($rideableSort, 'asc')
-        ->paginate(70);
+                                ->whereHas('location', function($q) use ($operator) {
+                                    $q->where('type', $operator, 'Client');
+                                })
+                                ->where([
+                                ['status','!=','Done'],
+                                ['status','!=','Canceled'],
+                                ['status','!=','Return'],
+                                [$field0Name,$field0Operator,$field0Value],
+                                [$field1Name,$field1Operator,$field1Value],
+                                [$field2Name,$field2Operator,$field2Value]
+                                ])
+                                ->orderBy($rideableSort, 'asc')
+                                ->paginate(70);
 
         ($request!==null) ? $flashId = $request->id : $flashId = '1';
 
@@ -110,24 +110,27 @@ class RideableController extends Controller
                             // ->whereDoesntHave('rideables.rides')
                             ->whereHas('rideables', function($q) use($queryVars){
                                 $q->where([
-                                    // ['type','=','Client'],
                                     ['status', '!=', 'Done'],
                                     ['status', '!=', 'Canceled'],
-                                    ['status','!=','Returned'],
-                                    ['status','!=','Return'],
+                                    ['status', '!=','Returned'],
+                                    ['status', '!=','Return'],
+                                    ['status', '!=', 'NotAvailable'],
                                     ['delivery_date',$queryVars['delivery_dateOperator'],$queryVars['delivery_date']],
                                     ['shift',$queryVars['shiftOperator'],$queryVars['shift']]
                                 ]);
                                 $q->orWhere([
                                     ['type','=','Warehouse'],
                                     ['status', '!=', 'Done'],
-                                    ['status', '!=', 'NotAvailable']
+                                    ['status', '!=', 'Canceled'],
+                                    ['status', '!=', 'NotAvailable'],
                                 ]);
-                            })
-                            ->get();
-
+                            });
+        $spots = $spots->get();
         foreach ($spots as $key => $value) {
             Location::addGeo($value);
+        }
+        if(!empty($loc = $spots->firstWhere('lat',null)) || !empty($loc = $spots->firstWhere('lng',null))){
+            return redirect()->action("LocationController@show", [$loc])->with('warning','Please Correct/Update the location address In order to draw the map. ');
         }
         $count= $spots->count();
         return view('map',compact('spots','count'));
@@ -135,7 +138,8 @@ class RideableController extends Controller
 
     public function show(Rideable $rideable)
     {
-        return view('rideable.show',compact('rideable'));
+        $pickup = ($rideable->type=='Pickup') ? true : false;
+        return view('rideable.show',compact('rideable','pickup'));
     }
 
     public function status(Request $request)
@@ -179,9 +183,10 @@ class RideableController extends Controller
     public function store(Request $request)
     {
         $msg = '';
+        // dd($request->request);
         for ($i=0,$j=0; $i <= $request->n ; $i++) {
             $thisRequest = $request;
-            if ($request->{"invoice_number$i"}!='') {
+            if ($request->{"invoice_number$i"}!='' && isset($request->{"item_$i"}) ) {
                 $j++;
                 $rideable = new Rideable;
                 $rideable->user_id = Auth::id();
@@ -198,8 +203,8 @@ class RideableController extends Controller
                 ($request->{"stock$i"} == 'on') ? $rideable->stock = true :'';
                 $rideable->qty = $request->{"qty$i"};
                 $rideable->type = Location::find($rideable->location_id)->type;
-                $rideable->shift = $request->shift;
-                $rideable->delivery_date = $request->delivery_date;
+                $rideable->shift = $thisRequest->{"shift$i"};
+                $rideable->delivery_date = $thisRequest->{"delivery_date$i"};
                 $rideable->status = 'Created';
                 $rideable->description = $thisRequest->description;
                 $rideable->save();
@@ -207,8 +212,8 @@ class RideableController extends Controller
             }
         }
         if($request->submitType=='batch') {
-            $invoices=null;
             $rawData = $request->rawData;
+            $invoices=null;
             $n = 0;
             return view('rideable.batchConfirm', compact('invoices','rawData','n'))->with('status', $j." part number has been added! ".' ');
         }

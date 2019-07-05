@@ -3,12 +3,14 @@
 switch($modelName){
 
     case 'rideable':
-        $note=''; if($model->description) $note="<i title='$model->description' class='material-icons'>event_note</i>";
+        $note=''; if($model->description) $note="<i title='$model->description' class='material-icons md-16'>event_note</i>";
         $stock=''; if ($model->stock) $stock =' <span class="text-primary">Stock</span>';
-        $qty =($model->qty>1)?' x<span class="text-danger">'.$model->qty.'</span>':'';
+        $prefix = ($model->type=='Warehouse') ? 'x' : '$';
+        $qty =($model->qty>1)?' '.$prefix.'<span class="text-danger">'.$model->qty.'</span>':'';
         $title = strtoupper($model->invoice_number);
-        if($model->type=='Client')$title=$title.$note;
-        else $title=$title.'<small><sup>'.$qty.$stock.'</sup></small>'.$note;
+        // if($model->type=='Client')?$title=$title.$note;
+        //else
+        $title=$title.'<small><sup>'.$qty.$stock.'</sup></small>'.$note;
     break;
 
     case 'location':

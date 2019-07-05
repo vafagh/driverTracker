@@ -149,14 +149,16 @@
 
                 <div class="row             col-6  col-sm-4 col-md-4 col-lg-4    col-xl-4 m-0 p-0 text-truncate">
                     <div class="actions     col-12 col-sm-4 col-md-4 col-lg-4    col-xl-4 p-0 text-truncate">
-                        @component('layouts.action',[
-                            'action' => $rideable->status,
-                            'rideable' => $rideable,
-                            'object' => $rideable,
-                            'iterator' => $key,
-                            'op1'=>$op1,
-                            'op2'=>$op2])
-                        @endcomponent
+                        @if ($rideable->location->type=="Client")
+                            @component('layouts.action',[
+                                'action' => $rideable->status,
+                                'rideable' => $rideable,
+                                'object' => $rideable,
+                                'iterator' => $key,
+                                'op1'=>$op1,
+                                'op2'=>$op2])
+                            @endcomponent
+                        @endif
                     </div>
                     <div class='delivery    col-12 col-sm-8 col-md-8 col-lg-8    col-xl-8 p-0'>
                         {{-- <span title="{{$rideable->updated_at}}">{{ $rideable->updated_at->diffForHumans()}}</span> --}}
@@ -175,7 +177,7 @@
                     @foreach ($rideable->rides as $ride)
                         <div class='line col-{{12/($rideable->rides->count())}} p-0 text-right'>
                             <img class="NOhideOnHover icon position-relative"  title='{{$ride->driver->fname}}' src="/img/driver/small/{{strtolower($ride->driver->fname)}}.png">
-                            @if (Auth::user()->role_id > 2  && $loop->last && $rideable->status != 'Done' &&  $rideable->status != 'Reschadule' )
+                            @if (Auth::user()->role_id > 2  && $loop->last && $rideable->status != 'Done' &&  $rideable->status != 'Reschedule' )
                                 <a class="showOnHover text-danger position-relative" title='Remove {{$ride->driver->fname}}' href="/ride/detach/{{$ride ->id}}/{{$rideable->id}}">
                                     <i class="material-icons md-16">remove_circle_outline</i>
                                 </a>

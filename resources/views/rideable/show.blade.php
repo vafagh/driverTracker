@@ -27,7 +27,7 @@
                 </div>
                 <div class="fixedWidthFont h3 pt-2">
                     {{$rideable->invoice_number}}
-                    {!!($rideable->qty>1) ? '<small><sup class="text-secondary"> x'.$rideable->qty.'</sup></small>':''!!}
+                    {!!($rideable->qty>1 && $pickup) ? '<small><sup class="text-secondary"> x'.$rideable->qty.'</sup></small>':'<small><sup class="text-secondary"> $'.$rideable->qty.'</sup></small>'!!}
                     {!! ($rideable->stock==1) ? '<small><sup class="text-primary"> Stock</sup></small>' : '' !!}
                 </div>
             </div>

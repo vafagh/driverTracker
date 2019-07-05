@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Ride;
 use App\Driver;
 use App\Location;
+use App\Rideable;
 use App\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -54,7 +56,7 @@ class LocationController extends Controller
         return redirect('locations')->with('status', $location->name.' Added');
     }
 
-    public function show(Location $location)
+    public function show(Location $location,$route=1)
     {
         if($location->type == "Warehouse"){
             $op1 = 'Warehouse'; $op2 = 'Pickup';
@@ -64,7 +66,7 @@ class LocationController extends Controller
         $rideables = $location->rideables()
             ->orderBy('created_at','desc')
             ->paginate(10);
-        return view('location.show',['location'=>$location,'rideables'=>$rideables,'op1'=>$op1,'op2'=>$op2]);
+        return view('location.show',compact('location','rideables','op1','op2','route'));
     }
 
     public function update(Request $request)

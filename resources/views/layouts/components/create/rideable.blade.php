@@ -143,6 +143,7 @@
 
             <label class="sr-only" for="invoice_number{{$i}}">{{($op1=='Client') ? 'Invoice': 'Part'}} number:</label>
             <input class="form-control m-0 mb-2 col-4 text-uppercase" id="invoice_number{{$i}}" type="text" name="invoice_number{{$i}}" placeholder="{{($op1=='Client') ? 'Invoice': 'Part'}} number" {{($i==0) ? 'required':''}}>
+            <input type="hidden" name="item_{{$i}}" value="on">
             @if ($op1!='Client')
                 <div class="col-4 mb-2">
                     <div class="form-check" >
