@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Ride;
 use App\Truck;
 use App\Fillup;
@@ -9,8 +10,11 @@ use App\Service;
 use App\Driver;
 use App\Location;
 use App\Rideable;
+use App\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
 
 class HomeController extends Controller
 {
@@ -21,29 +25,32 @@ class HomeController extends Controller
 
     public function home(Request $request)
     {
-        $today = new Carbon();
-        $history = (empty($request->history)) ? $today->format('Y-m-d') : $request->history;
-        $warehousesBuild = Location::with('rideables')
-                                    ->whereHas('rideables', function($q) use($history){
-                                        // $q->whereDate('created_at', '=', $history);
-                                        $q->where('status', '=', 'Created');
-                                    })
-                                    ->where('type','!=','Client');
-        // $sql = $warehousesBuild->toSql();
-        $warehouses = $warehousesBuild->get();
-
+        if(empty($request->history)){
+            $today = new Carbon();
+            $history = $today->format('Y-m-d');
+            $warehouses = Location::where('type','!=','Client')
+                                ->whereHas('rideables', function($q){
+                                    $q->whereIn('status', ['Created','NotAvailable','DriverDetached','OnTheWay']);//,'OnTheWay','Reschedule'
+                                })
+                                ->with('rideables')
+                                ->get();
+        }else{
+            $history = $request->history;
+            $warehouses = Location::where('type','!=','Client')
+            ->whereHas('rideables', function($q) use($history){
+                $q->where('delivery_date','=',$history);
+            })
+            ->with('rideables')
+            ->get();
+        }
+        $hisexp = explode('-', $history);
+        $dt = Carbon::create($hisexp[0],$hisexp[1],$hisexp[2],0 ,0,0,'America/Chicago');
         $tickets = Rideable::with('location')
                             ->whereDoesntHave('rides')
                             ->where('type','=','Client')
                             ->orderBy('location_id')
                             ->get();
-                            
-        $spots = Location::with('rideables')
-                            ->whereDoesntHave('rideables.rides')
-                            ->where('type','=','Client')
-                            ->get();
-
-        return view('home',compact('warehouses','history','tickets','spots'));
+        return view('home',compact('warehouses','history','tickets','dt'));
     }
 
     public function find(Request $request)
