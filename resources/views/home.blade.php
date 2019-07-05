@@ -116,9 +116,12 @@
                     @endphp
 
                     <div class="card col-6 col-sm-4 col-md-3 col-lg-2 px-0 {{$totalRides->count() > 0 ? '' : 'd-none' }}">
-                        <div class="card-header text-center mh-20 px-0 py-1 ">
-                            @component('layouts.components.tooltip',
-                            ['modelName'=>'driver','model'=>$driver])@endcomponent
+                        <div class="card-header pt-1 pb-1 d-flex justify-content-between">
+                            @component('layouts.components.tooltip',['modelName'=>'driver','model'=>$driver])
+                            @endcomponent
+                            @if ($driver->fname != 'Pickup')
+                                <a class='text-dark' href="/driver/{{$driver->id}}/today/direction" class='text-white' title='Direction'><i class="material-icons md-16">directions</i></a>
+                            @endif
                         </div>
 
                         <div class="card-body">

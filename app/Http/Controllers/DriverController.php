@@ -127,4 +127,29 @@ class DriverController extends Controller
 
         return redirect('drivers')->with('status', $driver->fname." Deleted!");
     }
+
+    public function direction(Driver $driver,$history)
+    {
+        if (empty($history) || $history =='today') {
+            $today = new Carbon();
+            $history = $today->format('Y-m-d');
+        }
+        $hisexp = explode('-', $history);
+        $dt = Carbon::create($hisexp[0],$hisexp[1],$hisexp[2],0 ,0,0,'America/Chicago');
+        $inFunVar = [$driver->id, $history];
+        $locations = Location::whereHas('rideables.rides', function($q) use($inFunVar){
+                                    $q->where([
+                                        ['driver_id', '=', $inFunVar[0]],
+                                        ['delivery_date','=',$inFunVar[1]]
+                                    ]);
+                                })
+                                ->get();
+                                // dd($locations->toSql());
+                                    // dd($inFunVar);
+                                    // dd($locations);
+                                    if ($locations->count()<1) {
+                                        return back()->with('error', $driver->fname.' does not assigned for any ride on '.$history);
+                                    }
+        return view('driver.direction',compact('driver', 'locations','dt'));
+    }
 }
