@@ -89,7 +89,7 @@ class RideableController extends Controller
     {
         if(empty($request->input('shift'))){
             $shiftOperator = '!=';
-            $shift = Null;
+            $shift = 'all';
         }else {
             $shiftOperator = '=';
             $shift = $request->input('shift');
@@ -100,7 +100,7 @@ class RideableController extends Controller
             $delivery_date = Carbon::today()->toDateString();
         }elseif($request->input('delivery_date') == 'all' ){
             $delivery_dateOperator = '!=';
-            $delivery_date = null; // to return all rows
+            $delivery_date = 'all'; // to return all rows
         }else{
             $delivery_dateOperator = '=';
             $delivery_date = $request->input('delivery_date');
