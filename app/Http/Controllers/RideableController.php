@@ -294,6 +294,14 @@ class RideableController extends Controller
         $rideable->description = $request->description;
         $rideable->shift = $request->shift;
         $rideable->delivery_date = $request->delivery_date;
+        if($rideable->rides->count() > 0){
+            foreach ($rideable->rides as $ride) {
+                $ride->shift = $request->shift;
+                $ride->delivery_date = $request->delivery_date;
+                $ride->save();
+            }
+            $msg = 'Ride date/shift updated';
+        }
         $rideable->save();
         Transaction::log(Route::getCurrentRoute()->getName(),'',$rideable);
 
