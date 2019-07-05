@@ -5,10 +5,15 @@
     <div class="pickups card">
         <div class="card-header bg-primary text-light d-flex justify-content-between">
             <div class="">
-                Pickups by locations on {{$history}}
-                <br>
-                {{(isset($sql))?$sql:''}}
                 <a class="text-light" title="Today" href="/"><i class="material-icons">today</i></a>
+                <span>Pickups by locations on: </span>
+                <a class="text-light" title="Go one Months backward" href="/?history={{$dt->copy()->submonths(1)->format('Y-m-d')}}"><i class="material-icons">fast_rewind</i></a>
+                <a class="text-light" title="Go one Weeks backward" href="/?history={{$dt->copy()->subWeeks(1)->format('Y-m-d')}}"><i class="material-icons">skip_previous</i></a>
+                <a class="text-light" title="Go one Days backward" href="/?history={{$dt->copy()->subDays(1)->format('Y-m-d')}}"><i class="material-icons">keyboard_arrow_left</i></a>
+                <span>{{$dt->toFormattedDateString()}}</span>
+                <a class="text-light" title="Go one Days forward" href="/?history={{$dt->copy()->addDays(1)->format('Y-m-d')}}"><i class="material-icons">keyboard_arrow_right</i></a>
+                <a class="text-light" title="Go one Weeks forward" href="/?history={{$dt->copy()->addWeeks(1)->format('Y-m-d')}}"><i class="material-icons">skip_next</i></a>
+                <a class="text-light" title="Go one Months forward" href="/?history={{$dt->copy()->addmonths(1)->format('Y-m-d')}}"><i class="material-icons">fast_forward</i></a>
             </div>
             <div class="create">
                 @component('layouts.components.modal',['modelName'=>'rideable','action'=>'create','iterator'=>0,'object'=>null,'op1'=>'Warehouse','op2'=>'Pickup','style' => '','dingbats'=>'<i class="material-icons">add_box</i>','autocomplateOff'=>true])
@@ -18,17 +23,7 @@
         <div class="card-body">
             <div class="row d-flex justify-content-around">
                 @foreach ($warehouses as $key => $warehouse)
-                    @php
-                          // $rideables = ($history==$dates['today']) ? $warehouse->rideables->whereIn('status',['Created','Done']) : $rideables = $warehouse->rideables->whereIn('delivery_date',$history);
-                         if($history==$dates['today']) {
-                              $rideables = $warehouse->rideables->whereIn('status',['Created','NotAvailable','DriverDetached']);
-                              // $rideables1 = $warehouse->rideables->whereIn('delivery_date', $dates['today']);
-                              // $rideables = $rideables0->merge($rideables1);
-                          }else $rideables = $warehouse->rideables->whereIn('delivery_date',[$history]);
-
-                        // $rideables->all();
-                    @endphp
-                    <div class="card col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2{{--App\Helper::col($warehouses->count())--}} mb-4 ml-1 p-0">
+                    <div class="card col-6 col-sm-4 col-md-3 col-lg-3 col-xl-3{{--App\Helper::col($warehouses->count())--}} mb-4 ml-1 p-0">
                         <div class="card-header text-center mh-20 px-0d-flex justify-content-around">
                             @component('layouts.components.tooltip',['modelName'=>'location','model'=>$warehouse])
                             @endcomponent
@@ -40,28 +35,17 @@
                         </div>
 
                         <div class="card-body p-0">
-                            @foreach ($rideables as $key => $rideable)
+                            @foreach ($warehouse->rideables->whereIn('status',['Created','OnTheWay','NotAvailable','DriverDetached']) as $key => $rideable)
                                 <div class="row {{$rideable->status}} m-0 p-0 text-uppercase border-bottom mb-1">
                                     <div class="InvoiceNumber col-7 line text-truncate px-0">
                                         <div class="font-70">
                                             @if (Auth::user()->role_id > 3 || Auth::user()->id == $rideable->user_id )
-                                                <div class="d-inline">
-                                                    @component('layouts.components.modal',[
-                                                        'modelName'=>'rideable',
-                                                        'action'=>'edit',
-                                                        'object'=>$rideable,
-                                                        // 'object'=>(isset($rideable))? $rideable:false,
-                                                        'iterator'=>$key,
-                                                        'op1'=>$rideable->type,
-                                                        'op2'=>'',
-                                                        'dingbats'=>'<i class="material-icons md-16">edit</i>',
-                                                        'style'=>'text-info pr-0',
-                                                        'file'=>false,
-                                                        'autocomplateOff'=>true])
+                                                <div class="d-inline pl-1">
+                                                    @component('layouts.components.modal',['modelName'=>'rideable','action'=>'edit','object'=>$rideable,'iterator'=>$key,'op1'=>$rideable->type,'op2'=>'','dingbats'=>'<i class="material-icons md-16">edit</i>','style'=>'text-info pr-0','file'=>false,'autocomplateOff'=>true])
                                                     @endcomponent
                                                 </div>
                                             @endif
-                                            <div class="InvoiceNumber fixedWidthFont d-inline">
+                                            <div class="InvoiceNumber fixedWidthFont d-inline"  title="{{$rideable->created_at}}">
                                                 @component('layouts.components.tooltip',['modelName'=>'rideable','model'=>$rideable])
                                                 @endcomponent
                                             </div>
@@ -128,7 +112,7 @@
             <div class="row d-flex justify-content-around">
                 @foreach ($activeDrivers as $key => $driver)
                     @php
-                        $totalRides = App\Ride::where('driver_id',$driver->id)->whereDate('created_at', '=', $dates['today'])->get();
+                        $totalRides = App\Ride::where('driver_id',$driver->id)->whereDate('created_at', '=', $history)->get();
                     @endphp
 
                     <div class="card col-6 col-sm-4 col-md-3 col-lg-2 px-0 {{$totalRides->count() > 0 ? '' : 'd-none' }}">
