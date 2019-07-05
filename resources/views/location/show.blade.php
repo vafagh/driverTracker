@@ -35,8 +35,13 @@
                     </div>
                     <div class="col-12  col-sm-12 col-md-12 col-lg-8 col-xl-6 text-truncate">
                         <div class="label text-muted">Address :</div>
-                        <div><a target="_blank" href="https://www.google.com/maps/dir/My+Location/{{$location->line1}},+{{$location->city}},+{{$location->state}},+{{$location->zip}}">
+                        <div>
+                            <a target="_blank" href="https://www.google.com/maps/dir/My+Location/{{$location->line1}},+{{$location->city}},+{{$location->state}},+{{$location->zip}}">
                                 {{$location->line1}}, {{$location->line2}} {{$location->city}}, {{$location->state}} - {{$location->zip}}
+                            </a>
+                            <a class="d-xs-none d-sm-block" href="https://www.google.com/maps/place/{{$location->lat}},{{$location->lng}}">
+                                {{$location->lat}},
+                                {{$location->lng}}
                             </a>
                         </div>
                     </div>
