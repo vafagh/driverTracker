@@ -57,5 +57,4 @@ class Location extends Model
     // {
     //     //select invoice_number , count(*) as ordered from rideables where locatio4 group by invoice_number order by ordered DESC limit 10 ;
     // }
-
 }

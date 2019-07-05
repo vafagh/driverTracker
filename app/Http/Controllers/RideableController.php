@@ -18,7 +18,6 @@ class RideableController extends Controller
 {
     public function list(Request $request, $type)
     {
-
         if($type == "delivery") { $op1 = 'Client';    $op2 = 'Delivery'; $operator = '=';  $orderColumn = 'created_at'; }
         else                    { $op1 = 'Warehouse'; $op2 = 'Pickup';   $operator = '!='; $orderColumn = 'location_id';}
 
