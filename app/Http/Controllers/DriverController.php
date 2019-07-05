@@ -63,23 +63,19 @@ class DriverController extends Controller
             ->orderBy('created_at','desc')
             ->paginate(10);
 
+        if(empty($request->input('date'))) {
+                $where = [['status','!=','Done'],['status','!=','Canceled'],['status','!=','Return'],['delivery_date', '=',  Carbon::today()->toDateString()]];
+        }else{  $where =[['status','!=','Done'],['status','!=','Canceled'],['status','!=','Return'],]; }
+
         $currentUnassign = Rideable::doesntHave('rides')
-            ->where([
-                ['status','!=','Done'],
-                ['status','!=','Canceled'],
-                ['status','!=','Return'],
-                ['delivery_date','=',Carbon::today()->toDateString()],
-                // ['shift','=',(date('H')<15) ? 'Morning' : 'Evening']
-                // ['status','=','Created'],
-                // ['status','=','DriverDetached'],
-            ])
-            ->orderBy('invoice_number', 'asc')->get();
+            ->where($where)
+            ->orderBy('invoice_number', 'asc')
+            ->get();
 
         $defaultPickups = Location::where('driver_id',$driver_id)->get();
 
-        return view('driver.show',compact('driver', 'ongoingRides', 'finishedRides', 'rideSort', 'currentUnassign','defaultPickups'));
+        return view('driver.show',compact('driver', 'ongoingRides', 'finishedRides', 'rideSort', 'currentUnassign','defaultPickups','request'));
     }
-
 
     public function update(Request $request)
     {
