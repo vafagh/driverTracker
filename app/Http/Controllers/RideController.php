@@ -98,15 +98,25 @@ class RideController extends Controller
 
     public function mapAttach(Location $location, Driver $driver)
     {
-        $invoice_numbers = '';
-        foreach ($location->rideables->whereIn('status',['Created','DriverDetached','Reschadule','OnTheWay','NotAvailable','CancelReq']) as $rideable) {
-            $ride = new Ride;
+        $invoice_numbers       = '';
+        // get all ongoing rideables for each location
+        foreach ($location->rideables->whereIn('status',['Created','DriverDetached','Reschedule','OnTheWay']) as $rideable) {
+            // detach and destroy current undone rides for rideable
+            if($rideable->rides()->count() > 0 && $rideable->status!='Reschedule' && $rideable->status!='Return'){
+                $rideable->rides()->detach();
+                foreach (Ride::where('rideable_id',$rideable->id)->get() as $child) {
+                    Ride::destroy($child->id);
+                }
+            }
+            //setting up new ride
+            $ride              = new Ride;
             $ride->rideable_id = $rideable->id;
             $ride->driver_id   = $driver->id;
             $ride->truck_id    = $driver->truck_id;
             $ride->distance    = $rideable->location->distance;
+            // setting the date and time
             if(!empty($rideable->shift) ) {
-                $ride->shift = $rideable->shift;
+                $ride->shift   = $rideable->shift;
             }else{
                 $shifSetting = Helper::shift('Morning',1);
                 if((date('H') > ($shifSetting['starts'] + $shifSetting['tolerance'])) && date('H') < $shifSetting['ends'] + $shifSetting['tolerance'])
