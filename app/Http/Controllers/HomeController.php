@@ -59,4 +59,14 @@ class HomeController extends Controller
         $fillups = Service::where('description','like','%'.$term.'%')->orWhere('product','like','%'.$term.'%')->orWhere('shop','like','%'.$term.'%')->orWhere('total','like','%'.$term.'%')->orWhere('mileage','like','%'.$term.'%')->orderBy('created_at','desc')->paginate(30);;
         return view('results.result',compact('invoices','drivers','trucks','fillups','locations','rides'));
     }
+
+    public function version()
+    {
+        $appName = env('APP_NAME');
+        $gitRevList = shell_exec("git rev-list --all --count");
+        $gitShortlog = shell_exec("git shortlog --pretty=format:'%h - (%ci) %s ' --abbrev-commit");
+        Transaction::log(Route::getCurrentRoute()->getName(), Auth::user(),Auth::user());
+
+        return view('log',compact('appName','gitRevList','gitShortlog'));
+    }
 }
