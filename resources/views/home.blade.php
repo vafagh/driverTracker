@@ -125,22 +125,35 @@
                         </div>
 
                         <div class="card-body">
+                            @php $markers = '';$latsum =0;$lngsum=0; $stopcount=0; @endphp
                             @foreach ($totalRides as $key => $rides)
                                 @if (isset($rides->rideable))
-                                    @if ($rides->rideable->status !='Done')
-                                        <div class="fixedWidthFont">
-                                            <a title="{{$rides->rideable->location->longName}}" href="/rideable/show/{{$rides->rideable->id}}">{{$rides->rideable->invoice_number}}</a>
-                                            @if ($rides->rideable->status =='Returned')
-                                                <span class="badge badge-pill badge-danger zindex-tooltip">Returned</span>
-                                            @endif
-                                        </div>
-                                    @endif
+                                    @php
+                                        $markers .= 'markers=size:tiny%7Ccolor:red%7Clabel:'.$rides->rideable->location->id.'%7C'.$rides->rideable->location->lat.','.$rides->rideable->location->lng.'&';
+                                        $latsum = $latsum + $rides->rideable->location->lat;
+                                        $lngsum = $lngsum + $rides->rideable->location->lng;
+                                        $stopcount++;
+                                    @endphp
+                                    <div class="fixedWidthFont">
+                                        <a title="{{$rides->rideable->location->longName}}" href="/rideable/show/{{$rides->rideable->id}}">{{$rides->rideable->invoice_number}}</a>
+                                        @if ($rides->rideable->status =='Done')
+                                            &#9989;
+                                        @elseif ($rides->rideable->status =='Returned')
+                                            <span class="badge badge-pill badge-danger zindex-tooltip">Returned</span>
+                                        @endif
+                                    </div>
                                 @else
                                     {{$rides}}
                                 @endif
                             @endforeach
                         </div>
-
+                        <div class="card-image overflow-hiddena text-center">
+                            @if ($stopcount!=0)
+                                <a href="/driver/{{$driver->id}}/{{$history}}/direction">
+                                    <img class="mx-auto d-block" src="https://maps.googleapis.com/maps/api/staticmap?center={{$latsum/$stopcount}},{{$lngsum/$stopcount}}&zoom=8&size=200x200&maptype=roadmap&{{$markers}}&key={{env('GOOGLE_MAP_API')}}" alt="routes">
+                                </a>
+                            @endif
+                        </div>
                         <div class="card-footer row statistic font-70">
                             <small class=" col-12 text-muted pm-0">
                                 Trip Counter : from total of
