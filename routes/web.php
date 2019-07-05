@@ -37,6 +37,8 @@ Route::GET('/location/delete/{location}', 'LocationController@destroy')->name('d
 Route::POST('/location/save', 'LocationController@update')->name('update.location');
 Route::POST('/location/store', 'LocationController@store')->name('add.location');
 Route::GET('/location/show/{location}', 'LocationController@show');
+Route::GET('/location/clearall', 'LocationController@clearDefault')->name('clearAllDrivers.location');
+Route::GET('/location/clear/{location}', 'LocationController@clearDefault')->name('clearDefauldDriver.location');
 Route::GET('/location/{location}/{driver}', 'RideController@mapAttach')->name('mapAttach.ride');
 Route::GET('/location/{location}/driver/{driver}', 'LocationController@defaultDriver')->name('SetDefaultDriver.location');
 Route::GET('/fillups', 'FillupController@index')->name('fillups');

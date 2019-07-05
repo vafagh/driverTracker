@@ -128,6 +128,35 @@ class LocationController extends Controller
         return redirect()->back()->with('status',$msg.$location->name.' updated');
     }
 
+    public function clearDefault(Location $location)
+    {
+        if(empty($location->id)){
+            Location::whereNotNull('driver_id')->update(['driver_id' => null]); // clear all driver from default value on location
+            $rideables = Rideable::whereIn('status',['DriverDetached','OnTheWay'])->get(); //collect all undone except 'Reschedule'd and 'Created'
+            foreach ($rideables as $rideable) { // detach and destroy current undone rides for rideable
+                if($rideable->rides()->count() > 0){
+                    $rideable->rides()->detach();
+                    foreach (Ride::where('rideable_id',$rideable->id)->get() as $child) {
+                        Ride::destroy($child->id);
+                    }
+                }
+                $oldRideable = $rideable;
+                $rideable->status = 'Created';
+                $rideable->save();
+                Transaction::log(Route::getCurrentRoute()->getName(),$oldRideable,$rideable);
+            }
+
+            $msg = 'locations.';
+        }else{
+            $oldLocation = $location;
+            $msg = $location->longName;
+            $location->update(['driver_id' => null]);
+            Transaction::log(Route::getCurrentRoute()->getName(),$oldLocation,$location);
+        }
+
+        return redirect()->back()->with('status', 'Driver unassigned from '.$msg);
+    }
+
     public function destroy(Location $location, Request $request)
     {
         Location::destroy($location->id);
