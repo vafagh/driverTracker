@@ -169,7 +169,7 @@ class RideController extends Controller
     {
         $rideable=Rideable::find($rideable_id);
         $rideable->status = 'DriverDetached';
-        $rideable->shift = '';
+        // $rideable->shift = '';
         // $rideable->delivery_date = null;
 
         $rideable->save();
@@ -194,10 +194,13 @@ class RideController extends Controller
         $ride = Ride::find($request->id);
         $ride->driver_id = $request->driver;
         $ride->truck_id = $request->truck;
+        $ride->shift = $request->shift;
+        $ride->delivery_date = $request->delivery_date;
         $msg = 'Ride Updated!';
-        if($request->setShift == true){
-            $rideable->shift = $request->shift;
-            $rideable->delivery_date = $request->delivery_date;
+        if(empty($request->input('setShift')) == true){
+            $ride->rideable->shift = $request->shift;
+            $ride->rideable->delivery_date = $request->delivery_date;
+            $ride->rideable->save();
             $msg = $msg.' and new delivery set.';
         }
         $ride->save();
