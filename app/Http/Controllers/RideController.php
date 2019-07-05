@@ -136,7 +136,7 @@ class RideController extends Controller
             $location->driver_id = $driver->id;
             $location->save();
         }
-        Transaction::log(Route::getCurrentRoute()->getName(),$rideable,$ride);
+        Transaction::log(Route::getCurrentRoute()->getName(),$rideable,$driver);
 
         return redirect()->back()->with('status', $driver->fname.' Assigned to '.$invoice_numbers.' For '.$location->name.' on '.$ride->shift.' shift');
 
