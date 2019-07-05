@@ -162,5 +162,9 @@
 {{-- @if (Auth::check()) @if ($unasignedRideable->count()>0 && Auth::user()->role_id > 2) <audio autoplay src="/snd/BoxingBell.mp3">Your browser does not support the <code>audio</code> element.</audio> @endif @endif --}}
 <!-- yield footer scripts-->
 @yield('footer-scripts')
+<div class="text-center">
+    <a href="/version">
+        Last Update: <em>{{shell_exec("git log -1 --pretty=format:'%h - %s (%ci)' --abbrev-commit")}}  </em></div>
+    </a>
 </body>
 </html>

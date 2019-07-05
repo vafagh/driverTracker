@@ -6,8 +6,10 @@
 /.idea
 /.vscode
 /.vagrant
-Homestead.json
-Homestead.yaml
-npm-debug.log
-yarn-error.log
-.env
+/package.json
+/package-lock.json
+/.env
+/Homestead.json
+/Homestead.yaml
+/npm-debug.log
+/yarn-error.log
