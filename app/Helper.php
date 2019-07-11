@@ -111,4 +111,21 @@ class Helper
         return $dateName;
     }
 
+    public static function valuePrint($value)
+    {
+        $flaten = null;
+        if (gettype($value)=='array' && !empty($value)){
+            $flaten .= '<table class="border">';
+            $flaten .= '<tr>';
+                foreach ($value as $key => $v){
+                        $flaten .= Helper::valuePrint($v);
+                }
+                $flaten .= '</tr>';
+                $flaten .= '</table>';
+        }elseif(!empty($value)){
+            $flaten = '<td class="border p-2">'.$value.'</td>';
+        }
+        return $flaten;
+    }
+
 }
