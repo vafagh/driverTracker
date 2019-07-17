@@ -14,29 +14,20 @@
     $doneAtach      = false;
     $clear          = false;
     $notAvailable   = false;
-    $detachReq      = false;
+    $detach         = false;
     $return         = false;
     $reschedule     = false;
-    $pulled     = false;
+    $pulled         = false;
 
-if (($user_id == $rideable->user_id) || $user_role > 2 ){
+if ($user_role > 0 ){
     switch($action){
         case 'Created':
-            ($user_id == $rideable->user_id) ? $delete = true :"";
-            if ($rideable->location->name == 'IND' ){
-                $pulled = true;
-            }elseif($rideable->location->type == 'Client' && $rideable->location->name != 'IND' ){
-                $pulled = true;
-                $assignDriver = true;
-            }else{
-                $notAvailable = true;
-                if($rideable->location->type == 'DropOff'){
-                    $done = true;
-                }elseif(!empty($rideable->location->driver_id) && $rideable->location->type == 'Warehouse' && $user_role > 2 && !empty(App\Driver::find($rideable->location->driver_id)->truck_id)){
-                    $doneAtach = true;
-                }
-            }
-
+            $delete = true;
+            $pulled = true;
+            $assignDriver = true;
+            $notAvailable = true;
+            $done = true;
+            $doneAtach = true;
         break;
 
         case 'Returned':
@@ -60,11 +51,9 @@ if (($user_id == $rideable->user_id) || $user_role > 2 ){
 
         case 'OnTheWay':
             ($title != 'Delivered' || $rideable->location->type != 'Client') ? $notAvailable = true : $return = true;
-
-            if ( $rideable->location->type == "Client")
-                {$done = true;}
-            elseif(!empty($rideable->location->driver_id) && $rideable->location->type == 'Warehouse' && $user_role > 2 && !empty(App\Driver::find($rideable->location->driver_id)->truck_id))
-                {$doneAtach = true;}
+            $detach = true;
+            $done = true;
+            $doneAtach = true;
         break;
 
         case 'DeatachReqested':
@@ -73,12 +62,7 @@ if (($user_id == $rideable->user_id) || $user_role > 2 ){
         break;
 
         case 'NotAvailable':
-            // if (empty($rideable->rides))
-                if (($user_role >= 3))
-                    $clear = true;
-             // else
-             //    Remove the attached driver
-             // endif
+                $clear = true;
         break;
 
         case 'Double Entry':
@@ -86,11 +70,11 @@ if (($user_id == $rideable->user_id) || $user_role > 2 ){
         break;
 
         default :
-        if (Auth::user()->role_id > 6){
+        if (Auth::user()->role_id > 4){
             $reschedule = true;
             $done = true;
             $notAvailable = true;
-            $detachReq = true;
+            $detach = true;
             $assignDriver = true;
             $delete = true;
             $pulled = true;
@@ -100,29 +84,26 @@ if (($user_id == $rideable->user_id) || $user_role > 2 ){
 
 @endphp
 
-@if ($delete)
+@if ($delete && $user_id == $rideable->user_id)
     <a title="Cancel" class="text-danger" href="/rideable/delete/{{$rideable->id}}/"><i class="material-icons">delete_forever</i></a>
 @endif
-@if ($assignDriver)
+@if ($assignDriver && $rideable->location->type == 'Client' && $rideable->location->name != 'IND')
     @component('layouts.components.modal',['modelName'=>'ride','action'=>'create','iterator'=>$rideable->id,'object'=>$rideable,'btnSize'=>'small','style'=>'text-info text-white ','op1'=>'','op2'=>'','dingbats'=>'<i class="material-icons">drive_eta</i> ','file'=>false])
     @endcomponent
 @endif
-@if ($done)
+@if ($done && $rideable->location->type == "Client")
     <a class=" showOnHover" href="/rideable/{{$rideable->id}}/Done"><i class="material-icons">done</i></a>
 @endif
-@if ($doneAtach)
+@if ($doneAtach && !empty($rideable->location->driver_id) && $rideable->location->type == 'Warehouse' && $user_role > 2 && !empty(App\Driver::find($rideable->location->driver_id)->truck_id))
     <a class="text-primary" title="Attach and Done" href='/ride/store/{{$rideable->id}}/{{$rideable->location->driver_id}}/Done'><i class="material-icons">done_outline</i></a>
 @endif
-@if ($clear)
+@if ($clear && $user_role >= 3)
     <a title="Clear line" class="text-danger" href="/rideable/{{$rideable->id}}/Canceled">
         <i class="material-icons">clear_all</i>
     </a>
 @endif
-@if ($notAvailable)
+@if ($notAvailable && $rideable->location->type == 'Warehouse')
     <a title="Parts not available" class="text-danger showOnHover" href="/rideable/{{$rideable->id}}/NotAvailable"><i class="material-icons">priority_high</i></a>
-@endif
-@if ($detachReq)
-    <a title="Request warehouse manager to dissmis driver from this ticket" class="text-danger" href="/rideable/{{$rideable->id}}/DeatachReqested"><i class="material-icons ">remove_circle_outline</i></a>
 @endif
 @if ($return)
     <a title="Returned" class=" showOnHover" href="/rideable/{{$rideable->id}}/Returned"><i class="material-icons">keyboard_return</i></a>
@@ -134,4 +115,16 @@ if (($user_id == $rideable->user_id) || $user_role > 2 ){
     @component('layouts.components.modal',['modelName'=>'status','action'=>'status','iterator'=>$rideable->id,'object'=>$rideable,'btnSize'=>'small','style'=>'text-info text-white ','op1'=>'','op2'=>'','dingbats'=>'<i class="material-icons">store</i> ','file'=>false])
     @endcomponent
     {{-- <a class="text-primary showOnHover" title="Picked up in store" href="/rideable/{{$rideable->id}}/Pulled"><i class="material-icons">store</i></a> --}}
+@endif
+@if ($detach)
+    @foreach ($rideable->rides as $ride)
+        <span class='line  p-0 text-right'>
+            <img class="hideOnHover icon "  title='{{$ride->driver->fname}}' src="/img/driver/small/{{strtolower($ride->driver->fname)}}.png">
+            @if (Auth::user()->role_id > 2  && $loop->last && $rideable->status != 'Done' &&  $rideable->status != 'Reschedule' )
+                <a class="showOnHover text-danger position-relative" title='Remove {{$ride->driver->fname}}' href="/ride/detach/{{$ride ->id}}/{{$rideable->id}}">
+                    <i class="material-icons md-16">remove_circle_outline</i>
+                </a>
+            @endif
+        </span>
+    @endforeach
 @endif
