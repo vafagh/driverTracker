@@ -49,6 +49,7 @@ class LocationController extends Controller
         }
         $location->save();
         }catch(\Exception $e){
+            if($e->errorInfo[1] == 1062) return $this->show(Location::where('phone',$location->phone)->first())->with('error', $e->errorInfo[2]);
             return back()->with('error', $e->errorInfo[2]);
         }
         Transaction::log(Route::getCurrentRoute()->getName(),'',$location);
