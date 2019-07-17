@@ -110,10 +110,7 @@ class RideableController extends Controller
                             // ->whereDoesntHave('rideables.rides')
                             ->whereHas('rideables', function($q) use($fields){
                                 $q->whereNotIn('status', Helper::filter('finished'));
-                                $q->where([ $fields['shift'], $fields['delivery_date']
-                                    // ['delivery_date',$queryVars['delivery_dateOperator'],$queryVars['delivery_date']],
-                                    // ['shift',$queryVars['shiftOperator'],$queryVars['shift']]
-                                ]);
+                                $q->where([ $fields['shift'], $fields['delivery_date']]);
                                 $q->orWhere([
                                     ['type','=','Warehouse'],
                                     ['status', '!=', 'Done'],
@@ -274,44 +271,8 @@ class RideableController extends Controller
         if($type == "delivery") { $op1 = 'Client';    $op2 = 'Delivery'; $operator = '='; }
         else                    { $op1 = 'Warehouse'; $op2 = 'Pickup';   $operator = '!=';}
 
-        if($request->filled('shift')){
-            if($request->input('shift') === 0){
-                $field1Name = 'shift';
-                $field1Operator = '=';
-                $field1Value = null;
-            }else{
-                $field1Name = 'shift';
-                $field1Operator = '=';
-                $field1Value = $request->input('shift');
-            }
-        }else {
-            $field1Name = 'id';
-            $field1Operator = '!=';
-            $field1Value = 0; //to return all rows
-        }
+        $fields = Helper::queryFiller($request);
 
-        if(!$request->filled('delivery_date')){
-            $field0Name = 'delivery_date';
-            $field0Operator = '=';
-            $field0Value = Carbon::today()->toDateString();
-        }elseif($request->input('delivery_date') ==='0' && $type == "delivery"){
-            $field0Name = 'delivery_date';
-            $field0Operator = '=';
-            $field0Value = null;
-        }elseif($request->input('delivery_date') == 'all' && $type == "delivery" ){
-            $field0Name = 'id';
-            $field0Operator = '!=';
-            $field0Value = 0; // to return all rows
-        }elseif($request->input('delivery_date') == 'all' && $type != "delivery" ){
-            $field0Name = 'delivery_date';
-            $field0Operator = '!=';
-            $field0Value = 'returned'; // to return all rows
-        }else{
-            $field0Name = 'delivery_date';
-            $field0Operator = '=';
-            $field0Value =  $request->input('delivery_date');
-        }
-        // dd('0:('.$field0Name.' '.$field1Operator.' '.$field0Value.'), 1:('.$field1Name.' '.$field1Operator.' '.$field1Value.')');
         $rideables = Rideable::with('user','rides','rides.driver','rides.truck','location')
             ->whereHas('location', function($q) use ($operator) {
                 $q->where('type', $operator, 'Client');
@@ -321,11 +282,12 @@ class RideableController extends Controller
                 ['status','!=','Canceled'],
                 ['status','!=','Return'],
                 ['status','!=','Returned'],
-                [$field0Name,$field0Operator,$field0Value],
-                [$field1Name,$field1Operator,$field1Value]
+                [$fields['shift'][0],$fields['shift'][1],$fields['shift'][2]],
+                [$fields['delivery_date'][0],$fields['delivery_date'][1],$fields['delivery_date'][2]]
             ]);
             $rideables->update(['delivery_date' =>  $request->input('newDelivery_date')]);
             $rideables = $rideables->update(['shift' =>  $request->input('newShift')]);
+
             // Transaction::log(Route::getCurrentRoute()->getName(),'',$rideables);
 
             return redirect()->back()->with('status','Mass update '.$rideables." rides!");
@@ -358,7 +320,7 @@ class RideableController extends Controller
 
     public function destroy(Rideable $rideable,Request $request)
     {
-            if(Auth::user()->id==$rideable->user_id){
+            if(Auth::user()->id==$rideable->user_id || Auth::user()->role_id > 4){
                 if($rideable->rides()->count() > 0){
                     $rideable->rides()->detach();
                     $driversName='';
