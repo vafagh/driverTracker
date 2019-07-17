@@ -214,7 +214,7 @@
                             <div class="col-3 pm-0">
                                 {{-- <div>{{  $lengthOfWork  }}</div> --}}
                                 {{-- <div>{{ App\Ride::where('driver_id', $driver->id)->first()->created_at,1 }} /day</div> --}}
-                                <div>{{ round($allRidesCount/$lengthOfWork,1) }} /day</div>
+                                <div>{{ ($lengthOfWork>0)? round($allRidesCount/$lengthOfWork,1) : '!' }} /day</div>
 
                                 <div>Average</div>
                             </div>
