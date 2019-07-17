@@ -1,6 +1,5 @@
 @extends('layouts.app')
 @section('content')
-
     <div class="card">
         <div class="card-body p-0">
             <ul class="list-group" id='driverd'>
@@ -14,7 +13,7 @@
                                 {{$driver->fname.' '.$driver->lname}}
                             </div>
                             <div class="row">
-                                <a class='col-5 text-light' href="/driver/{{$driver->id}}/today/direction" class='text-white' title='Direction'><i class="material-icons">directions</i></a>
+                                <a class='col-5 text-light text-white' href="/driver/{{$driver->id}}/today/direction" title='Direction'><i class="material-icons">directions</i></a>
                                 <div class="col-7">
                                     @if (Auth::user()->role_id > 2)
                                         @component('layouts.components.modal',['modelName'=>'driver','action'=>'edit','op1'=>'op1','op2'=>'driver','btnSize'=>'small','object'=>$driver,'iterator'=>'','file'=>true])
@@ -76,16 +75,20 @@
 
             <div class="card-header  m-0 justify-around">
                 @if ($currentUnassign->count()>0 && $driver->truck_id != null)
+
                     <i class="material-icons md-1">store_mall_directory</i>
                     <span class="btn btn-sm ml-4">Un-assigned deliveries:</span>
+
                     @foreach ($currentUnassign as $rideable)
                         <div class="add d-inline">
                             <a class="btn btn-success{{(Auth::user()->role_id==3 && $rideable->type!='Client') ?' d-none':''}} btn-sm text-white h-75" title="{{$rideable->location->name}}" href="/ride/store/{{$rideable->id}}/{{$driver->id}}">
                                 <i class="material-icons md-14 text-dark">add</i>
                                 {{$rideable->invoice_number}}
+
                             </a>
                         </div>
                     @endforeach
+
                     @if (empty($request->input('date')))
                         <div class="add d-inline"><a class="btn btn-success{{(Auth::user()->role_id==3 && $rideable->type!='Client') ?' d-none':''}} btn-sm text-white h-75" title="See other days" href="?date=all"><i class="material-icons md-14 text-dark">calendar_today</i>More</a></div>
                     @else

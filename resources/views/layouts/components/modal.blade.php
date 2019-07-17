@@ -1,3 +1,4 @@
+<!--Modal start-->
 @if (!isset($btnHide))
     <a  class="{{(isset($style) ? $style : 'btn btn-primary')}}{{(isset($btnSize) ? $btnSize : '')}}" data-toggle="modal" {{(isset($btnAttribute) ? $btnAttribute : '')}} data-target="#{{$op1.$op2.'_'.$action.$modelName.$iterator}}" data-whatever="@mdo" title="{{$action.' '.$modelName}}">
         {!!(isset($dingbats))? $dingbats : ucfirst($action)!!}
@@ -26,3 +27,4 @@
         </div>
     </div>
 </div>
+<!--Modal End-->

@@ -164,7 +164,8 @@
 @yield('footer-scripts')
 <div class="text-center">
     <a href="/version">
-        Last Update: <em>{{shell_exec("git log -1 --pretty=format:'%h - %s (%ci)' --abbrev-commit")}}  </em></div>
+        Last Update: <em>{{shell_exec("git log -1 --pretty=format:'%h - %s (%ci)' --abbrev-commit")}}  </em>
     </a>
+</div>
 </body>
 </html>
