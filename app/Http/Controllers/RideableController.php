@@ -173,6 +173,7 @@ class RideableController extends Controller
         $rideable=Rideable::find($request->rideable);
         $rideable->status = $request->status;
         if($rideable->type !='Client' || $request->status == 'Pulled'){
+            $today = new Carbon;
             $rideable->delivery_date = $today->format('Y-m-d');
             $rideable->shift =  date('H:i');
         }
