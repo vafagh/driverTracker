@@ -27,7 +27,7 @@ class Helper
             $start = 13;
             $middle = 16;
         }
-        if (empty($rideable->delivery_date)) {
+        if (empty($rideable->delivery_date) || $rideable->status == 'Reschedule') {
             if($day == 'Friday' && $forceFriday){
                 $deliverydate = 0;
             }elseif($day == 'Saturday') {
