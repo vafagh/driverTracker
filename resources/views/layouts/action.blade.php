@@ -23,9 +23,11 @@ if (($user_id == $rideable->user_id) || $user_role > 2 ){
     switch($action){
         case 'Created':
             ($user_id == $rideable->user_id) ? $delete = true :"";
-            if ($rideable->location->type == 'Client' ){
-                $assignDriver = true;
+            if ($rideable->location->name == 'IND' ){
                 $pulled = true;
+            }elseif($rideable->location->type == 'Client' && $rideable->location->name != 'IND' ){
+                $pulled = true;
+                $assignDriver = true;
             }else{
                 $notAvailable = true;
                 if($rideable->location->type == 'DropOff'){
@@ -129,5 +131,5 @@ if (($user_id == $rideable->user_id) || $user_role > 2 ){
     <a class="text-primary showOnHover" title="Send driver back" href="/rideable/{{$rideable->id}}/Reschedule"><i class="material-icons">refresh</i></a>
 @endif
 @if ($pulled)
-    <a class="text-primary showOnHover" title="Send driver back" href="/rideable/{{$rideable->id}}/Pulled"><i class="material-icons">store</i></a>
+    <a class="text-primary showOnHover" title="Picked up in store" href="/rideable/{{$rideable->id}}/Pulled"><i class="material-icons">store</i></a>
 @endif

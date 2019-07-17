@@ -64,10 +64,18 @@ class DriverController extends Controller
             ->paginate(10);
 
         if(empty($request->input('date'))) {
-                $where = [['status','!=','Done'],['status','!=','Canceled'],['status','!=','Return'],['delivery_date', '=',  Carbon::today()->toDateString()]];
-        }else{  $where =[['status','!=','Done'],['status','!=','Canceled'],['status','!=','Return'],]; }
+                $where = [['status','!=','Done'],['status','!=','Canceled'],['status','!=','Return'],['status','!=','Pulled'],['delivery_date', '=',  Carbon::today()->toDateString()]];
+        }else{  $where = [
+                ['status','!=','Done'],
+                ['status','!=','Canceled'],
+                ['status','!=','Return'],
+                ['status','!=','Pulled']
+            ]; }
 
         $currentUnassign = Rideable::doesntHave('rides')
+            ->whereDoesntHave('location', function($q) {
+                $q->where('name', 'IND');
+            })
             ->where($where)
             ->orderBy('invoice_number', 'asc')
             ->get();

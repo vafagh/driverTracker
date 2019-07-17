@@ -104,6 +104,7 @@ class RideableController extends Controller
 
         // $queryVars = array('delivery_dateOperator' => $delivery_dateOperator, 'delivery_date' => $delivery_date, 'shiftOperator' => $shiftOperator, 'shift' => $shift );
         $spots = Location::with('rideables')
+                            ->where('name','!=','IND')
                             // ->whereDoesntHave('rideables.rides')
                             ->whereHas('rideables', function($q) use($fields){
                                 $q->whereNotIn('status', Helper::filter('finished'));
@@ -156,6 +157,7 @@ class RideableController extends Controller
                                 [$fields['delivery_date'][0],$fields['delivery_date'][1],$fields['delivery_date'][2]],
                                 [$fields['shift'][0],$fields['shift'][1],$fields['shift'][2]]
                             ])
+                            ->whereDoesntHave('location', function($q) { $q->where('name', 'IND');})
                             ->get();
         return view('map',compact('spots','count','unassign'));
     }
@@ -170,14 +172,9 @@ class RideableController extends Controller
     {
         $rideable=Rideable::find($request->rideable);
         $rideable->status = $request->status;
-        $today = new Carbon();
-        if($rideable->type !='Client'){
+        if($rideable->type !='Client' || $request->status == 'Pulled'){
             $rideable->delivery_date = $today->format('Y-m-d');
             $rideable->shift =  date('H:i');
-        }
-        if($request->status == 'Pulled'){
-            $rideable->delivery_date = $today->format('Y-m-d');
-            $rideable->shift = $today->format('H:m');
         }
         Transaction::log(Route::getCurrentRoute()->getName(),Rideable::find($request->rideable),$rideable);
         $rideable->save();
