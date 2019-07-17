@@ -2,21 +2,21 @@
     <div class="form-group row">
         <div class="col-6">
             <label for="fname" class="col-form-label">First Name</label>
-            <input name="fname" class="form-control" type="text" value="{{$object->fname}}" required>
+            <input id="fname" name="fname" class="form-control" type="text" value="{{$object->fname}}" required>
         </div>
         <div class="col-6">
             <label for="lname" class="col-form-label">Last Name</label>
-            <input name="lname" class="form-control" type="text" value="{{$object->lname}}" required>
+            <input id="lname" name="lname" class="form-control" type="text" value="{{$object->lname}}" required>
         </div>
     </div>
     <div class="form-group">
         <label for="phone" class="col-form-label">Phone number</label>
-        <input name="phone" class="form-control" type="text" value="{{$object->phone}}">
+        <input id="phone" name="phone" class="form-control" type="text" value="{{$object->phone}}">
     </div>
     <div class="form-group row">
         <div class="col-6">
             <label for="email" class="col-form-label">Email Address</label>
-            <input name="email" class="form-control" type="text" value="{{$object->email}}">
+            <input id="email" name="email" class="form-control" type="text" value="{{$object->email}}">
         </div>
         <div class="col-6">
             <div class="col-form-label">Status</div>
@@ -31,14 +31,13 @@
             $availableTrucks = App\Truck::whereNotIn('id',App\Driver::where('truck_id','!=',NULL)->get()->pluck('truck_id')->toArray());
         @endphp
         {{-- @if ($availableTrucks->count()>0) --}}
-            <select class="form-control locations" name="truck" required>
+            <select class="form-control locations" id='truck' name="truck" required>
+                <option {{($object->truck_id=='') ? 'selected':''}} value="">Not Driving</option>
                 @if (!empty($object->truck_id))
                     <option value='{{$object->truck_id}}'>{{App\Truck::find($object->truck_id)->license_plate}}</option>
-                @else
-                    <option value='clear'>not available</option>
                 @endif
                 @foreach ($availableTrucks->orderBy('lable')->get() as $truck)
-                    <option {{($truck->id==$object->truck_id) ? 'selected':''}} value="{{$truck->id}}">
+                    <option {{($object->id==$truck->truck_id) ? 'selected':''}} value="{{$truck->id}}">
                         ({{$truck->id.'):'.$truck->lable.' LP:'.$truck->license_plate.' VIN:'.$truck->last4vin}}
                     </option>
                 @endforeach
@@ -59,7 +58,7 @@
             </div>
         </div>
         <div class="col-10 ">
-            <input name="avatar" type="file" class="custom-file-input">
+            <input id="avatar" name="avatar" type="file" class="custom-file-input">
             <label class="custom-file-label" for="avatar">Update picture</label>
         </div>
     </div>

@@ -23,66 +23,8 @@
     @endsection
     <div class="card">
 
-        
-        <div class="card-body p-0">
-            <ul class="list-group" id='driverd'>
-                <li class="row m-0 p-0">
-                    <div class="image p-0   col-1 ">
-                        <img class="minh-100 rounded" src="{{($driver->image == null) ? '/img/def.svg' : '/img/driver/'.$driver->image }}" alt="">
-                    </div>
-                    <div class="row p-0 m-0     col-11">
-                        <div class="name        col-12  py-1 bg-primary text-light font-weight-bold h3 d-flex justify-content-between">
-                            <div class="">
-                                {{$driver->fname.' '.$driver->lname}}
-                            </div>
-                            <div class="row">
-                                <a class='col-5 text-light' href="/driver/{{$driver->id}}/today/direction" class='text-white' title='Direction'><i class="material-icons">directions</i></a>
-                                <div class="col-7">
-                                    @if (Auth::user()->role_id > 2)
-                                        @component('layouts.components.modal',['modelName'=>'driver','action'=>'edit','op1'=>'op1','op2'=>'driver','btnSize'=>'small','object'=>$driver,'iterator'=>'','file'=>true])
-                                        @endcomponent
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                        <div class="phone       col-12 col-sm-7 col-md-5 col-lg-3 col-xl-3 ">
-                            <div class="title">Phone</div>
-                            <a class="h3 " href="tel:{{$driver->phone}}" title="Click to Call!">{{$driver->phone}}</a>
-                        </div>
-                        <div class="miles       col-6 col-sm-5 col-md-4 col-lg-2 col-xl-2">
-                            <span class="h2 mb-0">
-                                {{$driver->totalDistance()}}
-                            </span>Mile
-                            <div class="title">Driven</div>
-                        </div>
-                        <div class="trip        col-6 col-sm-3 col-md-3 col-lg-1 col-xl-1">
-                            <span class="h2 mb-0">
-                                {{ $driver->totalTrip() }}
-                            </span>Trip
-                        </div>
-                        <div class="truck       col-12 col-sm-9 col-md-6 col-lg-3 col-xl-3">
-                            <div class="">
-                                Driving:
-                            </div>
-                            @if (!empty($driver->truck_id))
-                                <a class="" href="/truck/show/{{$driver->truck_id}}">{{App\Truck::find($driver->truck_id)->lable}}</a>
-                            @else
-                                N/A
-                                @if (Auth::user()->role_id > 2)
-                                    @component('layouts.components.modal',['modelName'=>'driver','action'=>'edit','op1'=>'op1','op2'=>'driver','dingbats'=>'<i class="material-icons md-14 ">add</i>','btnSize'=>'small','object'=>$driver,'iterator'=>'','file'=>true])
-                                    @endcomponent
-                                @endif
-                            @endif
-                        </div>
-                        <div class="timestamp   col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
-                            <div class="title">Created at</div>
-                            <span>{{$driver->created_at}}</span>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-
+        @component('driver.header',['driver'=>$driver])
+        @endcomponent
 
         <div class="card-body p-0">
             <div class="row">
@@ -122,9 +64,19 @@
                 </div>
             </div>
             <div id="directions-panel"></div>
-
         </div>
     </div>
+
+            @component('rideable.lines',
+            [
+                'driver'=>$driver,
+                'ongoingRides' => $ongoingRides,
+                'finishedRides' => false,
+                'defaultPickups' => false,
+                'currentUnassign' => false,
+                'print' => true
+            ])
+            @endcomponent
     <script>
     function initMap() {
         var directionsService = new google.maps.DirectionsService;
@@ -171,18 +123,16 @@
                     var routeSegment = i + 1;
 
                     summaryPanel.innerHTML +=   '<div class="list-group">'+
-                    '<div class="list-group-item list-group-item-action flex-column align-items-start ">'+
-                    '<div class="d-flex w-100 justify-content-between">'+
-                    '<span class="h5">' + routeSegment + '</span>'+
-                    '<small>' + route.legs[i].distance.text + '</small>'+
-                    '</div>'+
-                    '<div class="list-group">'+
-                    '<div class="list-group-item">From:' + route.legs[i].start_address + '</div>'+
-                    '<div class="list-group-item">To:' + route.legs[i].end_address + '</div>'+
-                    '</div>'+
-                    '<small>Donec id elit non mi porta.</small>'+
-                    '</div>'+
-                    '</div>';
+                        '<div class="row">'+
+                            '<div class="h5 col-1">' + routeSegment + '</div>'+
+                            '<div class="d-flex w-100 justify-content-between col-10">'+
+                                    '<div class="col-6">From:' + route.legs[i].start_address + '</div>'+
+                                    '<div class="col-6">To:' + route.legs[i].end_address + '</div>'+
+                            '</div>'+
+                            // '<small class="col-12">Donec id elit non mi porta.</small>'+
+                            '<div  class="col-1"><small>' + route.legs[i].distance.text + '</small></div>'+
+                        '</div>'+
+                        '</div>';
                 }
             } else {
                 window.alert('Directions request failed due to ' + status);

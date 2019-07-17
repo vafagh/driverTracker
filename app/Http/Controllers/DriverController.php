@@ -128,7 +128,7 @@ class DriverController extends Controller
         return redirect('drivers')->with('status', $driver->fname." Deleted!");
     }
 
-    public function direction(Driver $driver,$history)
+    public function direction(Driver $driver, $history, $shift)
     {
         if (empty($history) || $history =='today') {
             $today = new Carbon();
@@ -136,20 +136,29 @@ class DriverController extends Controller
         }
         $hisexp = explode('-', $history);
         $dt = Carbon::create($hisexp[0],$hisexp[1],$hisexp[2],0 ,0,0,'America/Chicago');
-        $inFunVar = [$driver->id, $history];
+        $inFunVar = [$driver->id, $history, $shift];
         $locations = Location::whereHas('rideables.rides', function($q) use($inFunVar){
                                     $q->where([
                                         ['driver_id', '=', $inFunVar[0]],
-                                        ['delivery_date','=',$inFunVar[1]]
+                                        ['delivery_date','=',$inFunVar[1]],
+                                        ['shift','=',$inFunVar[2]]
                                     ]);
                                 })
                                 ->get();
-                                // dd($locations->toSql());
-                                    // dd($inFunVar);
-                                    // dd($locations);
-                                    if ($locations->count()<1) {
-                                        return back()->with('error', $driver->fname.' does not assigned for any ride on '.$history);
-                                    }
-        return view('driver.direction',compact('driver', 'locations','dt'));
+        if ($locations->count()<1) {
+            return back()->with('error', $driver->fname.' does not assigned for any ride on '.$history);
+        }
+
+        $ongoingRides = $driver->rides()
+                                ->whereHas('rideable', function($q) use ($inFunVar) {
+                                    $q->where([
+                                        ['delivery_date','=',$inFunVar[1]],
+                                        ['shift','=',$inFunVar[2]]
+                                    ]);
+                                })
+                                ->orderBy('created_at','desc')
+                                ->get();
+
+        return view('driver.direction',compact('driver', 'locations','dt','ongoingRides'));
     }
 }
