@@ -180,6 +180,10 @@ class RideableController extends Controller
             $rideable->shift =  date('H:i');
             (!empty($request->input('user'))) ? $rideable->description .= ' Pulled By '.User::find($request->input('user'))->name.' at '.$today->format('Y-m-d').' '.date('H:i'):'';
         }
+        if($request->status == 'Reschedule'){
+            $rideable->delivery_date = Helper::when($rideable)['date'];
+            $rideable->shift = Helper::when($rideable)['shift'];
+        }
         Transaction::log(Route::getCurrentRoute()->getName(),Rideable::find($request->rideable),$rideable);
         $rideable->save();
 
