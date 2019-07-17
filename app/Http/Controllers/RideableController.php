@@ -72,7 +72,7 @@ class RideableController extends Controller
                                 ->whereIn('status', $request->filled('status') ? ['returned'] : Helper::filter('ongoing'))
                                 ->where([$fields['shift'], $fields['delivery_date']])
                                 ->orderBy($rideableSort, 'asc')
-                                ->paginate(100);
+                                ->paginate(120);
                                 // dd([$fields['shift'],$fields['delivery_date']])  ;
                                 // dd($rideables->toSql());
         ($request!==null) ? $flashId = $request->id : $flashId = '1';
