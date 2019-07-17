@@ -17,12 +17,9 @@
     <div class="form-group">
         <label for="role" class="col-form-label">Role</label>
         <select class="form-control form-control-sm" name="role">
-            <option {{($object->role_id ==0) ? 'selected':''}} value="0">Disable</option>
-            <option {{($object->role_id ==1) ? 'selected':''}} value="1">Viewer</option>
-            <option {{($object->role_id ==2) ? 'selected':''}} value="2">Sale</option>
-            <option {{($object->role_id ==3) ? 'selected':''}} value="3">Warehouse Manager</option>
-            <option {{($object->role_id ==4) ? 'selected':''}} value="4">Part Receiver</option>
-            <option {{($object->role_id ==5) ? 'selected':''}} value="5">Admin</option>
+            @foreach (['Disable' => 0, 'Warehouse puller' => 1, 'Sale' => 2, 'Warehouse Manager' => 3, 'Part Receiver' => 4, 'Admin' => 5] as $key => $value)
+                <option{{($value == $object->role_id)?' selected' :''}} value={{$value}}>{{$key}}</option>
+            @endforeach
         </select>
     </div>
 {{--

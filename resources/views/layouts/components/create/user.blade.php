@@ -6,7 +6,7 @@
 
     <div class="form-group">
         <label for="email" class="col-form-label">Email Address</label>
-        <input name="email" class="form-control form-control-sm" type="text" placeholder="example@eagleautobody.com" required>
+        <input name="email" class="form-control form-control-sm" type="text" value="@eagleautobody.com" required>
     </div>
 
     <div class="form-group">
@@ -17,12 +17,9 @@
     <div class="form-group">
         <label for="role" class="col-form-label">Role</label>
         <select class="form-control form-control-sm" name="role">
-            <option value="0">Disable</option>
-            <option value="1">Viewer</option>
-            <option value="2">Sale</option>
-            <option value="3">Warehouse Manager</option>
-            <option value="4">Part Receiver</option>
-            <option value="5">Admin</option>
+            @foreach (['Disable' => 0, 'Warehouse puller' => 1, 'Sale' => 2, 'Warehouse Manager' => 3, 'Part Receiver' => 4, 'Admin' => 5] as $key => $value)
+                <option value={{$value}}>{{$key}}</option>
+            @endforeach
         </select>
     </div>
 
