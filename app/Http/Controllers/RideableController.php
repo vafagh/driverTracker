@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DateTime;
 use Auth;
 use App\Ride;
+use App\User;
 use App\Helper;
 use App\Driver;
 use App\Location;
@@ -176,6 +177,7 @@ class RideableController extends Controller
             $today = new Carbon;
             $rideable->delivery_date = $today->format('Y-m-d');
             $rideable->shift =  date('H:i');
+            (!empty($request->input('user'))) ? $rideable->description .= ' Pulled By '.User::find($request->input('user'))->name.' at '.$today->format('Y-m-d').' '.date('H:i'):'';
         }
         Transaction::log(Route::getCurrentRoute()->getName(),Rideable::find($request->rideable),$rideable);
         $rideable->save();

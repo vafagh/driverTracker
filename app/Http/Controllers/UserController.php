@@ -28,7 +28,6 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $user = new User;
-
         if($request->file('avatar')!=NULL){
             $image = time().'.'. $request->file('avatar')->getClientOriginalExtension();
             $request->file('avatar')->move(public_path('img/user'), $image);

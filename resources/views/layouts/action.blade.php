@@ -131,5 +131,7 @@ if (($user_id == $rideable->user_id) || $user_role > 2 ){
     <a class="text-primary showOnHover" title="Send driver back" href="/rideable/{{$rideable->id}}/Reschedule"><i class="material-icons">refresh</i></a>
 @endif
 @if ($pulled)
-    <a class="text-primary showOnHover" title="Picked up in store" href="/rideable/{{$rideable->id}}/Pulled"><i class="material-icons">store</i></a>
+    @component('layouts.components.modal',['modelName'=>'status','action'=>'status','iterator'=>$rideable->id,'object'=>$rideable,'btnSize'=>'small','style'=>'text-info text-white ','op1'=>'','op2'=>'','dingbats'=>'<i class="material-icons">store</i> ','file'=>false])
+    @endcomponent
+    {{-- <a class="text-primary showOnHover" title="Picked up in store" href="/rideable/{{$rideable->id}}/Pulled"><i class="material-icons">store</i></a> --}}
 @endif

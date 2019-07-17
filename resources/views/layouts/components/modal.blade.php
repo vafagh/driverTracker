@@ -14,16 +14,16 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            @component('layouts.components.'.$action,[
-                'modelName'=>$modelName,
-                'op1'=>$op1,
-                'op2'=>$op2,
-                'action'=>$action,
-                'file'=>(isset($file))?$file:false,
-                'autocomplateOff'=>(isset($autocomplateOff))?$autocomplateOff:false,
-                'object'=>(isset($object))? $object:false,
-                'iterator'=>$iterator])
-            @endcomponent
+                @component('layouts.components.'.$action,[
+                    'modelName'=>$modelName,
+                    'op1'=>$op1,
+                    'op2'=>$op2,
+                    'action'=>$action,
+                    'file'=>(isset($file))?$file:false,
+                    'autocomplateOff'=>(isset($autocomplateOff))?$autocomplateOff:false,
+                    'object'=>(isset($object))? $object:false,
+                    'iterator'=>$iterator])
+                @endcomponent
         </div>
     </div>
 </div>
