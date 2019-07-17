@@ -161,28 +161,33 @@ class Helper
     public static function queryFiller($r,$type = null){
         if($r->filled('shift')){
             if ($r->input('shift') === 0) {
-                                                            $field1 = ['shift', '=', null];
+                                        $field1 = ['shift', '=', null];
             }else{
-                                                            $field1 = ['shift', '=', $r->input('shift')];
+                                        $field1 = ['shift', '=', $r->input('shift')];
             }
         }else {
-                                                            $field1 = ['id', '!=', 0];//to return all rows
+                                        $field1 = ['id', '!=', 0];//to return all rows
         }
 
         if($r->filled('delivery_date')){
             if($r->input('delivery_date') == '0'){
-                                                            $field0 = ['delivery_date', '=', null];
+                                        $field0 = ['delivery_date', '=', null];
             }elseif($r->input('delivery_date') == 'all'){
-                                                            $field0 = ['id',            '!=', 0]; // to return all rows
+                                        $field0 = ['id',            '!=', 0]; // to return all rows
             }else{
-                                                            $field0 = ['delivery_date',  '=', $r->input('delivery_date')];
+                                        $field0 = ['delivery_date',  '=', $r->input('delivery_date')];
             }
         }elseif($type == "delivery"){
-                                                            $field0 = ['delivery_date', '=',  Carbon::today()->toDateString()];
-        }else $field0 = ['id',            '!=', 0]; // to return all rows
+                                        $field0 = ['delivery_date', '=',  Carbon::today()->toDateString()];
+        }else $field0 = ['id','!=', 0]; // to return all rows
 
 
         return ['shift' => $field1, 'delivery_date' => $field0];
     }
 
+    public static function urlParser($value)
+    {
+        //
+        return $value;
+    }
 }

@@ -83,6 +83,7 @@ class RideableController extends Controller
     public function map(Request $request)
     {
         $fields = Helper::queryFiller($request);
+
         //
         // if(empty($request->input('shift'))){
         //     $shiftOperator = '!=';

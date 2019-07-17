@@ -75,7 +75,7 @@
                                         <div class="hideOnHover">
                                             <div class="mt-1">
                                             @if ($rideable->status=='Done')
-                                                received on {{$rideable->shift}}
+                                                rec.on {{$rideable->shift}}
                                             @else
                                                 {{($rideable->user->name)}}
                                             @endif
