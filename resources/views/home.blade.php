@@ -2,21 +2,28 @@
 
 @section('content')
 
+    <div class="bg-secondary  d-flex justify-content-around my-2">
+        <div class="right text-center">
+            <a class="text-light" title="Today" href="/"><i class="material-icons">today</i></a>
+            <a class="text-light" title="Go one Months backward" href="/?history={{$dt->copy()->submonths(1)->format('Y-m-d')}}&shift={{$shift}}&shift={{$shift}}"><i class="material-icons">fast_rewind</i></a>
+            <a class="text-light" title="Go one Weeks backward" href="/?history={{$dt->copy()->subWeeks(1)->format('Y-m-d')}}&shift={{$shift}}"><i class="material-icons">skip_previous</i></a>
+            <a class="text-light" title="Go one Days backward" href="/?history={{$dt->copy()->subDays(1)->format('Y-m-d')}}&shift={{$shift}}"><i class="material-icons">keyboard_arrow_left</i></a>
+            <a class="op-04 mor d-inline-block{{$shift == 'Morning' ? ' op-1' :''}}" title="morning" href="/?history={{$history}}&shift=Morning"><span>Morning</span></a>
+            @php
+                $shift=='Morning' ? $dt->addHours(9) : $dt->addHours(13);
+            @endphp
+            <span class="h4 lh-15 text-light">{{$dt->format('l jS \\of F Y')}} </span> <span class="h4 text-bold text-warning">{{$shift}}</span>
+            <a class="op-04 eve d-inline-block{{$shift == 'Evening' ? ' op-1' :''}}" title="evening" href="/?history={{$history}}&shift=Evening"><span>Evening</span></a>
+            <a class="text-light" title="Go one Days forward" href="/?history={{$dt->copy()->addDays(1)->format('Y-m-d')}}&shift={{$shift}}"><i class="material-icons">keyboard_arrow_right</i></a>
+            <a class="text-light" title="Go one Weeks forward" href="/?history={{$dt->copy()->addWeeks(1)->format('Y-m-d')}}&shift={{$shift}}"><i class="material-icons">skip_next</i></a>
+            <a class="text-light" title="Go one Months forward" href="/?history={{$dt->copy()->addmonths(1)->format('Y-m-d')}}&shift={{$shift}}"><i class="material-icons">fast_forward</i></a>
+        </div>
+    </div>
     <div class="pickups card">
         <div class="card-header bg-primary text-light d-flex justify-content-between">
-            <div class="">
-                <a class="text-light" title="Today" href="/"><i class="material-icons">today</i></a>
-                <span>Pickups by locations on: </span>
-                <a class="text-light" title="Go one Months backward" href="/?history={{$dt->copy()->submonths(1)->format('Y-m-d')}}"><i class="material-icons">fast_rewind</i></a>
-                <a class="text-light" title="Go one Weeks backward" href="/?history={{$dt->copy()->subWeeks(1)->format('Y-m-d')}}"><i class="material-icons">skip_previous</i></a>
-                <a class="text-light" title="Go one Days backward" href="/?history={{$dt->copy()->subDays(1)->format('Y-m-d')}}"><i class="material-icons">keyboard_arrow_left</i></a>
-                <span>{{$dt->toFormattedDateString()}}</span>
-                <a class="text-light" title="Go one Days forward" href="/?history={{$dt->copy()->addDays(1)->format('Y-m-d')}}"><i class="material-icons">keyboard_arrow_right</i></a>
-                <a class="text-light" title="Go one Weeks forward" href="/?history={{$dt->copy()->addWeeks(1)->format('Y-m-d')}}"><i class="material-icons">skip_next</i></a>
-                <a class="text-light" title="Go one Months forward" href="/?history={{$dt->copy()->addmonths(1)->format('Y-m-d')}}"><i class="material-icons">fast_forward</i></a>
-            </div>
-            <div class="create">
-                @component('layouts.components.modal',['modelName'=>'rideable','action'=>'create','iterator'=>0,'object'=>null,'op1'=>'Warehouse','op2'=>'Pickup','style' => '','dingbats'=>'<i class="material-icons">add_box</i>','autocomplateOff'=>true])
+            <span class="p-0 m-0">Pickups by locations</span>
+            <div class="create ">
+                @component('layouts.components.modal',['modelName'=>'rideable','action'=>'create','iterator'=>0,'object'=>null,'op1'=>'Warehouse','op2'=>'Pickup','style' => 'p-0 m-0','dingbats'=>'<i class="material-icons">add_box</i>','autocomplateOff'=>true])
                 @endcomponent
             </div>
         </div>
@@ -33,9 +40,11 @@
                                 </small>
                             @endif
                         </div>
-
+                        @php
+                            $rideables = ($history == $dates['today']) ? $warehouse->rideables->where('delivery_date',$history)->merge($warehouse->rideables->where('delivery_date',null))->all() : $warehouse->rideables->where('delivery_date',$history)
+                        @endphp
                         <div class="card-body p-0">
-                            @foreach ($warehouse->rideables->whereIn('status',['Created','OnTheWay','NotAvailable','DriverDetached']) as $key => $rideable)
+                            @foreach ($rideables as $key => $rideable) {{-- ->whereIn('status',['Created','OnTheWay','NotAvailable','DriverDetached'])--}}
                                 <div class="row {{$rideable->status}} m-0 p-0 text-uppercase border-bottom mb-1">
                                     <div class="InvoiceNumber col-7 line text-truncate px-0">
                                         <div class="font-70">
@@ -45,7 +54,7 @@
                                                     @endcomponent
                                                 </div>
                                             @endif
-                                            <div class="InvoiceNumber fixedWidthFont d-inline"  title="{{$rideable->created_at}}">
+                                            <div class="InvoiceNumber fixedWidthFont d-inline {{$rideable->status == 'Done' ? 'line-through':''}}"  title="{{$rideable->created_at}}">
                                                 @component('layouts.components.tooltip',['modelName'=>'rideable','model'=>$rideable])
                                                 @endcomponent
                                             </div>
@@ -54,12 +63,22 @@
 
                                     <div class="action col-5 line p-0 text-right pr-2">
                                         <div class="showOnHover">
+                                            @if ($rideable->status=='Done')
+                                                <div class="mt-1">
+                                                    {{($rideable->user->name)}}
+                                                </div>
+                                            @else
                                                 @component('layouts.action',['action' => $rideable->status,'rideable' => $rideable,'iterator' => $rideable->id,'op1'=>'Warehouse','op2'=>'Pickup'])
                                                 @endcomponent
+                                            @endif
                                         </div>
                                         <div class="hideOnHover">
                                             <div class="mt-1">
+                                            @if ($rideable->status=='Done')
+                                                received on {{$rideable->shift}}
+                                            @else
                                                 {{($rideable->user->name)}}
+                                            @endif
                                             </div>
                                         </div>
 
@@ -73,8 +92,8 @@
                                 <div class="px-3  text-muted "> Drop Off</div>
                             @else
                                 @php
-                                    $defDriver = App\Driver::find($warehouse->driver_id);
-                                    $defDriver_fname = (empty($defDriver->fname)) ? null: $defDriver->fname;
+                                $defDriver = App\Driver::find($warehouse->driver_id);
+                                $defDriver_fname = (empty($defDriver->fname)) ? null: $defDriver->fname;
                                 @endphp
                                 <span class="text-muted font-80">
                                     @if (empty($defDriver))
@@ -110,60 +129,78 @@
         <div class="card-header">Today's ride by driver</div>
         <div class="card-body">
             <div class="row d-flex justify-content-around">
-                @foreach ($activeDrivers as $key => $driver)
+                @foreach ($drivers as $key => $driver)
                     @php
-                        $totalRides = App\Ride::where('driver_id',$driver->id)->whereDate('created_at', '=', $history)->get();
+                        $when = [$history,$shift];
+                        $deliveryStops = App\Ride::with('rideable','rideable.location')->where([['shift',$when[1]],['delivery_date',$when[0]],['driver_id',$driver->id]])->get();
+                        $pickupStops = $warehouses->where('driver_id',$driver->id);
                     @endphp
 
-                    <div class="card col-6 col-sm-4 col-md-3 col-lg-2 px-0 {{$totalRides->count() > 0 ? '' : 'd-none' }}">
+                    <div class="card col-6 col-sm-4 col-md-3 col-lg-2 px-0 {{$deliveryStops->count() > 0 ? '' : 'd-none' }}">
                         <div class="card-header pt-1 pb-1 d-flex justify-content-between">
                             @component('layouts.components.tooltip',['modelName'=>'driver','model'=>$driver])
                             @endcomponent
+                            <span class='text-info'>({{$pickupStops->count()}})</span>
+                            <span class='text-success'>({{$deliveryStops->count()}})</span>
                             @if ($driver->fname != 'Pickup')
-                                <a class='text-dark' href="/driver/{{$driver->id}}/today/direction" class='text-white' title='Direction'><i class="material-icons md-16">directions</i></a>
+                                <div class="">
+                                    <a href="/driver/{{$driver->id}}/{{$history}}/{{$shift}}/direction" class='text-success tooltip-toggle' data-tooltip='{{$key}} Direction'><i class="material-icons md-16">directions</i></a>
+                                </div>
                             @endif
                         </div>
+                        <div class="card-body  px-1">
 
-                        <div class="card-body">
-                            @php $markers = '';$latsum =0;$lngsum=0; $stopcount=0; @endphp
-                            @foreach ($totalRides as $key => $rides)
-                                @if (isset($rides->rideable))
+                            @php
+                                $markers = ''; $latsum =0; $lngsum=0; $stopcount=0;
+                                // dd($warehouses->where('driver_id','=',$driver->id));
+                            @endphp
+
+                            <div class="text-bold">
+                                {{$shift}}
+                            </div>
+
+                            <ol>
+                            @foreach ([$pickupStops,$deliveryStops] as $key => $value)
+                                @foreach ($value as $key => $stop)
                                     @php
-                                        $markers .= 'markers=size:tiny%7Ccolor:red%7Clabel:'.$rides->rideable->location->id.'%7C'.$rides->rideable->location->lat.','.$rides->rideable->location->lng.'&';
-                                        $latsum = $latsum + $rides->rideable->location->lat;
-                                        $lngsum = $lngsum + $rides->rideable->location->lng;
+                                        $location = empty($stop->rideable->location)? $stop : $stop->rideable->location;
+                                        $markers .= 'markers=size:tiny%7Ccolor:red%7Clabel:'.$location->id.'%7C'.$location->lat.','.$location->lng.'&';
+                                        $latsum = $latsum + $location->lat;
+                                        $lngsum = $lngsum + $location->lng;
                                         $stopcount++;
                                     @endphp
-                                    <div class="fixedWidthFont">
-                                        <a title="{{$rides->rideable->location->longName}}" href="/rideable/show/{{$rides->rideable->id}}">{{$rides->rideable->invoice_number}}</a>
-                                        @if ($rides->rideable->status =='Done')
-                                            &#9989;
-                                        @elseif ($rides->rideable->status =='Returned')
-                                            <span class="badge badge-pill badge-danger zindex-tooltip">Returned</span>
-                                        @endif
-                                    </div>
-                                @else
-                                    {{$rides}}
-                                @endif
+                                    <li class="fixedWidthFont">
+                                        <a class="{{$location->type=='Client' ? 'text-success' : 'text-info'}}" title="{{$location->name}}" href="/location/show/{{$location->id}}">
+                                            {{$location->longName}}
+                                        </a>
+                                    </li>
+                                @endforeach
                             @endforeach
+                            </ol>
                         </div>
-                        <div class="card-image overflow-hiddena text-center">
+                        <div class="card-image overflow-hidden text-center">
                             @if ($stopcount!=0)
-                                <a href="/driver/{{$driver->id}}/{{$history}}/direction">
-                                    <img class="mx-auto d-block" src="https://maps.googleapis.com/maps/api/staticmap?center={{$latsum/$stopcount}},{{$lngsum/$stopcount}}&zoom=8&size=200x200&maptype=roadmap&{{$markers}}&key={{env('GOOGLE_MAP_API')}}" alt="routes">
+                                <a href="/driver/{{$driver->id}}/{{$history}}/{{$shift}}/direction">
+                                    <img class="mx-auto d-block" src="https://maps.googleapis.com/maps/api/staticmap?center={{$latsum/$stopcount}},{{$lngsum/$stopcount}}&zoom=9&size=250x200&maptype=roadmap&{{$markers}}&key={{env('GOOGLE_MAP_API')}}" alt="routes">
                                 </a>
                             @endif
                         </div>
                         <div class="card-footer row statistic font-70">
                             <small class=" col-12 text-muted pm-0">
-                                Trip Counter : from total of
-                                {{ $totalTrip = App\Ride::where('driver_id', $driver->id)->count() }}
+                                DeliveryTrip Counter : from total of
+                                 @php
+                                    $driverAllRides = App\Ride::where('driver_id', $driver->id)
+                                                                ->whereHas('rideable', function($q){
+                                                                    $q->where('type','=','Client');
+                                                                });
+                                    $lengthOfWork = $driverAllRides->first()->created_at->diffInDays($dates['today'])
+                                 @endphp
+                                {{ $allRidesCount = $driverAllRides->count() }}
                             </small>
                             <div class="col-3 pm-0">
-                                <div>{{ App\Ride::where([
-                                    ['driver_id', $driver->id],
-                                    ["delivery_date","=",$dates['today']]
-                                    ])->count() }}</div>
+                                <div>
+                                    {{ $driverAllRides->where("delivery_date",$dates['today'])->count() }}
+                                </div>
                                 <div>Today</div>
                             </div>
                             <div class="col-3 pm-0">
@@ -175,12 +212,15 @@
                                 <div>L.Month</div>
                             </div>
                             <div class="col-3 pm-0">
-                                <div>{{ round($totalTrip/App\Ride::distinct()->select('delivery_date')->where('driver_id', 9)->count(),1) }} /day</div>
+                                {{-- <div>{{  $lengthOfWork  }}</div> --}}
+                                {{-- <div>{{ App\Ride::where('driver_id', $driver->id)->first()->created_at,1 }} /day</div> --}}
+                                <div>{{ round($allRidesCount/$lengthOfWork,1) }} /day</div>
 
                                 <div>Average</div>
                             </div>
                         </div>
                     </div>
+
                 @endforeach
             </div>
         </div>

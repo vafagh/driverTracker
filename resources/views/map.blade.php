@@ -29,116 +29,121 @@
 
     <div class=" mx-auto p-0">
         <div class="">
-
             <div class="map ">
                 <div class="" style="height:800px">
                     <div id="default" style="width:100%; height:100%"></div>
                     @section('footer-scripts')
-                        
+
                     <script type="text/javascript">
-                    var locations = [
-                                    @foreach ($spots as $key => $location)@if (!empty($location->lat))@php $count--; $qty = $location->rideables->whereIn('status',['Created','DriverDetached','Reschedule','OnTheWay','NotAvailable','CancelReq'])->count();@endphp
-                                    ["{{title_case($location->longName)}}",{{$location->lat}},{{$location->lng}},{{$location->id}},"{{($qty>1 || empty($qty) ) ? ' x'.$qty : "" }}","{{(empty($location->driver_id)) ? "notAssigned".$location->type : App\Driver::find($location->driver_id)->fname.$location->type }}","{{$location->type}}","{{$location->line1." ".$location->city.' '.$location->state.' '.$location->zip}}"]{{($loop->last)?'':','}}
-                                    @endif @endforeach];
-                    var icons = {
-                        @foreach (App\Driver::all() as $key => $driver)"{{$driver->fname}}Warehouse": {"icon": "/img/driver/small/{{strtolower($driver->fname)}}Warehouse.png", "type":"FORWARD_CLOSED_ARROW"},
-                        "{{$driver->fname}}Client": {"icon": "/img/driver/small/{{strtolower($driver->fname)}}Client.png", "type":"BACKWARD_CLOSED_ARROW"},
-                        @endforeach"notAssigned": {"icon": "/img/driver/small/notAssigned.png", "type":"BACKWARD_CLOSED_ARROW"},
-                        "notAssignedWarehouse": {"icon": "/img/driver/small/notAssignedWarehouse.png", "type":"FORWARD_CLOSED_ARROW"},
-                        "notAssignedClient": {"icon": "/img/driver/small/notAssignedClient.png", "type":"BACKWARD_CLOSED_ARROW"},
-                        "notAssignedDropOff": {"icon": "/img/driver/small/notAssignedDropOff.png", "type":"CIRCLE"},
-                        "notAssignedPickup": {"icon": "/img/driver/small/notAssignedPickup.png", "type":"FORWARD_CLOSED_ARROW"}
-                    }
+                        var locations = [
+                            @foreach ($spots as $key => $location)
 
-                    function initialize() {
-                        var myOptions = {
-                            // center: new google.maps.LatLng({{env('STORE_LAT')}}, {{env('STORE_LNG')}}),
-                            center: new google.maps.LatLng("33.222222","-95.969696"),
-                            zoom: 11,
-                            scaleControl: true,
-                            mapTypeId: google.maps.MapTypeId.ROADMAP
-                        };
-                        var map = new google.maps.Map(document.getElementById("default"), myOptions);
-
-                        setMarkers(map,locations);
-
-                        var simplePoly = [
-                            new google.maps.LatLng({{env('STORE_LAT')}}, {{env('STORE_LNG')}}),
-                            new google.maps.LatLng({{env('STORE_LAT')}}, {{env('STORE_LNG')}})
+                            @if (!empty($location->lat))
+                                @php
+                                    $count--;
+                                    $qty = $location->rideables->whereNotIn('status',App\Helper::filter('finished'))->count();
+                                @endphp
+                                ["{{title_case($location->name)}}",{{$location->lat}},{{$location->lng}},{{$location->id}},"{{($qty>1 || empty($qty) ) ? ' x'.$qty : "" }}","{{(empty($location->driver_id)) ? "notAssigned".$location->type : App\Driver::find($location->driver_id)->fname.$location->type }}","{{$location->type}}","{{$location->line1." ".$location->city.' '.$location->state.' '.$location->zip}}"]{{($loop->last)?'':','}}
+                            @endif
+                            @endforeach
                         ];
-                        var flightPath = new google.maps.Polyline({
-                            path: simplePoly,
-                            editable: true,
-                            strokeColor: '#FF0000',
-                            strokeOpacity: 1.0,
-                            strokeWeight: 2,
-                            map: map
-                        });
-                    }
-
-
-
-                    function setMarkers(map,locations){
-                        var marker, i
-                        for (i = 0; i < locations.length; i++)
-                        {
-                            var store = locations[i][0]
-                            var lat = locations[i][1]
-                            var long = locations[i][2]
-                            var location_id = locations[i][3]
-                            var ridesCount =  locations[i][4]
-                            var driver =  locations[i][5]
-                            var type =  locations[i][6]
-                            var add =  locations[i][7]
-                            latlngset = new google.maps.LatLng(lat, long);
-                            numberMarkerImg = {
-                                url: icons[driver].icon,
-                                // size: new google.maps.Size(20, 32),
-                                // scaledSize: new google.maps.Size(20, 32),
-                                labelOrigin: new google.maps.Point(10, 40)
-                            };
-                            labelMaker = {
-                                text: store+ridesCount,
-                                color: "#000",
-                                fontSize: "16px",
-                                fontWeight: "bold",
-                                labelClass: "mapMarkerLabel", // your desired CSS class
-                                labelInBackground: true
-                            }
-                            var marker = new google.maps.Marker({
-                                map: map,
-                                anchorPoint: google.maps.Point(50, 50),
-                                animation: google.maps.Animation.DROP,
-                                draggable: true,
-                                position: latlngset,
-                                icon: numberMarkerImg,
-                                // opacity: 0.9,
-                                label: labelMaker
-                            });
-
-                            map.setCenter(marker.getPosition())
-
-                            var content = "<h4><a href='/location/show/" + location_id + "' target='_blank'>" + store + "</a></h4>"+
-                            add+"<br>"+
-                            "<strong>"+driver+"</strong><br>"+
-                            "Assign it to:"+
-                            "<div class='card-deck'>"+
-                            @foreach ($activeDrivers as $key => $driver) "<div class='card mx-1'>"+
-                                "<a href='/location/"+location_id+"/{{$driver->id}}'>"+
-                                    "<img class='card-img-top' src='/img/driver/small/{{strtolower($driver->fname)}}.png' alt='{{$driver->fname}}'>"+
-                                "</a>"+
-                            "</div>"+ @endforeach
-                            '</div>'
-
-                            var infowindow = new google.maps.InfoWindow()
-                            google.maps.event.addListener(marker,'click',(function(marker,content,infowindow){
-                                return function() {
-                                    infowindow.setContent(content);
-                                    infowindow.open(map,marker);
-                                };
-                            })(marker,content,infowindow));
+                        var icons = {
+                            @foreach (App\Driver::all() as $key => $driver)"{{$driver->fname}}Warehouse": {"icon": "/img/driver/small/{{strtolower($driver->fname)}}Warehouse.png", "type":"FORWARD_CLOSED_ARROW"},
+                            "{{$driver->fname}}Client": {"icon": "/img/driver/small/{{strtolower($driver->fname)}}Client.png", "type":"BACKWARD_CLOSED_ARROW"},
+                            @endforeach"notAssigned": {"icon": "/img/driver/small/notAssigned.png", "type":"BACKWARD_CLOSED_ARROW"},
+                            "notAssignedWarehouse": {"icon": "/img/driver/small/notAssignedWarehouse.png", "type":"FORWARD_CLOSED_ARROW"},
+                            "notAssignedClient": {"icon": "/img/driver/small/notAssignedClient.png", "type":"BACKWARD_CLOSED_ARROW"},
+                            "notAssignedDropOff": {"icon": "/img/driver/small/notAssignedDropOff.png", "type":"CIRCLE"},
+                            "notAssignedPickup": {"icon": "/img/driver/small/notAssignedPickup.png", "type":"FORWARD_CLOSED_ARROW"}
                         }
-                    }
+
+                        function initialize() {
+                            var myOptions = {
+                                // center: new google.maps.LatLng({{env('STORE_LAT')}}, {{env('STORE_LNG')}}),
+                                center: new google.maps.LatLng("33.222222","-95.969696"),
+                                zoom: 10,
+                                scaleControl: true,
+                                mapTypeId: google.maps.MapTypeId.ROADMAP
+                            };
+                            var map = new google.maps.Map(document.getElementById("default"), myOptions);
+
+                            setMarkers(map,locations);
+
+                            var simplePoly = [
+                                new google.maps.LatLng({{env('STORE_LAT')}}, {{env('STORE_LNG')}}),
+                                new google.maps.LatLng({{env('STORE_LAT')}}, {{env('STORE_LNG')}})
+                            ];
+                            var flightPath = new google.maps.Polyline({
+                                path: simplePoly,
+                                editable: true,
+                                strokeColor: '#FF0000',
+                                strokeOpacity: 1.0,
+                                strokeWeight: 2,
+                                map: map
+                            });
+                        }
+
+                        function setMarkers(map,locations){
+                            var marker, i
+                            for (i = 0; i < locations.length; i++)
+                            {
+                                var store = locations[i][0]
+                                var lat = locations[i][1]
+                                var long = locations[i][2]
+                                var location_id = locations[i][3]
+                                var ridesCount =  locations[i][4]
+                                var driver =  locations[i][5]
+                                var type =  locations[i][6]
+                                var add =  locations[i][7]
+                                latlngset = new google.maps.LatLng(lat, long);
+                                numberMarkerImg = {
+                                    url: icons[driver].icon,
+                                    // size: new google.maps.Size(20, 32),
+                                    // scaledSize: new google.maps.Size(20, 32),
+                                    labelOrigin: new google.maps.Point(10, 40)
+                                };
+                                labelMaker = {
+                                    text: store+ridesCount,
+                                    color: "#000",
+                                    fontSize: "16px",
+                                    fontWeight: "bold",
+                                    labelClass: "mapMarkerLabel", // your desired CSS class
+                                    labelInBackground: true
+                                }
+                                var marker = new google.maps.Marker({
+                                    map: map,
+                                    anchorPoint: google.maps.Point(50, 50),
+                                    animation: google.maps.Animation.DROP,
+                                    draggable: true,
+                                    position: latlngset,
+                                    icon: numberMarkerImg,
+                                    // opacity: 0.9,
+                                    label: labelMaker
+                                });
+
+                                map.setCenter(marker.getPosition())
+
+                                var content = "<h4><a href='/location/show/" + location_id + "' target='_blank'>" + store + "</a></h4>"+
+                                add+"<br>"+
+                                "<strong>"+driver+"</strong><br>"+
+                                "Assign it to:"+
+                                "<div class='card-deck'>"+
+                                @foreach ($activeDrivers as $key => $driver) "<div class='card mx-1'>"+
+                                    "<a href='/location/"+location_id+"/{{$driver->id}}'>"+
+                                        "<img class='card-img-top' src='/img/driver/small/{{strtolower($driver->fname)}}.png' alt='{{$driver->fname}}'>"+
+                                    "</a>"+
+                                "</div>"+ @endforeach
+                                '</div>'
+
+                                var infowindow = new google.maps.InfoWindow()
+                                google.maps.event.addListener(marker,'click',(function(marker,content,infowindow){
+                                    return function() {
+                                        infowindow.setContent(content);
+                                        infowindow.open(map,marker);
+                                    };
+                                })(marker,content,infowindow));
+                            }
+                        }
 
                     </script>
                     <script async defer src="https://maps.googleapis.com/maps/api/js?key={{env('GOOGLE_MAP_API')}}"></script>
@@ -171,7 +176,7 @@
                                 Please log-in.
                             @else
                                 <ul class="navbar-nav mr-auto">
-                                    @component('layouts.menu')
+                                    @component('layouts.menu',['trigger' =>'above'])
                                     @endcomponent
                                 </ul>
                             @endguest
@@ -194,7 +199,7 @@
                                             {{ csrf_field() }}
                                         </form>
                                     </li>
-                                    <li class="nav-item dropdown d-none d-sm-inline d-xl-none">
+                                    <li class="nav-item dropdown d-none d-sm-inline d-xl-none dropup">
                                         <a id="searchDropdown" class="nav-link dropdown-toggle pt-3" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                             Search <span class="caret"></span>
                                         </a>
@@ -210,7 +215,7 @@
                                     </li>
 
                                     {{-- comment it  --}}
-                                    <li class="nav-item dropdown">
+                                    <li class="nav-item dropdown dropup">
                                         <a id="navbarDropdown" class="nav-link dropdown-toggle pt-3" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                             {{ Auth::user()->name }}
                                         </a>
@@ -269,7 +274,20 @@
                         @endif
 
                         @yield('content')
-Spots: {{$spots->count()}}
+                            <div class="">
+                                Total stops: {{$spots->count()}}
+                            </div>
+                            @if ($unassign->count()>0)
+                                <ol>
+                                @foreach ($unassign as $key => $unassignRideable)
+                                    <li title="{{$unassignRideable->status}} ">
+                                        <b>{{$unassignRideable->location->longName}}</b> in {{$unassignRideable->location->line1}} {{$unassignRideable->location->city}} {{$unassignRideable->location->zip}}
+                                    </li>
+                                @endforeach
+                            @else
+                            Perfect, All assigned.
+                            @endif
+                            </ol>
                     </div>
 
 

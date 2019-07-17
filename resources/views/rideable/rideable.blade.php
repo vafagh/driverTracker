@@ -31,10 +31,11 @@
                         <i title="Filter" class="material-icons">filter_list</i>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="filterlist">
-                        <a class="dropdown-item" href="?shift=Morning&amp;delivery_date={{\Carbon\Carbon::yesterday()->toDateString()}}">Yesterday Morning</a>
-                        <a class="dropdown-item" href="?shift=Evening&amp;delivery_date={{\Carbon\Carbon::yesterday()->toDateString()}}">Yesterday Evening</a>
                         <a class="dropdown-item" href="?shift=Morning&amp;delivery_date={{\Carbon\Carbon::today()->toDateString()}}">Today Morning</a>
                         <a class="dropdown-item" href="?shift=Evening&amp;delivery_date={{\Carbon\Carbon::today()->toDateString()}}">Today Evening</a>
+                        <a class="dropdown-item" href="?shift=0&amp;delivery_date=0">Not scheduled</a>
+                        <a class="dropdown-item" href="?shift=Morning&amp;delivery_date={{\Carbon\Carbon::yesterday()->toDateString()}}">Yesterday Morning</a>
+                        <a class="dropdown-item" href="?shift=Evening&amp;delivery_date={{\Carbon\Carbon::yesterday()->toDateString()}}">Yesterday Evening</a>
                         <a class="dropdown-item" href="?shift=Morning&amp;delivery_date={{\Carbon\Carbon::tomorrow()->toDateString()}}">Tomorrow Morning</a>
                         <a class="dropdown-item" href="?shift=Evening&amp;delivery_date={{\Carbon\Carbon::tomorrow()->toDateString()}}">Tomorrow Evening</a>
                         <a class="dropdown-item" href="?delivery_date=all">All incomplete</a>
@@ -76,25 +77,25 @@
     <li class="row  m-0 p-0 {{$op2}} ">
 
         <div class="location col-5  col-sm-2  col-md-2 col-lg-2 col-xl-2 ">
-            <a class="dropdown-item" href="{{str_replace(URL::current(),'',URL::full())}}&amp;sortby=location_id">Location</a>
+            <a class="dropdown-item" href="{{strtolower($op2)}}?sortby=location_id">Location</a>
         </div>
 
         <div class="InvoiceNum col-7  col-sm-3  col-md-3 col-lg-3 col-xl-3">
-            <a class="dropdown-item" href="{{str_replace(URL::current(),'',str_replace('sortby=','oldSortby=',URL::full()))}}&amp;sortby=invoice_number">{{($op1=='Client') ? 'Invoice': 'Part'}}#</a>
+            <a class="dropdown-item" href="{{strtolower($op2)}}?{{--str_replace(URL::current(),'',str_replace('sortby=','oldSortby=',URL::full()))--}}sortby=invoice_number">{{($op1=='Client') ? 'Invoice': 'Part'}}#</a>
         </div>
 
         <div class="user d-none d-sm-none d-md-none  col-md-3 d-lg-none d-xl-inline col-xl-1">
-            <a class="dropdown-item" href="{{str_replace(URL::current(),'',URL::full())}}&amp;sortby=user_id">By</a>
+            <a class="dropdown-item" href="{{strtolower($op2)}}?sortby=user_id">By</a>
         </div>
 
         <div class="status col-4  col-sm-2  col-md-2 col-lg-2 col-xl-1">
-            <a class="dropdown-item" href="{{str_replace(URL::current(),'',URL::full())}}&amp;sortby=status">Status</a>
+            <a class="dropdown-item" href="{{strtolower($op2)}}?sortby=status">Status</a>
         </div>
 
         <div class="row col-6  col-sm-4  col-md-4 col-lg-4 col-xl-4">
             <div class="actions col-12 col-sm-4 col-md-4  col-lg-4 col-xl-4"><a class="dropdown-item" href="#">Action</a></div>
             <div class='delivery col-12 col-sm-8 col-md-8 col-lg-8 col-xl-8'>
-                <a class="dropdown-item" href="{{str_replace(URL::current(),'',URL::full())}}&amp;sortby=delivery_date">Delivery</a>
+                <a class="dropdown-item" href="{{strtolower($op2)}}?sortby=delivery_date">Delivery</a>
             </div>
         </div>
 
@@ -164,9 +165,9 @@
                         {{-- <span title="{{$rideable->updated_at}}">{{ $rideable->updated_at->diffForHumans()}}</span> --}}
                         @if($rideable->location->type != 'DropOff' && $rideable->delivery_date!=null)
                             <span title="{{$rideable->delivery_date.' '.$rideable->shift}}">
-                                <i class="material-icons small">send</i>
+                                {{-- <i class="material-icons ">send</i> --}}
                                 {{ App\Helper::dateName($rideable->delivery_date)}}
-                                <i class="material-icons small">schedule</i>
+                                <i class="material-icons md-18 ">schedule</i>
                                 {{ $rideable->shift}}
                             </span>
                         @endif

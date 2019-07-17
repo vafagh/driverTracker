@@ -55,24 +55,24 @@
                                 <div class="row col-2 m-0">
                                     <input class="col-6" value="{{$invoice_date}}" disabled>
                                     <input class="col-6" {{$propertyName}}="delivery_date{{$n}}" value="{{$delivery_date}}">
+                                    @if ($invoice_date==$delivery_date)
+                                        <input class="col-2 " {{$propertyName}}="delivery_date{{$n}}" value="{{$delivery_date}}">
+                                    @else
+                                    @endif
                                 </div>
-                                @if ($invoice_date==$delivery_date)
-                                    <input class="col-2 " {{$propertyName}}="delivery_date{{$n}}" value="{{$delivery_date}}">
-                                @else
-                                @endif
 
                                 <div   class="row col-4 m-0 ">
                                     <div class="col-4 form-check form-check-inline m-0">
-                                        <input class="form-check-input" type="radio" {{$propertyName}}="shift{{$n}}" id="{{$propertyName}}Morning{{$n}}" value='Morning' {{($shift=="Morning")?'checked':''}} {{($propertyName=="data-toggle")?'disabled':''}}>
-                                        <label class="form-check-label" for="{{$propertyName}}Morning" title="Morning">Morning</label>
+                                        <input class="form-check-input" type="radio" {{$propertyName}}="shift{{$n}}" id="{{$propertyName}}Morning{{$n}}{{$invoice[0]}}" value='Morning' {{($shift=="Morning")?'checked':''}} {{($propertyName=="data-toggle")?'disabled':''}}>
+                                        <label class="form-check-label" for="{{$propertyName}}Morning{{$n.$invoice[0]}}" title="Morning">Morning</label>
                                     </div>
                                     <div class="col-4 form-check form-check-inline m-0">
-                                        <input class="form-check-input" type="radio" {{$propertyName}}="shift{{$n}}" id="{{$propertyName}}Evening{{$n}}" value='Evening' {{($shift=="Evening")?'checked':''}} {{($propertyName=="data-toggle")?'disabled':''}}>
-                                        <label class="form-check-label" for="{{$propertyName}}Evening" title="Evening">Evening</label>
+                                        <input class="form-check-input" type="radio" {{$propertyName}}="shift{{$n}}" id="{{$propertyName}}Evening{{$n}}{{$invoice[0]}}" value='Evening' {{($shift=="Evening")?'checked':''}} {{($propertyName=="data-toggle")?'disabled':''}}>
+                                        <label class="form-check-label" for="{{$propertyName}}Evening{{$n.$invoice[0]}}" title="Evening">Evening</label>
                                     </div>
                                     <div class="col-4 form-check form-check-inline m-0">
-                                        <input class="form-check-input" type="radio" {{$propertyName}}="shift{{$n}}" id="{{$propertyName}}Notclear{{$n}}" value='Notclear' {{($propertyName=="data-toggle")?'disabled':''}}>
-                                        <label class="form-check-label" for="inlineRadio3">Not Clear</label>
+                                        <input class="form-check-input" type="radio" {{$propertyName}}="shift{{$n}}" id="{{$propertyName}}Notclear{{$n}}{{$invoice[0]}}" value='Notclear' {{($propertyName=="data-toggle")?'disabled':''}}>
+                                        <label class="form-check-label" for="{{$propertyName}}Notclear{{$n}}{{$invoice[0]}}">Not Clear</label>
                                     </div>
                                 </div>
                                 <input class="col-2  {{($location->count() == 0)? 'bg-danger': 'bg-success'}}" {{$propertyName}}="locationName{{$n}}" value="{{$invoice[2]}}">

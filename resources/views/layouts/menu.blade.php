@@ -1,10 +1,14 @@
+@php
+    $direction = (empty($trigger)) ? '' : 'dropup' ;
+@endphp
+
 <li class="nav-item">
     <a class="nav-link home" href="/" title="Home">
         <i class="material-icons">home</i>
         <span class="d-inline d-md-none">Home</span>
     </a>
 </li>
-<li class="nav-item dropdown">
+<li class="nav-item dropdown {{$direction}}">
     <a id="mapDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
         <span>
             <i class="material-icons">map</i>
@@ -34,10 +38,10 @@
         <span class="d-inline d-md-none d-md-none d-lg-inline">Deliveries</span>
     </a>
 </li>
-<li class="nav-item dropdown">
+<li class="nav-item dropdown {{$direction}}">
     <a id="driverDropdown" class="nav-link dropdown-toggle " href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
         <i class="material-icons d-xl-none ">face</i>
-        <span class="d-inline d-md-none d-xl-inline">Drivers</span>
+        <span class="d-inline d-md-none d-xl-inline mi   ">Drivers</span>
     </a>
 
     <div class="dropdown-menu dropdown-menu-left" aria-labelledby="driverDropdown">
