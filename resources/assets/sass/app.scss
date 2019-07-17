@@ -78,6 +78,9 @@
 .minw-150{min-width:150px}
 .minw-200{min-width:200px}
 .minw-250{min-width:250px}
+.lh-5{line-height: 5px}
+.lh-10{line-height: 10px}
+.lh-15{line-height: 15px}
 .lh-25{line-height: 25px}
 .lh-26{line-height: 26px}
 .lh-27{line-height: 27px}
@@ -86,6 +89,7 @@
 .lh-40{line-height: 40px}
 .tip{color:#0a5d3e}
 .tip:hover{color:#da3b1f}
+
 .info>.card{
     // display:none ;
     // margin-top:-1em;
@@ -129,6 +133,53 @@
     max-width:38px;
     max-height:38px;
 }
+
+.tooltip-toggle::before {
+    position: absolute;
+    top: -10px;
+    left: -2px;
+    background-color: green;
+    border-radius: 5px;
+    color: #fff;
+    content: attr(data-tooltip);
+    padding: 1rem;
+    text-transform: none;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    width: 160px;
+
+    .tooltip-toggle::after {
+        position: absolute;
+        top: -12px;
+        left: 9px;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid green;
+        content: " ";
+        font-size: 0;
+        line-height: 0;
+        margin-left: -5px;
+        width: 0;
+    }
+}
+
+.tooltip-toggle:hover::before,
+.tooltip-toggle:hover::after {
+    opacity: 1;
+    -webkit-transition: all 0.75s ease;
+    transition: all 0.75s ease;
+}
+
+.tooltip-toggle::before,
+.tooltip-toggle::after {
+    color: #efefef;
+    font-family: monospace;
+    font-size: 16px;
+    opacity: 0;
+    pointer-events: none;
+    text-align: center;
+}
+
 
 .line .hideOnHover{    display: inline;}
 .line .showOnHover{    display: none;}
@@ -203,10 +254,12 @@
 }
 
 .textIcons {
-  line-height: 1;
+    line-height: 1;
 }
+.line-through{text-decoration: line-through;}
 /* Rules for sizing the icon. */
-nav .material-icons{    position: relative;top: 5px; }
+.material-icons{    position: relative;top: 5px; }
+.mi{position: relative;top: 5px;}
 .material-icons.md-12 { font-size: 12px; }
 .material-icons.md-14 { font-size: 14px; }
 .material-icons.md-16 { font-size: 16px; }
@@ -247,6 +300,10 @@ nav .material-icons{    position: relative;top: 5px; }
 .shiftSelect label {  height:42px; display:inline-block; text-indent: 50px; line-height: 45px;}
 .morning{background-image: url(/img/shifts.png); background-repeat: no-repeat; background-position:bottom left; }
 .evening{background-image: url(/img/shifts.png); background-repeat: no-repeat; background-position: left top;}
+.mor,.eve{background-image: url(/img/shifts24.png); background-repeat: no-repeat; background-position: center 1px; width:28px;height:25px; }
+.mor:hover,.eve:hover{opacity: .8}
+.eve{background-position: center -25px;}
+.mor span,.eve span{display:none}
 .not-working img{opacity:.2; z-index:1049}
 .disable img{opacity:.4; z-index:1049}
 .list-group-item.row.m-0.p-0 div{border:0px solid red}

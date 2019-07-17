@@ -30,8 +30,7 @@
             <label for="status{{$object->id}}" class="col-form-label">Status:</label>
             <select class="form-control locations" name="status" id="status{{$object->id}}" required>
                 <option value>Select one</option>
-                @php $selectValues = ['Created','OnTheWay','Done','Returned','Return','CancelReq','NotAvailable','Reactived','Canceled','Double Entry']; @endphp
-                @foreach ($selectValues as $value)
+                @foreach (App\Helper::filter('all') as $value)
                     <option {{($value==$object->status) ? 'selected' : ''}} value="{{ $value }}">{{ $value }}</option>
                 @endforeach
             </select>
@@ -42,20 +41,27 @@
         @if ($op1!='Client')
             <div class="col-5 h6 mb-2  p-0 m-0">
                 <div class="form-check" >
-                    <input  {{$object->stock ? 'checked' : ''}} class="form-check-input " type="checkbox" name="stock">
+                    <input  {{ $object->stock ? 'checked' : '' }} class="form-check-input " type="checkbox" name="stock">
                     For Stock
                 </div>
             </div>
-
             <div class="form-group col-3  mb-2">
                 <select name="qty" class="form-control">
                     @php $oneToNine = [1,2,3,4,5,6,7,8,9]; @endphp
                     @foreach ($oneToNine as $value)
-                        <option {{($value==$object->qty) ? 'selected' : ''}} value="{{ $value }}">{{ $value }}</option>
+                        <option {{( $value == $object->qty ) ? 'selected' : ''}} value="{{ $value }}">{{ $value }}</option>
                     @endforeach
                 </select>
             </div>
+        @else
+            <div class="input-group mb-2">
+                <div class="input-group-prepend ml-2">
+                    <div class="input-group-text">$</div>
+                </div>
+                <input name="qty" type="text" class="form-control" value="{{$object->qty}}">
+            </div>
         @endif
+
     </div>
     <div class="form-group">
         <label for="message-text" class="col-form-label">Note:</label>

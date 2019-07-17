@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use App\Ride;
 use App\Truck;
+use App\Helper;
 use App\Fillup;
 use App\Service;
 use App\Driver;
@@ -25,6 +26,11 @@ class HomeController extends Controller
 
     public function home(Request $request)
     {
+        if(empty($request->shift)){
+            $shift = Helper::when(null,FALSE)['shift'];
+        }else{
+            $shift = $request->shift;
+        }
         if(empty($request->history)){
             $today = new Carbon();
             $history = $today->format('Y-m-d');
@@ -37,20 +43,30 @@ class HomeController extends Controller
         }else{
             $history = $request->history;
             $warehouses = Location::where('type','!=','Client')
-            ->whereHas('rideables', function($q) use($history){
-                $q->where('delivery_date','=',$history);
-            })
-            ->with('rideables')
-            ->get();
+                                ->whereHas('rideables', function($q) use($history){
+                                    $q->where('delivery_date','=',$history);
+                                })
+                                ->with('rideables')
+                                ->get();
         }
+        $when = [$history,$shift];
         $hisexp = explode('-', $history);
         $dt = Carbon::create($hisexp[0],$hisexp[1],$hisexp[2],0 ,0,0,'America/Chicago');
-        $tickets = Rideable::with('location')
+
+        $notAssignedTickets = Rideable::with('location')
                             ->whereDoesntHave('rides')
                             ->where('type','=','Client')
                             ->orderBy('location_id')
                             ->get();
-        return view('home',compact('warehouses','history','tickets','dt'));
+
+        $bodyShops = Location::with('rideables')
+                            ->whereHas('rideables', function($q) use($when){
+                                $q->where([['shift',$when[1]],['delivery_date',$when[0]]]);
+                            })->get();
+        // $stops = $warehouses->merge($bodyShops); // merging all stops
+        // $stops->all();
+        $drivers = Driver::all();
+        return view('home',compact('warehouses','history','notAssignedTickets','dt','shift','drivers'));
     }
 
     public function find(Request $request)
@@ -71,6 +87,7 @@ class HomeController extends Controller
     {
         $appName = env('APP_NAME');
         $gitRevList = shell_exec("git rev-list --all --count");
+        // $gitShortlog = shell_exec("git shortlog --pretty=format:'%h - (%ci) %s ' --abbrev-commit");
         $gitShortlog = shell_exec("git shortlog --pretty=format:'%h - (%ci) %s ' --abbrev-commit");
         Transaction::log(Route::getCurrentRoute()->getName(), Auth::user(),Auth::user());
 

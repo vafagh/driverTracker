@@ -16,32 +16,38 @@
     $notAvailable   = false;
     $detachReq      = false;
     $return         = false;
-    $Reschedule     = false;
+    $reschedule     = false;
+    $pulled     = false;
 
 if (($user_id == $rideable->user_id) || $user_role > 2 ){
     switch($action){
         case 'Created':
             ($user_id == $rideable->user_id) ? $delete = true :"";
-            if ($rideable->location->type == 'Client' )
+            if ($rideable->location->type == 'Client' ){
                 $assignDriver = true;
-            else{
+                $pulled = true;
+            }else{
                 $notAvailable = true;
-                if($rideable->location->type == 'DropOff')  $done = true;
-                elseif(!empty($rideable->location->driver_id) && $rideable->location->type == 'Warehouse' && $user_role > 2 && !empty(App\Driver::find($rideable->location->driver_id)->truck_id)) $doneAtach = true;
+                if($rideable->location->type == 'DropOff'){
+                    $done = true;
+                }elseif(!empty($rideable->location->driver_id) && $rideable->location->type == 'Warehouse' && $user_role > 2 && !empty(App\Driver::find($rideable->location->driver_id)->truck_id)){
+                    $doneAtach = true;
                 }
+            }
 
         break;
 
         case 'Returned':
             if ($user_role >3){
                 $done = true;
-                $Reschedule = true;
+                $reschedule = true;
             }
         break;
 
         case 'DriverDetached':
             if ($user_id == $rideable->user_id) $delete = true;
             ($rideable->location->type  == 'Client') ?$assignDriver = true : $done = true;
+            $pulled = true;
         break;
 
         case 'Reschedule':
@@ -73,18 +79,19 @@ if (($user_id == $rideable->user_id) || $user_role > 2 ){
              // endif
         break;
 
-        case 'CancelReq':
+        case 'Double Entry':
             $delete = true;
         break;
 
         default :
         if (Auth::user()->role_id > 6){
-            $Reschedule = true;
+            $reschedule = true;
             $done = true;
             $notAvailable = true;
             $detachReq = true;
             $assignDriver = true;
             $delete = true;
+            $pulled = true;
             }
     }
 }
@@ -118,6 +125,9 @@ if (($user_id == $rideable->user_id) || $user_role > 2 ){
 @if ($return)
     <a title="Returned" class=" showOnHover" href="/rideable/{{$rideable->id}}/Returned"><i class="material-icons">keyboard_return</i></a>
 @endif
-@if ($Reschedule)
+@if ($reschedule)
     <a class="text-primary showOnHover" title="Send driver back" href="/rideable/{{$rideable->id}}/Reschedule"><i class="material-icons">refresh</i></a>
+@endif
+@if ($pulled)
+    <a class="text-primary showOnHover" title="Send driver back" href="/rideable/{{$rideable->id}}/Pulled"><i class="material-icons">store</i></a>
 @endif

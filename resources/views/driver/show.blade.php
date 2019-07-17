@@ -8,6 +8,7 @@
         [
             'driver'=>$driver,
             'ongoingRides' => $ongoingRides,
+            'date' => $request->input('date'),
             'finishedRides' => $finishedRides,
             'defaultPickups' => $defaultPickups,
             'currentUnassign' => $currentUnassign

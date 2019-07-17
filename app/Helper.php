@@ -128,4 +128,61 @@ class Helper
         return $flaten;
     }
 
+    public static function filter($value)
+    {
+        $ongoing = ['Created','OnTheWay','NotAvailable','DriverDetached','Reschedule'];
+        $finished = ['Done','Canceled','Return','Returned','NotAvailable','Pulled','Double Entry'];
+
+        switch ($value){
+            case 'finished':
+            $status = $finished;
+            break;
+
+            case 'ongoing':
+            $status = $ongoing;
+            break;
+
+            case 'all':
+            $status = array_merge($finished,$ongoing);
+            break;
+
+            case 'current':
+            $status = [];
+            break;
+
+            default:
+            dd('$value was empty. please set "finished" or "ongoing" or "all" or "current" '. $value);
+
+        }
+        // dd($status);
+        return $status;
+    }
+
+    public static function queryFiller($r,$type = null){
+        if($r->filled('shift')){
+            if ($r->input('shift') === 0) {
+                                                            $field1 = ['shift', '=', null];
+            }else{
+                                                            $field1 = ['shift', '=', $r->input('shift')];
+            }
+        }else {
+                                                            $field1 = ['id', '!=', 0];//to return all rows
+        }
+
+        if($r->filled('delivery_date')){
+            if($r->input('delivery_date') == '0'){
+                                                            $field0 = ['delivery_date', '=', null];
+            }elseif($r->input('delivery_date') == 'all'){
+                                                            $field0 = ['id',            '!=', 0]; // to return all rows
+            }else{
+                                                            $field0 = ['delivery_date',  '=', $r->input('delivery_date')];
+            }
+        }elseif($type == "delivery"){
+                                                            $field0 = ['delivery_date', '=',  Carbon::today()->toDateString()];
+        }else $field0 = ['id',            '!=', 0]; // to return all rows
+
+
+        return ['shift' => $field1, 'delivery_date' => $field0];
+    }
+
 }
