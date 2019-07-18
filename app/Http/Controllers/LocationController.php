@@ -96,7 +96,7 @@ class LocationController extends Controller
         $location->city = $request->city;
         $location->state = $request->state;
         $location->zip = $request->zip;
-        if($location->lat == null || $location->lng == null){
+        if($location->lat == null || $location->lng == null || $request->updateGeo == 'on' ){
             $gmaprespond = $location->getGeo($location);
             if($gmaprespond->status == 'OK'){
                 $location->lat = $gmaprespond->results[0]->geometry->location->lat;

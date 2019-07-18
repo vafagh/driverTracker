@@ -68,10 +68,22 @@
 
         <input name="line2" class="mt-1 form-control" type="text" placeholder="Line 2" value="{{$object->line2}}">
 
-        <div class="row m-0 p-0 row">
-            <input name="city" class="mt-1 mr-1 col-5 form-control" type="text" placeholder="City" value="{{$object->city}}" required>
-            <input name="state" class="mt-1 mr-1 col-2 form-control" type="text" placeholder="State" value="{{$object->state}}" required>
+        <div class="row m-0 p-0">
+            <input name="city" class="mt-1 col-6 form-control" type="text" placeholder="City" value="{{$object->city}}" required>
+            <div class="col-2 m-0 py-0 px-1 mt-1">
+                <input name="state" class=" form-control" type="text" placeholder="State" value="{{$object->state}}" required>
+            </div>
             <input name="zip" class="mt-1 col-4 form-control" type="text" placeholder="Zip Code" value="{{$object->zip}}" required>
+        </div>
+
+    </div>
+    <div class="form-row ">
+        <div class="col-12 px-4">
+            <input class="form-check-input" type="checkbox" id="updateGeo"  name="updateGeo" >
+            <label for="updateGeo">Geo Update</label>
+            <div class="">
+                <small>Check it if the address was wrong and you already corrected it. This will update marker on map.</small>
+            </div>
         </div>
     </div>
 
