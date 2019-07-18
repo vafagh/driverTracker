@@ -39,7 +39,7 @@ Route::POST('/location/store', 'LocationController@store')->name('add.location')
 Route::GET('/location/show/{location}', 'LocationController@show');
 Route::GET('/location/clearall', 'LocationController@clearDefault')->name('clearAllDrivers.location');
 Route::GET('/location/clear/{location}', 'LocationController@clearDefault')->name('clearDefauldDriver.location');
-Route::GET('/location/{location}/{driver}', 'RideController@mapAttach')->name('mapAttach.ride');
+Route::GET('/location/{location}/{driver}/{date}/{shift}', 'RideController@mapAttach')->name('mapAttach.ride');
 Route::GET('/location/{location}/driver/{driver}', 'LocationController@defaultDriver')->name('SetDefaultDriver.location');
 Route::GET('/fillups', 'FillupController@index')->name('fillups');
 Route::POST('/fillup/store/', 'FillupController@store')->name('add.fillup');

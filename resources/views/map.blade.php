@@ -129,7 +129,7 @@
                                 "Assign it to:"+
                                 "<div class='card-deck'>"+
                                 @foreach ($activeDrivers as $key => $driver) "<div class='card mx-1'>"+
-                                    "<a href='/location/"+location_id+"/{{$driver->id}}'>"+
+                                    "<a href='/location/"+location_id+"/{{$driver->id}}/{{$delivery_date}}/{{$shift}}'>"+
                                         "<img class='card-img-top' src='/img/driver/small/{{strtolower($driver->fname)}}.png' alt='{{$driver->fname}}'>"+
                                     "</a>"+
                                 "</div>"+ @endforeach
