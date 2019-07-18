@@ -10808,6 +10808,10 @@ a.text-dark:focus {
   max-height: 30px;
 }
 
+.maxh-24 {
+  max-height: 24px;
+}
+
 .minh-40 {
   max-height: 40px;
 }
@@ -10930,6 +10934,56 @@ a.text-dark:focus {
 
 .lh-40 {
   line-height: 40px;
+}
+
+.tn5 {
+  top: -5px;
+  position: relative;
+}
+
+.tn4 {
+  top: -4px;
+  position: relative;
+}
+
+.tn3 {
+  top: -3px;
+  position: relative;
+}
+
+.tn2 {
+  top: -2px;
+  position: relative;
+}
+
+.tn1 {
+  top: -1px;
+  position: relative;
+}
+
+.tp1 {
+  top: 1px;
+  position: relative;
+}
+
+.tp2 {
+  top: 2px;
+  position: relative;
+}
+
+.tp3 {
+  top: 3px;
+  position: relative;
+}
+
+.tp4 {
+  top: 4px;
+  position: relative;
+}
+
+.tp5 {
+  top: 5px;
+  position: relative;
 }
 
 .tip {
@@ -11210,6 +11264,7 @@ a.text-dark:focus {
 .material-icons {
   position: relative;
   top: 5px;
+  font-size: 20px !important;
 }
 
 .mi {

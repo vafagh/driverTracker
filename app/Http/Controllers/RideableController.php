@@ -83,7 +83,6 @@ class RideableController extends Controller
     public function map(Request $request)
     {
         $fields = Helper::queryFiller($request);
-
         //
         // if(empty($request->input('shift'))){
         //     $shiftOperator = '!=';
@@ -106,10 +105,10 @@ class RideableController extends Controller
 
         // $queryVars = array('delivery_dateOperator' => $delivery_dateOperator, 'delivery_date' => $delivery_date, 'shiftOperator' => $shiftOperator, 'shift' => $shift );
         $spots = Location::with('rideables')
-                            ->where('name','!=','IND')
+                            ->whereNotIn('name',['IND','Online'])
                             // ->whereDoesntHave('rideables.rides')
                             ->whereHas('rideables', function($q) use($fields){
-                                $q->whereNotIn('status', Helper::filter('finished'));
+                                $q->whereIn('status', Helper::filter('ongoing'));
                                 $q->where([ $fields['shift'], $fields['delivery_date']]);
                                 $q->orWhere([
                                     ['type','=','Warehouse'],
@@ -146,19 +145,21 @@ class RideableController extends Controller
         if(!empty($loc = $spots->firstWhere('lat',null)) || !empty($loc = $spots->firstWhere('lng',null))){
             return redirect()->action("LocationController@show", [$loc])->with('warning','Please Correct/Update the location address In order to draw the map. ');
         }
-        $count= $spots->count();
 
         // $unassign = Rideable::with('location')->doesntHave('rides')->where([['status','!=','Done'],['status','!=','Pulled'],['status','!=','Canceled'],['status','!=','Return'],['delivery_date', '=', $delivery_date]])->get();
-        $unassign = Rideable::with('location')
-                            ->doesntHave('rides')
+        $rideables = Rideable::with('location')
                             ->whereIn('status', Helper::filter('ongoing'))
                             ->where([
                                 [$fields['delivery_date'][0],$fields['delivery_date'][1],$fields['delivery_date'][2]],
                                 [$fields['shift'][0],$fields['shift'][1],$fields['shift'][2]]
                             ])
-                            ->whereDoesntHave('location', function($q) { $q->where('name', 'IND');})
-                            ->get();
-        return view('map',compact('spots','count','unassign'));
+                            ->whereDoesntHave('location', function($q) { $q->where('name', 'IND');});
+
+        $unassign = $rideables->doesntHave('rides')->get();
+
+        $assigned = $rideables->has('rides')->get();
+
+        return view('map',['spots' => $spots,'count' => $spots->count(),'unassign' => $unassign, 'assigned' => $assigned, 'delivery_date' => $fields['delivery_date'][2], 'shift' => $fields['shift'][2]]);
     }
 
     public function show(Rideable $rideable)
