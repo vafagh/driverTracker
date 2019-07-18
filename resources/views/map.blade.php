@@ -37,14 +37,13 @@
                     <script type="text/javascript">
                         var locations = [
                             @foreach ($spots as $key => $location)
-
-                            @if (!empty($location->lat))
-                                @php
-                                    $count--;
-                                    $qty = $location->rideables->whereNotIn('status',App\Helper::filter('finished'))->count();
-                                @endphp
-                                ["{{title_case($location->name)}}",{{$location->lat}},{{$location->lng}},{{$location->id}},"{{($qty>1 || empty($qty) ) ? ' x'.$qty : "" }}","{{(empty($location->driver_id)) ? "notAssigned".$location->type : App\Driver::find($location->driver_id)->fname.$location->type }}","{{$location->type}}","{{$location->line1." ".$location->city.' '.$location->state.' '.$location->zip}}"]{{($loop->last)?'':','}}
-                            @endif
+                                @if (!empty($location->lat))
+                                    @php
+                                        $count--;
+                                        $qty = ($location->type != 'Warehouse') ? $location->rideables->whereIn('status',App\Helper::filter('ongoing'))->where('shift',$shift)->count() : 1;
+                                    @endphp
+                                    ["{{title_case($location->name)}}",{{$location->lat}},{{$location->lng}},{{$location->id}},"{{($qty>1 || empty($qty) ) ? ' x'.$qty : "" }}","{{(empty($location->driver_id)) ? "notAssigned".$location->type : App\Driver::find($location->driver_id)->fname.$location->type }}","{{$location->type}}","{{$location->line1." ".$location->city.' '.$location->state.' '.$location->zip}}"]{{($loop->last)?'':','}}
+                                @endif
                             @endforeach
                         ];
                         var icons = {
