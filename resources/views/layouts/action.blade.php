@@ -84,14 +84,14 @@ if ($user_role > 0 ){
 
 @endphp
 
-@if ($delete && $user_id == $rideable->user_id)
+@if ($delete && $user_id == $rideable->user_id  && $user_role >= 5)
     <a title="Cancel" class="text-danger" href="/rideable/delete/{{$rideable->id}}/"><i class="material-icons">delete_forever</i></a>
 @endif
-@if ($assignDriver && $rideable->location->type == 'Client' && $rideable->location->name != 'IND')
+@if ($assignDriver && $rideable->location->type == 'Client' && ($rideable->location->name != 'IND' || $rideable->location->name != 'Online') && $user_role >= 3)
     @component('layouts.components.modal',['modelName'=>'ride','action'=>'create','iterator'=>$rideable->id,'object'=>$rideable,'btnSize'=>'small','style'=>'text-info text-white ','op1'=>'','op2'=>'','dingbats'=>'<i class="material-icons">drive_eta</i> ','file'=>false])
     @endcomponent
 @endif
-@if ($done )
+@if ($done  && $user_role > 2)
     <a class=" showOnHover" href="/rideable/{{$rideable->id}}/Done"><i class="material-icons">done</i></a>
 @endif
 @if ($doneAtach && !empty($rideable->location->driver_id) && $rideable->location->type == 'Warehouse' && $user_role > 2 && !empty(App\Driver::find($rideable->location->driver_id)->truck_id))
@@ -105,7 +105,7 @@ if ($user_role > 0 ){
 @if ($notAvailable && $rideable->location->type == 'Warehouse')
     <a title="Parts not available" class="text-danger showOnHover" href="/rideable/{{$rideable->id}}/NotAvailable"><i class="material-icons">priority_high</i></a>
 @endif
-@if ($return)
+@if ($return && $user_role >= 3)
     <a title="Returned" class=" showOnHover" href="/rideable/{{$rideable->id}}/Returned"><i class="material-icons">keyboard_return</i></a>
 @endif
 @if ($reschedule)
@@ -116,15 +116,15 @@ if ($user_role > 0 ){
     @endcomponent
     {{-- <a class="text-primary showOnHover" title="Picked up in store" href="/rideable/{{$rideable->id}}/Pulled"><i class="material-icons">store</i></a> --}}
 @endif
-@if ($detach)
+@if ($detach && $user_role >= 3)
     @foreach ($rideable->rides as $ride)
-        <span class='line  p-0 text-right'>
-            <img class="hideOnHover icon "  title='{{$ride->driver->fname}}' src="/img/driver/small/{{strtolower($ride->driver->fname)}}.png">
+        <div class='line  p-0 text-right d-inline tn5'>
+            <img class="hideOnHover icon maxh-24" title='{{$ride->driver->fname}}' src="/img/driver/small/{{strtolower($ride->driver->fname)}}.png">
             @if (Auth::user()->role_id > 2  && $loop->last && $rideable->status != 'Done' &&  $rideable->status != 'Reschedule' )
-                <a class="showOnHover text-danger position-relative" title='Remove {{$ride->driver->fname}}' href="/ride/detach/{{$ride ->id}}/{{$rideable->id}}">
-                    <i class="material-icons md-16">remove_circle_outline</i>
+                <a class="showOnHover text-danger position-relative pb-2 mb-2" title='Remove {{$ride->driver->fname}}' href="/ride/detach/{{$ride ->id}}/{{$rideable->id}}">
+                    <i class="material-icons ">remove_circle_outline</i>
                 </a>
             @endif
-        </span>
+        </div>
     @endforeach
 @endif
