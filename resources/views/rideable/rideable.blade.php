@@ -1,7 +1,7 @@
 <ul class="deliveries list-group p-0" id='deliveries'>
     <li class=" d-flex justify-content-between m-0 py-1 bg-primary text-white rounded-top">
-        <div class="col-6 col-md-9 col-lg-6">
-            <div class=" m-0 p-0 pl-2">
+        <div class="">
+            <div class="m-0 p-0 pl-2 pt-1">
                 <span class="h3">
                     {{$op2}}
                 </span>
@@ -10,7 +10,7 @@
                 </span>
             </div>
         </div>
-        <div class="row m-0" >
+        <div class="d-flex justify-content-between m-0" >
             @if ($collection->count()>0)
                 @if (strstr(URL::full(),'delivery_date'))
                     <div class="batchUpdate d-none d-sm-inline btn-group" role="group">
@@ -26,7 +26,7 @@
             @endif
 
             @if ($op2 == 'Delivery')
-                <div class="filter btn-group col" role="group">
+                <div class="filter btn-group" role="group">
                     <button id="filterlist" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i title="Filter" class="material-icons">filter_list</i>
                     </button>
@@ -76,25 +76,25 @@
 
     <li class="row  m-0 p-0 {{$op2}} ">
 
-        <div class="location col-5  col-sm-2  col-md-2 col-lg-2 col-xl-2 ">
+        <div class="location col-7  col-sm-2 col-md-2 col-lg-3    col-xl-3 pl-2 pr-1 text-truncate">
             <a class="dropdown-item" href="{{strtolower($op2)}}?sortby=location_id">Location</a>
         </div>
 
-        <div class="InvoiceNum col-7  col-sm-3  col-md-3 col-lg-3 col-xl-3">
+        <div class="InvoiceNum col-5  col-sm-3 col-md-3 col-lg-2    col-xl-2 p-0 text-truncate">
             <a class="dropdown-item" href="{{strtolower($op2)}}?{{--str_replace(URL::current(),'',str_replace('sortby=','oldSortby=',URL::full()))--}}sortby=invoice_number">{{($op1=='Client') ? 'Invoice': 'Part'}}#</a>
         </div>
 
-        <div class="user d-none d-sm-none d-md-none  col-md-3 d-lg-none d-xl-inline col-xl-1">
+        <div class="user  col-4  col-sm-2 col-md-2 col-lg-2    col-xl-2  d-xl-inline d-none d-sm-none d-md-none d-lg-inline text-secondary text-truncate ">
             <a class="dropdown-item" href="{{strtolower($op2)}}?sortby=user_id">By</a>
         </div>
 
-        <div class="status col-4  col-sm-2  col-md-2 col-lg-2 col-xl-1">
+        <div class="status  col-4  col-sm-2 col-md-3 col-lg-2    col-xl-2 p-0 text-truncate ">
             <a class="dropdown-item" href="{{strtolower($op2)}}?sortby=status">Status</a>
         </div>
 
-        <div class="row col-6  col-sm-4  col-md-4 col-lg-4 col-xl-4">
-            <div class="actions col-12 col-sm-4 col-md-4  col-lg-4 col-xl-4"><a class="dropdown-item" href="#">Action</a></div>
-            <div class='delivery col-12 col-sm-8 col-md-8 col-lg-8 col-xl-8'>
+        <div class="row col-8  col-sm-5 col-md-4 col-lg-3    col-xl-3 m-0 p-0 text-truncate">
+            <div class="actions col-5 col-sm-5 col-md-5 col-lg-5    col-xl-4"><a class="dropdown-item" href="#">Action</a></div>
+            <div class='delivery col-7 col-sm-7 col-md-7 col-lg-7    col-xl-8'>
                 <a class="dropdown-item" href="{{strtolower($op2)}}?sortby=delivery_date">Delivery</a>
             </div>
         </div>
@@ -104,7 +104,7 @@
     @foreach ($collection as $key => $rideable)
         <li class="list-group-item row m-0 p-0 {{$rideable->status}}" id="rideable{{$rideable->id}}">
             <div class="row m-0 p-0 h-100 pt-1" {{($flashId==$rideable->id)? 'id="flash"':''}}>
-                <div class='location        col-5  col-sm-2 col-md-2 col-lg-2    col-xl-2 pl-2 pr-1 text-truncate'>{{-- @component('layouts.components.tooltip',['modelName'=>'location','model'=>$rideable->location]) @endcomponent --}}
+                <div class='location         col-7  col-sm-2 col-md-2 col-lg-3    col-xl-3 pl-2 pr-1 text-truncate'>{{-- @component('layouts.components.tooltip',['modelName'=>'location','model'=>$rideable->location]) @endcomponent --}}
                     <a class="text-dark" href="/location/show/{{$rideable->location->id}}">
                         @if (empty($rideable->location->image))
                             {{$rideable->location->longName}}
@@ -114,8 +114,8 @@
                     </a>
                 </div>
 
-                <div class='InvoiceNum      col-7  col-sm-3 col-md-3 col-lg-3    col-xl-3 p-0 text-truncate '>
-                    @if (Auth::user()->role_id > 3 || Auth::user()->id == $rideable->user_id )
+                <div class='InvoiceNum       col-5  col-sm-3 col-md-3 col-lg-2    col-xl-2 p-0 text-truncate '>
+                    @if (Auth::user()->role_id > 2 || Auth::user()->id == $rideable->user_id )
                         <div class=" d-inline  ">
                             @component('layouts.components.modal',[
                                 'modelName'=>'rideable',
@@ -137,19 +137,19 @@
                     </div>
                 </div>
 
-                <div class="user            d-none d-sm-none d-md-none d-lg-none col-xl-1 d-xl-inline text-secondary text-truncate line" title=" {{ $rideable->created_at->diffForHumans()}}">
+                <div class="user             col-4  col-sm-2 col-md-2 col-lg-2    col-xl-2 d-xl-inline d-none d-sm-none d-md-none d-lg-inline text-secondary text-truncate line" title=" {{ $rideable->created_at->diffForHumans()}}">
                     <strong class="hideOnHover">{{$rideable->user->name}}</strong>
                     <strong class="showOnHover">{{$rideable->created_at}}</strong>
                     {{-- @endif --}}
                 </div>
 
-                <div class='status          col-4  col-sm-2 col-md-2 col-lg-2    col-xl-1 p-0 text-truncate line'>
+                <div class='status           col-4  col-sm-2 col-md-3 col-lg-2    col-xl-2 p-0 text-truncate line'>
                     <strong class="hideOnHover" title="{{$rideable->updated_at}} {{ $rideable->updated_at->diffForHumans()}}">{{$rideable->status}}</strong>
                     <strong class="showOnHover">{{$rideable->updated_at}}</strong>
                 </div>
 
-                <div class="row             col-6  col-sm-4 col-md-4 col-lg-4    col-xl-4 m-0 p-0 text-truncate">
-                    <div class="actions     col-12 col-sm-4 col-md-4 col-lg-4    col-xl-4 p-0 text-truncate">
+                <div class="row              col-8  col-sm-5 col-md-4 col-lg-3    col-xl-3 m-0 p-0 text-truncate">
+                    <div class="actions     col-5 col-sm-5 col-md-5 col-lg-5    col-xl-4 p-0 ">
                         @if ($rideable->location->type=="Client")
                             @component('layouts.action',[
                                 'action' => $rideable->status,
@@ -161,7 +161,7 @@
                             @endcomponent
                         @endif
                     </div>
-                    <div class='delivery    col-12 col-sm-8 col-md-8 col-lg-8    col-xl-8 p-0'>
+                    <div class='delivery    col-7 col-sm-7 col-md-7 col-lg-7    col-xl-8 p-0 text-truncate'>
                         {{-- <span title="{{$rideable->updated_at}}">{{ $rideable->updated_at->diffForHumans()}}</span> --}}
                         @if($rideable->location->type != 'DropOff' && $rideable->delivery_date!=null)
                             <span title="{{$rideable->delivery_date.' '.$rideable->shift}}">
@@ -174,7 +174,7 @@
                     </div>
                 </div>
 
-                <div class='driver row      col-1                    col-lg-1 text-truncate p-0'>
+                <div class='driver d-none row      col-1                    col-lg-1 text-truncate p-0'>
                     @foreach ($rideable->rides as $ride)
                         <div class='line col-{{12/($rideable->rides->count())}} p-0 text-right'>
                             <img class="NOhideOnHover icon position-relative"  title='{{$ride->driver->fname}}' src="/img/driver/small/{{strtolower($ride->driver->fname)}}.png">
