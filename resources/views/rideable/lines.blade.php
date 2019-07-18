@@ -29,14 +29,14 @@
             @endforeach
 
             @if (empty($date))
-                <div class="add d-inline"><a class="btn btn-danger{{(Auth::user()->role_id==3 && $rideable->type!='Client') ?' d-none':''}} btn-sm text-white h-75" title="See other days" href="?date=all"><i class="material-icons md-14 text-dark">calendar_today</i>More</a></div>
+                <div class="add d-inline"><a class="btn btn-danger{{(Auth::user()->role_id==3) ?' d-none':''}} btn-sm text-white h-75" title="See other days" href="?date=all"><i class="material-icons md-14 text-dark">calendar_today</i>More</a></div>
             @else
-                <div class="add d-inline"><a class="btn btn-danger{{(Auth::user()->role_id==3 && $rideable->type!='Client') ?' d-none':''}} btn-sm text-white h-75" title="Only Today's" href="?date="><i class="material-icons md-14 text-dark">today</i>Less</a></div>
+                <div class="add d-inline"><a class="btn btn-danger{{(Auth::user()->role_id==3) ?' d-none':''}} btn-sm text-white h-75" title="Only Today's" href="?date="><i class="material-icons md-14 text-dark">today</i>Less</a></div>
             @endif
         @else
             <div class="">
                 There is not any unassign ticket to display!
-                <div class="add d-inline"><a class="btn btn-danger{{(Auth::user()->role_id==3 && $rideable->type!='Client') ?' d-none':''}} btn-sm text-white h-75" title="See other days" href="?date=all"><i class="material-icons md-14 text-dark">calendar_today</i>Other day</a></div>
+                <div class="add d-inline"><a class="btn btn-danger{{(Auth::user()->role_id==3) ?' d-none':''}} btn-sm text-white h-75" title="See other days" href="?date=all"><i class="material-icons md-14 text-dark">calendar_today</i>Other day</a></div>
             </div>
 
         @endif
