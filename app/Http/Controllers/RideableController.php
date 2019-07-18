@@ -213,7 +213,7 @@ class RideableController extends Controller
     public function store(Request $request)
     {
         $msg = '';
-        if(Rideable::where('invoice_number',$request->invoice_number0)->get()->count()>0) return redirect()->back()->with('error', $request->invoice_number0." is already in system!");
+        if(Rideable::where([['invoice_number',$request->invoice_number0],['type','Delivery']])->get()->count()>0) return redirect()->back()->with('error', $request->invoice_number0." is already in system!");
         // dd($request->request);
         for ($i=0,$j=0; $i <= $request->n ; $i++) {
             $thisRequest = $request;

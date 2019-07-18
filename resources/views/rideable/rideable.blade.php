@@ -109,7 +109,7 @@
                         @if (empty($rideable->location->image))
                             {{$rideable->location->longName}}
                         @else
-                            <img  class="minh-30" src="/img/location/{{$rideable->location->image}}">
+                            <img class="minh-30" src="/img/location/{{$rideable->location->image}}" alt="{{$rideable->location->longName}}">
                         @endif
                     </a>
                 </div>

@@ -26,7 +26,7 @@ if ($user_role > 0 ){
             $pulled = true;
             $assignDriver = true;
             $notAvailable = true;
-            $done = true;
+            // $done = true;
             $doneAtach = true;
         break;
 
@@ -46,7 +46,7 @@ if ($user_role > 0 ){
         case 'Reschedule':
             ($user_id == $rideable->user_id) ? $delete = true : "";
             ($rideable->location->type != 'DropOff') ?$assignDriver = true : "";
-            ($title=='Droped off') ? $done = true : "";
+            $done = true;
         break;
 
         case 'OnTheWay':
@@ -91,7 +91,7 @@ if ($user_role > 0 ){
     @component('layouts.components.modal',['modelName'=>'ride','action'=>'create','iterator'=>$rideable->id,'object'=>$rideable,'btnSize'=>'small','style'=>'text-info text-white ','op1'=>'','op2'=>'','dingbats'=>'<i class="material-icons">drive_eta</i> ','file'=>false])
     @endcomponent
 @endif
-@if ($done && $rideable->location->type == "Client")
+@if ($done )
     <a class=" showOnHover" href="/rideable/{{$rideable->id}}/Done"><i class="material-icons">done</i></a>
 @endif
 @if ($doneAtach && !empty($rideable->location->driver_id) && $rideable->location->type == 'Warehouse' && $user_role > 2 && !empty(App\Driver::find($rideable->location->driver_id)->truck_id))
@@ -111,7 +111,7 @@ if ($user_role > 0 ){
 @if ($reschedule)
     <a class="text-primary showOnHover" title="Send driver back" href="/rideable/{{$rideable->id}}/Reschedule"><i class="material-icons">refresh</i></a>
 @endif
-@if ($pulled)
+@if ($pulled && $title =='Delivered')
     @component('layouts.components.modal',['modelName'=>'status','action'=>'status','iterator'=>$rideable->id,'object'=>$rideable,'btnSize'=>'small','style'=>'text-info text-white ','op1'=>'','op2'=>'','dingbats'=>'<i class="material-icons">store</i> ','file'=>false])
     @endcomponent
     {{-- <a class="text-primary showOnHover" title="Picked up in store" href="/rideable/{{$rideable->id}}/Pulled"><i class="material-icons">store</i></a> --}}
