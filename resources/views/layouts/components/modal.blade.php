@@ -22,6 +22,7 @@
                     'file'=>(isset($file))?$file:false,
                     'autocomplateOff'=>(isset($autocomplateOff))?$autocomplateOff:false,
                     'object'=>(isset($object))? $object:false,
+                    'noneStatus' => (isset($noneStatus))? $noneStatus:true ,
                     'iterator'=>$iterator])
                 @endcomponent
         </div>

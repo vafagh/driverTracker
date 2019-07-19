@@ -174,11 +174,10 @@ class RideableController extends Controller
     {
         $rideable=Rideable::find($request->rideable);
         $rideable->status = $request->status;
-        if($rideable->type !='Client' || $request->status == 'Pulled'){
+        if($rideable->type !='Client'){
             $today = new Carbon;
             $rideable->delivery_date = $today->format('Y-m-d');
             $rideable->shift =  date('H:i');
-            (!empty($request->input('user'))) ? $rideable->description .= ' Pulled By '.User::find($request->input('user'))->name.' at '.$today->format('Y-m-d').' '.date('H:i'):'';
         }
         if($request->status == 'Reschedule'){
             $rideable->delivery_date = Helper::when($rideable)['date'];
@@ -299,22 +298,28 @@ class RideableController extends Controller
     public function update(Request $request)
     {
         $rideable = Rideable::find($request->id);
-        $rideable->invoice_number = $request->invoice_number;
-        // $rideable->type = $request->type; //user cant change the type
-        ($request->stock == 'on') ? $rideable->stock = true :$rideable->stock = false;
-        $rideable->qty = $request->qty;
-        $rideable->status = $request->status;
         $rideable->description = $request->description;
-        $rideable->shift = $request->shift;
-        $rideable->delivery_date = $request->delivery_date;
-        if($rideable->rides->count() > 0){
-            foreach ($rideable->rides as $ride) {
-                $ride->shift = $request->shift;
-                $ride->delivery_date = $request->delivery_date;
-                $ride->save();
+        if(empty($request->onlyStatus)){
+            $rideable->invoice_number = $request->invoice_number;
+            // $rideable->type = $request->type; //user cant change the type
+            ($request->stock == 'on') ? $rideable->stock = true :$rideable->stock = false;
+            $rideable->qty = $request->qty;
+            $rideable->shift = $request->shift;
+            $rideable->delivery_date = $request->delivery_date;
+            if($rideable->rides->count() > 0){
+                foreach ($rideable->rides as $ride) {
+                    $ride->shift = $request->shift;
+                    $ride->delivery_date = $request->delivery_date;
+                    $ride->save();
+                }
+                $msg = 'Ride date/shift updated';
             }
-            $msg = 'Ride date/shift updated';
+        }elseif(!empty($request->input('puller'))){
+            $today = new Carbon;
+            $rideable->delivery_date = $today->format('Y-m-d');
+            $rideable->description .= ' Pulled By '.$request->input('puller').' at '.$today->format('Y-m-d').' '.date('H:i');
         }
+        $rideable->status = $request->status;
         $rideable->save();
         Transaction::log(Route::getCurrentRoute()->getName(),'',$rideable);
 

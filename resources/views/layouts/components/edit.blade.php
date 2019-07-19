@@ -8,6 +8,7 @@
                 'op2'=>$op2,
                 'object'=>$object,
                 'componentName'=>'edit',
+                'noneStatus' => (isset($noneStatus))? $noneStatus:true ,
                 'iterator'=>$object->id
             ])
         @endcomponent

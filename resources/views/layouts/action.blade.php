@@ -112,7 +112,7 @@ if ($user_role > 0 ){
     <a class="text-primary showOnHover" title="Send driver back" href="/rideable/{{$rideable->id}}/Reschedule"><i class="material-icons">refresh</i></a>
 @endif
 @if ($pulled && $title =='Delivered')
-    @component('layouts.components.modal',['modelName'=>'status','action'=>'status','iterator'=>$rideable->id,'object'=>$rideable,'btnSize'=>'small','style'=>'text-info text-white ','op1'=>'','op2'=>'','dingbats'=>'<i class="material-icons">store</i> ','file'=>false])
+    @component('layouts.components.modal',['modelName'=>'rideable','action'=>'edit','iterator'=>$rideable->id,'object'=>$rideable,'btnSize'=>'small','style'=>'text-info text-white ','op1'=>'','op2'=>'','dingbats'=>'<i class="material-icons">store</i> ','file'=>false,'noneStatus'=>false])
     @endcomponent
     {{-- <a class="text-primary showOnHover" title="Picked up in store" href="/rideable/{{$rideable->id}}/Pulled"><i class="material-icons">store</i></a> --}}
 @endif
