@@ -8,7 +8,17 @@
         <span class="d-inline d-md-none">Home</span>
     </a>
 </li>
-<li class="nav-item dropdown {{$direction}}">
+<li class="nav-item">
+    <a class="nav-link map" href="/map?shift=Morning&amp;delivery_date={{\Carbon\Carbon::today()->toDateString()}}">
+        <i class="material-icons  text-success">map</i>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link map" href="/map?shift=Evening&amp;delivery_date={{\Carbon\Carbon::today()->toDateString()}}">
+        <i class="material-icons  text-warning">map</i>
+    </a>
+</li>
+{{-- <li class="nav-item dropdown {{$direction}}">
     <a id="mapDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
         <span>
             <i class="material-icons">map</i>
@@ -16,15 +26,14 @@
         <span class="d-inline d-md-none">Map</span>
     </a>
     <div class="dropdown-menu dropdown-menu-left" aria-labelledby="mapDropdown">
-        {{-- <a class="nav-link map" href="/map?delivery_date=all">All</a> --}}
+        <a class="nav-link map" href="/map?delivery_date=all">All</a>
         <a class="nav-link map" href="/map?shift=Morning&amp;delivery_date={{\Carbon\Carbon::yesterday()->toDateString()}}">Yesterday 1st</a>
         <a class="nav-link map" href="/map?shift=Evening&amp;delivery_date={{\Carbon\Carbon::yesterday()->toDateString()}}">Yesterday 2nd</a>
-        <a class="nav-link map" href="/map?shift=Morning&amp;delivery_date={{\Carbon\Carbon::today()->toDateString()}}">Today 1st</a>
         <a class="nav-link map" href="/map?shift=Evening&amp;delivery_date={{\Carbon\Carbon::today()->toDateString()}}">Today 2nd</a>
         <a class="nav-link map" href="/map?shift=Morning&amp;delivery_date={{\Carbon\Carbon::tomorrow()->toDateString()}}">Tomorrow 1st</a>
         <a class="nav-link map" href="/map?shift=Evening&amp;delivery_date={{\Carbon\Carbon::tomorrow()->toDateString()}}">Tomorrow 2nd</a>
     </div>
-</li>
+</li> --}}
 
 <li class="nav-item">
     <a class="nav-link pickup" href="/pickup" title="Pickups">
