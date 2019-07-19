@@ -106,7 +106,8 @@ class RideController extends Controller
         // get all ongoing rideables for each location
 
         if($location->type == 'Warehouse') return redirect()->action('LocationController@defaultDriver', [$location, $driver,0,0]);
-        foreach ($location->rideables->whereIn('status', Helper::filter('ongoing'))->where('delivery_date','=',$date)->where('shift','=',$shift) as $rideable) {
+        $elegibleRidables = $location->rideables->whereIn('status', Helper::filter('ongoing'))->where('delivery_date','=',$date)->where('shift','=',$shift);
+        foreach ($elegibleRidables as $rideable) {
             // detach and destroy current undone rides for rideable
             if($rideable->rides()->count() > 0 && $rideable->status!='Reschedule' && $rideable->status!='Return'){
                 $rideable->rides()->detach();
@@ -121,8 +122,8 @@ class RideController extends Controller
             $ride->truck_id    = $driver->truck_id;
             $ride->distance    = $rideable->location->distance;
             // setting the date and time
-            $ride->delivery_date = (empty($rideable->delivery_date)) ? Helper::when($rideable) : $rideable->delivery_date;
-            $ride->shift = (empty($rideable->shift)) ? Helper::when($rideable) : $rideable->shift;
+            $ride->delivery_date = (empty($rideable->delivery_date)) ? Helper::when($rideable)['date'] : $rideable->delivery_date;
+            $ride->shift = (empty($rideable->shift)) ? Helper::when($rideable)['shift'] : $rideable->shift;
             $ride->delivery_date = $rideable->delivery_date;
             $ride->save();
             $invoice_numbers .= $rideable->invoice_number.', ';
@@ -164,19 +165,24 @@ class RideController extends Controller
 
     public function detach($ride_id,$rideable_id, Request $request)
     {
-        $rideable=Rideable::find($rideable_id);
+        $rideable = Rideable::find($rideable_id);
         $rideable->status = 'DriverDetached';
-        // $rideable->shift = '';
-        // $rideable->delivery_date = null;
 
-        $rideable->save();
         if($ride_id > 0){
             $rideable->rides()->detach($ride_id);
             Ride::destroy($ride_id);
         }else {
             return redirect('/')->with('error', 'Ride not found!');
         }
-        Transaction::log(Route::getCurrentRoute()->getName(),Rideable::find($request->id),$rideable);
+
+        $rideable->save();
+
+        if ($rideable->rides()->count() < 2) {
+            $location = Location::find($rideable->location->id);
+            $location->driver_id = null;
+            $location->save();
+        }
+        Transaction::log(Route::getCurrentRoute()->getName(),Rideable::find($rideable_id),$rideable);
 
         return redirect()->back()->with('status', 'Driver dismissed from this task');
     }

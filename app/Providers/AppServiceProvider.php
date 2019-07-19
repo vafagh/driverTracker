@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
 
         view()->composer(['home','layouts.menu','map','layouts.components.create.service','layouts.components.create.fillup','layouts.components.edit.service'], function ($view)
         {
-            $activeDrivers = \App\Driver::with('rides','rides.truck')
+            $activeDrivers = \App\Driver::with('rides','rides.truck','rides.rideable')
                     ->where('truck_id','!=',null)
                     ->get();
 

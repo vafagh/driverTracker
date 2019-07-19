@@ -147,17 +147,19 @@ class RideableController extends Controller
         }
 
         // $unassign = Rideable::with('location')->doesntHave('rides')->where([['status','!=','Done'],['status','!=','Pulled'],['status','!=','Canceled'],['status','!=','Return'],['delivery_date', '=', $delivery_date]])->get();
-        $rideables = Rideable::with('location')
+        $unassign = Rideable::with('location')
+                            ->doesntHave('rides')
                             ->whereIn('status', Helper::filter('ongoing'))
-                            ->where([
-                                [$fields['delivery_date'][0],$fields['delivery_date'][1],$fields['delivery_date'][2]],
-                                [$fields['shift'][0],$fields['shift'][1],$fields['shift'][2]]
-                            ])
-                            ->whereDoesntHave('location', function($q) { $q->where('name', 'IND');});
+                            ->where([[$fields['delivery_date'][0],$fields['delivery_date'][1],$fields['delivery_date'][2]],[$fields['shift'][0],$fields['shift'][1],$fields['shift'][2]]])
+                            ->whereDoesntHave('location', function($q) { $q->where('name', 'IND');})
+                            ->get();
 
-        $unassign = $rideables->doesntHave('rides')->get();
-
-        $assigned = $rideables->has('rides')->get();
+        $assigned = Rideable::with('location')
+                            ->has('rides')
+                            ->whereIn('status', Helper::filter('ongoing'))
+                            ->where([[$fields['delivery_date'][0],$fields['delivery_date'][1],$fields['delivery_date'][2]],[$fields['shift'][0],$fields['shift'][1],$fields['shift'][2]]])
+                            ->whereDoesntHave('location', function($q) { $q->where('name', 'IND');})
+                            ->get();
 
         return view('map',['spots' => $spots,'count' => $spots->count(),'unassign' => $unassign, 'assigned' => $assigned, 'delivery_date' => $fields['delivery_date'][2], 'shift' => $fields['shift'][2]]);
     }

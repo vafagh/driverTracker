@@ -16,7 +16,7 @@
         <span class="d-inline d-md-none">Map</span>
     </a>
     <div class="dropdown-menu dropdown-menu-left" aria-labelledby="mapDropdown">
-        <a class="nav-link map" href="/map?delivery_date=all">All</a>
+        {{-- <a class="nav-link map" href="/map?delivery_date=all">All</a> --}}
         <a class="nav-link map" href="/map?shift=Morning&amp;delivery_date={{\Carbon\Carbon::yesterday()->toDateString()}}">Yesterday 1st</a>
         <a class="nav-link map" href="/map?shift=Evening&amp;delivery_date={{\Carbon\Carbon::yesterday()->toDateString()}}">Yesterday 2nd</a>
         <a class="nav-link map" href="/map?shift=Morning&amp;delivery_date={{\Carbon\Carbon::today()->toDateString()}}">Today 1st</a>
