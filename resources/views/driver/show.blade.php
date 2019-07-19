@@ -5,21 +5,21 @@
         @endcomponent
 
         @component('rideable.lines',
-        [
-            'driver'=>$driver,
-            'ongoingRides' => $ongoingRides,
-            'date' => $request->input('date'),
-            'finishedRides' => $finishedRides,
-            'defaultPickups' => $defaultPickups,
-            'currentUnassign' => $currentUnassign
-        ])
+            [
+                'driver'=>$driver,
+                'ongoingRides' => $ongoingRides,
+                'date' => $request->input('date'),
+                'finishedRides' => $finishedRides,
+                'defaultPickups' => $defaultPickups,
+                'currentUnassign' => $currentUnassign
+            ])
         @endcomponent
 
         @component('fillup.lines',['driver'=>$driver])
         @endcomponent
-
+{{--
         @component('service.lines',['driver'=>$driver])
-        @endcomponent
+        @endcomponent --}}
 
     </div>
 

@@ -1,5 +1,4 @@
 <ul class="row m-0 p-0" id='driverd'>
-
     @foreach ($drivers as $key => $driver)
         <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-2{{($driver->working)?'':' not-working'}}">
             <div class="card">
@@ -22,8 +21,8 @@
                         </div>
                         <div class="created_at row mb-2">
                             <div class="col-12 text-center text-muted">{{ $driver->created_at->toFormattedDateString() }}</div>
-                            {{-- <div class="col-6 totalDistance"><div class="h3 mb-0">{{ $driver->totalDistance() }}</div>Mile</div> --}}
-                            <div class="col-6 totalTrip"><div class="h3 mb-0">{{ $driver->totalTrip() }}</div>Trip</div>
+                            <!-- <div class="col-6 totalDistance"><div class="h3 mb-0">{{-- $driver->totalDistance() --}}</div>Mile</div> -->
+                            {{-- <div class="col-6 totalTrip"><div class="h3 mb-0">{{ $driver->totalTrip() }}</div>Trip</div> --}}
                             <div class="col-12">
                                 {!!($driver->phone) ? '<span class="text-muted">&#x2706; </span><a href="tel:+1'.$driver->phone.'">'.$driver->phone.'</a>':''!!}
                             </div>
