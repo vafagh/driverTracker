@@ -132,15 +132,16 @@
                 @foreach ($drivers as $key => $driver)
                     @php
                         $when = [$history,$shift];
-                        $deliveryStops = App\Ride::with('rideable','rideable.location')->where([['shift',$when[1]],['delivery_date',$when[0]],['driver_id',$driver->id]])->get();
-                        $pickupStops = $warehouses->where('driver_id',$driver->id);
+                        // $deliveryStops = App\Ride::with('rideable','rideable.location')->where([['shift',$when[1]],['delivery_date',$when[0]],['driver_id',$driver->id]])->get();
+                        $deliveryStops = $stops->where('driver_id',$driver->id);
+                        // $pickupStops = $warehouses->where('driver_id',$driver->id);
                     @endphp
 
                     <div class="card col-6 col-sm-4 col-md-3 col-lg-2 px-0 {{$deliveryStops->count() > 0 ? '' : 'd-none' }}">
                         <div class="card-header pt-1 pb-1 d-flex justify-content-between">
                             @component('layouts.components.tooltip',['modelName'=>'driver','model'=>$driver])
                             @endcomponent
-                            <span class='text-info'>({{$pickupStops->count()}})</span>
+                            {{-- <span class='text-info'>({{$pickupStops->count()}})</span> --}}
                             <span class='text-success'>({{$deliveryStops->count()}})</span>
                             @if ($driver->fname != 'Pickup')
                                 <div class="">
@@ -149,10 +150,8 @@
                             @endif
                         </div>
                         <div class="card-body  px-1">
-
                             @php
                                 $markers = ''; $latsum =0; $lngsum=0; $stopcount=0;
-                                // dd($warehouses->where('driver_id','=',$driver->id));
                             @endphp
 
                             <div class="text-bold">
@@ -160,21 +159,23 @@
                             </div>
 
                             <ol>
-                            @foreach ([$pickupStops,$deliveryStops] as $key => $value)
-                                @foreach ($value as $key => $stop)
-                                    @php
-                                        $location = empty($stop->rideable->location)? $stop : $stop->rideable->location;
-                                        $markers .= 'markers=size:tiny%7Ccolor:red%7Clabel:'.$location->id.'%7C'.$location->lat.','.$location->lng.'&';
-                                        $latsum = $latsum + $location->lat;
-                                        $lngsum = $lngsum + $location->lng;
-                                        $stopcount++;
-                                    @endphp
-                                    <li class="fixedWidthFont">
-                                        <a class="{{$location->type=='Client' ? 'text-success' : 'text-info'}}" title="{{$location->name}}" href="/location/show/{{$location->id}}">
-                                            {{$location->longName}}
-                                        </a>
-                                    </li>
-                                @endforeach
+                            @foreach ($deliveryStops as $key => $value)
+                                {{-- @foreach ($value as $key => $location) --}}
+                                    @if (!empty($location->id))
+                                        @php
+                                            // $location = empty($stop->rideable->location)? $stop : $stop->rideable->location;
+                                            $markers .= 'markers=size:tiny%7Ccolor:red%7Clabel:'.$location->id.'%7C'.$location->lat.','.$location->lng.'&';
+                                            $latsum = $latsum + $location->lat;
+                                            $lngsum = $lngsum + $location->lng;
+                                            $stopcount++;
+                                        @endphp
+                                        <li class="fixedWidthFont">
+                                            <a class="{{$location->type=='Client' ? 'text-success' : 'text-info'}}" title="{{$location->name}}" href="/location/show/{{$location->id}}">
+                                                {{$location->longName}}
+                                            </a>
+                                        </li>
+                                    @endif
+                                {{-- @endforeach --}}
                             @endforeach
                             </ol>
                         </div>
@@ -223,6 +224,39 @@
 
                 @endforeach
             </div>
+        </div>
+    </div>
+    <div class="card stops">
+        <div class="card-header">
+            {{$stops->count()}}
+        </div>
+        <div class="card-image ">
+            @php
+                $markers = ''; $latsum =0; $lngsum=0; $stopcount=0;
+            @endphp
+            {{-- <ol> --}}
+
+                @foreach ($stops as $key => $stop)
+                    @php
+                    $markers .= 'markers=size:tiny%7Ccolor:red%7Clabel:'.$stop->id.'%7C'.$stop->lat.','.$stop->lng.'&';
+                    $latsum = $latsum + $stop->lat;
+                    $lngsum = $lngsum + $stop->lng;
+                    $stopcount++;
+                    @endphp
+                    {{-- <li>{{$stop->name}}
+                        <ul>
+                            @foreach ($stop->rideables->where('shift',$shift)->where('delivery_date',$history) as $key => $ticket)
+                                <li>{{$ticket->invoice_number}}
+                                    @foreach ($ticket->rides as $key => $ride)
+                                        {{$ride->driver->fname}}
+                                    @endforeach
+                                </li>
+                            @endforeach
+                        </ul>
+                    </li> --}}
+                @endforeach
+            {{-- </ol> --}}
+            <img class="mx-auto d-block" src="https://maps.googleapis.com/maps/api/staticmap?center={{$latsum/$stopcount}},{{$lngsum/$stopcount}}&zoom=9&size=1200x300&maptype=roadmap&{{$markers}}&key={{env('GOOGLE_MAP_API')}}" alt="routes">
         </div>
     </div>
 @endsection
