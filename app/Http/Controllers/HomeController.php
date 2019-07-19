@@ -31,17 +31,18 @@ class HomeController extends Controller
         }else{
             $shift = $request->shift;
         }
+        $history = $request->history;
         if(empty($request->history)){
             $today = new Carbon();
             $history = $today->format('Y-m-d');
             $warehouses = Location::where('type','!=','Client')
-                                ->whereHas('rideables', function($q){
-                                    $q->whereIn('status', ['Created','NotAvailable','DriverDetached','OnTheWay']);//,'OnTheWay','Reschedule'
+                                ->whereHas('rideables', function($q) use($history){
+                                    $q->where('delivery_date', $history); // all todays pickup
+                                    $q->orWhere('status', ['Created','NotAvailable','DriverDetached','OnTheWay']); // all ongoing pickups
                                 })
                                 ->with('rideables')
                                 ->get();
         }else{
-            $history = $request->history;
             $warehouses = Location::where('type','!=','Client')
                                 ->whereHas('rideables', function($q) use($history){
                                     $q->where('delivery_date','=',$history);
