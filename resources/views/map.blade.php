@@ -30,7 +30,7 @@
     <div class=" mx-auto p-0">
         <div class="">
             <div class="map ">
-                <div class="" style="height:800px">
+                <div class="" style="height:600px">
                     <div id="default" style="width:100%; height:100%"></div>
                     @section('footer-scripts')
 
@@ -275,7 +275,21 @@
                         @yield('content')
                         Total stops: {{$spots->count()}}
                         <div class="row m-0 p-0">
-                            <div class="col-6">
+                            <div  class="drivers col-12 row m-0 p-0 card-group">
+                                @foreach ($activeDrivers as $key => $driver)
+                                    <div class="card">
+                                        <div class="card-header py-1">
+                                            {{$driver->fname}}
+                                        </div>
+                                        <ol class="card-body">
+                                            @foreach ($driver->rides->where('delivery_date', $delivery_date)->where('shift', $shift) as $key => $ride)
+                                                <li>{{$ride->rideable->location->name}}</li>
+                                            @endforeach
+                                        </ol>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <div class="unassigned col-6">
                                 <div class="">
                                     Total unassign: {{$unassign->count()}}
                                 </div>
@@ -291,7 +305,7 @@
                                 @endif
                                     </ol>
                             </div>
-                            <div class="col-6">
+                            <div class="assigned col-6">
                                 <div class="">
                                     Total assigned: {{$assigned->count()}}
                                 </div>
@@ -306,20 +320,6 @@
                                     Perfect, All assigned.
                                 @endif
                                     </ol>
-                            </div>
-                            <div class="col-12 row m-0 p-0">
-                                @foreach ($activeDrivers as $key => $driver)
-                                    <div class="card">
-                                        <div class="card-header">
-                                            {{$driver->fname}}
-                                        </div>
-                                        <ol class="card-body">
-                                            @foreach ($driver->rides->where('delivery_date', $delivery_date)->where('shift', $shift) as $key => $ride)
-                                                <li>{{$ride->rideable->location->name}}</li>
-                                            @endforeach
-                                        </ol>
-                                    </div>
-                                @endforeach
                             </div>
                         </div>
                     </div>
