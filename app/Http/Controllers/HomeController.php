@@ -54,20 +54,22 @@ class HomeController extends Controller
         $hisexp = explode('-', $history);
         $dt = Carbon::create($hisexp[0],$hisexp[1],$hisexp[2],0 ,0,0,'America/Chicago');
 
-        $notAssignedTickets = Rideable::with('location')
-                            ->whereDoesntHave('rides')
-                            ->where('type','=','Client')
-                            ->orderBy('location_id')
-                            ->get();
+        // $notAssignedTickets = Rideable::with('location')
+        //                     ->whereDoesntHave('rides')
+        //                     ->where('type','=','Client')
+        //                     ->orderBy('location_id')
+        //                     ->get();
 
         $bodyShops = Location::with('rideables')
                             ->whereHas('rideables', function($q) use($when){
-                                $q->where([['shift',$when[1]],['delivery_date',$when[0]]]);
+                                $q->where('shift',$when[1])->where('delivery_date',$when[0]);
+                                // $q->where([['shift',$when[1]],['delivery_date',$when[0]]]);
                             })->get();
-        // $stops = $warehouses->merge($bodyShops); // merging all stops
-        // $stops->all();
+        $stops = $warehouses->merge($bodyShops); // merging all stops
+        $stops->all();
+        
         $drivers = Driver::all();
-        return view('home',compact('warehouses','history','notAssignedTickets','dt','shift','drivers'));
+        return view('home',compact('warehouses','history','dt','shift','drivers','stops'));
     }
 
     public function find(Request $request)
