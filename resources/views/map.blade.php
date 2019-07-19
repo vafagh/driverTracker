@@ -273,20 +273,55 @@
                         @endif
 
                         @yield('content')
-                            <div class="">
-                                Total stops: {{$spots->count()}}
+                        Total stops: {{$spots->count()}}
+                        <div class="row m-0 p-0">
+                            <div class="col-6">
+                                <div class="">
+                                    Total unassign: {{$unassign->count()}}
+                                </div>
+                                @if ($unassign->count()>0)
+                                    <ol>
+                                        @foreach ($unassign as $key => $unassignRideable)
+                                            <li title="{{$unassignRideable->status}} ">
+                                                <b> {{$unassignRideable->invoice_number}} | {{$unassignRideable->location->longName}}</b> in {{$unassignRideable->location->line1}} {{$unassignRideable->location->city}} {{$unassignRideable->location->zip}}
+                                            </li>
+                                        @endforeach
+                                @else
+                                    Perfect, All assigned.
+                                @endif
+                                    </ol>
                             </div>
-                            @if ($unassign->count()>0)
-                                <ol>
-                                @foreach ($unassign as $key => $unassignRideable)
-                                    <li title="{{$unassignRideable->status}} ">
-                                        <b>{{$unassignRideable->location->longName}}</b> in {{$unassignRideable->location->line1}} {{$unassignRideable->location->city}} {{$unassignRideable->location->zip}}
-                                    </li>
+                            <div class="col-6">
+                                <div class="">
+                                    Total assigned: {{$assigned->count()}}
+                                </div>
+                                @if ($assigned->count()>0)
+                                    <ol>
+                                        @foreach ($assigned as $key => $assignedRideable)
+                                            <li title="{{$assignedRideable->status}} ">
+                                                <b>{{$assignedRideable->location->longName}}</b> in {{$assignedRideable->location->line1}} {{$assignedRideable->location->city}} {{$assignedRideable->location->zip}}
+                                            </li>
+                                        @endforeach
+                                @else
+                                    Perfect, All assigned.
+                                @endif
+                                    </ol>
+                            </div>
+                            <div class="col-12 row m-0 p-0">
+                                @foreach ($activeDrivers as $key => $driver)
+                                    <div class="card">
+                                        <div class="card-header">
+                                            {{$driver->fname}}
+                                        </div>
+                                        <ol class="card-body">
+                                            @foreach ($driver->rides->where('delivery_date', $delivery_date)->where('shift', $shift) as $key => $ride)
+                                                <li>{{$ride->rideable->location->name}}</li>
+                                            @endforeach
+                                        </ol>
+                                    </div>
                                 @endforeach
-                            @else
-                            Perfect, All assigned.
-                            @endif
-                            </ol>
+                            </div>
+                        </div>
                     </div>
 
 
