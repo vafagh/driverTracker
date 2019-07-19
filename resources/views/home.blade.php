@@ -134,18 +134,21 @@
                         $when = [$history,$shift];
                         // $deliveryStops = App\Ride::with('rideable','rideable.location')->where([['shift',$when[1]],['delivery_date',$when[0]],['driver_id',$driver->id]])->get();
                         $deliveryStops = $stops->where('driver_id',$driver->id);
+                        // $deliveryStops = $stops->where('driver_id',3);
+                        // dd($deliveryStops);
                         // $pickupStops = $warehouses->where('driver_id',$driver->id);
                     @endphp
 
-                    <div class="card col-6 col-sm-4 col-md-3 col-lg-2 px-0 {{$deliveryStops->count() > 0 ? '' : 'd-none' }}">
+                    <div class="card col-6 col-sm-4 col-md-3 col-lg-2 px-0 {{($deliveryStops->count() > 0) ? '' : 'd-none' }}">
                         <div class="card-header pt-1 pb-1 d-flex justify-content-between">
                             @component('layouts.components.tooltip',['modelName'=>'driver','model'=>$driver])
                             @endcomponent
-                            {{-- <span class='text-info'>({{$pickupStops->count()}})</span> --}}
-                            <span class='text-success'>({{$deliveryStops->count()}})</span>
+                            <span class='text-bold'>{{$shift}}</span>
                             @if ($driver->fname != 'Pickup')
                                 <div class="">
-                                    <a href="/driver/{{$driver->id}}/{{$history}}/{{$shift}}/direction" class='text-success tooltip-toggle' data-tooltip='{{$key}} Direction'><i class="material-icons md-16">directions</i></a>
+                                    <a href="/driver/{{$driver->id}}/{{$history}}/{{$shift}}/direction" > {{-- class='text-success tooltip-toggle' data-tooltip='{{$deliveryStops->count()}} Direction'> --}}
+                                        <i class="material-icons md-16">directions</i>
+                                    </a>
                                 </div>
                             @endif
                         </div>
@@ -153,11 +156,6 @@
                             @php
                                 $markers = ''; $latsum =0; $lngsum=0; $stopcount=0;
                             @endphp
-
-                            <div class="text-bold">
-                                {{$shift}}
-                            </div>
-
                             <ol>
                             @foreach ($deliveryStops as $key => $location)
                                 {{-- @foreach ($value as $key => $location) --}}
