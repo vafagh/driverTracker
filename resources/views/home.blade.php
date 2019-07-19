@@ -159,7 +159,7 @@
                             </div>
 
                             <ol>
-                            @foreach ($deliveryStops as $key => $value)
+                            @foreach ($deliveryStops as $key => $location)
                                 {{-- @foreach ($value as $key => $location) --}}
                                     @if (!empty($location->id))
                                         @php
