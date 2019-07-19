@@ -9,12 +9,12 @@
     </a>
 </li>
 <li class="nav-item">
-    <a class="nav-link map" href="/map?shift=Morning&amp;delivery_date={{\Carbon\Carbon::today()->toDateString()}}">
+    <a title="Morning shift" class="nav-link map" href="/map?shift=Morning&amp;delivery_date={{\Carbon\Carbon::today()->toDateString()}}">
         <i class="material-icons  text-success">map</i>
     </a>
 </li>
 <li class="nav-item">
-    <a class="nav-link map" href="/map?shift=Evening&amp;delivery_date={{\Carbon\Carbon::today()->toDateString()}}">
+    <a title="Evening shift" class="nav-link map" href="/map?shift=Evening&amp;delivery_date={{\Carbon\Carbon::today()->toDateString()}}">
         <i class="material-icons  text-warning">map</i>
     </a>
 </li>
