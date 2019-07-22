@@ -7,7 +7,7 @@
                 <div class="input-group-prepend h-100">
                     <div class="input-group-text bg-white p-2"><i class="material-icons">date_range</i></div>
                 </div>
-                <input class="form-control w-auto h-100 lh-26" name="delivery_date" type="date" min="{{Carbon\Carbon::yesterday()->toDateString()}}" max="{{Carbon\Carbon::now()->addDays(2)->toDateString()}}" value='{{$when['date']}}' required>
+                <input class="form-control w-auto h-100 lh-26" name="delivery_date" type="date" min="{{Carbon\Carbon::now()->subDays(2)->toDateString()}}" max="{{Carbon\Carbon::now()->addDays(2)->toDateString()}}" value='{{$when['date']}}' required>
             </div>
         </div>
         <div class="shiftSelect pl-4 ">
