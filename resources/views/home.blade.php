@@ -132,8 +132,9 @@
                 @foreach ($drivers as $key => $driver)
                     @php
                         $when = [$history,$shift];
-                        // $deliveryStops = App\Ride::with('rideable','rideable.location')->where([['shift',$when[1]],['delivery_date',$when[0]],['driver_id',$driver->id]])->get();
-                        $deliveryStops = $stops->where('driver_id',$driver->id);
+                        $rides = App\Ride::with('rideable','rideable.location')->where([['shift',$when[1]],['delivery_date',$when[0]],['driver_id',$driver->id]])->get();
+                        $deliveryStops = $rides->pluck('rideable.location')->flatten()->unique();
+                        // $deliveryStops = $stops->where('driver_id',$driver->id);
                         // $deliveryStops = $stops->where('driver_id',3);
                         // dd($deliveryStops);
                         // $pickupStops = $warehouses->where('driver_id',$driver->id);
