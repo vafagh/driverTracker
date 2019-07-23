@@ -26,7 +26,9 @@ if ($user_role > 0 ){
             $pulled = true;
             $assignDriver = true;
             $notAvailable = true;
-            // $done = true;
+            if ($rideable->location->type  == 'DropOff') {
+                $done = true;
+            }
             $doneAtach = true;
         break;
 
