@@ -302,7 +302,10 @@
                                     <ol>
                                         @foreach ($unassign as $key => $unassignRideable)
                                             <li title="{{$unassignRideable->status}} ">
-                                                <b> {{$unassignRideable->invoice_number}} | {{$unassignRideable->location->longName}}</b> in {{$unassignRideable->location->line1}} {{$unassignRideable->location->city}} {{$unassignRideable->location->zip}}
+                                                <b> {{$unassignRideable->invoice_number}} |
+                                                    @component('layouts.components.tooltip',['modelName'=>'location','model'=>$unassignRideable->location])
+                                                    @endcomponent</b> in
+                                                    {{$unassignRideable->location->line1}} {{$unassignRideable->location->city}} {{$unassignRideable->location->zip}}
                                             </li>
                                         @endforeach
                                 @else
@@ -318,7 +321,8 @@
                                     <ol>
                                         @foreach ($assigned as $key => $assignedRideable)
                                             <li title="{{$assignedRideable->status}} ">
-                                                <b>{{$assignedRideable->location->longName}}</b> in {{$assignedRideable->location->line1}} {{$assignedRideable->location->city}} {{$assignedRideable->location->zip}}
+                                                <b>@component('layouts.components.tooltip',['modelName'=>'location','model'=>$assignedRideable->location])
+                                                @endcomponent</b> in {{$assignedRideable->location->line1}} {{$assignedRideable->location->city}} {{$assignedRideable->location->zip}}
                                             </li>
                                         @endforeach
                                 @else
