@@ -80,8 +80,10 @@
                                 strokeWeight: 2,
                                 map: map
                             });
+                            var markerCluster = new MarkerClusterer(map, markers,
+                                    {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
                         }
-
+                        var markers = [];
                         function setMarkers(map,locations){
                             var marker, i
                             for (i = 0; i < locations.length; i++)
@@ -128,9 +130,9 @@
                                 "Assign it to:"+
                                 "<div class='card-deck'>"+
                                 @foreach ($activeDrivers as $key => $driver) "<div class='card mx-1'>"+
-                                    "<a href='/location/"+location_id+"/{{$driver->id}}/{{$delivery_date}}/{{$shift}}'>"+
-                                        "<img class='card-img-top' src='/img/driver/small/{{strtolower($driver->fname)}}.png' alt='{{$driver->fname}}'>"+
-                                    "</a>"+
+                                "<a href='/location/"+location_id+"/{{$driver->id}}/{{$delivery_date}}/{{$shift}}'>"+
+                                "<img class='card-img-top' src='/img/driver/small/{{strtolower($driver->fname)}}.png' alt='{{$driver->fname}}'>"+
+                                "</a>"+
                                 "</div>"+ @endforeach
                                 '</div>'
 
@@ -141,10 +143,13 @@
                                         infowindow.open(map,marker);
                                     };
                                 })(marker,content,infowindow));
+                                markers.push(marker);
                             }
                         }
 
+
                     </script>
+                     <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
                     <script async defer src="https://maps.googleapis.com/maps/api/js?key={{env('GOOGLE_MAP_API')}}"></script>
                     @endsection
                 </div>
