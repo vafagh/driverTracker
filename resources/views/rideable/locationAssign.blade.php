@@ -21,22 +21,22 @@
         </span>
 
         @foreach ($unassignLocations as $location)
+            @php
+            $co = 0; $invoices ='';
+            foreach ($location->rideables->whereIn('status', App\Helper::filter('ongoing'))->where('delivery_date',$today) as $key => $value) {
+                $co++;
+                $invoices .= $value->invoice_number.', ';
+            };
+            @endphp
             <div class="d-inline-block btn  btn-secondary mr-1 mb-1 py-0">
-                <a class="bg-info{{(Auth::user()->role_id>3 && $location->type=='DropOff') ?' d-none':''}} mr-1  " title="Delivery for Morning" href="/location/{{$location->id}}/{{$driver->id}}/{{$today}}/Morning">
+                <a class="bg-info{{(Auth::user()->role_id<3 || $location->type=='DropOff' || $co == 0) ?' d-none':''}} mr-1  " title="Delivery for Morning" href="/location/{{$location->id}}/{{$driver->id}}/{{$today}}/Morning">
                     <i class="material-icons text-dark">add</i>
                 </a>
                     {{$location->name}}
-                    @php
-                    $co = 0; $invoices ='';
-                        foreach ($location->rideables->whereIn('status', App\Helper::filter('ongoing')) as $key => $value) {
-                            $co++;
-                            $invoices .= $value->invoice_number.', ';
-                        };
-                    @endphp
                     <a  class="text-warning" title="{{$invoices}}"  href="/location/show/{{$location->id}}" target="_blank">
                         {{$co}}
                         </a>
-                <a class="bg-warning{{(Auth::user()->role_id>3 && $location->type=='DropOff') ?' d-none':''}}  ml-1" title="Delivery for Evening" href="/location/{{$location->id}}/{{$driver->id}}/{{$today}}/Evening">
+                <a class="bg-warning{{(Auth::user()->role_id<3 || $location->type=='DropOff' || $co == 0) ?' d-none':''}}  ml-1" title="Delivery for Evening" href="/location/{{$location->id}}/{{$driver->id}}/{{$today}}/Evening">
                     <i class="material-icons text-dark">add</i>
                 </a>
             </div>

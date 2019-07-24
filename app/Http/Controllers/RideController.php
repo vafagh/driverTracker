@@ -107,6 +107,7 @@ class RideController extends Controller
 
         if($location->type == 'Warehouse') return redirect()->action('LocationController@defaultDriver', [$location, $driver,0,0]);
         $elegibleRidables = $location->rideables->whereIn('status', Helper::filter('ongoing'))->where('delivery_date','=',$date)->where('shift','=',$shift);
+        if($elegibleRidables->count() < 1) return redirect()->back()->with('error','There were no ticket schadued for '.$date.' '.$shift);
         foreach ($elegibleRidables as $rideable) {
             // detach and destroy current undone rides for rideable
             if($rideable->rides()->count() > 0 && $rideable->status!='Reschedule' && $rideable->status!='Return'){
