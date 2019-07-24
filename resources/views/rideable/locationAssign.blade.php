@@ -22,7 +22,7 @@
 
         @foreach ($unassignLocations as $location)
             <div class="d-inline-block btn  btn-secondary mr-1 mb-1 py-0">
-                <a class="bg-info{{(Auth::user()->role_id>3 && $location->type=='DropOff') ?' d-none':''}} mr-1  " title="{{$location->name}}" href="/location/{{$location->id}}/{{$driver->id}}/{{$today}}/Morning">
+                <a class="bg-info{{(Auth::user()->role_id>3 && $location->type=='DropOff') ?' d-none':''}} mr-1  " title="Delivery for Morning" href="/location/{{$location->id}}/{{$driver->id}}/{{$today}}/Morning">
                     <i class="material-icons text-dark">add</i>
                 </a>
                     {{$location->name}}
@@ -36,7 +36,7 @@
                     <a  class="text-warning" title="{{$invoices}}"  href="/location/show/{{$location->id}}" target="_blank">
                         {{$co}}
                         </a>
-                <a class="bg-warning{{(Auth::user()->role_id>3 && $location->type=='DropOff') ?' d-none':''}}  ml-1" title="{{$location->name}}" href="/location/{{$location->id}}/{{$driver->id}}/{{$today}}/Evening">
+                <a class="bg-warning{{(Auth::user()->role_id>3 && $location->type=='DropOff') ?' d-none':''}}  ml-1" title="Delivery for Evening" href="/location/{{$location->id}}/{{$driver->id}}/{{$today}}/Evening">
                     <i class="material-icons text-dark">add</i>
                 </a>
             </div>
