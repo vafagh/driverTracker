@@ -25,13 +25,17 @@
                 <a class="bg-info{{(Auth::user()->role_id>3 && $location->type=='DropOff') ?' d-none':''}} mr-1  " title="{{$location->name}}" href="/location/{{$location->id}}/{{$driver->id}}/{{$today}}/Morning">
                     <i class="material-icons text-dark">add</i>
                 </a>
-                {{-- <a class="text-white" title="{{$location->long}}" href="/location/show/{{$location->id}}" target="_blank"> --}}
                     {{$location->name}}
-                    <span class="text-warning">
-
-                        {{$location->rideables->whereIn('status', App\Helper::filter('ongoing'))->count()}}
-                    </span>
-                {{-- </a> --}}
+                    @php
+                    $co = 0; $invoices ='';
+                        foreach ($location->rideables->whereIn('status', App\Helper::filter('ongoing')) as $key => $value) {
+                            $co++;
+                            $invoices .= $value->invoice_number.', ';
+                        };
+                    @endphp
+                    <a  class="text-warning" title="{{$invoices}}"  href="/location/show/{{$location->id}}" target="_blank">
+                        {{$co}}
+                        </a>
                 <a class="bg-warning{{(Auth::user()->role_id>3 && $location->type=='DropOff') ?' d-none':''}}  ml-1" title="{{$location->name}}" href="/location/{{$location->id}}/{{$driver->id}}/{{$today}}/Evening">
                     <i class="material-icons text-dark">add</i>
                 </a>
