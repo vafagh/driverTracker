@@ -198,20 +198,22 @@ class RideableController extends Controller
             ->whereHas('location', function($q) use ($operator) {
                 $q->where('type', $operator, 'Client');
             })
+            ->whereNotIn('status', Helper::filter('finished'))
             ->where([
-                ['status','!=','Done'],
-                ['status','!=','Canceled'],
-                ['status','!=','Return'],
-                ['status','!=','Returned'],
                 [$fields['shift'][0],$fields['shift'][1],$fields['shift'][2]],
                 [$fields['delivery_date'][0],$fields['delivery_date'][1],$fields['delivery_date'][2]]
             ]);
             $rideables->update(['delivery_date' =>  $request->input('newDelivery_date')]);
-            $rideables = $rideables->update(['shift' =>  $request->input('newShift')]);
+            $rideables->update(['shift' =>  $request->input('newShift')]);
+            $rideables = $rideables->get();
+            $msg = '';
+            foreach ($rideables as $key => $rideable) {
+                Transaction::log(Route::getCurrentRoute()->getName(),'',$rideable);
+                $msg .= $rideable->invoice_number.', ';
+            }
 
-            // Transaction::log(Route::getCurrentRoute()->getName(),'',$rideables);
 
-            return redirect()->back()->with('status','Mass update '.$rideables." rides!");
+            return redirect()->back()->with('status', $msg." Reschaduled!");
     }
 
     public function update(Request $request)
