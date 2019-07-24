@@ -132,12 +132,9 @@
                 @foreach ($drivers as $key => $driver)
                     @php
                         $when = [$history,$shift];
-                        $rides = App\Ride::with('rideable','rideable.location')->where([['shift',$when[1]],['delivery_date',$when[0]],['driver_id',$driver->id]])->get();
-                        $deliveryStops = $rides->pluck('rideable.location')->flatten()->unique();
-                        // $deliveryStops = $stops->where('driver_id',$driver->id);
-                        // $deliveryStops = $stops->where('driver_id',3);
-                        // dd($deliveryStops);
-                        // $pickupStops = $warehouses->where('driver_id',$driver->id);
+                        // $rides = App\Ride::with('rideable','rideable.location')->where([['shift',$when[1]],['delivery_date',$when[0]],['driver_id',$driver->id]])->get();
+                        // $deliveryStops = $rides->pluck('rideable.location')->flatten()->unique();
+                        $deliveryStops = $stops->pluck('rideable.rides')->flatten()->where('driver_id',$driver->id);
                     @endphp
 
                     <div class="card col-6 col-sm-4 col-md-3 col-lg-2 px-0 {{($deliveryStops->count() > 0) ? '' : 'd-none' }}">
@@ -255,7 +252,9 @@
                     </li> --}}
                 @endforeach
             {{-- </ol> --}}
-            <img class="mx-auto d-block" src="https://maps.googleapis.com/maps/api/staticmap?center={{$latsum/$stopcount}},{{$lngsum/$stopcount}}&zoom=9&size=1200x300&maptype=roadmap&{{$markers}}&key={{env('GOOGLE_MAP_API')}}" alt="routes">
+            @if ($stopcount>0)
+                <img class="mx-auto d-block" src="https://maps.googleapis.com/maps/api/staticmap?center={{$latsum/$stopcount}},{{$lngsum/$stopcount}}&zoom=9&size=1200x300&maptype=roadmap&{{$markers}}&key={{env('GOOGLE_MAP_API')}}" alt="routes">
+            @endif
         </div>
     </div>
 @endsection
