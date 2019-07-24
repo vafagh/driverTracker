@@ -4,14 +4,22 @@
         @component('driver.header',['driver'=>$driver])
         @endcomponent
 
+        @component('rideable.locationAssign',
+            [
+                'driver'=>$driver,
+                'date' => $request->input('date'),
+                'today' => $today,
+                'defaultPickups' => $defaultPickups,
+                'unassignLocations' => $unassignLocations,
+                'currentUnassign' => $currentUnassign
+            ])
+        @endcomponent
+
         @component('rideable.lines',
             [
                 'driver'=>$driver,
                 'ongoingRides' => $ongoingRides,
-                'date' => $request->input('date'),
                 'finishedRides' => $finishedRides,
-                'defaultPickups' => $defaultPickups,
-                'currentUnassign' => $currentUnassign
             ])
         @endcomponent
 

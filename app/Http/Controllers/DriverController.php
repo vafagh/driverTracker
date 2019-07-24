@@ -89,10 +89,11 @@ class DriverController extends Controller
             ->where($where)
             ->orderBy('invoice_number', 'asc')
             ->get();
+        $unassignLocations = $currentUnassign->pluck('location')->flatten()->unique();
 
         $defaultPickups = Location::where('driver_id',$driver_id)->get();
 
-        return view('driver.show',compact('driver', 'ongoingRides', 'finishedRides', 'rideSort', 'currentUnassign','defaultPickups','request'));
+        return view('driver.show',compact('driver', 'ongoingRides', 'finishedRides', 'rideSort', 'currentUnassign','unassignLocations','defaultPickups','request','today'));
     }
 
     public function update(Request $request)
