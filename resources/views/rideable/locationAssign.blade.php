@@ -25,14 +25,17 @@
             $co = 0; $invoices ='';
             foreach ($location->rideables->whereIn('status', App\Helper::filter('ongoing'))->where('delivery_date',$today) as $key => $value) {
                 $co++;
-                $invoices .= $value->invoice_number.', ';
+                $invoices .= '('.$value->invoice_number.'_'.$value->shift.'_'.$value->delivery_date.') ';
             };
             @endphp
             <div class="d-inline-block btn  btn-secondary mr-1 mb-1 py-0">
                 <a class="bg-info{{(Auth::user()->role_id<3 || $location->type=='DropOff' || $co == 0) ?' d-none':''}} mr-1  " title="Delivery for Morning" href="/location/{{$location->id}}/{{$driver->id}}/{{$today}}/Morning">
                     <i class="material-icons text-dark">add</i>
                 </a>
+                <span title="{{$invoices}}">
                     {{$location->name}}
+
+                </span>
                     <a  class="text-warning" title="{{$invoices}}"  href="/location/show/{{$location->id}}" target="_blank">
                         {{$co}}
                         </a>
