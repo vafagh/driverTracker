@@ -87,9 +87,8 @@ class DriverController extends Controller
                 $q->where('name', 'IND');
             })
             ->where($where)
-            ->orderBy('invoice_number', 'asc')
             ->get();
-        $unassignLocations = $currentUnassign->pluck('location')->flatten()->unique();
+        $unassignLocations = $currentUnassign->pluck('location')->flatten()->unique()->sortBy('name');
 
         $defaultPickups = Location::where('driver_id',$driver_id)->get();
 

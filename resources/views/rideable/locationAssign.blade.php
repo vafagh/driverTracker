@@ -21,13 +21,17 @@
         </span>
 
         @foreach ($unassignLocations as $location)
-            <div class="d-inline btn btn-sm btn-secondary mr-1 my-1">
-                {{-- <a class="text-white" title="{{$location->long}}" href="/location/show/{{$location->id}}" target="_blank"> --}}
-                    {{$location->name}}
-                {{-- </a> --}}
-                <a class="bg-info{{(Auth::user()->role_id>3 && $location->type=='DropOff') ?' d-none':''}}  " title="{{$location->name}}" href="/location/{{$location->id}}/{{$driver->id}}/{{$today}}/Morning">
+            <div class="d-inline-block btn  btn-secondary mr-1 mb-1 py-0">
+                <a class="bg-info{{(Auth::user()->role_id>3 && $location->type=='DropOff') ?' d-none':''}} mr-1  " title="{{$location->name}}" href="/location/{{$location->id}}/{{$driver->id}}/{{$today}}/Morning">
                     <i class="material-icons text-dark">add</i>
                 </a>
+                {{-- <a class="text-white" title="{{$location->long}}" href="/location/show/{{$location->id}}" target="_blank"> --}}
+                    {{$location->name}}
+                    <span class="text-warning">
+
+                        {{$location->rideables->whereIn('status', App\Helper::filter('ongoing'))->count()}}
+                    </span>
+                {{-- </a> --}}
                 <a class="bg-warning{{(Auth::user()->role_id>3 && $location->type=='DropOff') ?' d-none':''}}  ml-1" title="{{$location->name}}" href="/location/{{$location->id}}/{{$driver->id}}/{{$today}}/Evening">
                     <i class="material-icons text-dark">add</i>
                 </a>
