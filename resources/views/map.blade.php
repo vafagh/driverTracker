@@ -88,8 +88,10 @@
                                 strokeWeight: 2,
                                 map: map
                             });
-                            var markerCluster = new MarkerClusterer(map, markers,
-                                    {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+                            @if ($cluster>0)
+                                var markerCluster = new MarkerClusterer(map, markers,
+                                        {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+                            @endif
                         }
                         var markers = [];
                         function setMarkers(map,locations){
@@ -138,7 +140,7 @@
                                 "Assign it to:"+
                                 "<div class='card-deck'>"+
                                 @foreach ($activeDrivers as $key => $driver) "<div class='card mx-1'>"+
-                                "<a href='/location/"+location_id+"/{{$driver->id}}/{{$delivery_date}}/{{$shift}}'>"+
+                                "<a href='/location/"+location_id+"/{{$driver->id}}/{{$delivery_date}}/{{$shift}}{{($cluster>0)?'?cluster=1':''}}'>"+
                                 "<img class='card-img-top' src='/img/driver/small/{{strtolower($driver->fname)}}.png' alt='{{$driver->fname}}'>"+
                                 "</a>"+
                                 "</div>"+ @endforeach
@@ -286,7 +288,14 @@
                         @endif
 
                         @yield('content')
-                        Total stops: {{$spots->count()}}
+                        <div class="d-flex justify-content-between">
+                            <span>
+                                Total stops: {{$spots->count()}}
+                            </span>
+                            <span>
+                                <a href="?delivery_date={{$delivery_date}}&shift={{$shift}}{{($cluster>0)?'':'&cluster=1'}}">Turn cluster {{($cluster>0)?'off':'on'}}</a>
+                            </span>
+                        </div>
                         <div class="row m-0 p-0">
                             <div  class="drivers col-12 row m-0 p-0 card-group">
                                 @foreach ($activeDrivers as $key => $driver)

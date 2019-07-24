@@ -24,45 +24,6 @@ class RideableController extends Controller
 
         (empty($request->input('sortby'))) ? $rideableSort = $orderColumn: $rideableSort = $request->input('sortby');
 
-        // if($request->filled('shift')){
-        //     if ($request->input('shift') === 0) {
-        //         $field1Name = 'shift';
-        //         $field1Operator = '=';
-        //         $field1Value = null;
-        //     }else{
-        //         $field1Name = 'shift';
-        //         $field1Operator = '=';
-        //         $field1Value = $request->input('shift');
-        //     }
-        // }else {
-        //     $field1Name = 'id';
-        //     $field1Operator = '!=';
-        //     $field1Value = 0;//to return all rows
-        // }
-
-        // if($request->filled('delivery_date')){
-        //     if($request->input('delivery_date') == '0'){
-        //         $field0Name = 'delivery_date';
-        //         $field0Operator = '=';
-        //         $field0Value = null;
-        //     }elseif($request->input('delivery_date') == 'all'){
-        //         $field0Name = 'id';
-        //         $field0Operator = '!=';
-        //         $field0Value = 0; // to return all rows
-        //     }else{
-        //         $field0Name = 'delivery_date';
-        //         $field0Operator = '=';
-        //         $field0Value =  $request->input('delivery_date');
-        //     }
-        // }elseif($type == "delivery"){
-        //     $field0Name = 'delivery_date';
-        //     $field0Operator = '=';
-        //     $field0Value = Carbon::today()->toDateString();
-        // }else{
-        //     $field0Name = 'id';
-        //     $field0Operator = '!=';
-        //     $field0Value = 0; // to return all rows
-        // }
         $fields = Helper::queryFiller($request,$type);
 
         $rideables = Rideable::with('user','rides','rides.driver','rides.truck','location')
@@ -83,27 +44,6 @@ class RideableController extends Controller
     public function map(Request $request)
     {
         $fields = Helper::queryFiller($request);
-        //
-        // if(empty($request->input('shift'))){
-        //     $shiftOperator = '!=';
-        //     $shift = 'all';
-        // }else {
-        //     $shiftOperator = '=';
-        //     $shift = $request->input('shift');
-        // }
-
-        // if(empty($request->input('delivery_date'))){
-        //     $delivery_dateOperator = '=';
-        //     $delivery_date = Carbon::today()->toDateString();
-        // }elseif($request->input('delivery_date') == 'all' ){
-        //     $delivery_dateOperator = '!=';
-        //     $delivery_date = 'all'; // to return all rows
-        // }else{
-        //     $delivery_dateOperator = '=';
-        //     $delivery_date = $request->input('delivery_date');
-        // }
-
-        // $queryVars = array('delivery_dateOperator' => $delivery_dateOperator, 'delivery_date' => $delivery_date, 'shiftOperator' => $shiftOperator, 'shift' => $shift );
         $spots = Location::with('rideables')
                             ->whereNotIn('name',['IND','Online'])
                             // ->whereDoesntHave('rideables.rides')
@@ -117,26 +57,6 @@ class RideableController extends Controller
                                     ['status', '!=', 'NotAvailable'],
                                 ]);
                             });
-        // $spots = Location::with('rideables')
-        //                     // ->whereDoesntHave('rideables.rides')
-        //                     ->whereHas('rideables', function($q) use($queryVars){
-        //                         $q->where([
-        //                             ['status', '!=', 'Done'],
-        //                             ['status', '!=', 'Canceled'],
-        //                             ['status', '!=', 'Returned'],
-        //                             ['status', '!=', 'Return'],
-        //                             ['status', '!=', 'NotAvailable'],
-        //                             ['status', '!=', 'Pulled'],
-        //                             ['delivery_date',$queryVars['delivery_dateOperator'],$queryVars['delivery_date']],
-        //                             ['shift',$queryVars['shiftOperator'],$queryVars['shift']]
-        //                         ]);
-        //                         $q->orWhere([
-        //                             ['type','=','Warehouse'],
-        //                             ['status', '!=', 'Done'],
-        //                             ['status', '!=', 'Canceled'],
-        //                             ['status', '!=', 'NotAvailable'],
-        //                         ]);
-        //                     });
         $spots = $spots->get();
 
         foreach ($spots as $key => $value) {
@@ -146,7 +66,6 @@ class RideableController extends Controller
             return redirect()->action("LocationController@show", [$loc])->with('warning','Please Correct/Update the location address In order to draw the map. ');
         }
 
-        // $unassign = Rideable::with('location')->doesntHave('rides')->where([['status','!=','Done'],['status','!=','Pulled'],['status','!=','Canceled'],['status','!=','Return'],['delivery_date', '=', $delivery_date]])->get();
         $unassign = Rideable::with('location')
                             ->doesntHave('rides')
                             ->whereIn('status', Helper::filter('ongoing'))
@@ -160,8 +79,8 @@ class RideableController extends Controller
                             ->where([[$fields['delivery_date'][0],$fields['delivery_date'][1],$fields['delivery_date'][2]],[$fields['shift'][0],$fields['shift'][1],$fields['shift'][2]]])
                             ->whereDoesntHave('location', function($q) { $q->where('name', 'IND');})
                             ->get();
-
-        return view('map',['spots' => $spots,'count' => $spots->count(),'unassign' => $unassign, 'assigned' => $assigned, 'delivery_date' => $fields['delivery_date'][2], 'shift' => $fields['shift'][2]]);
+// dd($request->input('cluster'));
+        return view('map',['spots' => $spots,'count' => $spots->count(),'unassign' => $unassign, 'cluster' => (filled($request->input('cluster'))) ? $request->input('cluster'): 0, 'assigned' => $assigned, 'delivery_date' => $fields['delivery_date'][2], 'shift' => $fields['shift'][2]]);
     }
 
     public function show(Rideable $rideable)
