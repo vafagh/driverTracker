@@ -131,7 +131,7 @@ class Helper
     public static function filter($value)
     {
         $ongoing = ['Created','OnTheWay','NotAvailable','DriverDetached','Reschedule'];
-        $finished = ['Done','Canceled','Return','Returned','NotAvailable','Pulled','Double Entry'];
+        $finished = ['Done','Canceled','Return','Returned','NotAvailable','Pulled','Double Entry','NoData'];
 
         switch ($value){
             case 'finished':
@@ -146,12 +146,8 @@ class Helper
             $status = array_merge($finished,$ongoing);
             break;
 
-            case 'current':
-            $status = [];
-            break;
-
             default:
-            dd('$value was empty. please set "finished" or "ongoing" or "all" or "current" '. $value);
+            dd('$value was empty. please set "finished" or "ongoing" or "all" '. $value);
 
         }
         // dd($status);

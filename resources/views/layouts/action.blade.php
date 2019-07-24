@@ -18,6 +18,7 @@
     $return         = false;
     $reschedule     = false;
     $pulled         = false;
+    $noData         = false;
 
 if ($user_role > 0 ){
     switch($action){
@@ -30,6 +31,7 @@ if ($user_role > 0 ){
                 $done = true;
             }
             $doneAtach = true;
+            $noData = true;
         break;
 
         case 'Returned':
@@ -40,6 +42,7 @@ if ($user_role > 0 ){
         break;
 
         case 'DriverDetached':
+            $noData = true;
             if ($user_id == $rideable->user_id) $delete = true;
             ($rideable->location->type  == 'Client') ?$assignDriver = true : $done = true;
             $pulled = true;
@@ -102,6 +105,11 @@ if ($user_role > 0 ){
 @if ($clear && $user_role >= 3)
     <a title="Clear line" class="text-danger" href="/rideable/{{$rideable->id}}/Canceled">
         <i class="material-icons">clear_all</i>
+    </a>
+@endif
+@if ($noData && $user_role >= 3)
+    <a title="Clear line" class="text-danger" href="/rideable/{{$rideable->id}}/NoData">
+        <i class="material-icons">wifi_off</i>
     </a>
 @endif
 @if ($notAvailable && $rideable->location->type == 'Warehouse')

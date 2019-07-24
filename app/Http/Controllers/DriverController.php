@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Ride;
 use App\Driver;
+use App\Helper;
 use App\Location;
 use App\Rideable;
 use Carbon\Carbon;
@@ -63,33 +64,18 @@ class DriverController extends Controller
             ->orderBy('created_at','desc')
             ->paginate(10);
             $today = Carbon::today()->toDateString();
-        if(empty($request->input('date'))) {
-                $where = [
-                    ['status','!=','Done'],
-                    ['status','!=','Canceled'],
-                    ['status','!=','Return'],
-                    ['status','!=','Pulled'],
-                    ['status','!=','Double Entry'],
-                    ['status','!=','NotAvailable'],
-                    ['delivery_date', '=',  $today]
-                ];
-        }else{  $where = [
-                ['status','!=','Done'],
-                ['status','!=','Canceled'],
-                ['status','!=','Return'],
-                ['status','!=','Pulled'],
-                ['status','!=','Double Entry'],
-                ['status','!=','NotAvailable']
-            ]; }
+
 
         $currentUnassign = Rideable::doesntHave('rides')
             ->whereDoesntHave('location', function($q) {
                 $q->where('name', 'IND');
             })
-            ->where($where)
-            ->get();
-        $unassignLocations = $currentUnassign->pluck('location')->flatten()->unique()->sortBy('name');
+            ->whereIn('status', Helper::filter('ongoing'));
+         if(filled($request->input('date')))
+                    $currentUnassign = $currentUnassign->where('delivery_date', '=',  $today)->get();
+        else        $currentUnassign = $currentUnassign->get();
 
+        $unassignLocations = $currentUnassign->pluck('location')->flatten()->unique()->sortBy('name');
         $defaultPickups = Location::where('driver_id',$driver_id)->get();
 
         return view('driver.show',compact('driver', 'ongoingRides', 'finishedRides', 'rideSort', 'currentUnassign','unassignLocations','defaultPickups','request','today'));
