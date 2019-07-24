@@ -62,14 +62,24 @@ class DriverController extends Controller
             })
             ->orderBy('created_at','desc')
             ->paginate(10);
-
+            $today = Carbon::today()->toDateString();
         if(empty($request->input('date'))) {
-                $where = [['status','!=','Done'],['status','!=','Canceled'],['status','!=','Return'],['status','!=','Pulled'],['delivery_date', '=',  Carbon::today()->toDateString()]];
+                $where = [
+                    ['status','!=','Done'],
+                    ['status','!=','Canceled'],
+                    ['status','!=','Return'],
+                    ['status','!=','Pulled'],
+                    ['status','!=','Double Entry'],
+                    ['status','!=','NotAvailable'],
+                    ['delivery_date', '=',  $today]
+                ];
         }else{  $where = [
                 ['status','!=','Done'],
                 ['status','!=','Canceled'],
                 ['status','!=','Return'],
-                ['status','!=','Pulled']
+                ['status','!=','Pulled'],
+                ['status','!=','Double Entry'],
+                ['status','!=','NotAvailable']
             ]; }
 
         $currentUnassign = Rideable::doesntHave('rides')

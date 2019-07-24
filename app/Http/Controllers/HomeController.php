@@ -67,7 +67,7 @@ class HomeController extends Controller
                             })->get();
         $stops = $warehouses->merge($bodyShops); // merging all stops
         $stops->all();
-        
+
         $drivers = Driver::all();
         return view('home',compact('warehouses','history','dt','shift','drivers','stops'));
     }
