@@ -50,7 +50,7 @@
                                         <div class="font-70">
                                             @if (Auth::user()->role_id > 3 || Auth::user()->id == $rideable->user_id )
                                                 <div class="d-inline pl-1">
-                                                    @component('layouts.components.modal',['modelName'=>'rideable','action'=>'edit','object'=>$rideable,'iterator'=>$key,'op1'=>$rideable->type,'op2'=>'','dingbats'=>'<i class="material-icons md-16">edit</i>','style'=>'text-info pr-0','file'=>false,'autocomplateOff'=>true])
+                                                    @component('layouts.components.modal',['modelName'=>'rideable', 'action'=>'edit', 'object'=>$rideable, 'iterator'=>$rideable->id+$key, 'op1'=>$rideable->type, 'op2'=>'', 'dingbats'=>'<i class="material-icons md-16">edit</i>', 'style'=>'text-info pr-0','file'=>false,'autocomplateOff'=>true])
                                                     @endcomponent
                                                 </div>
                                             @endif
