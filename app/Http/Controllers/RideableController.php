@@ -194,7 +194,7 @@ class RideableController extends Controller
 
         $fields = Helper::queryFiller($request);
 
-        $rideables = Rideable::with('user','rides','rides.driver','rides.truck','location')
+        $selectedTicket = Rideable::with('rides.driver')
             ->whereHas('location', function($q) use ($operator) {
                 $q->where('type', $operator, 'Client');
             })
@@ -203,9 +203,9 @@ class RideableController extends Controller
                 [$fields['shift'][0],$fields['shift'][1],$fields['shift'][2]],
                 [$fields['delivery_date'][0],$fields['delivery_date'][1],$fields['delivery_date'][2]]
             ]);
-            $rideables->update(['delivery_date' =>  $request->input('newDelivery_date')]);
-            $rideables->update(['shift' =>  $request->input('newShift')]);
-            $rideables = $rideables->get();
+            $rideables = $selectedTicket->get();
+            $selectedTicket->update(['delivery_date' =>  $request->input('newDelivery_date')]);
+            $selectedTicket->update(['shift' =>  $request->input('newShift')]);
             $msg = '';
             foreach ($rideables as $key => $rideable) {
                 Transaction::log(Route::getCurrentRoute()->getName(),'',$rideable);
