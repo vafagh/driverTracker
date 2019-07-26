@@ -54,7 +54,7 @@
                                                     @endcomponent
                                                 </div>
                                             @endif
-                                            <div class="InvoiceNumber fixedWidthFont d-inline {{$rideable->status == 'Done' ? 'line-through':''}}"  title="{{$rideable->created_at}}">
+                                            <div class="InvoiceNumber fixedWidthFont d-inline {{$rideable->status == 'Done' || $rideable->status == 'Canceled'||$rideable->status == 'NoData' ? 'line-through':''}}"  title="{{$rideable->created_at}}">
                                                 @component('layouts.components.tooltip',['modelName'=>'rideable','model'=>$rideable])
                                                 @endcomponent
                                             </div>
@@ -62,7 +62,7 @@
                                     </div>
 
                                     <div class="action col-5 line p-0 text-right pr-2">
-                                        <div class="showOnHover">
+                                        <div class="showOnHover text-truncate">
                                             @if ($rideable->status=='Done')
                                                 <div class="mt-1">
                                                     {{($rideable->user->name)}}
@@ -72,10 +72,14 @@
                                                 @endcomponent
                                             @endif
                                         </div>
-                                        <div class="hideOnHover">
-                                            <div class="mt-1">
+                                        <div class="hideOnHover ">
+                                            <div class="mt-1 text-truncate">
                                             @if ($rideable->status=='Done')
-                                                rec.on {{$rideable->shift}}
+                                                &#64;{{$rideable->shift}} received
+                                            @elseif($rideable->status=='Canceled')
+                                                &copf; {{$rideable->status}}
+                                            @elseif($rideable->status=='NoData')
+                                                <i class="material-icons md-14">wifi_off</i> {{$rideable->status}}
                                             @else
                                                 {{($rideable->user->name)}}
                                             @endif
