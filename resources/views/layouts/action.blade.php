@@ -108,7 +108,7 @@ if ($user_role > 0 ){
     </a>
 @endif
 @if ($noData && $user_role >= 3 && ($count = App\Transaction::where('table_name','=','rideables')->where('row_id','=',$rideable->id)->count()) > 3)
-    <a title="{{($user_role > 4)? $count : 'Clear line'}}" class="text-secondary" href="/rideable/{{$rideable->id}}/NoData">
+    <a title="{{$count}} attempt." class="text-secondary" href="/rideable/{{$rideable->id}}/NoData">
         <i class="material-icons">wifi_off</i>
     </a>
 @endif
