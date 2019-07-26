@@ -89,7 +89,7 @@ if ($user_role > 0 ){
 
 @endphp
 
-@if ($delete && $user_id == $rideable->user_id  && $user_role >= 5)
+@if ($delete && ($user_id == $rideable->user_id  || $user_role >= 5))
     <a title="Cancel" class="text-danger" href="/rideable/delete/{{$rideable->id}}/"><i class="material-icons">delete_forever</i></a>
 @endif
 @if ($assignDriver && $rideable->location->type == 'Client' && ($rideable->location->name != 'IND' || $rideable->location->name != 'Online') && $user_role >= 3)
