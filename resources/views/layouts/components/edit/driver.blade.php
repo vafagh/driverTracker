@@ -1,55 +1,54 @@
 <div class="modal-body">
     <div class="form-group row">
         <div class="col-6">
-            <label for="fname" class="col-form-label">First Name</label>
-            <input id="fname" name="fname" class="form-control" type="text" value="{{$object->fname}}" required>
+            <label for="fname{{$object->id}}" class="col-form-label">First Name</label>
+            <input id="fname{{$object->id}}" name="fname" class="form-control" type="text" value="{{$object->fname}}" required>
         </div>
         <div class="col-6">
-            <label for="lname" class="col-form-label">Last Name</label>
-            <input id="lname" name="lname" class="form-control" type="text" value="{{$object->lname}}" required>
+            <label for="lname{{$object->id}}" class="col-form-label">Last Name</label>
+            <input id="lname{{$object->id}}" name="lname" class="form-control" type="text" value="{{$object->lname}}" required>
         </div>
     </div>
     <div class="form-group">
-        <label for="phone" class="col-form-label">Phone number</label>
-        <input id="phone" name="phone" class="form-control" type="text" value="{{$object->phone}}">
+        <label for="email{{$object->id}}" class="col-form-label">Email Address</label>
+        <input id="email{{$object->id}}" name="email" class="form-control" type="text" value="{{$object->email}}">
+    </div>
+    <div class="form-group">
+        <label for="phone{{$object->id}}" class="col-form-label">Phone number</label>
+        <input id="phone{{$object->id}}" name="phone" class="form-control" type="text" value="{{$object->phone}}">
     </div>
     <div class="form-group row">
         <div class="col-6">
-            <label for="email" class="col-form-label">Email Address</label>
-            <input id="email" name="email" class="form-control" type="text" value="{{$object->email}}">
+            <label for="color{{$object->id}}" class="col-form-label">Marker Color</label>
+            <input id='color{{$object->id}}' name="color" class="form-control form-control-sm" type="text" placeholder="color name">
         </div>
         <div class="col-6">
             <div class="col-form-label">Status</div>
-            <input class="form-check-input pl-2" type="checkbox" {{($object->working)?'checked':''}} id="working"  name="working" >
-            <label for="working">Eagle Employee</label>
+            <input class="form-check-input pl-2" type="checkbox" {{($object->working)?'checked':''}} id="working{{$object->id}}"  name="working" >
+            <label for="working{{$object->id}}">Eagle Employee</label>
         </div>
 
     </div>
+
+
     <div class="form-group select">
-        <label for="truck" class="col-form-label">Driving:</label>
+        <label for="truck{{$object->id}}" class="col-form-label">Driving:</label>
         @php
-            $availableTrucks = App\Truck::whereNotIn('id',App\Driver::where('truck_id','!=',NULL)->get()->pluck('truck_id')->toArray());
+        $availableTrucks = App\Truck::whereNotIn('id',App\Driver::where('truck_id','!=',NULL)->get()->pluck('truck_id')->toArray());
         @endphp
         {{-- @if ($availableTrucks->count()>0) --}}
-            <select class="form-control locations" id='truck' name="truck" required>
-                <option {{($object->truck_id=='') ? 'selected':''}} value="">Not Driving</option>
-                @if (!empty($object->truck_id))
-                    <option value='{{$object->truck_id}}'>{{App\Truck::find($object->truck_id)->license_plate}}</option>
-                @endif
-                @foreach ($availableTrucks->orderBy('lable')->get() as $truck)
-                    <option {{($object->id==$truck->truck_id) ? 'selected':''}} value="{{$truck->id}}">
-                        ({{$truck->id.'):'.$truck->lable.' LP:'.$truck->license_plate.' VIN:'.$truck->last4vin}}
-                    </option>
-                @endforeach
-            </select>
-        {{-- @else
-            <div class="">
-                All truck is occupaited by drivers.
-                <div class="text-muted">
-                    To assign a truck to this driver: first you have to un-assign the target truck from current driver.
-                </div>
-            </div>
-        @endif --}}
+        <select class="form-control locations" id='truck{{$object->id}}' name="truck" required>
+            @if (empty($object->truck_id))
+                <option selected value="">Not Driving</option>
+            @else
+                <option selected value='{{$object->truck_id}}'>{{App\Truck::find($object->truck_id)->license_plate}}</option>
+            @endif
+            @foreach ($availableTrucks->orderBy('lable')->get() as $truck)
+                <option {{($object->id==$truck->truck_id) ? 'selected':''}} value="{{$truck->id}}">
+                    ({{$truck->id.'):'.$truck->lable.' LP:'.$truck->license_plate.' VIN:'.$truck->last4vin}}
+                </option>
+            @endforeach
+        </select>
     </div>
     <div class="form-row ">
         <div class="row col-2">
@@ -58,8 +57,8 @@
             </div>
         </div>
         <div class="col-10 ">
-            <input id="avatar" name="avatar" type="file" class="custom-file-input">
-            <label class="custom-file-label" for="avatar">Update picture</label>
+            <input id="avatar{{$object->id}}" name="avatar" type="file" class="custom-file-input">
+            <label class="custom-file-label" for="avatar{{$object->id}}">Update picture</label>
         </div>
     </div>
 
