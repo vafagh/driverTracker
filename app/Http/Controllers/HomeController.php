@@ -38,7 +38,7 @@ class HomeController extends Controller
             $warehouses = Location::where('type','!=','Client')
                                 ->whereHas('rideables', function($q) use($history){
                                     $q->where('delivery_date', $history); // all todays pickup
-                                    $q->orWhere('status', ['Created','NotAvailable','DriverDetached','OnTheWay']); // all ongoing pickups
+                                    $q->orWhere('status', Helper::filter('ongoing')); // all ongoing pickups
                                 })
                                 ->with('rideables')
                                 ->get();
@@ -54,22 +54,22 @@ class HomeController extends Controller
         $hisexp = explode('-', $history);
         $dt = Carbon::create($hisexp[0],$hisexp[1],$hisexp[2],0 ,0,0,'America/Chicago');
 
-        // $notAssignedTickets = Rideable::with('location')
-        //                     ->whereDoesntHave('rides')
-        //                     ->where('type','=','Client')
-        //                     ->orderBy('location_id')
-        //                     ->get();
+        $assigned = Rideable::with('location','rides')
+            ->has('rides')
+            ->whereHas('location', function($q) {
+                $q->whereNotIn('name', ['IND','Online']);
+                $q->where('type', 'Client');
+            })
+            ->where('shift',$shift)->where('delivery_date',$history)->get();
+        $bodyShops = $assigned->pluck('location')->flatten()->unique();
 
-        $bodyShops = Location::with('rideables')
-                            ->whereHas('rideables', function($q) use($when){
-                                $q->where('shift',$when[1])->where('delivery_date',$when[0]);
-                                // $q->where([['shift',$when[1]],['delivery_date',$when[0]]]);
-                            })->get();
         $stops = $warehouses->merge($bodyShops); // merging all stops
         $stops->all();
 
         $drivers = Driver::all();
-        return view('home',compact('warehouses','history','dt','shift','drivers','stops'));
+        $rides = Ride::with('rideable','rideable.location')->where('delivery_date', $history)->where('shift', $shift)->get();
+
+        return view('home',compact('warehouses','history','dt','shift','drivers','stops','rides'));
     }
 
     public function find(Request $request)

@@ -18,9 +18,29 @@
         <input id="phone{{$object->id}}" name="phone" class="form-control" type="text" value="{{$object->phone}}">
     </div>
     <div class="form-group row">
-        <div class="col-6">
-            <label for="color{{$object->id}}" class="col-form-label">Marker Color</label>
-            <input id='color{{$object->id}}' name="color" class="form-control form-control-sm" type="text" placeholder="color name">
+            <div class="row m-0 p-0">
+                <div class='bg-blue text-white col-2 p-0 small'>blue</div>
+                <div class='bg-red text-white col-2 p-0 small'>red</div>
+                <div class='bg-green text-white col-2 p-0 small'>green</div>
+                <div class='bg-black text-white col-2 p-0 small'>black</div>
+                <div class='bg-yellow text-black col-2 p-0 small'>yellow</div>
+                <div class='bg-white text-black col-2 p-0 small'>white</div>
+                <div class='bg-orange text-white col-2 p-0 small'>orange</div>
+                <div class='bg-gray text-black col-2 p-0 small'>gray</div>
+                <div class='bg-purple text-white col-2 p-0 small'>purple</div>
+                <div class='bg-khaki text-white col-2 p-0 small'>khaki</div>
+                <div class='bg-olive text-white col-2 p-0 small'>olive</div>
+                <div class='bg-silver text-black col-2 p-0 small'>silver</div>
+                <div class='bg-navy text-white col-2 p-0 small'>navy</div>
+                <div class='bg-aqua text-white col-2 p-0 small'>aqua</div>
+                <div class='bg-teal text-white col-2 p-0 small'>teal</div>
+                <div class='bg-fuchsia text-white col-2 p-0 small'>fuchsia</div>
+                <div class='bg-maroon text-white col-2 p-0 small'>maroon</div>
+                <div class='bg-maroon text-white col-2 p-0 small'></div>
+            </div>
+            <div class="col-6">
+                <label for="color{{$object->id}}" class="col-form-label">Marker Color</label>
+            <input id='color{{$object->id}}' name="color" class="form-control form-control-sm" type="text" value="{{$object->color}}">
         </div>
         <div class="col-6">
             <div class="col-form-label">Status</div>

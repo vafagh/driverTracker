@@ -135,14 +135,14 @@
             <div class="row d-flex justify-content-around">
                 @foreach ($drivers as $key => $driver)
                     @php
-                        $when = [$history,$shift];
-                        // $rides = App\Ride::with('rideable','rideable.location')->where([['shift',$when[1]],['delivery_date',$when[0]],['driver_id',$driver->id]])->get();
-                        // $deliveryStops = $rides->pluck('rideable.location')->flatten()->unique();
-                        $deliveryStops = $stops->pluck('rideable.rides')->flatten()->where('driver_id',$driver->id);
+                    $when = [$history,$shift];
+                    $thisDayRides = App\Ride::with('rideable','rideable.location')->where([['shift',$when[1]],['delivery_date',$when[0]],['driver_id',$driver->id]])->get();
+                    // $deliveryStops = $thisDayRides->pluck('rideable.location')->flatten()->unique();
+                    $deliveryStops = $thisDayRides->pluck('rideable.location')->unique();
                     @endphp
 
                     <div class="card col-6 col-sm-4 col-md-3 col-lg-2 px-0 {{($deliveryStops->count() > 0) ? '' : 'd-none' }}">
-                        <div class="card-header pt-1 pb-1 d-flex justify-content-between">
+                        <div class="card-header pt-1 pb-1 d-flex justify-content-between bg-{{$driver->color}} ">
                             @component('layouts.components.tooltip',['modelName'=>'driver','model'=>$driver])
                             @endcomponent
                             <span class='text-bold'>{{$shift}}</span>
@@ -228,36 +228,23 @@
     </div>
     <div class="card stops">
         <div class="card-header">
-            {{$stops->count()}}
+            {{$rides->count()}}
         </div>
         <div class="card-image ">
             @php
                 $markers = ''; $latsum =0; $lngsum=0; $stopcount=0;
             @endphp
-            {{-- <ol> --}}
-
-                @foreach ($stops as $key => $stop)
+                @foreach ($rides as $key => $ride)
                     @php
-                    $markers .= 'markers=size:tiny%7Ccolor:red%7Clabel:'.$stop->id.'%7C'.$stop->lat.','.$stop->lng.'&';
+                    $stop = $ride->rideable->location;
+                    $markers .= 'markers=size:medium%7Ccolor:'.$ride->driver->color.'%7Clabel:'.substr($stop->name,1,1).'%7C'.$stop->lat.','.$stop->lng.'&';
                     $latsum = $latsum + $stop->lat;
                     $lngsum = $lngsum + $stop->lng;
                     $stopcount++;
                     @endphp
-                    {{-- <li>{{$stop->name}}
-                        <ul>
-                            @foreach ($stop->rideables->where('shift',$shift)->where('delivery_date',$history) as $key => $ticket)
-                                <li>{{$ticket->invoice_number}}
-                                    @foreach ($ticket->rides as $key => $ride)
-                                        {{$ride->driver->fname}}
-                                    @endforeach
-                                </li>
-                            @endforeach
-                        </ul>
-                    </li> --}}
                 @endforeach
-            {{-- </ol> --}}
             @if ($stopcount>0)
-                <img class="mx-auto d-block" src="https://maps.googleapis.com/maps/api/staticmap?center={{$latsum/$stopcount}},{{$lngsum/$stopcount}}&zoom=9&size=1200x300&maptype=roadmap&{{$markers}}&key={{env('GOOGLE_MAP_API')}}" alt="routes">
+                <img class="mx-auto d-block" src="https://maps.googleapis.com/maps/api/staticmap?center={{$latsum/$stopcount}},{{$lngsum/$stopcount}}&zoom=9&size=640x500&maptype=roadmap&{{$markers}}&key={{env('GOOGLE_MAP_API')}}" alt="routes">
             @endif
         </div>
     </div>

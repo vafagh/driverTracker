@@ -31,6 +31,7 @@ class DriverController extends Controller
         $driver->fname = $request->fname;
         $driver->lname = $request->lname;
         $driver->phone = $request->phone;
+        $driver->color = $request->color;
         $driver->email = $request->email;
         ($request->truck == 'clear') ? $driver->truck_id = null : $driver->truck_id = $request->truck;
         if($request->file('avatar')!=NULL){
@@ -90,6 +91,7 @@ class DriverController extends Controller
             $driver->lname = $request->lname;
             $driver->phone = $request->phone;
             $driver->email = $request->email;
+            $driver->color = $request->color;
             ($request->truck == 'clear') ?  $driver->truck_id=null : $driver->truck_id = $request->truck;
             if($request->working=='on'){
                 $driver->working = true;

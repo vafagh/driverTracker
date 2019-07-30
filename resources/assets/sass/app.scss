@@ -4,6 +4,23 @@
 @import "variables";
 // Bootstrap
 @import 'node_modules/bootstrap/scss/bootstrap';
+.bg-blue,.bg-blue div a{background-color: blue}
+.bg-red,.bg-red div a{background-color: red}
+.bg-green,.bg-green div a{background-color: green}
+.bg-black,.bg-black div a{background-color: black}
+.bg-yellow,.bg-yellow div a{background-color: yellow}
+.bg-white,.bg-white div a{background-color: white}
+.bg-orange,.bg-orange div a{background-color:  orange}
+.bg-gray,.bg-gray div a{background-color:  gray}
+.bg-purple,.bg-purple div a{background-color:  purple}
+.bg-khaki,.bg-khaki div a{background-color:  khaki}
+.bg-olive,.bg-olive div a{background-color:  olive}
+.bg-silver,.bg-silver div a{background-color:  silver}
+.bg-navy,.bg-navy div a{background-color:  navy}
+.bg-aqua,.bg-aqua div a{background-color:  aqua}
+.bg-teal,.bg-teal div a{background-color:  teal}
+.bg-fuchsia,.bg-fuchsia div a{background-color:  fuchsia}
+.bg-maroon,.bg-maroon div a{background-color:  maroon}
 .navbar-collapse.collapse.show ul a{ padding:5px 0 5px 20px}
 .navbar-brand{
     background: url(/img/logo.png) no-repeat left center;
@@ -25,7 +42,13 @@
 //fixing modal issue with list-group
 .list-group-item, .list-group-item:hover{ z-index: auto; }
 .table-compact td{padding:6px 1px 2px}
+.vertical-center {
+  min-height: 70%;  /* Fallback for browsers do NOT support vh unit */
+  min-height: 70vh; /* These two lines are counted as one :-)       */
 
+  display: flex;
+  align-items: center;
+}
 .bg-000{background-color: #000}
 .bg-111{background-color: #111}
 .bg-222{background-color: #222}
@@ -140,7 +163,38 @@
 .OnTheWay{background-color:#c9c6f4}
 .Reactived{background-color:#c9c6f4}
 .InvoiceNumber{font-size:1.5em}
+$char-w: 1ch;
+$gap: .3*$char-w;
+$n-char: 6;
+$in-w: $n-char*($char-w + $gap);
+
+.bigtext input.digit {
+  border: none;
+  width: $in-w;
+  background: repeating-linear-gradient(90deg,
+    dimgrey 0, dimgrey $char-w,
+    transparent 0, transparent $char-w + $gap)
+    0 100%/100% 2px no-repeat;
+  font: 15ch consolas, monospace;
+  letter-spacing: $gap;
+
+  &:focus {
+    outline: none;
+    color: dodgerblue;
+  }
+}
+
 .fixedWidthFont{font-family: monospace;}
+
+.alert-dismissible{
+    position: fixed;
+    top: 20%;
+    left:2%;
+    width: 60%;
+    height: 20%;
+    z-index: 1050
+}
+
 .driver .icon{
     max-width:38px;
     max-height:38px;
