@@ -237,7 +237,7 @@
                 @foreach ($rides as $key => $ride)
                     @php
                     $stop = $ride->rideable->location;
-                    $markers .= 'markers=size:medium%7Ccolor:'.$ride->driver->color.'%7Clabel:'.substr($stop->name,1,1).'%7C'.$stop->lat.','.$stop->lng.'&';
+                    $markers .= 'markers=size:medium%7Ccolor:'.$ride->driver->color.'%7Clabel:'.substr($stop->name,0,1).'%7C'.$stop->lat.','.$stop->lng.'&';
                     $latsum = $latsum + $stop->lat;
                     $lngsum = $lngsum + $stop->lng;
                     $stopcount++;
