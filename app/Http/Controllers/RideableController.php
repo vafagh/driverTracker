@@ -154,8 +154,15 @@ class RideableController extends Controller
                 $rideable->type = Location::find($rideable->location_id)->type;
                 $rideable->shift = empty($thisRequest->{"shift$i"}) ? $thisRequest->shift : $thisRequest->{"shift$i"} ;
                 $rideable->delivery_date = empty($thisRequest->{"delivery_date$i"}) ? $thisRequest->delivery_date : $thisRequest->{"delivery_date$i"} ;
-                $rideable->status = 'Created';
-                $rideable->description = $thisRequest->description;
+                if ($request->ready ==1 && $request->status == 'Pulled'&& filled($request->puller)) {
+                    $rideable->status = 'Pulled';
+                    $today = new Carbon;
+                    $rideable->delivery_date = $today->format('Y-m-d');
+                    $rideable->description = $request->description.' | Pulled By '.$request->input('puller').' at '.$today->format('Y-m-d').' '.date('H:i');
+                }else{
+                    $rideable->status = 'Created';
+                    $rideable->description = $thisRequest->description;
+                }
                 $rideable->save();
                 Transaction::log(Route::getCurrentRoute()->getName(),'',$rideable);
             }
@@ -164,9 +171,10 @@ class RideableController extends Controller
             $rawData = $request->rawData;
             $invoices=null;
             $n = 0;
-            return view('rideable.batchConfirm', compact('invoices','rawData','n'))->with('status', $j." part number has been added! ".' ');
+            return view('rideable.batchConfirm', compact('invoices','rawData','n'))->with('status', $rideable->invoice_number." part number has been added and marked as a pulled! ".' ');
         }
-        else return redirect()->back()->with('status', $j." part number has been added! ".' '.$msg);
+        elseif($request->status == 'Pulled') {return redirect()->route('pull.rideable')->with('status', $j." part number has been added! ".' '.$msg);}
+        else {return redirect()->back()->with('status', $j." part number has been added! ".' '.$msg);}
 
     }
 
@@ -232,16 +240,20 @@ class RideableController extends Controller
                 }
                 $msg = 'Ride date/shift updated';
             }
-        }elseif(!empty($request->input('puller'))){
+        }
+        if(filled($request->puller)){
             $today = new Carbon;
             $rideable->delivery_date = $today->format('Y-m-d');
-            $rideable->description .= ' Pulled By '.$request->input('puller').' at '.$today->format('Y-m-d').' '.date('H:i');
+            $rideable->description = $rideable->description.' | '.$request->description.' | Pulled By '.$request->input('puller').' at '.$today->format('Y-m-d').' '.date('H:i');
         }
         $rideable->status = $request->status;
         $rideable->save();
         Transaction::log(Route::getCurrentRoute()->getName(),'',$rideable);
 
-        return redirect()->back()->with('status', '#'.$rideable->invoice_number." updated!");
+        if (filled($request->puller)) {
+            return  view('rideable.pull',['last' => substr(Rideable::latest()->get()->first()->invoice_number,0,-3)])
+                        ->with('status', '#'.$rideable->invoice_number." Marked as a pulled!");
+        }else return redirect()->back()->with('status', '#'.$rideable->invoice_number." updated!");
     }
 
     public function destroy(Rideable $rideable,Request $request)
@@ -264,4 +276,38 @@ class RideableController extends Controller
 
         return redirect()->back()->with('status', 'Access Denied. '.$rideable->user->name.' created it and only one who can destroy it!');
     }
+
+    public function pull()
+    {
+        return view('rideable.pull',['last' => substr(Rideable::latest()->get()->first()->invoice_number,0,-3)]);
+    }
+
+    public function updateOrInsert(Request $request)
+    {
+        $rideable = Rideable::with('location')->where('invoice_number','=',$request->invoice_number)->get();
+        if ($rideable->count() == 0 && $request->ready != 1) {
+            $request->request->add([
+                'invoice_number0' => $request->invoice_number ,
+                'qty' => '',
+                'showForm' => 'yes',
+                'stored' => 'no',
+                'item_0' => 'on'
+            ]);
+            return view('rideable.pull',['last' => $request->invoice_number,'request' => $request,'update' => false]);
+        }elseif($request->ready == 1){
+            $this->store($request);
+        }else{
+            $rideable = $rideable->first();
+            $request->request->add([
+                'invoice_number0' => $rideable->invoice_number ,
+                'qty' => '',
+                'showForm' => 'yes',
+                'stored' => 'yes',
+                'item_0' => 'on'
+            ]);
+            return view('rideable.pull',['last' => $rideable->invoice_number, 'request' => $request,'rideable' => $rideable, 'update' => true]);
+        }
+    }
+
+
 }

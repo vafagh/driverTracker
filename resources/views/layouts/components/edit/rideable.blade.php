@@ -85,7 +85,7 @@
         <input value='kiloklo' type="hidden" name='onlyStatus'>
         <input value='Pulled' type="hidden" name='status'>
         <div class="form-group">
-            <label for="message-text" class="col-form-label">Note:{{$noneStatus}}</label>
+            <label for="message-text" class="col-form-label">Note:</label>
             <textarea class="form-control" name="description">{{$object->description}}</textarea>
         </div>
         <div class="row">

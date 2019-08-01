@@ -36,9 +36,9 @@
 </li> --}}
 
 <li class="nav-item">
-    <a class="nav-link pickup" href="/pickup" title="Pickups">
+    <a class="nav-link pickup" href="/pull" title="pull">
         <i class="material-icons d-md-inline d-lg-none  d-xl-inline">domain</i>
-        <span class="d-inline d-md-none d-md-none d-lg-inline">Pickups</span>
+        <span class="d-inline d-md-none d-md-none d-lg-inline">Pull</span>
     </a>
 </li>
 <li class="nav-item">
