@@ -130,8 +130,9 @@
             </fieldset>
         @else
             Customer: <div class="h2">{{($rideable->location->longName)}}</div>
-            @if ($rideable->status != 'Created' || $rideable->status != 'DriverDetached' || $rideable->status != 'Reschedule' )
-                This ticket already marked as a <b class="text-danger">{{($rideable->status)}}</b>!<br>
+            This ticket already marked as a <b class="text-danger">{{($rideable->status)}}</b>!<br>
+            @if ($rideable->status == 'Created' || $rideable->status == 'DriverDetached' || $rideable->status == 'Reschedule' )
+            @else
                 Please duble check the ticket number and make sure ticket#<b>{{$rideable->invoice_number}}</b> is created for <b class="text-info">{{($rideable->location->longName)}}</b>, Otherwise let Vafa know about this conflict.<br>
                 Click on Reset button to go to last screen.
             @endif
