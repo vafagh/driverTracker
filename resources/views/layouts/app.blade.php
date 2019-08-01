@@ -123,19 +123,39 @@
     <div class="fluid-container row mx-auto p-0">
         <div class="main col-lg-12 col-xl-12 mt-1">
             @if (session('info'))
-                <div class="alert alert-info mt-3 mx-auto">{{ session('info') }}</div>
+                <div class="alert alert-info mt-3 mx-auto">{{ session('info') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                     </button>
+                 </div>
             @endif
             @if (session('error'))
-                <div class="alert alert-danger mt-3 mx-auto">{{ session('error') }}</div>
+                <div class="alert alert-danger mt-3 mx-auto alert-dismissible fade show">{{ session('error') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                     </button>
+                 </div>
             @endif
             @if (session('warning'))
-                <div class="alert alert-warning mt-3 mx-auto">{{ session('warning') }}</div>
+                <div class="alert alert-warning mt-3 mx-auto alert-dismissible fade show">{{ session('warning') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                     </button>
+                 </div>
             @endif
             @if (session('success'))
-                <div class="alert alert-success mt-3 mx-auto">{{ session('success') }}</div>
+                <div class="alert alert-success mt-3 mx-auto">{{ session('success') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                     </button>
+                 </div>
             @endif
             @if (session('status'))
-                <div class="alert alert-info mt-3 mx-auto">{{ session('status') }}</div>
+                <div class="alert alert-info mt-3 mx-auto ">{{ session('status') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                     </button>
+                 </div>
             @endif
 
             @yield('content')
