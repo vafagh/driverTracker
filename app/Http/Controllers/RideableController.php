@@ -42,7 +42,7 @@ class RideableController extends Controller
     public function show(Rideable $rideable)
     {
         $pickup = ($rideable->type=='Pickup') ? true : false;
-        return view('rideable.shovv',compact('rideable','pickup'));
+        return view('rideable.show',compact('rideable','pickup'));
     }
 
     public function map(Request $request)
