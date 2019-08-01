@@ -27,36 +27,40 @@ class RideableController extends Controller
         $fields = Helper::queryFiller($request,$type);
 
         $rideables = Rideable::with('user','rides','rides.driver','rides.truck','location')
-                                ->whereHas('location', function($q) use ($operator) {
-                                    $q->where('type', $operator, 'Client');
-                                })
-                                ->whereIn('status', $request->filled('status') ? ['returned'] : Helper::filter('ongoing'))
-                                ->where([$fields['shift'], $fields['delivery_date']])
-                                ->orderBy($rideableSort, 'asc')
-                                ->paginate(120);
-                                // dd([$fields['shift'],$fields['delivery_date']])  ;
-                                // dd($rideables->toSql());
+        ->whereHas('location', function($q) use ($operator) {
+            $q->where('type', $operator, 'Client');
+        })
+        ->whereIn('status', $request->filled('status') ? ['returned'] : Helper::filter('ongoing'))
+        ->where([$fields['shift'], $fields['delivery_date']])
+        ->orderBy($rideableSort, 'asc')
+        ->paginate(120);
         ($request!==null) ? $flashId = $request->id : $flashId = '1';
 
         return view('rideable.rideables',compact('rideables','op1','op2','flashId'));
+    }
+
+    public function show(Rideable $rideable)
+    {
+        $pickup = ($rideable->type=='Pickup') ? true : false;
+        return view('rideable.shovv',compact('rideable','pickup'));
     }
 
     public function map(Request $request)
     {
         $fields = Helper::queryFiller($request);
         $spots = Location::with('rideables')
-                            ->whereNotIn('name',['IND','Online'])
-                            // ->whereDoesntHave('rideables.rides')
-                            ->whereHas('rideables', function($q) use($fields){
-                                $q->whereIn('status', Helper::filter('ongoing'));
-                                $q->where([ $fields['shift'], $fields['delivery_date']]);
-                                $q->orWhere([
-                                    ['type','=','Warehouse'],
-                                    ['status', '!=', 'Done'],
-                                    ['status', '!=', 'Canceled'],
-                                    ['status', '!=', 'NotAvailable'],
-                                ]);
-                            });
+        ->whereNotIn('name',['IND','Online'])
+        // ->whereDoesntHave('rideables.rides')
+        ->whereHas('rideables', function($q) use($fields){
+            $q->whereIn('status', Helper::filter('ongoing'));
+            $q->where([ $fields['shift'], $fields['delivery_date']]);
+            $q->orWhere([
+                ['type','=','Warehouse'],
+                ['status', '!=', 'Done'],
+                ['status', '!=', 'Canceled'],
+                ['status', '!=', 'NotAvailable'],
+            ]);
+        });
         $spots = $spots->get();
 
         foreach ($spots as $key => $value) {
@@ -67,26 +71,19 @@ class RideableController extends Controller
         }
 
         $unassign = Rideable::with('location')
-                            ->doesntHave('rides')
-                            ->whereIn('status', Helper::filter('ongoing'))
-                            ->where([[$fields['delivery_date'][0],$fields['delivery_date'][1],$fields['delivery_date'][2]],[$fields['shift'][0],$fields['shift'][1],$fields['shift'][2]]])
-                            ->whereDoesntHave('location', function($q) { $q->where('name', 'IND');})
-                            ->get();
+        ->doesntHave('rides')
+        ->whereIn('status', Helper::filter('ongoing'))
+        ->where([[$fields['delivery_date'][0],$fields['delivery_date'][1],$fields['delivery_date'][2]],[$fields['shift'][0],$fields['shift'][1],$fields['shift'][2]]])
+        ->whereDoesntHave('location', function($q) { $q->where('name', 'IND');})
+        ->get();
 
         $assigned = Rideable::with('location')
-                            ->has('rides')
-                            ->whereIn('status', Helper::filter('ongoing'))
-                            ->where([[$fields['delivery_date'][0],$fields['delivery_date'][1],$fields['delivery_date'][2]],[$fields['shift'][0],$fields['shift'][1],$fields['shift'][2]]])
-                            ->whereDoesntHave('location', function($q) { $q->where('name', 'IND');})
-                            ->get();
-// dd($request->input('cluster'));
+        ->has('rides')
+        ->whereIn('status', Helper::filter('ongoing'))
+        ->where([[$fields['delivery_date'][0],$fields['delivery_date'][1],$fields['delivery_date'][2]],[$fields['shift'][0],$fields['shift'][1],$fields['shift'][2]]])
+        ->whereDoesntHave('location', function($q) { $q->where('name', 'IND');})
+        ->get();
         return view('map',['spots' => $spots,'count' => $spots->count(),'unassign' => $unassign, 'cluster' => (filled($request->input('cluster'))) ? $request->input('cluster'): 0, 'assigned' => $assigned, 'delivery_date' => $fields['delivery_date'][2], 'shift' => $fields['shift'][2]]);
-    }
-
-    public function show(Rideable $rideable)
-    {
-        $pickup = ($rideable->type=='Pickup') ? true : false;
-        return view('rideable.show',compact('rideable','pickup'));
     }
 
     public function status(Request $request)
@@ -108,10 +105,10 @@ class RideableController extends Controller
         return redirect()->back()->with('status', $rideable->status.' set');
     }
 
-    // This function is for inserting new invoices into system using excisting multiple line text from other systems.
+    // This function for inserting new invoices into system using excisting multiple line text from other systems.
     public function analyseRaw(Request $request)
     {
-        // Sample raw data
+        // Sample acceptable raw data
         // 432975 │ 05/13/19 │ PAUL'SCOLL │ PAUL'S COLLISSION REPAIR    │         79.00
         // 432976 │ 05/13/19 │ FREEDOMAUT │ FREEDOM AUTO MOTORS(G.P.)   │         80.00
         // 432977 │ 05/13/19 │ IND        │ RENE                        │         27.06
@@ -195,32 +192,32 @@ class RideableController extends Controller
         $fields = Helper::queryFiller($request);
 
         $selectedTicket = Rideable::with('rides.driver')
-            ->whereHas('location', function($q) use ($operator) {
-                $q->where('type', $operator, 'Client');
-            })
-            ->whereNotIn('status', Helper::filter('finished'))
-            ->where([
-                [$fields['shift'][0],$fields['shift'][1],$fields['shift'][2]],
-                [$fields['delivery_date'][0],$fields['delivery_date'][1],$fields['delivery_date'][2]]
-            ]);
-            $rideables = $selectedTicket->get();
-            $selectedTicket->update(['delivery_date' =>  $request->input('newDelivery_date')]);
-            $selectedTicket->update(['shift' =>  $request->input('newShift')]);
-            $msg = '';
-            foreach ($rideables as $key => $rideable) {
-                Transaction::log(Route::getCurrentRoute()->getName(),'',$rideable);
-                $msg .= $rideable->invoice_number.', ';
-            }
+        ->whereHas('location', function($q) use ($operator) {
+            $q->where('type', $operator, 'Client');
+        })
+        ->whereNotIn('status', Helper::filter('finished'))
+        ->where([
+            [$fields['shift'][0],$fields['shift'][1],$fields['shift'][2]],
+            [$fields['delivery_date'][0],$fields['delivery_date'][1],$fields['delivery_date'][2]]
+        ]);
+        $rideables = $selectedTicket->get();
+        $selectedTicket->update(['delivery_date' =>  $request->input('newDelivery_date')]);
+        $selectedTicket->update(['shift' =>  $request->input('newShift')]);
+        $msg = '';
+        foreach ($rideables as $key => $rideable) {
+            Transaction::log(Route::getCurrentRoute()->getName(),'',$rideable);
+            $msg .= $rideable->invoice_number.', ';
+        }
 
 
-            return redirect()->back()->with('status', $msg." Reschaduled!");
+        return redirect()->back()->with('status', $msg." Reschaduled!");
     }
 
     public function update(Request $request)
     {
         $rideable = Rideable::find($request->id);
-        $rideable->description = $request->description;
         if(empty($request->onlyStatus)){
+            $rideable->description = $request->description;
             $rideable->invoice_number = $request->invoice_number;
             // $rideable->type = $request->type; //user cant change the type
             ($request->stock == 'on') ? $rideable->stock = true :$rideable->stock = false;
@@ -249,21 +246,21 @@ class RideableController extends Controller
 
     public function destroy(Rideable $rideable,Request $request)
     {
-            if(Auth::user()->id==$rideable->user_id || Auth::user()->role_id > 4){
-                if($rideable->rides()->count() > 0){
-                    $rideable->rides()->detach();
-                    $driversName='';
-                    foreach (Ride::where('rideable_id',$rideable->id)->get() as $child) {
-                        Ride::destroy($child->id);
-                        $driversName .= $child->driver->fname.', ';
-                    }
-                    $msg = 'attached ride destroyed { '.$driversName.'}';
-                }else{ $msg = 'no attached ride to destroy!';}
-                Rideable::destroy($rideable->id);
-                Transaction::log(Route::getCurrentRoute()->getName(),$rideable,false);
+        if(Auth::user()->id==$rideable->user_id || Auth::user()->role_id > 4){
+            if($rideable->rides()->count() > 0){
+                $rideable->rides()->detach();
+                $driversName='';
+                foreach (Ride::where('rideable_id',$rideable->id)->get() as $child) {
+                    Ride::destroy($child->id);
+                    $driversName .= $child->driver->fname.', ';
+                }
+                $msg = 'attached ride destroyed { '.$driversName.'}';
+            }else{ $msg = 'no attached ride to destroy!';}
+            Rideable::destroy($rideable->id);
+            Transaction::log(Route::getCurrentRoute()->getName(),$rideable,false);
 
-                return redirect()->back()->with('status', 'Rideable Destroid! and '.$msg);
-            }
+            return redirect()->back()->with('status', 'Rideable Destroid! and '.$msg);
+        }
 
         return redirect()->back()->with('status', 'Access Denied. '.$rideable->user->name.' created it and only one who can destroy it!');
     }
