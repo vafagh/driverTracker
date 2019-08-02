@@ -56,8 +56,7 @@
         @php
         $availableTrucks = App\Truck::whereNotIn('id',App\Driver::where('truck_id','!=',NULL)->get()->pluck('truck_id')->toArray());
         @endphp
-        {{-- @if ($availableTrucks->count()>0) --}}
-        <select class="form-control locations" id='truck{{$object->id}}' name="truck" required>
+        <select class="form-control locations" id='truck{{$object->id}}' name="truck">
             @if (empty($object->truck_id))
                 <option selected value="">Not Driving</option>
             @else
