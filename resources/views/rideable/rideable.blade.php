@@ -20,6 +20,8 @@
                         <div class="dropdown-menu" aria-labelledby="filterlist">
                             <a class="dropdown-item" href="{{strtolower($op2)}}/massUpdate{{str_replace(URL::current(),'',URL::full())}}&amp;newShift=Morning&amp;newDelivery_date={{\Carbon\Carbon::today()->toDateString()}}">Today Morning</a>
                             <a class="dropdown-item" href="{{strtolower($op2)}}/massUpdate{{str_replace(URL::current(),'',URL::full())}}&amp;newShift=Evening&amp;newDelivery_date={{\Carbon\Carbon::today()->toDateString()}}">Today Evening</a>
+                            <a class="dropdown-item" href="{{strtolower($op2)}}/massUpdate{{str_replace(URL::current(),'',URL::full())}}&amp;newShift=Morning&amp;newDelivery_date={{\Carbon\Carbon::tomorrow()->toDateString()}}">Tomarrow Morning</a>
+                            <a class="dropdown-item" href="{{strtolower($op2)}}/massUpdate{{str_replace(URL::current(),'',URL::full())}}&amp;newShift=Evening&amp;newDelivery_date={{\Carbon\Carbon::tomorrow()->toDateString()}}">Tomarrow Evening</a>
                         </div>
                     </div>
                 @endif
