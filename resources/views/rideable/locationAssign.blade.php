@@ -46,9 +46,9 @@
         @endforeach
 
         @if (empty($date))
-            <div class="add d-inline"><a class="{{(Auth::user()->role_id==3) ?' d-none':''}} " title="See other days" href="?date=all"><i class="material-icons md-14 text-dark">calendar_today</i>More</a></div>
+            <div class="add d-inline"><a class="" title="See other days" href="?date=all"><i class="material-icons md-14 text-dark">calendar_today</i>More</a></div>
         @else
-            <div class="add d-inline"><a class="{{(Auth::user()->role_id==3) ?' d-none':''}} " title="Only Today's" href="?date="><i class="material-icons md-14 text-dark">today</i>Less</a></div>
+            <div class="add d-inline"><a class="" title="Only Today's" href="?date="><i class="material-icons md-14 text-dark">today</i>Less</a></div>
         @endif
     @else
         <div class="">
