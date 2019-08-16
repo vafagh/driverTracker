@@ -8,6 +8,7 @@ use Locations;
 class Helper
 {
 
+    //Use: when($rideable,$ahead = true,$forceChoiceSaturday = true)['date', 'shift', 'day']
     public static function when($rideable,$ahead = true,$forceChoiceSaturday = true)
     {
         $forceMorning = false;
@@ -36,11 +37,11 @@ class Helper
                 $forceMorning = true;
                 $ahead = false;
             }else $deliverydate = $today;
-
             if(($ahead && $currentHoure >= $start && $currentHoure <= $middle) || (!$ahead && $currentHoure >= $middle) ){
                 $shift = $e;
-            }else $shift = $m;
-
+            }else {
+                $shift = $m;
+                }
             if($ahead && $currentHoure >= $middle){
                 $deliverydate = $tomorrow;
             }
@@ -48,7 +49,6 @@ class Helper
             $deliverydate = $rideable->delivery_date;
             $shift = $rideable->shift;
         }
-
         return array('date' => $deliverydate, 'shift' => $shift, 'day' => $day);
     }
 
@@ -71,7 +71,7 @@ class Helper
             break;
 
             case 'Evening':
-            return array('starts' => 15, 'ends' => 18, 'tolerance' => $tolerance);
+            return array('starts' => 14, 'ends' => 18, 'tolerance' => $tolerance);
             break;
 
             default:
