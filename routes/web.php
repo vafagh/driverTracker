@@ -13,6 +13,7 @@ Route::GET('/driver/{driver}/unassign', 'DriverController@unassign')->name('unas
 Route::GET('/driver/{driver}/{history}/{shift}/direction', 'DriverController@direction')->name('direction.driver');
 Route::GET('/trucks', 'TruckController@index')->name('trucks');
 Route::GET('/truck/show/{truck}', 'TruckController@show');
+Route::GET('/truck/envelope/{truck}', 'TruckController@envelope');
 Route::POST('/truck/store', 'TruckController@store')->name('add.truck');
 Route::POST('/truck/save', 'TruckController@update')->name('save.truck');
 Route::GET('/rides/', 'RideController@index');
@@ -61,4 +62,4 @@ Route::GET('/search', 'HomeController@find')->name('search');
 Route::GET('/version', 'HomeController@version')->name('version');
 
 Route::GET('/{type}/massUpdate/', 'RideableController@batchUpdate');
-Route::GET('/{type}', 'RideableController@list');
+Route::GET('/{type}', 'RideableController@list')->name('rideables');

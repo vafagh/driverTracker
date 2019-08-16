@@ -4,8 +4,7 @@
         @component('driver.header',['driver'=>$driver])
         @endcomponent
 
-        @component('rideable.locationAssign',
-            [
+        @component('rideable.locationAssign',[
                 'driver'=>$driver,
                 'date' => $request->input('date'),
                 'today' => $today,
@@ -15,8 +14,7 @@
             ])
         @endcomponent
 
-        @component('rideable.lines',
-            [
+        @component('rideable.lines',[
                 'driver'=>$driver,
                 'ongoingRides' => $ongoingRides,
                 'finishedRides' => $finishedRides,

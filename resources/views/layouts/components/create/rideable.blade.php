@@ -210,7 +210,7 @@
 
 </div>
 <div class="modal-footer">
-    <input type="hidden" name="type" value="{{$op2}}">
+    <input type="hidden" name="type" value="{{strtolower($op2)}}">
     <input type="hidden" name="n" value="10">
     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
     <button type="submit" id="{{$op2}}" class="btn btn-primary">Save it</button>
