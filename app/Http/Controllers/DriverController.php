@@ -64,16 +64,15 @@ class DriverController extends Controller
             })
             ->orderBy('created_at','desc')
             ->paginate(10);
-            $today = Carbon::today()->toDateString();
-
+        $today = Carbon::today()->toDateString();
 
         $currentUnassign = Rideable::doesntHave('rides')
             ->whereDoesntHave('location', function($q) {
-                $q->where('name', 'IND');
+                $q->whereIn('name', ['IND','Online']);
             })
             ->whereIn('status', Helper::filter('ongoing'));
-         if(filled($request->input('date')))
-                    $currentUnassign = $currentUnassign->where('delivery_date', '=',  $today)->get();
+         if(empty($request->input('date')))
+                    $currentUnassign = $currentUnassign->where('delivery_date', '=',  $today)->where('shift', '=',  Helper::when(null,false, false)['shift'])->get();
         else        $currentUnassign = $currentUnassign->get();
 
         $unassignLocations = $currentUnassign->pluck('location')->flatten()->unique()->sortBy('name');
