@@ -1,20 +1,5 @@
-@if ($defaultPickups && $defaultPickups->count()>0)
-    <div class="card-header">
-        <span>
-            <i class="material-icons md-1">business</i>
-            Assigned to pickup from:
-        </span>
-        @foreach ($defaultPickups as $location)
-            @component('layouts.components.tooltip',['modelName'=>'location','model'=>$location])
-            @endcomponent,
-        @endforeach
-    </div>
-@endif
-
 <div class="card-header  m-0 justify-around">
     @if ($unassignLocations && $driver->truck_id != null)
-
-
         <span class="btn btn-sm ml-1">
             <i class="material-icons">store_mall_directory</i>
             Shops with active ticket:
@@ -29,16 +14,13 @@
             };
             @endphp
             <div class="d-inline-block btn  btn-secondary mr-1 mb-1 py-0">
-                <a class="bg-info{{(Auth::user()->role_id<3 || $location->type=='DropOff' || $co == 0) ?' d-none':''}} mr-1  " title="Delivery for Morning" href="/location/{{$location->id}}/{{$driver->id}}/{{$today}}/Morning">
+                <a class="bg-info{{(Auth::user()->role_id<3 || $location->type=='DropOff' || $co == 0) ?' d-none':''}} mr-1" title="Delivery for Morning" href="/location/{{$location->id}}/{{$driver->id}}/{{$today}}/Morning">
                     <i class="material-icons text-dark">add</i>
                 </a>
-                <span title="{{$invoices}}">
-                    {{$location->name}}
-
-                </span>
-                    <a  class="text-warning" title="{{$invoices}}"  href="/location/show/{{$location->id}}" target="_blank">
-                        {{$co}}
-                        </a>
+                <span title="{{$invoices}}">{{$location->name}}</span>
+                <a  class="text-warning" title="{{$invoices}}"  href="/location/show/{{$location->id}}" target="_blank">
+                    {{$co}}
+                </a>
                 <a class="bg-warning{{(Auth::user()->role_id<3 || $location->type=='DropOff' || $co == 0) ?' d-none':''}}  ml-1" title="Delivery for Evening" href="/location/{{$location->id}}/{{$driver->id}}/{{$today}}/Evening">
                     <i class="material-icons text-dark">add</i>
                 </a>
@@ -60,3 +42,15 @@
     @component('layouts.components.modal',['modelName'=>'rideable','action'=>'create','iterator'=>0,'object'=>null,'op1'=>'Client','op2'=>'Delivery','style'=>'bg-light','dingbats'=>'<i class="material-icons">add_box</i>','autocomplateOff'=>true])
     @endcomponent
 </div>
+{{-- @if ($defaultPickups && $defaultPickups->count()>0)
+    <div class="card-header">
+        <span>
+            <i class="material-icons md-1">business</i>
+            Assigned to pickup from:
+        </span>
+        @foreach ($defaultPickups as $location)
+            @component('layouts.components.tooltip',['modelName'=>'location','model'=>$location])
+            @endcomponent,
+        @endforeach
+    </div>
+@endif --}}
