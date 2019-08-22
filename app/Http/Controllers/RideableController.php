@@ -251,7 +251,7 @@ class RideableController extends Controller
         Transaction::log(Route::getCurrentRoute()->getName(),'',$rideable);
 
         if (filled($request->puller)) {
-            return  view('rideable.pull',['last' => substr(Rideable::latest()->get()->first()->invoice_number,0,-3)])
+            return  view('rideable.pull',['last' => substr(Rideable::latest()->get()->first()->invoice_number,0,-3), 'pickups' => Rideable::whereIn('status', Helper::filter('ongoing'))->whereHas('location', function($q) {$q->whereIn('name', ['IND','Online']);})->orderBy('invoice_number', 'asc')->get()])
                         ->with('status', '#'.$rideable->invoice_number." Marked as a pulled!");
         }else return redirect()->back()->with('status', '#'.$rideable->invoice_number." updated!");
     }
@@ -279,39 +279,26 @@ class RideableController extends Controller
 
     public function pull()
     {
-        $pickups = Rideable::whereIn('status', Helper::filter('ongoing'))
-                            ->whereHas('location', function($q) {
-                                    $q->whereIn('name', ['IND','Online']);
-                            })
-                            ->orderBy('invoice_number', 'asc')
-                            ->get();
-        return view('rideable.pull',['last' => substr(Rideable::latest()->get()->first()->invoice_number,0,-3),'pickups' => $pickups]);
+        return view('rideable.pull',['last' => substr(Rideable::latest()->get()->first()->invoice_number,0,-3),
+            'pickups' => Rideable::whereIn('status', Helper::filter('ongoing'))
+                ->whereHas('location', function($q) {$q->whereIn('name', ['IND','Online']);})
+                ->orderBy('invoice_number', 'asc')
+                ->get()
+            ]);
     }
 
     public function updateOrInsert(Request $request)
     {
         $rideable = Rideable::with('location')->where('invoice_number','=',$request->invoice_number)->get();
         if ($rideable->count() == 0 && $request->ready != 1) {
-            $request->request->add([
-                'invoice_number0' => $request->invoice_number ,
-                'qty' => '',
-                'showForm' => 'yes',
-                'stored' => 'no',
-                'item_0' => 'on'
-            ]);
+            $request->request->add(['invoice_number0' => $request->invoice_number ,'qty' => '','showForm' => 'yes','stored' => 'no','item_0' => 'on']);
             return view('rideable.pull',['last' => $request->invoice_number,'request' => $request,'update' => false]);
         }elseif($request->ready == 1){
             $this->store($request);
         }else{
             $rideable = $rideable->first();
-            $request->request->add([
-                'invoice_number0' => $rideable->invoice_number ,
-                'qty' => '',
-                'showForm' => 'yes',
-                'stored' => 'yes',
-                'item_0' => 'on'
-            ]);
-            return view('rideable.pull',['last' => $rideable->invoice_number, 'request' => $request,'rideable' => $rideable, 'update' => true]);
+            $request->request->add(['invoice_number0' => $rideable->invoice_number ,'qty' => '','showForm' => 'yes','stored' => 'yes','item_0' => 'on']);
+            return view('rideable.pull',['last' => $rideable->invoice_number,'request' => $request,'rideable' => $rideable,'update' => true]);
         }
     }
 
