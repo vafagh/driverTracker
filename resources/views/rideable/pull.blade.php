@@ -154,18 +154,18 @@
                 </div>
                 @foreach ($pullers as $key => $puller)
                     <div class="form-check d-inline ml-2">
-                        <input class="form-check-input" type="radio" name="puller" id="puller1_{{$key}}_{{(isset($rideable->id))?$rideable->id:''}}" value="{{$puller->name}}"}}>
+                        <input required class="form-check-input" type="radio" name="puller" id="puller1_{{$key}}_{{(isset($rideable->id))?$rideable->id:''}}" value="{{$puller->name}}"}}>
                         <label class="form-check-label" for="puller1_{{$key}}_{{(isset($rideable->id))?$rideable->id:''}}">
                             {{$puller->name}}
-                            {{$puller->image}}<img class=" rounded" src="{{($puller->image == null) ? '/img/def.svg' : '/img/users/'.$puller->image }}" alt="{{$puller->name}}">
+                            {{-- <img class=" rounded" src="{{($puller->image == null) ? '/img/def.svg' : '/img/users/'.$puller->image }}" alt="{{$puller->name}}"> --}}
                         </label>
                     </div>
                 @endforeach
                 <div class="form-check d-inline ml-2">
                     <input class="form-check-input" type="radio" name="puller" id="puller1_00100" value="Not listed"}}>
                     <label class="form-check-label" for="puller1_00100">
-                        Not listed!
-                        <img class=" rounded" src="/img/def.svg" alt="not listed">
+                        Mentioned on note
+                        {{-- <img class=" rounded" src="/img/def.svg" alt="not listed"> --}}
                     </label>
                 </div>
             </div>
