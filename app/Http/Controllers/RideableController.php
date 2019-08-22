@@ -279,7 +279,13 @@ class RideableController extends Controller
 
     public function pull()
     {
-        return view('rideable.pull',['last' => substr(Rideable::latest()->get()->first()->invoice_number,0,-3)]);
+        $pickups = Rideable::whereIn('status', Helper::filter('ongoing'))
+                            ->whereHas('location', function($q) {
+                                    $q->whereIn('name', ['IND','Online']);
+                            })
+                            ->orderBy('invoice_number', 'asc')
+                            ->get();
+        return view('rideable.pull',['last' => substr(Rideable::latest()->get()->first()->invoice_number,0,-3),'pickups' => $pickups]);
     }
 
     public function updateOrInsert(Request $request)

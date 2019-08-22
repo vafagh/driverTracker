@@ -133,8 +133,7 @@
             This ticket already marked as a <b class="text-danger">{{($rideable->status)}}</b>!<br>
             @if ($rideable->status == 'Created' || $rideable->status == 'DriverDetached' || $rideable->status == 'Reschedule' )
             @else
-                Please duble check the ticket number and make sure ticket#<b>{{$rideable->invoice_number}}</b> is created for <b class="text-info">{{($rideable->location->longName)}}</b>, Otherwise let Vafa know about this conflict.<br>
-                Click on Reset button to go to last screen.
+                Please duble check the ticket number and make sure ticket#<b>{{$rideable->invoice_number}}</b> is created for <b class="text-info">{{($rideable->location->longName)}}</b>.<br>
             @endif
             <input type="hidden" name="locationName0" value="{{$rideable->location->phone}}">
         @endif
@@ -180,19 +179,20 @@
         <button type="submit" class="btn btn-primary">Save it</button>
         <a href="/pull" class="btn btn-primary">Reset</a>
     </form>
-        {{-- {{dd('here')}} --}}
 @else
-    <form action="/rideable/pull/" method="post">
+    <form action="/rideable/pull/" method="post" id='rideable_pull'>
         {{ csrf_field() }}
-        <div class="bigtext">
-            <input class="digit" type="text" name="invoice_number" maxlength="6" value="{{$last}}">
+        <div class="bigtext mb-4">
+            <input class="digit" type="text" name="invoice_number" maxlength="6" value="{{$last}}" id='innu'>
         </div>
+        @foreach ($pickups as $key => $rideable)
+            <a class="btn btn-warning text- my-1" href="#" onclick="document.getElementById('innu').value={{$rideable->invoice_number}}">{{$rideable->invoice_number}}</a>
+        @endforeach
+        <a class="btn btn-secondary text-light my-1" href="#" onclick="document.getElementById('innu').value=''">Clear</a>
+        <button class="btn btn-primary" type="submit" name="button">Check</button>
     </form>
 
-@endif
-
-
-
+    @endif
 
             </div>
         </div>
