@@ -71,18 +71,18 @@ class RideableController extends Controller
         }
 
         $unassign = Rideable::with('location')
-        ->doesntHave('rides')
-        ->whereIn('status', Helper::filter('ongoing'))
-        ->where([[$fields['delivery_date'][0],$fields['delivery_date'][1],$fields['delivery_date'][2]],[$fields['shift'][0],$fields['shift'][1],$fields['shift'][2]]])
-        ->whereDoesntHave('location', function($q) { $q->where('name', 'IND');})
-        ->get();
+            ->doesntHave('rides')
+            ->whereIn('status', Helper::filter('ongoing'))
+            ->where([[$fields['delivery_date'][0],$fields['delivery_date'][1],$fields['delivery_date'][2]],[$fields['shift'][0],$fields['shift'][1],$fields['shift'][2]]])
+            ->whereDoesntHave('location', function($q) { $q->where('name', 'IND');})
+            ->get();
 
         $assigned = Rideable::with('location')
-        ->has('rides')
-        ->whereIn('status', Helper::filter('ongoing'))
-        ->where([[$fields['delivery_date'][0],$fields['delivery_date'][1],$fields['delivery_date'][2]],[$fields['shift'][0],$fields['shift'][1],$fields['shift'][2]]])
-        ->whereDoesntHave('location', function($q) { $q->where('name', 'IND');})
-        ->get();
+            ->has('rides')
+            ->whereIn('status', Helper::filter('ongoing'))
+            ->where([[$fields['delivery_date'][0],$fields['delivery_date'][1],$fields['delivery_date'][2]],[$fields['shift'][0],$fields['shift'][1],$fields['shift'][2]]])
+            ->whereDoesntHave('location', function($q) { $q->where('name', 'IND');})
+            ->get();
         return view('map',['spots' => $spots,'count' => $spots->count(),'unassign' => $unassign, 'cluster' => (filled($request->input('cluster'))) ? $request->input('cluster'): 0, 'assigned' => $assigned, 'delivery_date' => $fields['delivery_date'][2], 'shift' => $fields['shift'][2]]);
     }
 
@@ -131,8 +131,8 @@ class RideableController extends Controller
     public function store(Request $request)
     {
         $msg = '';
-        if(Rideable::where([['invoice_number',$request->invoice_number0],['type','Delivery']])->get()->count()>0) return redirect()->back()->with('error', $request->invoice_number0." is already in system!");
-        // dd($request->request);
+        $exist = Rideable::where('invoice_number',$request->invoice_number0)->where('type','Client')->get()->count();
+        if($exist>0) return redirect()->back()->with('error', $request->invoice_number0." is already in system!");
         for ($i=0,$j=0; $i <= $request->n ; $i++) {
             $thisRequest = $request;
             if ($request->{"invoice_number$i"}!='' && isset($request->{"item_$i"}) ) {
@@ -167,14 +167,14 @@ class RideableController extends Controller
                 Transaction::log(Route::getCurrentRoute()->getName(),'',$rideable);
             }
         }
-        if($request->submitType=='batch') {
+        if($request->submitType=='batch' && !empty($rideable)) {
             $rawData = $request->rawData;
             $invoices=null;
             $n = 0;
             return view('rideable.batchConfirm', compact('invoices','rawData','n'))->with('status', $rideable->invoice_number." part number has been added and marked as a pulled! ".' ');
         }
         elseif($request->status == 'Pulled') {return redirect()->route('pull.rideable')->with('status', $j." part number has been added! ".' '.$msg);}
-        else {return redirect()->back()->with('status', $j." part number has been added! ".' '.$msg);}
+        else {return redirect()->route('rideables',['type'=>$request->type])->with('status', $j." part number has been added! ".' '.$msg);}
 
     }
 
