@@ -3,6 +3,7 @@
 Auth::routes();
 
 Route::GET('/', 'HomeController@home')->name('home');
+Route::GET('/pickup', 'HomeController@home')->name('home');
 Route::GET('/map', 'RideableController@map')->name('map');
 Route::GET('/drivers', 'DriverController@index')->name('drivers');
 Route::GET('/driver/show/{driver}', 'DriverController@show');
@@ -61,5 +62,5 @@ Route::GET('/user/show/{user}', 'UserController@show');
 Route::GET('/search', 'HomeController@find')->name('search');
 Route::GET('/version', 'HomeController@version')->name('version');
 
-Route::GET('/{type}/massUpdate/', 'RideableController@batchUpdate');
+Route::GET('/massUpdate/', 'RideableController@batchUpdate');
 Route::GET('/{type}', 'RideableController@list')->name('rideables');
