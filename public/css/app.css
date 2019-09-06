@@ -10646,88 +10646,151 @@ a.text-dark:focus {
   }
 }
 
-.bg-blue,
-.bg-blue div a {
-  background-color: blue;
-}
-
-.bg-red,
-.bg-red div a {
-  background-color: red;
-}
-
-.bg-green,
-.bg-green div a {
-  background-color: green;
-}
-
-.bg-black,
-.bg-black div a {
-  background-color: black;
-}
-
-.bg-yellow,
-.bg-yellow div a {
-  background-color: yellow;
-}
-
-.bg-white,
-.bg-white div a {
+.text-blue {
+  color: blue;
   background-color: white;
 }
 
-.bg-orange,
-.bg-orange div a {
-  background-color: orange;
+.text-red {
+  color: red;
+  background-color: white;
 }
 
-.bg-gray,
-.bg-gray div a {
+.text-green {
+  color: green;
+  background-color: white;
+}
+
+.text-yellow {
+  color: yellow;
   background-color: gray;
 }
 
-.bg-purple,
-.bg-purple div a {
+.text-white {
+  color: white;
+  background-color: gray;
+}
+
+.text-orange {
+  color: orange;
+  background-color: white;
+}
+
+.text-gray {
+  color: gray;
+  background-color: white;
+}
+
+.text-purple {
+  color: purple;
+  background-color: white;
+}
+
+.text-khaki {
+  color: khaki;
+  background-color: white;
+}
+
+.text-olive {
+  color: olive;
+  background-color: white;
+}
+
+.text-silver {
+  color: silver;
+  background-color: white;
+}
+
+.text-navy {
+  color: navy;
+  background-color: white;
+}
+
+.text-aqua {
+  color: aqua;
+  background-color: white;
+}
+
+.text-teal {
+  color: teal;
+  background-color: white;
+}
+
+.text-fuchsia {
+  color: fuchsia;
+  background-color: white;
+}
+
+.text-maroon {
+  color: maroon;
+  background-color: white;
+}
+
+.bg-blue {
+  background-color: blue;
+}
+
+.bg-red {
+  background-color: red;
+}
+
+.bg-green {
+  background-color: green;
+}
+
+.bg-black {
+  background-color: black;
+}
+
+.bg-yellow {
+  background-color: yellow;
+}
+
+.bg-white {
+  background-color: white;
+}
+
+.bg-orange {
+  background-color: orange;
+}
+
+.bg-gray {
+  background-color: gray;
+}
+
+.bg-purple {
   background-color: purple;
 }
 
-.bg-khaki,
-.bg-khaki div a {
+.bg-khaki {
   background-color: khaki;
 }
 
-.bg-olive,
-.bg-olive div a {
+.bg-olive {
   background-color: olive;
 }
 
-.bg-silver,
-.bg-silver div a {
+.bg-silver {
   background-color: silver;
 }
 
-.bg-navy,
-.bg-navy div a {
+.bg-navy {
   background-color: navy;
 }
 
-.bg-aqua,
-.bg-aqua div a {
+.bg-aqua {
   background-color: aqua;
 }
 
-.bg-teal,
-.bg-teal div a {
+.bg-teal {
   background-color: teal;
 }
 
-.bg-fuchsia,
-.bg-fuchsia div a {
+.bg-fuchsia {
   background-color: fuchsia;
 }
 
-.bg-maroon,
-.bg-maroon div a {
+.bg-maroon {
   background-color: maroon;
 }
 
