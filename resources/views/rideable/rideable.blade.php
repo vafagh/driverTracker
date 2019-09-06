@@ -12,19 +12,29 @@
         </div>
         <div class="d-flex justify-content-between m-0" >
             @if ($collection->count()>0)
-                @if (strstr(URL::full(),'delivery_date'))
+                {{-- @if (strstr(URL::full(),'delivery_date')) --}}
                     <div class="batchUpdate d-none d-sm-inline btn-group" role="group">
                         <button id="filterlist" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i title="Filter" class="material-icons">play_for_work</i> Move all to
+                            <i title="Filter" class="material-icons">play_for_work</i> Move
                         </button>
                         <div class="dropdown-menu" aria-labelledby="filterlist">
-                            <a class="dropdown-item" href="{{strtolower($op2)}}/massUpdate{{str_replace(URL::current(),'',URL::full())}}&amp;newShift=Morning&amp;newDelivery_date={{\Carbon\Carbon::today()->toDateString()}}">Today Morning</a>
+                            {{-- <a class="dropdown-item" title='{{$next['shift']}} {{$next['date']}}' href="/massUpdate?which=all&amp;newShift={{$next['shift']}}&amp;newDelivery_date={{$next['date']}}">All to next shift</a>
+                            <a class="dropdown-item" title='{{$next['shift']}} {{$next['date']}}' href="/massUpdate?which=unassigned&amp;newShift={{$next['shift']}}&amp;newDelivery_date={{$next['date']}}">Unassigned to next shift</a>
+                            <a class="dropdown-item" title='{{$current['shift']}} {{$current['date']}}' href="/massUpdate?which=all&amp;newShift={{$current['shift']}}&amp;newDelivery_date={{$current['date']}}">All to current shift</a>
+                            <a class="dropdown-item" title='{{$current['shift']}} {{$current['date']}}' href="/massUpdate?which=unassigned&amp;newShift={{$current['shift']}}&amp;newDelivery_date={{$current['date']}}">Unassigned to current shift</a> --}}
+                            <a class="dropdown-item" href="/massUpdate?which=unassigned&amp;newShift=Morning&amp;newDelivery_date={{\Carbon\Carbon::today()->toDateString()}}">Unassigned to Morning</a>
+                            <a class="dropdown-item" href="/massUpdate?which=unassigned&amp;newShift=Evening&amp;newDelivery_date={{\Carbon\Carbon::today()->toDateString()}}">Unassigned to Evening</a>
+                            <a class="dropdown-item" href="/massUpdate?which=unassigned&amp;newShift=Morning&amp;newDelivery_date={{\Carbon\Carbon::tomorrow()->toDateString()}}">Unassigned to Tomarrow</a>
+                            <a class="dropdown-item bg-danger text-light" href="/massUpdate?which=all&amp;newShift=Morning&amp;newDelivery_date={{\Carbon\Carbon::today()->toDateString()}}">All to Morning</a>
+                            <a class="dropdown-item bg-danger text-light" href="/massUpdate?which=all&amp;newShift=Evening&amp;newDelivery_date={{\Carbon\Carbon::today()->toDateString()}}">All to Evening</a>
+                            <a class="dropdown-item bg-danger text-light" href="/massUpdate?which=all&amp;newShift=Morning&amp;newDelivery_date={{\Carbon\Carbon::tomorrow()->toDateString()}}">All to Tomarrow</a>
+                            {{-- <a class="dropdown-item" href="{{strtolower($op2)}}/massUpdate{{str_replace(URL::current(),'',URL::full())}}&amp;newShift=Morning&amp;newDelivery_date={{\Carbon\Carbon::today()->toDateString()}}">Today Morning</a>
                             <a class="dropdown-item" href="{{strtolower($op2)}}/massUpdate{{str_replace(URL::current(),'',URL::full())}}&amp;newShift=Evening&amp;newDelivery_date={{\Carbon\Carbon::today()->toDateString()}}">Today Evening</a>
                             <a class="dropdown-item" href="{{strtolower($op2)}}/massUpdate{{str_replace(URL::current(),'',URL::full())}}&amp;newShift=Morning&amp;newDelivery_date={{\Carbon\Carbon::tomorrow()->toDateString()}}">Tomarrow Morning</a>
-                            <a class="dropdown-item" href="{{strtolower($op2)}}/massUpdate{{str_replace(URL::current(),'',URL::full())}}&amp;newShift=Evening&amp;newDelivery_date={{\Carbon\Carbon::tomorrow()->toDateString()}}">Tomarrow Evening</a>
+                            <a class="dropdown-item" href="{{strtolower($op2)}}/massUpdate{{str_replace(URL::current(),'',URL::full())}}&amp;newShift=Evening&amp;newDelivery_date={{\Carbon\Carbon::tomorrow()->toDateString()}}">Tomarrow Evening</a> --}}
                         </div>
                     </div>
-                @endif
+                {{-- @endif --}}
             @endif
 
             @if ($op2 == 'Delivery')

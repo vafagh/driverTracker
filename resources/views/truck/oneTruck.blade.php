@@ -1,9 +1,9 @@
 <li class="list-group-item disabled py-1 active font-weight-bold">
-        <a class="text-white font-weight-bold" href="/truck/show/{{$truck->id}}">{{$truck->lable}}</a>
+        <a class="text-light font-weight-bold" href="/truck/show/{{$truck->id}}">{{$truck->lable}}</a>
 </li>
 <li class="row m-0 p-0 mb-3 border  border-secondary">
         <div class="col-12 col-sm-2 col-md-1 col-lg-2">
-            <a class="text-white font-weight-bold" href="/truck/show/{{$truck->id}}">
+            <a class="text-light font-weight-bold" href="/truck/show/{{$truck->id}}">
                 <img class="w-100" src="/img/truck/{{($truck->image=='') ? 'truck.svg' : $truck->image}}" alt="truck image">
             </a>
         </div>

@@ -26,5 +26,5 @@ require('./bootstrap');
     if(remaining === 0)
     location.reload(true);
     document.getElementById('countdown').innerHTML = remaining;
-    setTimeout(function(){ countdown(remaining - 1); }, 1000);
+    setTimeout(function(){ countdown(remaining - 1); }, 900);
 })(500);

@@ -93,7 +93,7 @@ if ($user_role > 0 ){
     <a title="Cancel" class="text-danger" href="/rideable/delete/{{$rideable->id}}/"><i class="material-icons">delete_forever</i></a>
 @endif
 @if ($assignDriver && $rideable->location->type == 'Client' && ($rideable->location->name != 'IND' || $rideable->location->name != 'Online') && $user_role >= 3)
-    @component('layouts.components.modal',['modelName'=>'ride','action'=>'create','iterator'=>$rideable->id,'object'=>$rideable,'btnSize'=>'small','style'=>'text-info text-white ','op1'=>'','op2'=>'','dingbats'=>'<i class="material-icons">drive_eta</i> ','file'=>false])
+    @component('layouts.components.modal',['modelName'=>'ride','action'=>'create','iterator'=>$rideable->id,'object'=>$rideable,'btnSize'=>'small','style'=>'text-info text-primary ','op1'=>'','op2'=>'','dingbats'=>'<i class="material-icons">drive_eta</i> ','file'=>false])
     @endcomponent
 @endif
 @if ($done  && $user_role > 2)
@@ -122,7 +122,7 @@ if ($user_role > 0 ){
     <a class="text-primary showOnHover" title="Send driver back" href="/rideable/{{$rideable->id}}/Reschedule"><i class="material-icons">refresh</i></a>
 @endif
 @if ($pulled && $title =='Delivered')
-    @component('layouts.components.modal',['modelName'=>'rideable','action'=>'edit','iterator'=>$rideable->id,'object'=>$rideable,'btnSize'=>'small','style'=>'text-info text-white ','op1'=>'','op2'=>'','dingbats'=>'<i class="material-icons">store</i> ','file'=>false,'noneStatus'=>false])
+    @component('layouts.components.modal',['modelName'=>'rideable','action'=>'edit','iterator'=>$rideable->id,'object'=>$rideable,'btnSize'=>'small','style'=>'text-info text-primary ','op1'=>'','op2'=>'','dingbats'=>'<i class="material-icons">store</i> ','file'=>false,'noneStatus'=>false])
     @endcomponent
     {{-- <a class="text-primary showOnHover" title="Picked up in store" href="/rideable/{{$rideable->id}}/Pulled"><i class="material-icons">store</i></a> --}}
 @endif

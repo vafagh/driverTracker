@@ -387,9 +387,11 @@ $in-w: $n-char*($char-w + $gap);
 .mor:hover,.eve:hover{opacity: .8}
 .eve{background-position: center -25px;}
 .mor span,.eve span{display:none}
+.top-m2{top:-2px}
 .not-working img{opacity:.2; z-index:1049}
 .disable img{opacity:.4; z-index:1049}
 .list-group-item.row.m-0.p-0 div{border:0px solid red}
+a.border img{border:1px solid green}
 .bordering>div{border:1px solid red}
 .bordering>div>div{border:1px solid #C2C0E8}
 .bordering>div>div>div{border:1px dotted #C2C0E8}

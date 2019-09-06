@@ -11577,6 +11577,10 @@ a.text-dark:focus {
   display: none;
 }
 
+.top-m2 {
+  top: -2px;
+}
+
 .not-working img {
   opacity: 0.2;
   z-index: 1049;
@@ -11589,6 +11593,10 @@ a.text-dark:focus {
 
 .list-group-item.row.m-0.p-0 div {
   border: 0px solid red;
+}
+
+a.border img {
+  border: 1px solid green;
 }
 
 .bordering > div {

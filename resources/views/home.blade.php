@@ -2,26 +2,27 @@
 
 @section('content')
 
-    <div class="bg-secondary  d-flex justify-content-around my-2">
+    <div class="d-flex justify-content-around">
         <div class="right text-center">
-            <a class="text-light" title="Today" href="/"><i class="material-icons">today</i></a>
-            <a class="text-light" title="Go one Months backward" href="/?history={{$dt->copy()->submonths(1)->format('Y-m-d')}}&shift={{$shift}}&shift={{$shift}}"><i class="material-icons">fast_rewind</i></a>
-            <a class="text-light" title="Go one Weeks backward" href="/?history={{$dt->copy()->subWeeks(1)->format('Y-m-d')}}&shift={{$shift}}"><i class="material-icons">skip_previous</i></a>
-            <a class="text-light" title="Go one Days backward" href="/?history={{$dt->copy()->subDays(1)->format('Y-m-d')}}&shift={{$shift}}"><i class="material-icons">keyboard_arrow_left</i></a>
+            <a class="text-warning" title="Go one Months backward" href="/?history={{$dt->copy()->submonths(1)->format('Y-m-d')}}&shift={{$shift}}&shift={{$shift}}"><i class="material-icons top-m2 top-m2">fast_rewind</i></a>
+            <a class="text-warning" title="Go one Weeks backward" href="/?history={{$dt->copy()->subWeeks(1)->format('Y-m-d')}}&shift={{$shift}}"><i class="material-icons top-m2">skip_previous</i></a>
+            <a class="text-warning" title="Go one Days backward" href="/?history={{$dt->copy()->subDays(1)->format('Y-m-d')}}&shift={{$shift}}"><i class="material-icons top-m2">keyboard_arrow_left</i></a>
             <a class="op-04 mor d-inline-block{{$shift == 'Morning' ? ' op-1' :''}}" title="morning" href="/?history={{$history}}&shift=Morning"><span>Morning</span></a>
+            <a class="text-success" title="Today" href="/"><i class="material-icons top-m2">today</i></a>
             @php
                 $shift=='Morning' ? $dt->addHours(9) : $dt->addHours(13);
             @endphp
-            <span class="h4 lh-15 text-light">{{$dt->format('l jS \\of F Y')}} </span> <span class="h4 text-bold text-warning">{{$shift}}</span>
+            {{-- <span class="h4 lh-15 text-info">{{$dt->format('l jS \\of F Y')}} </span> <span class="h4 text-bold text-warning">{{$shift}}</span> --}}
             <a class="op-04 eve d-inline-block{{$shift == 'Evening' ? ' op-1' :''}}" title="evening" href="/?history={{$history}}&shift=Evening"><span>Evening</span></a>
-            <a class="text-light" title="Go one Days forward" href="/?history={{$dt->copy()->addDays(1)->format('Y-m-d')}}&shift={{$shift}}"><i class="material-icons">keyboard_arrow_right</i></a>
-            <a class="text-light" title="Go one Weeks forward" href="/?history={{$dt->copy()->addWeeks(1)->format('Y-m-d')}}&shift={{$shift}}"><i class="material-icons">skip_next</i></a>
-            <a class="text-light" title="Go one Months forward" href="/?history={{$dt->copy()->addmonths(1)->format('Y-m-d')}}&shift={{$shift}}"><i class="material-icons">fast_forward</i></a>
+            <a class="text-info" title="Go one Days forward" href="/?history={{$dt->copy()->addDays(1)->format('Y-m-d')}}&shift={{$shift}}"><i class="material-icons top-m2">keyboard_arrow_right</i></a>
+            <a class="text-info" title="Go one Weeks forward" href="/?history={{$dt->copy()->addWeeks(1)->format('Y-m-d')}}&shift={{$shift}}"><i class="material-icons top-m2">skip_next</i></a>
+            <a class="text-info" title="Go one Months forward" href="/?history={{$dt->copy()->addmonths(1)->format('Y-m-d')}}&shift={{$shift}}"><i class="material-icons top-m2">fast_forward</i></a>
         </div>
     </div>
     <div class="pickups card">
-        <div class="card-header bg-primary text-light d-flex justify-content-between">
-            <span class="p-0 m-0">Pickups by locations</span>
+        <div class="card-header bg-primary text-light d-flex justify-content-between py-1">
+            <span class="p-0 m-0 mt-1">Pickups by locations</span>
+            <span class="p-0 m-0"><span class="h4 lh-15 text-light">{{$dt->format('l jS \\of F Y')}} </span> <span class="h4 text-bold text-warning">{{$shift}}</span></span>
             <div class="create ">
                 @component('layouts.components.modal',['modelName'=>'rideable','action'=>'create','iterator'=>0,'object'=>null,'op1'=>'Warehouse','op2'=>'Pickup','style' => 'p-0 m-0','dingbats'=>'<i class="material-icons">add_box</i>','autocomplateOff'=>true])
                 @endcomponent
@@ -115,10 +116,10 @@
                                                 <img src="/img/driver/small/{{strtolower($driver->fname)}}.png" alt="{{$driver->fname}}">
                                             </a>
                                         @endforeach
+                                        <a href='/drivers' title="Assign Driver To Track">
+                                            <i class="material-icons md-14">person_add</i>
+                                        </a>
                                     @endif
-                                    <a href='/drivers' title="Assign Driver To Track">
-                                        <i class="material-icons md-14">person_add</i>
-                                    </a>
                                 </div>
                             @endif
                         </div>
@@ -143,9 +144,8 @@
 
                     <div class="card col-6 col-sm-4 col-md-3 col-lg-2 px-0 {{($deliveryStops->count() > 0) ? '' : 'd-none' }}">
                         <div class="card-header pt-1 pb-1 d-flex justify-content-between">
-                            @component('layouts.components.tooltip',['modelName'=>'driver','model'=>$driver])
-                            @endcomponent
-                            <span class='text-bold'>{{$shift}}</span>
+                            <a href="/driver/show/{{$driver->id}}">{{$driver->fname}}</a>
+                            {{-- <span class='text-bold'>{{$shift}}</span> --}}
                             @if ($driver->fname != 'Pickup')
                                 <div class="">
                                     <a href="/driver/{{$driver->id}}/{{$history}}/{{$shift}}/direction" > {{-- class='text-success tooltip-toggle' data-tooltip='{{$deliveryStops->count()}} Direction'> --}}
@@ -158,7 +158,7 @@
                             @php
                                 $markers = ''; $latsum =0; $lngsum=0; $stopcount=0;
                             @endphp
-                            <ol>
+                            <ol class="p-0 pl-4">
                             @foreach ($deliveryStops as $key => $location)
                                 {{-- @foreach ($value as $key => $location) --}}
                                     @if (!empty($location->id))
@@ -170,7 +170,7 @@
                                             $stopcount++;
                                         @endphp
                                         <li class="fixedWidthFont">
-                                            <a class="{{$location->type=='Client' ? 'text-success' : 'text-info'}}" title="{{$location->name}}" href="/location/show/{{$location->id}}">
+                                            <a class="text-truncate {{$location->type=='Client' ? 'text-success' : 'text-info'}}" title="{{$location->name}}" href="/location/show/{{$location->id}}">
                                                 {{$location->longName}}
                                             </a>
                                         </li>
@@ -186,7 +186,7 @@
                                 </a>
                             @endif
                         </div> --}}
-                        <div class="card-footer row statistic font-70">
+                        <div class="card-footer row statistic font-70 m-0 p-2">
                             <small class=" col-12 text-muted pm-0">
                                 DeliveryTrip Counter : from total of
                                  @php

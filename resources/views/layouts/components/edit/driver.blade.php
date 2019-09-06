@@ -19,24 +19,24 @@
     </div>
     <div class="form-group row">
             <div class="row m-0 p-0">
-                <div class='bg-blue text-white col-2 p-0 small'>blue</div>
-                <div class='bg-red text-white col-2 p-0 small'>red</div>
-                <div class='bg-green text-white col-2 p-0 small'>green</div>
-                <div class='bg-black text-white col-2 p-0 small'>black</div>
+                <div class='bg-blue text-light col-2 p-0 small'>blue</div>
+                <div class='bg-red text-light col-2 p-0 small'>red</div>
+                <div class='bg-green text-light col-2 p-0 small'>green</div>
+                <div class='bg-black text-light col-2 p-0 small'>black</div>
                 <div class='bg-yellow text-black col-2 p-0 small'>yellow</div>
                 <div class='bg-white text-black col-2 p-0 small'>white</div>
-                <div class='bg-orange text-white col-2 p-0 small'>orange</div>
+                <div class='bg-orange text-light col-2 p-0 small'>orange</div>
                 <div class='bg-gray text-black col-2 p-0 small'>gray</div>
-                <div class='bg-purple text-white col-2 p-0 small'>purple</div>
-                <div class='bg-khaki text-white col-2 p-0 small'>khaki</div>
-                <div class='bg-olive text-white col-2 p-0 small'>olive</div>
+                <div class='bg-purple text-light col-2 p-0 small'>purple</div>
+                <div class='bg-khaki text-light col-2 p-0 small'>khaki</div>
+                <div class='bg-olive text-light col-2 p-0 small'>olive</div>
                 <div class='bg-silver text-black col-2 p-0 small'>silver</div>
-                <div class='bg-navy text-white col-2 p-0 small'>navy</div>
-                <div class='bg-aqua text-white col-2 p-0 small'>aqua</div>
-                <div class='bg-teal text-white col-2 p-0 small'>teal</div>
-                <div class='bg-fuchsia text-white col-2 p-0 small'>fuchsia</div>
-                <div class='bg-maroon text-white col-2 p-0 small'>maroon</div>
-                <div class='bg-maroon text-white col-2 p-0 small'></div>
+                <div class='bg-navy text-light col-2 p-0 small'>navy</div>
+                <div class='bg-aqua text-light col-2 p-0 small'>aqua</div>
+                <div class='bg-teal text-light col-2 p-0 small'>teal</div>
+                <div class='bg-fuchsia text-light col-2 p-0 small'>fuchsia</div>
+                <div class='bg-maroon text-light col-2 p-0 small'>maroon</div>
+                <div class='bg-maroon text-light col-2 p-0 small'></div>
             </div>
             <div class="col-6">
                 <label for="color{{$object->id}}" class="col-form-label">Marker Color</label>

@@ -16,6 +16,7 @@
                     </tr>
                     <tr>
                         <th>ID</th>
+                        <th>Invoice#</th>
                         <th>For</th>
                         <th>Driver</th>
                         <th>Truck</th>
@@ -27,11 +28,14 @@
                     @foreach ($rides as $key => $ride)
                         <tr>
                             <td title="{{$ride->created_at->diffForHumans()}}">{{$ride->id}}</td>
+                            @if ($ride->rideable!=null)
                             <td>
-                                @if ($ride->rideable!=null)
-                                    @component('layouts.components.tooltip',['modelName'=>'location','model'=>$ride->rideable->location])@endcomponent
-                                @endif
+                                    @component('layouts.components.tooltip',['modelName'=>'rideable','model'=>$ride->rideable])@endcomponent
                             </td>
+                            <td>
+                                    @component('layouts.components.tooltip',['modelName'=>'location','model'=>$ride->rideable->location])@endcomponent
+                            </td>
+                            @endif
                             <td>
                                 @component('layouts.components.tooltip',['modelName'=>'driver','model'=>$ride->driver])@endcomponent
                             </td>

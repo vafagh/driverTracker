@@ -36786,7 +36786,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/assets/js/bootstrap.js"); //
   document.getElementById('countdown').innerHTML = remaining;
   setTimeout(function () {
     countdown(remaining - 1);
-  }, 1000);
+  }, 900);
 })(500);
 
 /***/ }),

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="card">
-        <div class="card-header row m-0 bg-primary text-white">
+        <div class="card-header row m-0 bg-primary text-light">
             <div class="col-11 h3">Services</div>
             <div class="col-1 p-0 m-0">
                 @component('layouts.components.modal',[

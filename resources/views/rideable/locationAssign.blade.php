@@ -35,7 +35,7 @@
     @else
         <div class="">
             There is not any unassign ticket to display!
-            <div class="add d-inline"><a class="btn btn-danger{{(Auth::user()->role_id==3) ?' d-none':''}} btn-sm text-white h-75" title="See other days" href="?date=all"><i class="material-icons md-14 text-dark">calendar_today</i>Other day</a></div>
+            <div class="add d-inline"><a class="btn btn-danger{{(Auth::user()->role_id==3) ?' d-none':''}} btn-sm text-light h-75" title="See other days" href="?date=all"><i class="material-icons md-14 text-dark">calendar_today</i>Other day</a></div>
         </div>
 
     @endif
