@@ -134,16 +134,17 @@
 
                                 map.setCenter(marker.getPosition())
 
-                                var content = "<h4><a href='/location/show/" + location_id + "' target='_blank'>" + store + "</a></h4>"+
-                                add+"<br>"+
-                                "<strong>"+driver+"</strong><br>"+
-                                "Assign it to:"+
-                                "<div class='card-deck'>"+
-                                @foreach ($activeDrivers as $key => $driver) "<div class='card mx-1'>"+
-                                "<a href='/location/"+location_id+"/{{$driver->id}}/{{$delivery_date}}/{{$shift}}{{($cluster>0)?'?cluster=1':''}}'>"+
-                                "<img class='card-img-top' src='/img/driver/small/{{strtolower($driver->fname)}}.png' alt='{{$driver->fname}}'>"+
+                                var content = "<h4><a href='/location/show/" + location_id + "' target='_blank' width='{{$activeDrivers->count()*20}}px' class='d-block'>" + store + "</a></h4>"+
+                                // add+"<br>"+
+                                "<div class=''>"+
+                                @foreach ($activeDrivers as $key => $driver)
+                                "<a class='"+('{{$driver->fname."Client"}}' == driver ? "border" :"no-border") + "' href='/location/"+location_id+"/{{$driver->id}}/{{$delivery_date}}/{{$shift}}{{($cluster>0)?'?cluster=1':''}}'>"+
+                                "<img class='d-inline-block' src='/img/driver/small/{{strtolower($driver->fname)}}.png' alt='{{$driver->fname}}'>"+
                                 "</a>"+
-                                "</div>"+ @endforeach
+                                 @endforeach
+                                 "<a class='"+('noAssignedClient' == driver ? 'border' :'no-border') + "' href='/location/clear/" + location_id + "{{($cluster>0)?'?cluster=1':''}}'>"+
+                                 "<img class='d-inline-block' src='/img/driver/small/notAssignedClient.png' alt='?'>"+
+                                 "</a>"+
                                 '</div>'
 
                                 var infowindow = new google.maps.InfoWindow()
@@ -255,16 +256,6 @@
                                         </span>
                                     </a>
                                 </li>
-                                @if (Auth::user()->role_id >3)
-                                <li class="nav-item mt-1">
-                                    <a href="/location/clearall" class="nav-link btn btn-danger">
-                                        <i class="material-icons">clear_all</i>
-                                        <span class="text-light">
-                                            ClearAll
-                                        </span>
-                                    </a>
-                                </li>
-                                @endif
                             </ul>
                         </div>
                     </div>
@@ -288,13 +279,24 @@
                         @endif
 
                         @yield('content')
+
                         <div class="d-flex justify-content-between">
                             <span>
                                 Total stops: {{$spots->count()}}
                             </span>
-                            <span>
-                                <a href="?delivery_date={{$delivery_date}}&shift={{$shift}}{{($cluster>0)?'':'&cluster=1'}}">Turn cluster {{($cluster>0)?'off':'on'}}</a>
-                            </span>
+                            <div class="">
+                                @if (Auth::user()->role_id >3)
+                                    <a href="/location/clearall" class="text-success">
+                                        <i class="material-icons">clear_all</i>
+                                        Clear def
+                                    </a>
+                                @endif
+                                <span>
+                                    <a href="?delivery_date={{$delivery_date}}&shift={{$shift}}{{($cluster>0)?'':'&cluster=1'}}">
+                                        {!!($cluster>0)?'<i class="material-icons">control_camera</i>Turn cluster off':'<i class="material-icons">games</i>Turn cluster on'!!}
+                                    </a>
+                                </span>
+                            </div>
                         </div>
                         <div class="row m-0 p-0">
                             <div  class="drivers col-12 row m-0 p-0 card-group">
@@ -321,8 +323,8 @@
                                             <li title="{{$unassignRideable->status}} ">
                                                 <b> {{$unassignRideable->invoice_number}} |
                                                     @component('layouts.components.tooltip',['modelName'=>'location','model'=>$unassignRideable->location])
-                                                    @endcomponent</b> in
-                                                    {{$unassignRideable->location->line1}} {{$unassignRideable->location->city}} {{$unassignRideable->location->zip}}
+                                                    @endcomponent</b>
+                                                    {{-- in {{$unassignRideable->location->line1}} {{$unassignRideable->location->city}} {{$unassignRideable->location->zip}} --}}
                                             </li>
                                         @endforeach
                                 @else
@@ -338,15 +340,29 @@
                                     <ol>
                                         @foreach ($assigned as $key => $assignedRideable)
                                             <li title="{{$assignedRideable->status}} ">
-                                                <b>@component('layouts.components.tooltip',['modelName'=>'location','model'=>$assignedRideable->location])
-                                                @endcomponent</b> in {{$assignedRideable->location->line1}} {{$assignedRideable->location->city}} {{$assignedRideable->location->zip}}
+                                                <b> {{$assignedRideable->invoice_number}} |
+                                                    @component('layouts.components.tooltip',['modelName'=>'location','model'=>$assignedRideable->location])
+                                                    @endcomponent
+                                                </b>
                                             </li>
                                         @endforeach
                                 @else
-                                    Perfect, All assigned.
+                                    Start assign by clicking on the map marker and driver faces.
                                 @endif
                                     </ol>
                             </div>
+                        </div>
+                        <div class="">
+                            @if (Auth::user()->role_id >3)
+                                <a href="/location/clearall" class="text-success">
+                                    <i class="material-icons">clear_all</i>
+                                    Clear def
+                                </a>
+                                <a href="/location/clearall" class="text-danger">
+                                    <i class="material-icons">clear_all</i>
+                                    Clear all
+                                </a>
+                            @endif
                         </div>
                     </div>
 
