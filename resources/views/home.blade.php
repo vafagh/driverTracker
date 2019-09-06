@@ -142,7 +142,7 @@
                     @endphp
 
                     <div class="card col-6 col-sm-4 col-md-3 col-lg-2 px-0 {{($deliveryStops->count() > 0) ? '' : 'd-none' }}">
-                        <div class="card-header pt-1 pb-1 d-flex justify-content-between bg-{{$driver->color}} ">
+                        <div class="card-header pt-1 pb-1 d-flex justify-content-between">
                             @component('layouts.components.tooltip',['modelName'=>'driver','model'=>$driver])
                             @endcomponent
                             <span class='text-bold'>{{$shift}}</span>
@@ -179,13 +179,13 @@
                             @endforeach
                             </ol>
                         </div>
-                        <div class="card-image overflow-hidden text-center">
+                        {{-- <div class="card-image overflow-hidden text-center">
                             @if ($stopcount!=0)
                                 <a href="/driver/{{$driver->id}}/{{$history}}/{{$shift}}/direction">
                                     <img class="mx-auto d-block" src="https://maps.googleapis.com/maps/api/staticmap?center={{$latsum/$stopcount}},{{$lngsum/$stopcount}}&zoom=9&size=250x200&maptype=roadmap&{{$markers}}&key={{env('GOOGLE_MAP_API')}}" alt="routes">
                                 </a>
                             @endif
-                        </div>
+                        </div> --}}
                         <div class="card-footer row statistic font-70">
                             <small class=" col-12 text-muted pm-0">
                                 DeliveryTrip Counter : from total of
@@ -231,21 +231,32 @@
             {{$rides->count()}}
         </div>
         <div class="card-image ">
-            @php
-                $markers = ''; $latsum =0; $lngsum=0; $stopcount=0;
-            @endphp
-                @foreach ($rides as $key => $ride)
                     @php
-                    $stop = $ride->rideable->location;
-                    $markers .= 'markers=size:medium%7Ccolor:'.$ride->driver->color.'%7Clabel:'.substr($stop->name,0,1).'%7C'.$stop->lat.','.$stop->lng.'&';
-                    $latsum = $latsum + $stop->lat;
-                    $lngsum = $lngsum + $stop->lng;
-                    $stopcount++;
+                    $markers = ''; $latsum =0; $lngsum=0; $stopcount=0;
                     @endphp
-                @endforeach
-            @if ($stopcount>0)
-                <img class="mx-auto d-block" src="https://maps.googleapis.com/maps/api/staticmap?center={{$latsum/$stopcount}},{{$lngsum/$stopcount}}&zoom=9&size=640x500&maptype=roadmap&{{$markers}}&key={{env('GOOGLE_MAP_API')}}" alt="routes">
-            @endif
+                    @foreach ($rides as $key => $ride)
+                        @php
+                        $stop = $ride->rideable->location;
+                        $markers .= 'markers=size:medium%7Ccolor:'.$ride->driver->color.'%7Clabel:'.substr($stop->name,0,1).'%7C'.$stop->lat.','.$stop->lng.'&';
+                        $latsum = $latsum + $stop->lat;
+                        $lngsum = $lngsum + $stop->lng;
+                        $stopcount++;
+                        @endphp
+                    @endforeach
+                    @if ($stopcount>2)
+                        <div class="">
+                            @php
+                                $index = null;
+                                foreach ($activeDrivers as $key => $driver){
+                                    $index .= '<span class="text-'.$driver->color.' font-weight-bold"> '.$driver->fname.' </span>';
+                                }
+                            @endphp
+                            <div class="pl-4">{!!$index!!}</div>
+                            <img class="mx-auto d-block w-100" src="https://maps.googleapis.com/maps/api/staticmap?center=32.82,-97.00&zoom=9&size=640x450&maptype=roadmap&{{$markers}}&key={{env('GOOGLE_MAP_API')}}" alt="routes">
+                            <div class="pl-4">{!!$index!!}</div>
+                        </div>
+                        {{-- <img class="mx-auto d-block" src="https://maps.googleapis.com/maps/api/staticmap?center={{$latsum/$stopcount}},{{$lngsum/$stopcount}}&zoom=9&size=640x500&maptype=roadmap&{{$markers}}&key={{env('GOOGLE_MAP_API')}}" alt="routes"> --}}
+                    @endif
         </div>
     </div>
 @endsection

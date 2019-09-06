@@ -4,23 +4,40 @@
 @import "variables";
 // Bootstrap
 @import 'node_modules/bootstrap/scss/bootstrap';
-.bg-blue,.bg-blue div a{background-color: blue}
-.bg-red,.bg-red div a{background-color: red}
-.bg-green,.bg-green div a{background-color: green}
-.bg-black,.bg-black div a{background-color: black}
-.bg-yellow,.bg-yellow div a{background-color: yellow}
-.bg-white,.bg-white div a{background-color: white}
-.bg-orange,.bg-orange div a{background-color:  orange}
-.bg-gray,.bg-gray div a{background-color:  gray}
-.bg-purple,.bg-purple div a{background-color:  purple}
-.bg-khaki,.bg-khaki div a{background-color:  khaki}
-.bg-olive,.bg-olive div a{background-color:  olive}
-.bg-silver,.bg-silver div a{background-color:  silver}
-.bg-navy,.bg-navy div a{background-color:  navy}
-.bg-aqua,.bg-aqua div a{background-color:  aqua}
-.bg-teal,.bg-teal div a{background-color:  teal}
-.bg-fuchsia,.bg-fuchsia div a{background-color:  fuchsia}
-.bg-maroon,.bg-maroon div a{background-color:  maroon}
+.text-blue{color: blue; background-color: white}
+.text-red{color: red; background-color: white}
+.text-green{color: green; background-color: white}
+.text-yellow{color: yellow; background-color: gray}
+.text-white{color: white; background-color: gray}
+.text-orange{color:  orange; background-color: white}
+.text-gray{color:  gray; background-color: white}
+.text-purple{color:  purple; background-color: white}
+.text-khaki{color:  khaki; background-color: white}
+.text-olive{color:  olive; background-color: white}
+.text-silver{color:  silver; background-color: white}
+.text-navy{color:  navy; background-color: white}
+.text-aqua{color:  aqua; background-color: white}
+.text-teal{color:  teal; background-color: white}
+.text-fuchsia{color:  fuchsia; background-color: white}
+.text-maroon{color:  maroon; background-color: white}
+
+.bg-blue{background-color: blue}
+.bg-red{background-color: red}
+.bg-green{background-color: green}
+.bg-black{background-color: black}
+.bg-yellow{background-color: yellow}
+.bg-white{background-color: white}
+.bg-orange{background-color:  orange}
+.bg-gray{background-color:  gray}
+.bg-purple{background-color:  purple}
+.bg-khaki{background-color:  khaki}
+.bg-olive{background-color:  olive}
+.bg-silver{background-color:  silver}
+.bg-navy{background-color:  navy}
+.bg-aqua{background-color:  aqua}
+.bg-teal{background-color:  teal}
+.bg-fuchsia{background-color:  fuchsia}
+.bg-maroon{background-color:  maroon}
 .navbar-collapse.collapse.show ul a{ padding:5px 0 5px 20px}
 .navbar-brand{
     background: url(/img/logo.png) no-repeat left center;
