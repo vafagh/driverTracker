@@ -53,7 +53,7 @@ class DriverController extends Controller
 
         $ongoingRides = $driver->rides()
         ->whereHas('rideable', function($q) {
-            $q->where('status','OnTheWay')->orWhere('status','Reschedule');
+            $q->whereNotIn('status',['Done','Canceled','Return','Returned','NotAvailable','Pulled','Double Entry','NoData','Reschedule']);
         })
         ->orderBy('created_at','desc')
         ->get();
@@ -71,7 +71,8 @@ class DriverController extends Controller
             })
             ->whereIn('status', ['Created','DriverDetached','Reschedule']);
         if(empty($request->input('date')))
-                    $currentUnassign = $currentUnassign->where('delivery_date', '=',  $today)->where('shift', '=',  Helper::when(null,false, false)['shift'])->get();
+                    $currentUnassign = $currentUnassign->where('delivery_date', '=',  $today)->where('shift', '=',  date('H'))->get();
+                    // $currentUnassign = $currentUnassign->where('delivery_date', '=',  $today)->where('shift', '=',  Helper::when(null,false, false)['shift'])->get();
         else        $currentUnassign = $currentUnassign->get();
 
         $unassignLocations = $currentUnassign->pluck('location')->flatten()->unique()->sortBy('name');

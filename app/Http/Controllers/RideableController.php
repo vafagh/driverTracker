@@ -35,7 +35,6 @@ class RideableController extends Controller
         ->orderBy($rideableSort, 'asc')
         ->paginate(120);
         ($request!==null) ? $flashId = $request->id : $flashId = '1';
-
         return view('rideable.rideables',compact('rideables','op1','op2','flashId'));
     }
 
@@ -192,25 +191,26 @@ class RideableController extends Controller
         }
     }
 
-    public function batchUpdate(Request $request,$type)
+    public function batchUpdate(Request $request)
     {
-        if($type == "delivery") { $op1 = 'Client';    $op2 = 'Delivery'; $operator = '='; }
-        else                    { $op1 = 'Warehouse'; $op2 = 'Pickup';   $operator = '!=';}
+        if ($request->input('which')=='unassigned') {
+            $selectedTicket = Rideable::whereDoesntHave('rides')
+                                        ->whereHas('location', function($q){
+                                            $q->where('type', '=', 'Client');
+                                        })
+                                        ->whereNotIn('status', Helper::filter('finished'));
+        }elseif ($request->input('which')=='all') {
+            $selectedTicket = Rideable::whereHas('location', function($q){
+                                            $q->where('type', '=', 'Client');
+                                        })
+                                        ->whereNotIn('status', Helper::filter('finished'));
+        }
 
-        $fields = Helper::queryFiller($request);
-
-        $selectedTicket = Rideable::with('rides.driver')
-        ->whereHas('location', function($q) use ($operator) {
-            $q->where('type', $operator, 'Client');
-        })
-        ->whereNotIn('status', Helper::filter('finished'))
-        ->where([
-            [$fields['shift'][0],$fields['shift'][1],$fields['shift'][2]],
-            [$fields['delivery_date'][0],$fields['delivery_date'][1],$fields['delivery_date'][2]]
-        ]);
         $rideables = $selectedTicket->get();
+
         $selectedTicket->update(['delivery_date' =>  $request->input('newDelivery_date')]);
         $selectedTicket->update(['shift' =>  $request->input('newShift')]);
+
         $msg = '';
         foreach ($rideables as $key => $rideable) {
             Transaction::log(Route::getCurrentRoute()->getName(),'',$rideable);

@@ -167,18 +167,21 @@ class RideController extends Controller
     public function detach($ride_id,$rideable_id, Request $request)
     {
         $rideable = Rideable::find($rideable_id);
-        $rideable->status = 'DriverDetached';
 
-        if($ride_id > 0){
+        if($ride_id > 1){
             $rideable->rides()->detach($ride_id);
             Ride::destroy($ride_id);
+            $rideable->status = 'Return';
+        }elseif($ride_id > 0){
+            $rideable->rides()->detach($ride_id);
+            Ride::destroy($ride_id);
+            $rideable->status = 'DriverDetached';
         }else {
             return redirect('/')->with('error', 'Ride not found!');
         }
-
         $rideable->save();
 
-        if ($rideable->rides()->count() < 2) {
+        if ($rideable->rides()->count() < 1) {
             $location = Location::find($rideable->location->id);
             $location->driver_id = null;
             $location->save();

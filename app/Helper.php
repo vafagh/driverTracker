@@ -37,13 +37,14 @@ class Helper
                 $forceMorning = true;
                 $ahead = false;
             }else $deliverydate = $today;
-            if(($ahead && $currentHoure >= $start && $currentHoure <= $middle) || (!$ahead && $currentHoure >= $middle) ){
+            if(($ahead && $currentHoure >= $start && $currentHoure <= $middle) || (!$ahead && $currentHoure > $middle) ){
                 $shift = $e;
             }else {
                 $shift = $m;
                 }
             if($ahead && $currentHoure >= $middle){
                 $deliverydate = $tomorrow;
+                $shift = $m;
             }
         }else{
             $deliverydate = $rideable->delivery_date;
@@ -58,7 +59,7 @@ class Helper
         foreach (Location::where('type',$op1)->orderBy($sortBy)->get() as $location){
             $locName = str_replace('"','',$location->name);
             if($sortBy=='name')  $cliName .= '"'.$locName.'":"'.$locName.'",';
-            else                    $cliName .= '"'.$locName.'":"'.$location->phone.' , '.$locName.'",';
+            else                 $cliName .= '"'.$locName.'":"'.$location->phone.' , '.$locName.'",';
         }
         return $cliName;
     }
