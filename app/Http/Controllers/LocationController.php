@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Ride;
 use App\Driver;
+use App\Helper;
 use App\Location;
 use App\Rideable;
 use App\Transaction;
@@ -149,13 +150,30 @@ class LocationController extends Controller
 
             $msg = 'locations.';
         }else{
-            $oldLocation = $location;
-            $msg = $location->longName;
-            $location->update(['driver_id' => null]);
-            Transaction::log(Route::getCurrentRoute()->getName(),$oldLocation,$location);
+            // detach and destroy current undone rides for rideable
+            $location->driver_id = null;
+            $location->save();
+            $rideables = $location->rideables()->whereIn('status', Helper::filter('ongoing'))->get();
+            foreach ($rideables as $rideable) {
+                if($rideable->rides()->count() > 1){
+                    $ride = $rideable->rides()->last();
+                    $ride->detach();
+                    $msg .= 'Driver unassigned from ';
+                }elseif($rideable->rides()->count() ==1){
+                    $ride = $rideable->rides()->first();
+                    $ride->detach();
+                }else{
+
+                }
+            }
+            $oldRideable = $rideable;
+            $rideable->status = 'DriverDetached';
+            $rideable->save();
+            Transaction::log(Route::getCurrentRoute()->getName(),$oldRideable,$rideable);
         }
 
-        return redirect()->back()->with('status', 'Driver unassigned from '.$msg);
+        $msg = 'locations.';
+        return redirect()->back()->with('status', $msg);
     }
 
     public function destroy(Location $location, Request $request)
