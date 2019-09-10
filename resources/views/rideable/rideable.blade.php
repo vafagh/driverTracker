@@ -1,5 +1,5 @@
 <ul class="deliveries list-group p-0" id='deliveries'>
-    <li class=" d-flex justify-content-between m-0 py-1 bg-primary text-white rounded-top">
+    <li class=" d-flex justify-content-between m-0 py-1 bg-primary text-light rounded-top">
         <div class="">
             <div class="m-0 p-0 pl-2 pt-1">
                 <span class="h3">
@@ -26,7 +26,7 @@
                             <a class="dropdown-item" href="/massUpdate?which=unassigned&amp;newShift=Evening&amp;newDelivery_date={{\Carbon\Carbon::today()->toDateString()}}">Unassigned to Evening</a>
                             <a class="dropdown-item" href="/massUpdate?which=unassigned&amp;newShift=Morning&amp;newDelivery_date={{\Carbon\Carbon::tomorrow()->toDateString()}}">Unassigned to Tomarrow</a>
                             <a class="dropdown-item bg-danger text-light" href="/massUpdate?which=all&amp;newShift=Morning&amp;newDelivery_date={{\Carbon\Carbon::today()->toDateString()}}">All to Morning</a>
-                            <a class="dropdown-item bg-danger text-light" href="/massUpdate?which=all&amp;newShift=Evening&amp;newDelivery_date={{\Carbon\Carbon::today()->toDateString()}}">All to Evening</a>
+                            <a class="dropdown-item bg-danger text-light " href="/massUpdate?which=all&amp;newShift=Evening&amp;newDelivery_date={{\Carbon\Carbon::today()->toDateString()}}">All to Evening</a>
                             <a class="dropdown-item bg-danger text-light" href="/massUpdate?which=all&amp;newShift=Morning&amp;newDelivery_date={{\Carbon\Carbon::tomorrow()->toDateString()}}">All to Tomarrow</a>
                             {{-- <a class="dropdown-item" href="{{strtolower($op2)}}/massUpdate{{str_replace(URL::current(),'',URL::full())}}&amp;newShift=Morning&amp;newDelivery_date={{\Carbon\Carbon::today()->toDateString()}}">Today Morning</a>
                             <a class="dropdown-item" href="{{strtolower($op2)}}/massUpdate{{str_replace(URL::current(),'',URL::full())}}&amp;newShift=Evening&amp;newDelivery_date={{\Carbon\Carbon::today()->toDateString()}}">Today Evening</a>

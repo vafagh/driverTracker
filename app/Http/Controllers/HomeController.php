@@ -27,7 +27,7 @@ class HomeController extends Controller
     public function home(Request $request)
     {
         if(empty($request->shift)){
-            $shift = Helper::when(null,FALSE)['shift'];
+            $shift = (date('H') < 13) ? 'Morning' : 'Evening';
         }else{
             $shift = $request->shift;
         }

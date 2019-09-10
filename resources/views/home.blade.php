@@ -19,6 +19,7 @@
             <a class="text-info" title="Go one Months forward" href="/?history={{$dt->copy()->addmonths(1)->format('Y-m-d')}}&shift={{$shift}}"><i class="material-icons top-m2">fast_forward</i></a>
         </div>
     </div>
+
     <div class="pickups card">
         <div class="card-header bg-primary text-light d-flex justify-content-between py-1">
             <span class="p-0 m-0 mt-1">Pickups by locations</span>
@@ -35,17 +36,17 @@
                         <div class="card-header text-center mh-20 px-0d-flex justify-content-around">
                             @component('layouts.components.tooltip',['modelName'=>'location','model'=>$warehouse])
                             @endcomponent
-                            @if (Auth::user()->role_id > 3)
+                            {{-- @if (Auth::user()->role_id > 3)
                                 <small class="text-muted">
                                     Total trip :{{ App\Rideable::where('location_id', $warehouse->id)->count() }}
                                 </small>
-                            @endif
+                            @endif --}}
                         </div>
                         @php
                             $rideables = ($history == $dates['today']) ? $warehouse->rideables->where('delivery_date',$history)->merge($warehouse->rideables->where('delivery_date',null))->all() : $warehouse->rideables->where('delivery_date',$history)
                         @endphp
                         <div class="card-body p-0">
-                            @foreach ($rideables as $key => $rideable) {{-- ->whereIn('status',['Created','OnTheWay','NotAvailable','DriverDetached'])--}}
+                            @foreach ($rideables as $key => $rideable)
                                 <div class="row {{$rideable->status}} m-0 p-0 text-uppercase border-bottom mb-1">
                                     <div class="InvoiceNumber col-7 line text-truncate px-0">
                                         <div class="font-70">
@@ -104,7 +105,7 @@
                                     @if (empty($defDriver))
                                         Not assigned yet
                                     @else
-                                        Pickup by: {{$defDriver_fname}}
+                                        Picking by: {{$defDriver_fname}}
                                     @endif
                                 </span>
                                 <div class="d-flex justify-content-around px-1" id="heading{{$warehouse->id}}">
@@ -228,6 +229,7 @@
             </div>
         </div>
     </div>
+
     <div class="card stops">
         <div class="card-header">
             {{$rides->count()}}

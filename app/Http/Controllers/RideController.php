@@ -96,7 +96,7 @@ class RideController extends Controller
         // Transaction::log(Route::getCurrentRoute()->getName(),$rideable,$ride);
         //
         // return redirect()->back()->with('status', $driver->fname.' Assigned to '.$rideable->invoice_number.' For '.$rideable->location->name.' on '.$ride->shift.' shift');
-        return redirect()->back()->with('error', $rideable->invoice_number.' didn\'t assigned to '. $driver->fname.' Please use map to assign drivers');
+        return redirect()->back()->with('error', $rideable->invoice_number.' didn\'t assigned to '. $driver->fname.' Please use the map to assign drivers');
 
     }
 
@@ -168,11 +168,7 @@ class RideController extends Controller
     {
         $rideable = Rideable::find($rideable_id);
 
-        if($rideable->rides()->count() > 1){
-            $rideable->rides()->detach($ride_id);
-            Ride::destroy($ride_id);
-            $rideable->status = 'Return';
-        }elseif($rideable->rides()->count() == 1){
+        if($rideable->rides()->count() > 0){
             $rideable->rides()->detach($ride_id);
             Ride::destroy($ride_id);
             $rideable->status = 'DriverDetached';
