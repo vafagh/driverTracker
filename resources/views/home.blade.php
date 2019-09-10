@@ -194,7 +194,9 @@
                                                                 ->whereHas('rideable', function($q){
                                                                     $q->where('type','=','Client');
                                                                 });
-                                    $lengthOfWork = $driverAllRides->first()->created_at->diffInDays($dates['today'])
+                                    if ($driverAllRides->count()>0) {
+                                        $lengthOfWork = $driverAllRides->first()->created_at->diffInDays($dates['today']);
+                                    }
                                  @endphp
                                 {{ $allRidesCount = $driverAllRides->count() }}
                             </small>
