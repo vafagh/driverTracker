@@ -168,11 +168,11 @@ class RideController extends Controller
     {
         $rideable = Rideable::find($rideable_id);
 
-        if($ride_id > 1){
+        if($rideable->rides()->count() > 1){
             $rideable->rides()->detach($ride_id);
             Ride::destroy($ride_id);
             $rideable->status = 'Return';
-        }elseif($ride_id > 0){
+        }elseif($rideable->rides()->count() == 1){
             $rideable->rides()->detach($ride_id);
             Ride::destroy($ride_id);
             $rideable->status = 'DriverDetached';
