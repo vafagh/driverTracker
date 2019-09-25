@@ -15,7 +15,7 @@ class Service extends Model
     {
         return $this->belongsTo(Truck::class);
     }
-    
+
     public function driver()
     {
         return $this->belongsTo(Driver::class);

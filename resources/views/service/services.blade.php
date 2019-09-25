@@ -16,7 +16,6 @@
                 @endcomponent
             </div>
         </div>
-
         <div class="card-body">
             <div class='row font-weight-light h6'>
                 <div class="{{$tr='col-4 col-sm-4 col-md-3 col-lg-3 col-xl-2'}}">Truck<br>Driver</div>

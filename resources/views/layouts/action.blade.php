@@ -46,12 +46,14 @@ if ($user_role > 0 ){
             if ($user_id == $rideable->user_id) $delete = true;
             ($rideable->location->type  == 'Client') ?$assignDriver = true : $done = true;
             $pulled = true;
+            $delete = true;
         break;
 
         case 'Reschedule':
             ($user_id == $rideable->user_id) ? $delete = true : "";
             ($rideable->location->type != 'DropOff') ?$assignDriver = true : "";
             $done = true;
+            $noData = true;
         break;
 
         case 'OnTheWay':
@@ -107,7 +109,10 @@ if ($user_role > 0 ){
         <i class="material-icons">clear_all</i>
     </a>
 @endif
-@if ($noData && $user_role >= 3 && ($count = App\Transaction::where('table_name','=','rideables')->where('row_id','=',$rideable->id)->count()) > 3)
+@php
+    ;
+@endphp
+@if (($noData && $user_role >= 3) &&  (($count = App\Transaction::where('table_name','=','rideables')->where('row_id','=',$rideable->id)->count()) > 3))
     <a title="{{$count}} attempt." class="text-secondary" href="/rideable/{{$rideable->id}}/NoData">
         <i class="material-icons">wifi_off</i>
     </a>

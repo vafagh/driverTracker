@@ -15,7 +15,7 @@ class ServiceController extends Controller
         ->orderBy('id', 'desc')
         ->get();
 
-        return view('service.services',['services'=>$services]);
+        return view('service.services',[ 'services' => $services ]);
     }
 
 
