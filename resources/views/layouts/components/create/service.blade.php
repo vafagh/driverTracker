@@ -17,7 +17,7 @@
     <div class="form-group">
         <label for="truck-name" class="col-form-label">Truck:</label>
         <select class="form-control form-control-lg" name="truck_id">
-            @foreach (App\Truck::all() as $truck)
+            @foreach (App\Truck::where('status',1)->orderby('lable')->get() as $truck)
                 <option value="{{$truck->id}}">{{$truck->lable.' '.$truck->license_plate}}</option>
             @endforeach
         </select>

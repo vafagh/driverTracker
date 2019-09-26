@@ -1,20 +1,32 @@
 @extends('layouts.app')
 @section('content')
         <div class="card">
-            <div class="card-header row m-0">
-                <div class="col-10">
-                    Trucks
+            <div class="card-header d-flex justify-content-between m-0">
+                <div class="h3">
+                    {{$truck->lable}}
                 </div>
-                <div class="col-2">
+                <div class="">
                     @component('layouts.components.modal',[
-                        'modelName'=>'truck',
+                        'modelName'=>'fillup',
                         'action'=>'create',
                         'object'=>null,
                         'op1'=>'op1',
-                        'op2'=>'truck',
+                        'op2'=>'fillup',
+                        'style'=>'btn btn-success',
+                        'dingbats'=>'add gas',
                         'iterator'=>0,
-                        'file'=>true
-                    ])
+                        'file'=>true])
+                    @endcomponent
+                    @component('layouts.components.modal',[
+                        'modelName'=>'service',
+                        'action'=>'create',
+                        'object'=>null,
+                        'op1'=>'op1',
+                        'op2'=>'service',
+                        'style'=>'btn btn-info',
+                        'dingbats'=>'add Service',
+                        'iterator'=>0,
+                        'file'=>true])
                     @endcomponent
                 </div>
 

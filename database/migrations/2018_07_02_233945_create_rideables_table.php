@@ -86,6 +86,7 @@ class CreateRideablesTable extends Migration
             $table->longText('description')->nullable();
             $table->string('product')->nullable();
             $table->string('image')->nullable();
+            $table->boolean('status')->nullable();
             $table->string('mileage')->nullable();
             $table->string('shop')->nullable();
             $table->string('shop_phone')->nullable();

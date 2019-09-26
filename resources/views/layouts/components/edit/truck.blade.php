@@ -1,8 +1,18 @@
 <div class="modal-body">
+
+    <div class="form-group">
+        <div class="form-check">
+            <input class="form-check-input" name='status' {{($object->status)?'checked':''}} type="checkbox" id="status{{$object->id}}">
+            <label class="form-check-label" for="status{{$object->id}}">
+                In service
+            </label>
+        </div>
+    </div>
+
     <div class="form-group row">
         <div class="col-6">
             <label for="license_plate" class="col-form-label">License Plate</label>
-            <input name="license_plate" value="{{$object->license_plate}}" class="form-control form-control" type="text" placeholder="" required>
+            <input name="license_plate" value="{{$object->license_plate}}" class="form-control" type="text" placeholder="" required>
         </div>
         <div class="col-6">
             <label for="gas_card" class="col-form-label">Gas Card</label>

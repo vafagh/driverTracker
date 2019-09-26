@@ -62,6 +62,11 @@ class TruckController extends Controller
             $request->file('image')->move(public_path('img/truck'), $image);
             $truck->image = $image;
         }
+        if($request->status=='on'){
+            $truck->status = 1;
+        } else {
+            $truck->status = 0 ;
+        }
         $truck->save();
         Transaction::log(Route::getCurrentRoute()->getName(),Truck::find($request->id),$truck);
 
