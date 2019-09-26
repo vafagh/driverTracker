@@ -12,10 +12,9 @@ class ServiceController extends Controller
     public function index()
     {
         $services = Service::with('driver','truck')
-        ->orderBy('id', 'desc')
         ->get();
 
-        return view('service.services',[ 'services' => $services ]);
+        return view('service.services',[ 'services' => $services, 'trucks' => $services->pluck('truck')->flatten()->unique(), 'start' => time()]);
     }
 
 

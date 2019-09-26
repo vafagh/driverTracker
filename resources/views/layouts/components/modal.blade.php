@@ -1,4 +1,5 @@
 <!--Modal start-->
+
 @if (!isset($btnHide))
     <a  class="{{(isset($style) ? $style : 'btn btn-primary')}}{{(isset($btnSize) ? $btnSize : '')}}" data-toggle="modal" {{(isset($btnAttribute) ? $btnAttribute : '')}} data-target="#{{$op1.$op2.'_'.$action.$modelName.$iterator}}" data-whatever="@mdo" title="{{$action.' '.$modelName}}">
         {!!(isset($dingbats))? $dingbats : ucfirst($action)!!}
@@ -22,6 +23,7 @@
                     'file'=>(isset($file))?$file:false,
                     'autocomplateOff'=>(isset($autocomplateOff))?$autocomplateOff:false,
                     'object'=>(isset($object))? $object:false,
+                    'name'=>(isset($name))? $name:false,
                     'noneStatus' => (isset($noneStatus))? $noneStatus:true ,
                     'iterator'=>$iterator])
                 @endcomponent

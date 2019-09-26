@@ -4,10 +4,10 @@
         @if ($autocomplateOff) autocomplete="off" @endif>
             {{ csrf_field() }}
             @component('layouts.components.edit.'.$modelName,[
+                'componentName'=>'edit',
+                'object'=>$object,
                 'op1'=>$op1,
                 'op2'=>$op2,
-                'object'=>$object,
-                'componentName'=>'edit',
                 'noneStatus' => (isset($noneStatus))? $noneStatus:true ,
                 'iterator'=>$object->id
             ])

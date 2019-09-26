@@ -1,5 +1,4 @@
 <div class="modal-body">
-
     <div class="form-group">
         <h5>Billing</h5>
         <div class="form-group row">
@@ -53,7 +52,7 @@
     </div>
     <div class="form-group">
         <label for="message-text" class="col-form-label">Service details:</label>
-        <textarea class="form-control" name="description" required>{{$object->description}}</textarea>
+        <textarea class="form-control" name="description" >{{$object->description}}</textarea>
     </div>
 
     <div class="form-group row">
@@ -95,6 +94,7 @@
     </div>
 
 </div>
+
 @if (Auth::user()->role_id>3)
     <div class="modal-footer">
         <input name="id" type="hidden" value="{{$object->id}}">
