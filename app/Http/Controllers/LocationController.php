@@ -15,7 +15,7 @@ class LocationController extends Controller
 {
     public function index()
     {
-        $locations = Location::orderBy('name','asc')->paginate(10);
+        $locations = Location::orderBy('type','desc')->paginate(10);
         return view('location.locations',compact('locations'));
     }
 
