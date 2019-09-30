@@ -10668,7 +10668,7 @@ a.text-dark:focus {
 
 .text-white {
   color: white;
-  background-color: gray;
+  background-color: #eee;
 }
 
 .text-orange {
@@ -10723,6 +10723,11 @@ a.text-dark:focus {
 
 .text-maroon {
   color: maroon;
+  background-color: white;
+}
+
+.text-brown {
+  color: brown;
   background-color: white;
 }
 
@@ -10790,8 +10795,8 @@ a.text-dark:focus {
   background-color: fuchsia;
 }
 
-.bg-maroon {
-  background-color: maroon;
+.bg-brown {
+  background-color: brown;
 }
 
 .navbar-collapse.collapse.show ul a {

@@ -175,6 +175,7 @@
             </div>
         </div>
     @endfor
+    <span id='mutedtext{{$iterator}}' class="text-muted text-small">{{($op1=='Client') ? '':'Enter the full part number. Don\'t skip the starting "0"'}}</span>
 
     <script type="text/javascript">
     function showID(id) {
@@ -201,6 +202,7 @@
             document.getElementById('invoice_number'+nextIdNum).focus();
         }
     });
+
     </script>
 
     <div class="form-group">

@@ -145,6 +145,7 @@
 
                     <div class="card col-6 col-sm-4 col-md-3 col-lg-2 px-0 {{($deliveryStops->count() > 0) ? '' : 'd-none' }}">
                         <div class="card-header pt-1 pb-1 d-flex justify-content-between">
+                            <i class="material-icons" style='color:{{substr($driver->color,1,1)=='x' ? '#'.substr($driver->color,2):$driver->color}}'>person_pin</i>
                             <a href="/driver/show/{{$driver->id}}">{{$driver->fname}}</a>
                             {{-- <span class='text-bold'>{{$shift}}</span> --}}
                             @if ($driver->fname != 'Pickup')
