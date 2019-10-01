@@ -124,7 +124,9 @@ class Helper
                 $flaten .= '</tr>';
                 $flaten .= '</table>';
         }elseif(!empty($value)){
-            $flaten = '<td class="border p-2">'.$value.'</td>';
+            $ext = substr($value, -4);
+            // $flaten = ;
+            $flaten = ($ext=='.jpg' || $ext=='.png') ? '<td class="border p-2"><img src="/img/driver/'.$value.'" height="30px"></td>' : '<td class="border p-2">'.$value.'</td>';
         }
         return $flaten;
     }

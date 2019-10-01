@@ -286,9 +286,14 @@
                             </span>
                             <div class="">
                                 @if (Auth::user()->role_id >3)
-                                    <a href="/location/clearall" class="text-success">
+                                    <a href="/location/clear/def" class="text-success">
                                         <i class="material-icons">clear_all</i>
                                         Clear def
+                                    </a>
+
+                                    <a href="/location/clear/thisShiftOnGoingRides?date={{$delivery_date}}&shift={{$shift}}" class="text-danger">
+                                        <i class="material-icons">clear_all</i>
+                                        Clear Map
                                     </a>
                                 @endif
                                 <span>
@@ -352,18 +357,7 @@
                                     </ol>
                             </div>
                         </div>
-                        <div class="">
-                            @if (Auth::user()->role_id >3)
-                                <a href="/location/clearall" class="text-success">
-                                    <i class="material-icons">clear_all</i>
-                                    Clear def
-                                </a>
-                                <a href="/location/clearall" class="text-danger">
-                                    <i class="material-icons">clear_all</i>
-                                    Clear all
-                                </a>
-                            @endif
-                        </div>
+
                     </div>
 
 

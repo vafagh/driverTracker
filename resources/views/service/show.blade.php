@@ -19,7 +19,7 @@
         <div class="card-body row p-0 m-0">
             <div class="row col-4 p-0 m-0">
                 <div class="col-9">
-                    @if (isset($service->image))
+                    @if (filled($service->image))
                         <a href="/img/service/{{$service->image}}">
                             <img class="w-100" src="/img/service/{{$service->image}}">
                         </a>
@@ -30,8 +30,12 @@
                     @endif
                 </div>
                 <div class="col-3 ">
+                    @if (!empty($service->driver->image))
                     <img class="w-100" src="/img/driver/{{$service->driver->image}}">
+                @endif
+                @if (!empty($service->truck->image)){{$service->truck->image}}
                     <img class="w-100" src="/img/truck/{{$service->truck->image}}">
+                @endif
                 </div>
             </div>
             <div class="col-8">
@@ -51,11 +55,11 @@
                             <tr>
                                 <th>Product</th>
                                 <td>{{$service->product}}</td>
-                            </tr>>
+                            </tr>
                             <tr>
                                 <th>Description</th>
                                 <td>{{$service->description}}</td>
-                            </tr>>
+                            </tr>
                             <tr>
                                 <th>Mileage</th>
                                 <td>{{$service->mileage}}</td>

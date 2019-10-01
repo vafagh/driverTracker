@@ -164,6 +164,21 @@ class RideController extends Controller
 
     }
 
+    public static function detachLastByRideable($rideable){
+        $rideCount = $rideable->rides()->count();
+        if($rideCount >= 1){
+            $ride = ($rideCount > 1) ? $rideable->rides()->latest()->first() : $rideable->rides()->first();
+            $rideable->rides()->detach($ride->id);
+            Ride::destroy($ride->id);
+            $rideable->status = 'DriverDetached';
+            $msg = 'Driver detached from ';
+            // return true;
+        }else{
+            $msg = 'No ride found to detach';
+            // return false;
+        }
+    }
+
     public function detach($ride_id,$rideable_id, Request $request)
     {
         $rideable = Rideable::find($rideable_id);

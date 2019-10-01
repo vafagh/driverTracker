@@ -95,6 +95,9 @@ class RideableController extends Controller
             $rideable->shift =  date('H:i');
         }
         if($request->status == 'Reschedule'){
+            $location = $rideable->location;
+            $location->driver_id = null;
+            $location->save();
             $rideable->delivery_date = Helper::when($rideable)['date'];
             $rideable->shift = Helper::when($rideable)['shift'];
         }

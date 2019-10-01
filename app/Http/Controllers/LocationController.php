@@ -9,6 +9,8 @@ use App\Location;
 use App\Rideable;
 use App\Transaction;
 use Illuminate\Http\Request;
+
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 
 class LocationController extends Controller
@@ -130,49 +132,47 @@ class LocationController extends Controller
         return redirect()->back()->with('status',$msg.$location->name.' updated');
     }
 
-    public function clearDefault(Location $location)
+    public function clear(Request $request,$what)
     {
-        if(empty($location->id)){
+        $location = Location::find($what);
+        $rideables = Rideable::whereIn('status',['DriverDetached','OnTheWay'])->where('delivery_date',$request->date)->where('shift',$request->shift)->get(); //collect all undone except 'Reschedule'd and 'Created'
+        $msg = '';
+        if($what  == 'thisShiftOnGoingRides' || $what  == 'def'){
+            // dd('here');
             Location::whereNotNull('driver_id')->update(['driver_id' => null]); // clear all driver from default value on location
-            $rideables = Rideable::whereIn('status',['DriverDetached','OnTheWay'])->get(); //collect all undone except 'Reschedule'd and 'Created'
-            foreach ($rideables as $rideable) { // detach and destroy current undone rides for rideable
-                if($rideable->rides()->count() > 0){
-                    $rideable->rides()->detach();
-                    foreach (Ride::where('rideable_id',$rideable->id)->get() as $child) {
-                        Ride::destroy($child->id);
+            $msg = 'Default driver cleared.';
+            if($what == "thisShiftOnGoingRides"){
+                foreach ($rideables as $rideable) { // detach and destroy current undone rides for rideable
+                    $oldRideable = $rideable;
+                    try {
+                        app(RideController::detachLastByRideable($rideable));
+                    } catch (Exception $e) {
+                        $msg .= $e;
                     }
+                    $oldRideable = $rideable;
+                    $rideable->status = 'Created';
+                    $rideable->save();
+                    Transaction::log(Route::getCurrentRoute()->getName(),$oldRideable,$rideable);
                 }
-                $oldRideable = $rideable;
-                $rideable->status = 'Created';
-                $rideable->save();
-                Transaction::log(Route::getCurrentRoute()->getName(),$oldRideable,$rideable);
+                $msg = ' + all ongoing rides cleared!';
             }
-
-            $msg = 'locations.';
-        }else{
+        }elseif($location->exists()){
             // detach and destroy current undone rides for rideable
             $location->driver_id = null;
             $location->save();
             $rideables = $location->rideables()->whereIn('status', Helper::filter('ongoing'))->get();
             foreach ($rideables as $rideable) {
-                if($rideable->rides()->count() > 1){
-                    $ride = $rideable->rides()->last();
-                    $ride->detach();
-                    $msg .= 'Driver unassigned from ';
-                }elseif($rideable->rides()->count() ==1){
-                    $ride = $rideable->rides()->first();
-                    $ride->detach();
-                }else{
-
+                $oldRideable = $rideable;
+                try {
+                    app(RideController::detachLastByRideable($rideable));
+                } catch (Exception $e) {
+                    $msg .= $e;
                 }
             }
             $oldRideable = $rideable;
-            $rideable->status = 'DriverDetached';
             $rideable->save();
             Transaction::log(Route::getCurrentRoute()->getName(),$oldRideable,$rideable);
         }
-
-        $msg = 'locations.';
         return redirect()->back()->with('status', $msg);
     }
 
