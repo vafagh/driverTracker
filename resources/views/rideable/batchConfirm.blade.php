@@ -5,12 +5,13 @@
             <span class="col-10">
                 Batch import
             </span>
+
         </div>
         <div class="card-body">
 
             <div class="row ">
                 <div class="col-2 ">Invoice Number</div>
-                <div class="col-2 ">Invoice Date / Delivery Date</div>
+                <div class="col-2 ">Invoiced on / Deliver for</div>
                 <div class="col-4  row p-0 m-0">
                     <div class="col-12 text-center">Shifts</div>
                     {{-- <div class="col-4">Morning</div>
@@ -52,7 +53,7 @@
                                     </div>
                                     <input class="form-control " {{$propertyName}}="invoice_number{{$n}}" value="{{$invoice[0]}}">
                                 </div>
-                                <div class="row col-2 m-0">
+                                <div class="row col-3 m-0">
                                     <input class="col-6" value="{{$invoice_date}}" disabled>
                                     <input class="col-6" {{$propertyName}}="delivery_date{{$n}}" value="{{$delivery_date}}">
                                     @if ($invoice_date==$delivery_date)
@@ -71,12 +72,12 @@
                                         <label class="form-check-label" for="{{$propertyName}}Evening{{$n.$invoice[0]}}" title="Evening">Evening</label>
                                     </div>
                                     <div class="col-4 form-check form-check-inline m-0">
-                                        <input class="form-check-input" type="radio" {{$propertyName}}="shift{{$n}}" id="{{$propertyName}}Notclear{{$n}}{{$invoice[0]}}" value='Notclear' {{($propertyName=="data-toggle")?'disabled':''}}>
-                                        <label class="form-check-label" for="{{$propertyName}}Notclear{{$n}}{{$invoice[0]}}">Not Clear</label>
+                                        <input class="form-check-input" type="radio" {{$propertyName}}="shift{{$n}}" id="{{$propertyName}}Notclear{{$n}}{{$invoice[0]}}" value='Pickup' {{($propertyName=="data-toggle")?'disabled':''}}>
+                                        <label class="form-check-label" for="{{$propertyName}}Notclear{{$n}}{{$invoice[0]}}">Pickup</label>
                                     </div>
                                 </div>
                                 <input class="col-2  {{($location->count() == 0)? 'bg-danger': 'bg-success'}}" {{$propertyName}}="locationName{{$n}}" value="{{$invoice[2]}}">
-                                <input class="col-2 " {{$propertyName}}="qty{{$n}}" value="{{$invoice[4]}}">
+                                <span class="col-1 {{$invoice[4]<=0 ? 'text-danger':''}}" >{{$invoice[4]}}</span>
                             </div>
                         @else
                             {{-- <div class="row mb-2"><input class="col-2 ml-1 {{($returnedRideable->count()>0)?'bg-success':''}}"  value="{{$invoice[0]}}"><input class="col-2 ml-1 " value="{{$delivery_date}}"><input class="col-2 ml-1 {{($location->count() == 0)? 'bg-danger': 'bg-success'}}"  value="{{$invoice[2]}}"><input class="col-2 ml-1 "  placeholder="enter phone" {{($location->count() == 0)? 'required': ''}} ><input class="col-2 ml-1 " value="{{$invoice[4]}}"></div> --}}

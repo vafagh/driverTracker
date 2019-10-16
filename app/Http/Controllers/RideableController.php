@@ -133,47 +133,52 @@ class RideableController extends Controller
     public function store(Request $request)
     {
         $msg = '';
-        $exist = Rideable::where('invoice_number',$request->invoice_number0)->where('type','Client')->get()->count();
-        if($exist>0) return redirect()->back()->with('error', $request->invoice_number0." is already in system!");
         for ($i=0,$j=0; $i <= $request->n ; $i++) {
-            $thisRequest = $request;
-            if ($request->{"invoice_number$i"}!='' && isset($request->{"item_$i"}) ) {
-                $j++;
-                $rideable = new Rideable;
-                $rideable->user_id = Auth::id();
-                if($request->submitType!='batch') {
-                    $thisRequest->{"locationName$i"} = $thisRequest->locationName0;
-                    $thisRequest->{"locationPhone$i"} = $thisRequest->locationPhone0;
+            $exist = Rideable::where('invoice_number',$request->{"invoice_number$i"})->where('type','=','Client')->get()->count();
+            // if($exist>0) return redirect()->back()->with('error', $request->{"invoice_number$i"}." is already in system!");
+            if($exist>0){
+                $msg = ' '.$request->{"invoice_number$i"}." is already in system! ";
+            }else{
+                $thisRequest = $request;
+                if ($request->{"invoice_number$i"}!='' && isset($request->{"item_$i"}) ) {
+                    $j++;
+                    $rideable = new Rideable;
+                    $rideable->user_id = Auth::id();
+                    if($request->submitType!='batch') {
+                        $thisRequest->{"locationName$i"} = $thisRequest->locationName0;
+                        $thisRequest->{"locationPhone$i"} = $thisRequest->locationPhone0;
+                    }
+                    (is_null($request->{"locationName$i"})) ? $locationName = $thisRequest->{"locationPhone$i"} : $locationName = $thisRequest->{"locationName$i"};
+                    $location = Location::where('name', $locationName)->first();
+                    ($thisRequest->type == 'Delivery' && $location == null ) ? redirect()->back()->with('error', 'Location "'.$locationName.'" not exist. Please create it. '):"";
+                    $rideable->location_id = $location->id;
+                    $msg .= Location::addGeo($location);
+                    $rideable->invoice_number = $request->{"invoice_number$i"};
+                    ($request->{"stock$i"} == 'on') ? $rideable->stock = true :'';
+                    $rideable->qty = $request->{"qty$i"};
+                    $rideable->type = Location::find($rideable->location_id)->type;
+                    $rideable->shift = empty($thisRequest->{"shift$i"}) ? $thisRequest->shift : $thisRequest->{"shift$i"} ;
+                    $rideable->delivery_date = empty($thisRequest->{"delivery_date$i"}) ? $thisRequest->delivery_date : $thisRequest->{"delivery_date$i"} ;
+                    if ($request->ready ==1 && $request->status == 'Pulled'&& filled($request->puller)) {
+                        $rideable->status = 'Pulled';
+                        $today = new Carbon;
+                        $rideable->delivery_date = $today->format('Y-m-d');
+                        $rideable->description = $request->description.' | Pulled By '.$request->input('puller').' at '.$today->format('Y-m-d').' '.date('H:i');
+                    }else{
+                        $rideable->status = 'Created';
+                        $rideable->description = $thisRequest->description;
+                    }
+                    $rideable->save();
+                    Transaction::log(Route::getCurrentRoute()->getName(),'',$rideable);
                 }
-                (is_null($request->{"locationName$i"})) ? $locationName = $thisRequest->{"locationPhone$i"} : $locationName = $thisRequest->{"locationName$i"};
-                $location = Location::where('name', $locationName)->first();
-                ($thisRequest->type == 'Delivery' && $location == null ) ? redirect()->back()->with('error', 'Location "'.$locationName.'" not exist. Please create it. '):"";
-                $rideable->location_id = $location->id;
-                $msg .= Location::addGeo($location);
-                $rideable->invoice_number = $request->{"invoice_number$i"};
-                ($request->{"stock$i"} == 'on') ? $rideable->stock = true :'';
-                $rideable->qty = $request->{"qty$i"};
-                $rideable->type = Location::find($rideable->location_id)->type;
-                $rideable->shift = empty($thisRequest->{"shift$i"}) ? $thisRequest->shift : $thisRequest->{"shift$i"} ;
-                $rideable->delivery_date = empty($thisRequest->{"delivery_date$i"}) ? $thisRequest->delivery_date : $thisRequest->{"delivery_date$i"} ;
-                if ($request->ready ==1 && $request->status == 'Pulled'&& filled($request->puller)) {
-                    $rideable->status = 'Pulled';
-                    $today = new Carbon;
-                    $rideable->delivery_date = $today->format('Y-m-d');
-                    $rideable->description = $request->description.' | Pulled By '.$request->input('puller').' at '.$today->format('Y-m-d').' '.date('H:i');
-                }else{
-                    $rideable->status = 'Created';
-                    $rideable->description = $thisRequest->description;
-                }
-                $rideable->save();
-                Transaction::log(Route::getCurrentRoute()->getName(),'',$rideable);
             }
         }
         if($request->submitType=='batch' && !empty($rideable)) {
             $rawData = $request->rawData;
             $invoices=null;
             $n = 0;
-            return view('rideable.batchConfirm', compact('invoices','rawData','n'))->with('status', $rideable->invoice_number." part number has been added and marked as a pulled! ".' ');
+            $msg .=" part number has been added and marked as a pulled! ";
+            return view('rideable.batchConfirm', compact('invoices','rawData','n'))->with('status', $rideable->invoice_number.$msg.' ');
         }
         elseif($request->status == 'Pulled') {return redirect()->route('pull.rideable')->with('status', $j." part number has been added! ".' '.$msg);}
         else {return redirect()->route('rideables',['type'=>$request->type])->with('status', $j." part number has been added! ".' '.$msg);}
