@@ -116,6 +116,7 @@
                             clientsPhone.focus();
                         }
                     }
+
                 </script>
             @endsection
         </fieldset>
@@ -215,5 +216,5 @@
     <input type="hidden" name="type" value="{{strtolower($op2)}}">
     <input type="hidden" name="n" value="10">
     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-    <button type="submit" id="{{$op2}}" class="btn btn-primary">Save it</button>
+    <button type="submit" id="btn-save-{{$op2}}" class="btn btn-primary" onclick="this.hidden = true;">Save it</button>
 </div>
