@@ -55,7 +55,6 @@ if ($user_role > 0 ){
         case 'Reschedule':
             ($user_id == $rideable->user_id) ? $delete = true : "";
             ($rideable->location->type != 'DropOff') ?$assignDriver = true : "";
-            $done = true;
             $noData = true;
         break;
 
