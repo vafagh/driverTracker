@@ -85,26 +85,37 @@ class RideableController extends Controller
         return view('map',['spots' => $spots,'count' => $spots->count(),'unassign' => $unassign, 'cluster' => (filled($request->input('cluster'))) ? $request->input('cluster'): 0, 'assigned' => $assigned, 'delivery_date' => $fields['delivery_date'][2], 'shift' => $fields['shift'][2]]);
     }
 
-    public function status(Request $request)
+    public function status(Request $request, $redirect=true)
     {
-        $rideable=Rideable::find($request->rideable);
-        $rideable->status = $request->status;
-        if($rideable->type !='Client'){
-            $today = new Carbon;
-            $rideable->delivery_date = $today->format('Y-m-d');
-            $rideable->shift =  date('H:i');
-        }
-        if($request->status == 'Reschedule'){
-            $location = $rideable->location;
-            $location->driver_id = null;
-            $location->save();
-            $rideable->delivery_date = Helper::when($rideable)['date'];
-            $rideable->shift = Helper::when($rideable)['shift'];
-        }
-        Transaction::log(Route::getCurrentRoute()->getName(),Rideable::find($request->rideable),$rideable);
-        $rideable->save();
+        $rideable = (isset((Rideable::find($request->rideable)->id))) ? Rideable::find($request->rideable) : Rideable::where('invoice_number' ,$request->rideable)->first();
+        if($rideable != null){
+            $rideable->status = $request->status;
+            if($rideable->type !='Client'){
+                $today = new Carbon;
+                $rideable->delivery_date = $today->format('Y-m-d');
+                $rideable->shift =  date('H:i');
+            }
+            if($request->status == 'Reschedule'){
+                $location = $rideable->location;
+                $location->driver_id = null;
+                $location->save();
+                $rideable->delivery_date    = Helper::when($rideable)['date'];
+                $rideable->shift            = Helper::when($rideable)['shift'];
+            }
+            if($request->status == 'backOrdered'){
+                $rideable->delivery_date    = $request->delivery_date;
+                $rideable->shift            = $request->shift;
+                $redirect = false;
+            }
 
-        return redirect()->back()->with('status', $rideable->status.' set');
+            Transaction::log(Route::getCurrentRoute()->getName(),Rideable::find($request->rideable),$rideable);
+            $rideable->save();
+
+            if($redirect) return redirect()->back()->with('status', $rideable->status.' set');
+        }else {
+            return redirect()->back()->with('status', 'Add ticket #'.$request->rideable.' and try again');
+
+        }
     }
 
     // This function for inserting new invoices into system using excisting multiple line text from other systems.
