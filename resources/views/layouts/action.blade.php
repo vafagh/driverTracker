@@ -25,7 +25,6 @@ if ($user_role > 0 ){
         case 'Created':
             $delete = true;
             $pulled = true;
-            $assignDriver = true;
             $notAvailable = true;
             if ($rideable->location->type  == 'DropOff') {
                 $done = true;
@@ -34,10 +33,14 @@ if ($user_role > 0 ){
             $noData = true;
         break;
 
+        case 'BackOrdered':
+        break;
+
         case 'Returned':
             if ($user_role >3){
-                $done = true;
                 $reschedule = true;
+                $return         = true;
+
             }
         break;
 
