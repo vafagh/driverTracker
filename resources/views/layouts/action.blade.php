@@ -16,6 +16,7 @@
     $notAvailable   = false;
     $detach         = false;
     $return         = false;
+    $returnDone     = false;
     $reschedule     = false;
     $pulled         = false;
     $noData         = false;
@@ -39,8 +40,7 @@ if ($user_role > 0 ){
         case 'Returned':
             if ($user_role >3){
                 $reschedule = true;
-                $return         = true;
-
+                $returnDone = true;
             }
         break;
 
@@ -112,9 +112,6 @@ if ($user_role > 0 ){
         <i class="material-icons">clear_all</i>
     </a>
 @endif
-@php
-    ;
-@endphp
 @if (($noData && $user_role >= 3) &&  (($count = App\Transaction::where('table_name','=','rideables')->where('row_id','=',$rideable->id)->count()) > 3))
     <a title="{{$count}} attempt." class="text-secondary" href="/rideable/{{$rideable->id}}/NoData">
         <i class="material-icons">wifi_off</i>
@@ -125,6 +122,9 @@ if ($user_role > 0 ){
 @endif
 @if ($return && $user_role >= 3)
     <a title="Returned" class=" showOnHover" href="/rideable/{{$rideable->id}}/Returned"><i class="material-icons">keyboard_return</i></a>
+@endif
+@if ($returnDone && $user_role >= 3)
+    <a title="Return" class=" showOnHover" href="/rideable/{{$rideable->id}}/Return"><i class="material-icons">done_outline</i></a>
 @endif
 @if ($reschedule)
     <a class="text-primary showOnHover" title="Send driver back" href="/rideable/{{$rideable->id}}/Reschedule"><i class="material-icons">refresh</i></a>
