@@ -11201,7 +11201,7 @@ a.text-dark:focus {
 }
 
 .Reschedule {
-  background-color: #d5ffe6;
+  background-color: rgba(242, 163, 145, 0.71);
 }
 
 .DriverDetached {
