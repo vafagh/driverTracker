@@ -11,34 +11,19 @@
 <li class="nav-item">
     <a title="Morning shift" class="nav-link map" href="/map?shift=Morning&amp;delivery_date={{\Carbon\Carbon::today()->toDateString()}}">
         <i class="material-icons  text-success">map</i>
+        <span class="d-inline d-md-none">Morning Map</span>
     </a>
 </li>
 <li class="nav-item">
     <a title="Evening shift" class="nav-link map" href="/map?shift=Evening&amp;delivery_date={{\Carbon\Carbon::today()->toDateString()}}">
         <i class="material-icons  text-warning">map</i>
+        <span class="d-inline d-md-none">Evening Map</span>
     </a>
 </li>
-{{-- <li class="nav-item dropdown {{$direction}}">
-    <a id="mapDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-        <span>
-            <i class="material-icons">map</i>
-        </span>
-        <span class="d-inline d-md-none">Map</span>
-    </a>
-    <div class="dropdown-menu dropdown-menu-left" aria-labelledby="mapDropdown">
-        <a class="nav-link map" href="/map?delivery_date=all">All</a>
-        <a class="nav-link map" href="/map?shift=Morning&amp;delivery_date={{\Carbon\Carbon::yesterday()->toDateString()}}">Yesterday 1st</a>
-        <a class="nav-link map" href="/map?shift=Evening&amp;delivery_date={{\Carbon\Carbon::yesterday()->toDateString()}}">Yesterday 2nd</a>
-        <a class="nav-link map" href="/map?shift=Evening&amp;delivery_date={{\Carbon\Carbon::today()->toDateString()}}">Today 2nd</a>
-        <a class="nav-link map" href="/map?shift=Morning&amp;delivery_date={{\Carbon\Carbon::tomorrow()->toDateString()}}">Tomorrow 1st</a>
-        <a class="nav-link map" href="/map?shift=Evening&amp;delivery_date={{\Carbon\Carbon::tomorrow()->toDateString()}}">Tomorrow 2nd</a>
-    </div>
-</li> --}}
-
 <li class="nav-item">
     <a class="nav-link pickup" href="/pull" title="pull">
         <i class="material-icons d-md-inline d-lg-none  d-xl-inline">domain</i>
-        <span class="d-inline d-md-none d-md-none d-lg-inline">Pull</span>
+        <span class="d-inline d-md-none d-lg-inline">Pull</span>
     </a>
 </li>
 <li class="nav-item">
@@ -49,8 +34,8 @@
 </li>
 <li class="nav-item dropdown {{$direction}}">
     <a id="driverDropdown" class="nav-link dropdown-toggle " href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-        <i class="material-icons d-xl-none ">face</i>
-        <span class="d-inline d-md-none d-xl-inline mi   ">Drivers</span>
+        <i class="material-icons d--none ">face</i>
+        <span class="d-inline d-md-none d-lg-inline">Drivers</span>
     </a>
 
     <div class="dropdown-menu dropdown-menu-left" aria-labelledby="driverDropdown">
@@ -75,7 +60,7 @@
 <li class="nav-item">
     <a class="nav-link locations" href="/locations" title="Locations">
         <i class="material-icons">place</i>
-        <span class="d-inline d-xl-none">Locations</span>
+        <span class="d-inline d-md-none">Locations</span>
     </a>
 </li>
 @if (Auth::user()->role_id>3)
