@@ -72,7 +72,7 @@
                     </tr>
                 @endforeach
                 @if ($finishedRides)
-                    <tr class="table-dangers">
+                    <tr class="table-dangers ">
                         <td colspan="7 bg-black">
                             <div class="d-inline-block pagination-sm">
                                 {{ $finishedRides->links("pagination::bootstrap-4") }}
@@ -80,7 +80,7 @@
                         </td>
                     </tr>
                     @foreach ($finishedRides as $key => $ride)
-                        <tr>
+                        <tr class="{{$ride->rideable->status}}">
                             <td class='pl-2'>{{$ride->id}}</td>
                             @if (!empty($ride->rideable))
                                 <td class="location text-truncate">
