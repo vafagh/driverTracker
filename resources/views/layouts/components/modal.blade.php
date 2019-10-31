@@ -1,7 +1,16 @@
 <!--Modal start-->
 
+@php
+$op1 = (isset($op1)) ? $op1: null ;
+$op2 = (isset($op2)) ? $op2: null ;
+$object = (isset($object)) ? $object: false ;
+$iterator = (isset($iterator)) ? $iterator: null ;
+@endphp
 @if (!isset($btnHide))
-    <a  class="{{(isset($style) ? $style : 'btn btn-primary')}}{{(isset($btnSize) ? $btnSize : '')}}" data-toggle="modal" {{(isset($btnAttribute) ? $btnAttribute : '')}} data-target="#{{$op1.$op2.'_'.$action.$modelName.$iterator}}" data-whatever="@mdo" title="{{$action.' '.$modelName}}">
+    <a  class="{{(isset($style) ? $style : 'btn btn-primary')}}{{(isset($btnSize) ? $btnSize : '')}}"
+        data-toggle="modal" {{(isset($btnAttribute) ? $btnAttribute : '')}}
+        data-target="#{{$op1.$op2.'_'.$action.$modelName.$iterator}}"
+        data-whatever="@mdo" title="{{$action.' '.$modelName}}">
         {!!(isset($dingbats))? $dingbats : ucfirst($action)!!}
     </a>
 @endif
@@ -16,16 +25,16 @@
                 </button>
             </div>
                 @component('layouts.components.'.$action,[
-                    'modelName'=>$modelName,
-                    'op1'=>$op1,
-                    'op2'=>$op2,
-                    'action'=>$action,
-                    'file'=>(isset($file))?$file:false,
-                    'autocomplateOff'=>(isset($autocomplateOff))?$autocomplateOff:false,
-                    'object'=>(isset($object))? $object:false,
-                    'name'=>(isset($name))? $name:false,
-                    'noneStatus' => (isset($noneStatus))? $noneStatus:true ,
-                    'iterator'=>$iterator])
+                    'modelName'         =>  $modelName,
+                    'op1'               =>  $op1,
+                    'op2'               =>  $op2,
+                    'action'            =>  $action,
+                    'file'              =>  (isset($file))?$file:false,
+                    'autocomplateOff'   =>  (isset($autocomplateOff))?$autocomplateOff:false,
+                    'object'            =>  $object,
+                    'name'              =>  (isset($name))? $name:false,
+                    'noneStatus'        =>  (isset($noneStatus))? $noneStatus:true ,
+                    'iterator'          =>  $iterator])
                 @endcomponent
         </div>
     </div>
