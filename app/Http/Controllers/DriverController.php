@@ -52,11 +52,11 @@ class DriverController extends Controller
         (empty($request->input('sortby'))) ? $rideSort = 'created_at': $rideSort = $request->input('sortby');
 
         $ongoingRides = $driver->rides()
-        ->whereHas('rideable', function($q) {
-            $q->whereNotIn('status',['Done','Canceled','Return','Returned','NotAvailable','Pulled','Double Entry','NoData','Reschedule']);
-        })
-        ->orderBy('created_at','desc')
-        ->get();
+            ->whereHas('rideable', function($q) {
+                $q->whereNotIn('status',['Done','Canceled','Return','Returned','NotAvailable','Pulled','Double Entry','NoData','Reschedule']);
+            })
+            ->orderBy('created_at','desc')
+            ->get();
 
         $finishedRides = $driver->rides()
             ->whereHas('rideable', function($q) {
@@ -66,14 +66,27 @@ class DriverController extends Controller
             ->paginate(10);
         $today = Carbon::today()->toDateString();
 
-        $currentUnassign = Rideable::whereDoesntHave('location', function($q) {
+        $shiftOperator = '=';
+        if($request->input('date')=='all'){
+            $day = $today;
+            $shift = -1;
+            $shiftOperator = '!=';
+        }elseif(empty($request->input('date')) || empty($request->input('shift'))){
+            $day = $today;
+            $shift = date('H')>13 ? 'Evening' : 'Morning';
+        }
+        else{
+            $day = $request->input('date');
+            $shift = $request->input('shift');
+        }
+        // dd($day);
+        $currentUnassign = Rideable::whereIn('status', ['Created','DriverDetached','Reschedule'])
+            ->whereDoesntHave('location', function($q) {
                 $q->whereIn('name', ['IND','Online']);
             })
-            ->whereIn('status', ['Created','DriverDetached','Reschedule']);
-        if(empty($request->input('date')))
-                    $currentUnassign = $currentUnassign->where('delivery_date', '=',  $today)->where('shift', '=',  date('H'))->get();
-                    // $currentUnassign = $currentUnassign->where('delivery_date', '=',  $today)->where('shift', '=',  Helper::when(null,false, false)['shift'])->get();
-        else        $currentUnassign = $currentUnassign->get();
+            ->where('delivery_date', '=',  $day)
+            ->where('shift', $shiftOperator,  $shift)
+            ->get();
 
         $unassignLocations = $currentUnassign->pluck('location')->flatten()->unique()->sortBy('name');
         $defaultPickups = Location::where('driver_id',$driver_id)->get();

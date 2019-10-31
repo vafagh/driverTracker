@@ -7,6 +7,7 @@
         @component('rideable.locationAssign',[
                 'driver'=>$driver,
                 'date' => $request->input('date'),
+                'shift' => $request->input('shift'),
                 'today' => $today,
                 'defaultPickups' => $defaultPickups,
                 'unassignLocations' => $unassignLocations,

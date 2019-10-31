@@ -36779,15 +36779,12 @@ __webpack_require__(/*! ./bootstrap */ "./resources/assets/js/bootstrap.js"); //
 //     el: '#app'
 // });
 // Auto refresh page
-
-
-(function countdown(remaining) {
-  if (remaining === 0) location.reload(true);
-  document.getElementById('countdown').innerHTML = remaining;
-  setTimeout(function () {
-    countdown(remaining - 1);
-  }, 900);
-})(500);
+// (function countdown(remaining) {
+//     if(remaining === 0)
+//     location.reload(true);
+//     document.getElementById('countdown').innerHTML = remaining;
+//     setTimeout(function(){ countdown(remaining - 1); }, 900);
+// })(500);
 
 /***/ }),
 
