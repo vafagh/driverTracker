@@ -67,10 +67,12 @@ class DriverController extends Controller
         $today = Carbon::today()->toDateString();
 
         $shiftOperator = '=';
+        $dayOperator = '=';
         if($request->input('date')=='all'){
-            $day = $today;
+            $day = -1;
             $shift = -1;
             $shiftOperator = '!=';
+            $dayOperator = '!=';
         }elseif(empty($request->input('date')) || empty($request->input('shift'))){
             $day = $today;
             $shift = date('H')>13 ? 'Evening' : 'Morning';
@@ -84,8 +86,8 @@ class DriverController extends Controller
             ->whereDoesntHave('location', function($q) {
                 $q->whereIn('name', ['IND','Online']);
             })
-            ->where('delivery_date', '=',  $day)
-            ->where('shift', $shiftOperator,  $shift)
+            ->where('delivery_date', $dayOperator, $day)
+            ->where('shift', $shiftOperator, $shift)
             ->get();
 
         $unassignLocations = $currentUnassign->pluck('location')->flatten()->unique()->sortBy('name');
