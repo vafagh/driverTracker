@@ -128,7 +128,7 @@
                     <option value>
                         Select one
                     </option>
-                    @foreach (App\Location::where('type','!=','Client')->orderBy('name')->get() as $location)
+                    @foreach ($allwarehouse as $location)
                         <option value="{{$location->name}}">
                             {{$location->name}}
                         </option>

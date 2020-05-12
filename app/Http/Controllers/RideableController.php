@@ -41,6 +41,7 @@ class RideableController extends Controller
     public function show(Rideable $rideable)
     {
         $pickup = ($rideable->type=='Pickup') ? true : false;
+
         return view('rideable.show',compact('rideable','pickup'));
     }
 
@@ -85,40 +86,63 @@ class RideableController extends Controller
         return view('map',['spots' => $spots,'count' => $spots->count(),'unassign' => $unassign, 'cluster' => (filled($request->input('cluster'))) ? $request->input('cluster'): 0, 'assigned' => $assigned, 'delivery_date' => $fields['delivery_date'][2], 'shift' => $fields['shift'][2]]);
     }
 
-    public function status(Request $request, $redirect=true)
+    public static function status(Request $request, $redirect=true)
     {
-        $rideable = (isset((Rideable::find($request->rideable)->id))) ? Rideable::find($request->rideable) : Rideable::where('invoice_number' ,$request->rideable)->first();
+        // dd($request->request);
+        $result = Rideable::find($request->rideable);
+        $rideable = $current_rideable = (isset($result->id)) ? $result : Rideable::where('invoice_number' ,$request->rideable)->first();
         if($rideable != null){
             $rideable->status = $request->status;
-            if($rideable->type !='Client'){
-                $today = new Carbon;
-                $rideable->delivery_date = $today->format('Y-m-d');
-                $rideable->shift =  date('H:i');
-            }
-            if($request->status == 'Reschedule'){
-                $location = $rideable->location;
-                $location->driver_id = null;
-                $location->save();
-                $rideable->delivery_date    = Helper::when($rideable)['date'];
-                $rideable->shift            = Helper::when($rideable)['shift'];
-            }
-            if($request->status == 'backOrdered'){
-                $rideable->delivery_date    = $request->delivery_date;
-                $rideable->shift            = $request->shift;
-                $redirect = false;
+            switch ($request->status) {
+                case 'Reschedule':
+                    $location = $rideable->location;
+                    $location->driver_id = null;
+                    $location->save();
+                    $when = Helper::when($rideable);
+                    $rideable->delivery_date    = $when['date'];
+                    $rideable->shift            = $when['shift'];
+                break;
+                case 'BackOrdered':
+                    $rideable->delivery_date    = null;
+                    $rideable->shift            = null;
+                    $redirect = false;
+                break;
+
+                default:
+                break;
             }
 
-            Transaction::log(Route::getCurrentRoute()->getName(),Rideable::find($request->rideable),$rideable);
+            Transaction::log(Route::getCurrentRoute()->getName(),$current_rideable,$rideable);
             $rideable->save();
 
             if($redirect) return redirect()->back()->with('status', $rideable->status.' set');
         }else {
             return redirect()->back()->with('status', 'Add ticket #'.$request->rideable.' and try again');
-
         }
     }
 
-    // This function for inserting new invoices into system using excisting multiple line text from other systems.
+    public static function received(Rideable $rideable)
+    {
+        $today = new Carbon;
+            $rideable->delivery_date    =  $request->day;
+            $rideable->shift            =  $request->time;
+            $redirect = false;
+            $rideable->delivery_date = $today->format('Y-m-d');
+            $rideable->shift =  date('H:i');
+            $invoices = Rideable::where('invoice_number','=',substr($rideable->description ,0 ,6))->get();
+            if($invoices->count() > 0){
+                $invoice = $invoices->first();
+                $when =Helper::when($invoice,true,false);
+                $request->request->add([
+                        'rideable' => $invoice,
+                        'status' => 'Ready',
+                        'time' => $when['shift'],
+                        'day' => $when['date']
+                    ]);
+                $this->status($request);
+            }
+
+    }
     public function analyseRaw(Request $request)
     {
         // Sample acceptable raw data
@@ -141,6 +165,67 @@ class RideableController extends Controller
         return view('rideable.batchConfirm', compact('invoices','rawData','n'));
     }
 
+    public function analyseNeg(Request $request, $exist=null)
+    {
+        // rawData will provided to next manual itaraion due to non javascrip blade
+        $negatives= array();
+        // Break, trim and push each string line to an array
+        // dd(explode("\r\n",$request->rawData));
+        foreach (explode("\r\n",$request->rawData) as $key => $invoice)
+        array_push($negatives,(array_map('trim',array_filter(preg_split('/  +/', $invoice)))));
+            // 0 => "05249-2"
+            // 1 => "CHARGER 11-14 UPPER GRILLE*BLK"
+            // 2 => "-1"
+            // 3 => "444127"
+            // 4 => "EDDY"
+            // 5 => "N"
+
+        $request->request->remove('rawData');
+
+        foreach ($negatives as $key => $negative) {
+            if($negative[2] =='-1' && $exist[0] == $negative[0]) {
+                if($exist[2]>$negative[3]) unset($negatives[$key]); else unset($negatives[$exist[1]]);
+            }else{
+                //Replace the abbrication name on sales order with known username
+                foreach (['ABRA'=>'abraham','Edddy'=>'eddy',''=>'joe'] as $abr => $username) {
+                    $negative = array_replace($negative,
+                        array_fill_keys(
+                            array_keys($negative, $abr),
+                            $username
+                        )
+                    );
+                }
+                $exist = [$negative[0],$key,$negative[3]];
+                if(Rideable::where([['invoice_number',$negative[0]],['status','Created']])->count()==0){
+                    $request->request->add([
+                                            'invoice_number0' => $negative[0] ,
+                                            'qty' => $negative[2],
+                                            'user' => User::where('name', '=', $negative[4])->get()->first()->id,
+                                            'description' => $negative[3],
+                                            'locationName0' => 'Other',
+                                            'type' => 'pickup',
+                                            'showForm' => 'yes',
+                                            'stored' => 'no',
+                                            'item_0' => 'on'
+                                        ]);
+                    $this->store($request);
+                }
+                Rideable::where('status',Helper::filter('ongoing'))->where('invoice_number',$negative[3])->count() < 1 ? : dd('You need to add all invoice before negatives');
+                $request->request->add(
+                    [
+                        'rideable' => $negative[3],
+                        'status' => 'BackOrdered',
+                        'shift' => $request->shift,
+                        'delivery_date' => null
+                    ]);
+                $this->status($request);
+            }
+        }
+
+
+        return redirect()->back()->with('info','All negative ticket\'s set for '.$request->delivery_date.' on '.$request->shift.' shift.');
+    }
+
     public function store(Request $request)
     {
         $msg = '';
@@ -154,7 +239,7 @@ class RideableController extends Controller
                 if ($request->{"invoice_number$i"}!='' && isset($request->{"item_$i"}) ) {
                     $j++;
                     $rideable = new Rideable;
-                    $rideable->user_id = Auth::id();
+                    $rideable->user_id = (empty($thisRequest->user)) ? Auth::id() : $thisRequest->user;
                     if($request->submitType!='batch') {
                         $thisRequest->{"locationName$i"} = $thisRequest->locationName0;
                         $thisRequest->{"locationPhone$i"} = $thisRequest->locationPhone0;
@@ -162,12 +247,12 @@ class RideableController extends Controller
                     (is_null($request->{"locationName$i"})) ? $locationName = $thisRequest->{"locationPhone$i"} : $locationName = $thisRequest->{"locationName$i"};
                     $location = Location::where('name', $locationName)->first();
                     ($thisRequest->type == 'Delivery' && $location == null ) ? redirect()->back()->with('error', 'Location "'.$locationName.'" not exist. Please create it. '):"";
-                    $rideable->location_id = $location->id;
+                    if(is_object($location))  $rideable->location_id = $location->id; else dd($locationName.' is not an object!. You have to create a location first.');
                     $msg .= Location::addGeo($location);
+                    $rideable->type = Location::find($rideable->location_id)->type;
                     $rideable->invoice_number = $request->{"invoice_number$i"};
                     ($request->{"stock$i"} == 'on') ? $rideable->stock = true :'';
                     $rideable->qty = $request->{"qty$i"};
-                    $rideable->type = Location::find($rideable->location_id)->type;
                     $rideable->shift = empty($thisRequest->{"shift$i"}) ? $thisRequest->shift : $thisRequest->{"shift$i"} ;
                     $rideable->delivery_date = empty($thisRequest->{"delivery_date$i"}) ? $thisRequest->delivery_date : $thisRequest->{"delivery_date$i"} ;
                     if ($request->ready ==1 && $request->status == 'Pulled'&& filled($request->puller)) {
@@ -179,6 +264,7 @@ class RideableController extends Controller
                         $rideable->status = 'Created';
                         $rideable->description = $thisRequest->description;
                     }
+                    // dd($rideaable);
                     $rideable->save();
                     Transaction::log(Route::getCurrentRoute()->getName(),'',$rideable);
                 }
@@ -192,6 +278,7 @@ class RideableController extends Controller
             return view('rideable.batchConfirm', compact('invoices','rawData','n'))->with('status', $rideable->invoice_number.$msg.' ');
         }
         elseif($request->status == 'Pulled') {return redirect()->route('pull.rideable')->with('status', $j." part number has been added! ".' '.$msg);}
+        elseif($request->status == '') {return redirect()->route('pull.rideable')->with('status', $j." part number has been added! ".' '.$msg);}
         else {return redirect()->route('rideables',['type'=>$request->type])->with('status', $j." part number has been added! ".' '.$msg);}
 
     }
@@ -249,8 +336,10 @@ class RideableController extends Controller
             // $rideable->type = $request->type; //user cant change the type
             ($request->stock == 'on') ? $rideable->stock = true :$rideable->stock = false;
             $rideable->qty = $request->qty;
-            $rideable->shift = $request->shift;
-            $rideable->delivery_date = $request->delivery_date;
+            if($rideable->type =='Client'){
+                $rideable->shift = $request->shift;
+                $rideable->delivery_date = $request->delivery_date;
+            }
             if($rideable->rides->count() > 0){
                 foreach ($rideable->rides as $ride) {
                     $ride->shift = $request->shift;
@@ -266,6 +355,7 @@ class RideableController extends Controller
             $rideable->description = $rideable->description.' | '.$request->description.' | Pulled By '.$request->input('puller').' at '.$today->format('Y-m-d').' '.date('H:i');
         }
         $rideable->status = $request->status;
+        $rideable->location_id = $request->location_id;
         $rideable->save();
         Transaction::log(Route::getCurrentRoute()->getName(),'',$rideable);
 
@@ -320,6 +410,5 @@ class RideableController extends Controller
             return view('rideable.pull',['last' => $rideable->invoice_number,'request' => $request,'rideable' => $rideable,'update' => true]);
         }
     }
-
 
 }

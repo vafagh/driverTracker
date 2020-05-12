@@ -176,10 +176,12 @@
 .NotAvailable{background-color:#ffd5d5}
 .DeatachReqested{background-color:#ffd5d5}
 .Created{background-color:#d5ffe6}
-.Reschedule{background-color:#d5ffe6}
+.Reschedule{background-color:rgba(#f2a391,.71)}
 .DriverDetached{background-color:#d5ffe6}
 .OnTheWay{background-color:#c9c6f4}
 .Reactived{background-color:#c9c6f4}
+.BackOrdered{background-color:#fffecb}
+.Returned{background-color:rgba(#ff6262,.67)}
 .InvoiceNumber{font-size:1.5em}
 $char-w: 1ch;
 $gap: .3*$char-w;

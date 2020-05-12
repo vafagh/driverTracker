@@ -68,8 +68,7 @@ class HomeController extends Controller
 
         $drivers = Driver::all();
         $rides = Ride::with('rideable','rideable.location')->where('delivery_date', $history)->where('shift', $shift)->get();
-
-        return view('home',compact('warehouses','history','dt','shift','drivers','stops','rides'));
+        return view('home',compact('warehouses','history','dt','shift','drivers','stops','rides','when','assigned'));
     }
 
     public function find(Request $request)

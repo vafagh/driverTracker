@@ -1,5 +1,6 @@
 @php
     $hover = false;
+    $mouseOver = isset($mouseOver) ? $mouseOver : false ;
 switch($modelName){
 
     case 'rideable':

@@ -11216,6 +11216,14 @@ a.text-dark:focus {
   background-color: #c9c6f4;
 }
 
+.BackOrdered {
+  background-color: #fffecb;
+}
+
+.Returned {
+  background-color: rgba(255, 98, 98, 0.67);
+}
+
 .InvoiceNumber {
   font-size: 1.5em;
 }

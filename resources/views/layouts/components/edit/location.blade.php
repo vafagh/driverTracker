@@ -44,6 +44,7 @@
                 <option {{($object->type == 'Client') ? 'selected' : ''}} value="Client">Client</option>
                 <option {{($object->type == 'Warehouse') ? 'selected' : ''}} value="Warehouse">Warehouse - pickup</option>
                 <option {{($object->type == 'DropOff') ? 'selected' : ''}} value="DropOff">Warehouse - drop off</option>
+                <option {{($object->type == 'other') ? 'selected' : ''}} value="other">other</option>
             </select>
         </div>
     </div>

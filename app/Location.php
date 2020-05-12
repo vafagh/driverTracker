@@ -57,4 +57,7 @@ class Location extends Model
     // {
     //     //select invoice_number , count(*) as ordered from rideables where locatio4 group by invoice_number order by ordered DESC limit 10 ;
     // }
+    static public function stylize($location,$store=null){
+        return $store == 'store' ? env('STORE_LAT').','.env('STORE_LNG') : preg_replace('/\s+/', '+', $location->line1.'+'.$location->city.'+'.$location->state.'+'.$location->zip);
+    }
 }

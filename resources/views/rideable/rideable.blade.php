@@ -59,10 +59,8 @@
             @component('layouts.components.modal',[
                 'modelName'=>'rideable',
                 'action'=>'create',
-                'iterator'=>0,
-                'object'=>null,
-                'op1'=>$op1,
-                'op2'=>$op2,
+
+                'iterator'=>0,'object'=>null,'op1'=>$op1,'op2'=>$op2,
                 'dingbats'=>'<i class="material-icons">add_box</i>',
                 'autocomplateOff'=>true])
             @endcomponent
@@ -70,13 +68,21 @@
             @component('layouts.components.modal',[
                 'modelName'=>'rideable',
                 'action'=>'batch',
-                'iterator'=>0,
-                'object'=>null,
-                'op1'=>$op1,
-                'op2'=>$op2,
+                'iterator'=>0,'object'=>null,
+                'op1'=>$op1,'op2'=>$op2,
                 'dingbats'=>'<i class="material-icons">playlist_add</i>',
                 'autocomplateOff'=>true])
             @endcomponent
+
+            @component('layouts.components.modal',[
+                'modelName'=>'rideable',
+                'name'=>'negatives',
+                'action'=>'button',
+                'iterator'=>0,'object'=>null,'op1'=>'','op2'=>'',
+                'dingbats'=>'<i class="material-icons">exposure_neg_1</i>',
+                'autocomplateOff'=>true])
+            @endcomponent
+
         </div>
 
     </li>

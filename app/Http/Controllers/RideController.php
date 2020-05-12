@@ -141,7 +141,7 @@ class RideController extends Controller
 
     }
 
-    public function receive(Rideable $rideable, Driver $driver, $status)
+    public function receive(Rideable $rideable, Driver $driver, $status, Request $request)
     {
         $ride = new Ride;
         $today = new Carbon();
@@ -158,6 +158,22 @@ class RideController extends Controller
         $rideable->delivery_date = $ride->delivery_date;
         $rideable->save();
         $rideable->rides()->attach($ride->id);
+
+        //check to see if ticket has more than one backorder item
+        if((Rideable::whereIn('status', Helper::filter('ongoing'))->where('description','=',substr($rideable->description ,0 ,6))->get())->count()==0){
+            $invoices = Rideable::where('invoice_number','=',$rideable->description)->get(); //
+                if($invoices->count() == 1){
+                    $invoice = $invoices->first();
+                    $when = Helper::when($invoice,true,false);
+                    $request->request->add([
+                            'rideable' => $invoice->id,
+                            'status' => 'Ready',
+                            'time' => $when['shift'],
+                            'day' => $when['date']
+                        ]);
+                    App(RideableController::status($request,false));
+                }
+            }
         Transaction::log(Route::getCurrentRoute()->getName(),$rideable,$ride);
 
         return redirect()->back()->with('status', $driver->fname.' Assigned to '.$rideable->invoice_number.' For '.$rideable->location->name.' on '.$ride->shift.' shift');

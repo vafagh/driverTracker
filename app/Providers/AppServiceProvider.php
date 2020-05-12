@@ -23,7 +23,6 @@ class AppServiceProvider extends ServiceProvider
             $activeDrivers = \App\Driver::with('rides','rides.truck','rides.rideable')
                     ->where('truck_id','!=',null)
                     ->get();
-
             $today = new Carbon();
             $tomorrow = new Carbon('tomorrow');
             $dates = array(
@@ -33,6 +32,11 @@ class AppServiceProvider extends ServiceProvider
                 'firstDayOfMonth' => Carbon::now()->startOfMonth()->format('Y-m-d')
             );
             $view->with(compact('activeDrivers','dates'));
+        });
+        view()->composer(['layouts.components.create.rideable','layouts.components.edit.rideable'], function ($view)
+        {
+            $allwarehouse = \App\Location::where('type','!=','Client')->where('name','!=','Other')->orderBy('name')->get();
+            $view->with(compact('allwarehouse'));
         });
 
         // DB::listen(function ($query) {

@@ -28,7 +28,7 @@ class Helper
             $start = 13;
             $middle = 16;
         }
-        if (empty($rideable->delivery_date) || $rideable->status == 'Reschedule') {
+        if (empty($rideable->delivery_date) || $rideable->status == 'Reschedule' ||  $rideable->status == 'BackOrdered' ) {
             if($day == 'Friday' && $forceFriday){
                 $deliverydate = 0;
             }elseif($day == 'Saturday') {
@@ -133,7 +133,7 @@ class Helper
 
     public static function filter($value)
     {
-        $ongoing = ['Created','OnTheWay','NotAvailable','DriverDetached','Reschedule'];
+        $ongoing = ['Created','OnTheWay','NotAvailable','DriverDetached','Reschedule','BackOrdered','Ready'];
         $finished = ['Done','Canceled','Return','Returned','NotAvailable','Pulled','Double Entry','NoData'];
 
         switch ($value){

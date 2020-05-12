@@ -20,41 +20,43 @@
     $reschedule     = false;
     $pulled         = false;
     $noData         = false;
+    $warehouses     = false;
 
 if ($user_role > 0 ){
     switch($action){
         case 'Created':
+        case 'Ready':
+        case 'DriverDetached':
             $delete = true;
             $pulled = true;
             $notAvailable = true;
             if ($rideable->location->type  == 'DropOff') {
                 $done = true;
             }
+            if ($rideable->location->name  == 'Other') {
+                $warehouses = true;
+            }
             $doneAtach = true;
             $noData = true;
         break;
 
         case 'BackOrdered':
+        case 'Double Entry':
+            $delete = true;
+        break;
+
+        case 'NotAvailable':
+            $clear = true;
         break;
 
         case 'Returned':
-            if ($user_role >3){
                 $reschedule = true;
                 $returnDone = true;
-            }
-        break;
-
-        case 'DriverDetached':
-            $noData = true;
-            if ($user_id == $rideable->user_id) $delete = true;
-            ($rideable->location->type  == 'Client') ?$assignDriver = true : $done = true;
-            $pulled = true;
-            $delete = true;
         break;
 
         case 'Reschedule':
             ($user_id == $rideable->user_id) ? $delete = true : "";
-            ($rideable->location->type != 'DropOff') ?$assignDriver = true : "";
+            ($rideable->location->type != 'DropOff') ? $assignDriver = true : "";
             $noData = true;
         break;
 
@@ -63,19 +65,6 @@ if ($user_role > 0 ){
             $detach = true;
             $done = true;
             $doneAtach = true;
-        break;
-
-        case 'DeatachReqested':
-            if ($user_role > 3)
-                $done = true;
-        break;
-
-        case 'NotAvailable':
-                $clear = true;
-        break;
-
-        case 'Double Entry':
-            $delete = true;
         break;
 
         default :
@@ -99,6 +88,9 @@ if ($user_role > 0 ){
 @if ($assignDriver && $rideable->location->type == 'Client' && ($rideable->location->name != 'IND' || $rideable->location->name != 'Online') && $user_role >= 3)
     @component('layouts.components.modal',['modelName'=>'ride','action'=>'create','iterator'=>$rideable->id,'object'=>$rideable,'btnSize'=>'small','style'=>'text-info text-primary ','op1'=>'','op2'=>'','dingbats'=>'<i class="material-icons">drive_eta</i> ','file'=>false])
     @endcomponent
+@endif
+@if ($rideable->location->name == 'Other' && $user_id >= 0)
+
 @endif
 @if ($done  && $user_role > 2)
     <a class=" showOnHover" href="/rideable/{{$rideable->id}}/Done"><i class="material-icons">done</i></a>

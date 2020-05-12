@@ -9,6 +9,7 @@
                 'op1'=>$op1,
                 'op2'=>$op2,
                 'noneStatus' => (isset($noneStatus))? $noneStatus:true ,
+                'warehouse' => (isset($warehouse))? $warehouse:false ,
                 'iterator'=>$object->id
             ])
         @endcomponent

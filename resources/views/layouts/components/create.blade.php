@@ -8,6 +8,7 @@
         'op1'=>$op1,
         'op2'=>$op2,
         'object'=>(isset($object))?$object:false,
+        'warehouse' => (isset($warehouse))? $warehouse:false,
         'iterator'=>$iterator])
     @endcomponent
 

@@ -19,12 +19,27 @@
                 </div>
             </div>
         @endif
-        <div class="form-group ">
-            <label class="col-form-label">To:</label>
-            <div>
-                {{$object->location->longName}}
-            </div>
-        </div>
+                @if(true)
+                    <fieldset class="border p-2 mb-2 form-group autocomplete w-100">
+                        <legend class="w-auto px-2 my-0">From</legend>
+                        <div class="form-group select">
+                            <select class="form-control locations" name="location_id" required>
+                                <option value>
+                                    Select one
+                                </option>
+                                @foreach ($allwarehouse as $location)
+                                    <option value="{{$location->id}}" {{($object->location_id == $location->id)?' selected ':''}}>
+                                        {{$location->name}}
+                                    </option>
+                                @endforeach
+                                <option class="text-muted" disabled>Not found? Create it first</option>
+                            </select>
+                        </div>
+                    </fieldset>
+                @else
+                    {{$object->location->longName}}
+                @endif
+
         @if ((Auth::user()->role_id > 2 || Auth::user()->id == $object->user_id))
 
             <div class="form-group select">
@@ -65,7 +80,7 @@
         </div>
 
         <div class="form-group">
-            <label for="message-text" class="col-form-label">Note:{{$noneStatus}}</label>
+            <label for="message-text" class="col-form-label">Note:</label>
             <textarea class="form-control" name="description">{{$object->description}}</textarea>
         </div>
 
