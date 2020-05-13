@@ -19,7 +19,7 @@
                 </div>
             </div>
         @endif
-                @if(true)
+                @if($object->location->type != 'Client')
                     <fieldset class="border p-2 mb-2 form-group autocomplete w-100">
                         <legend class="w-auto px-2 my-0">From</legend>
                         <div class="form-group select">
@@ -38,6 +38,7 @@
                     </fieldset>
                 @else
                     {{$object->location->longName}}
+                    <input type="hidden" name="location_id" value="{{$object->location->id}}">
                 @endif
 
         @if ((Auth::user()->role_id > 2 || Auth::user()->id == $object->user_id))
