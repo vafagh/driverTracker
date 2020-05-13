@@ -81,9 +81,9 @@ class DriverController extends Controller
             $shift = $request->input('shift');
         }
         // dd($day);
-        $currentUnassign = Rideable::whereIn('status', ['Created','DriverDetached','Reschedule'])
+        $currentUnassign = Rideable::whereIn('status', ['Created','DriverDetached','Reschedule','Ready'])
             ->whereDoesntHave('location', function($q) {
-                $q->whereIn('name', ['IND','Online']);
+                $q->whereIn('name', ['IND','Online','Other']);
             })
             ->where('delivery_date', $dayOperator, $day)
             ->where('shift', $shiftOperator, $shift)
