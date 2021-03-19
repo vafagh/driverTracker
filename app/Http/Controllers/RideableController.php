@@ -88,12 +88,16 @@ class RideableController extends Controller
 
     public static function status(Request $request, $redirect=true)
     {
-        // dd($request->request);
         $result = Rideable::find($request->rideable);
         $rideable = $current_rideable = (isset($result->id)) ? $result : Rideable::where('invoice_number' ,$request->rideable)->first();
         if($rideable != null){
             $rideable->status = $request->status;
             switch ($request->status) {
+                case 'Done':
+                    $today = new Carbon();
+                    $rideable->delivery_date    = $today->format('Y-m-d');
+                    $rideable->shift            = date('H:i');
+                break;
                 case 'Reschedule':
                     $location = $rideable->location;
                     $location->driver_id = null;
