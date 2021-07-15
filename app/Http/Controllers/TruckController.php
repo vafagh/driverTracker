@@ -74,6 +74,13 @@ class TruckController extends Controller
         return redirect('/trucks/')->with('status', $truck->license_plate." Updated!");
     }
 
+    public static function newMileage($truckId, $mileage)
+    {
+        $truck = Truck::find($truckId);
+        $truck->mileage = $mileage;
+        $truck->save();
+    }
+
     public function destroy(Request $request,Truck $truck)
     {
         //Transaction::log(Route::getCurrentRoute()->getName(),$truck,false);

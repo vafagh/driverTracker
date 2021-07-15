@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Service;
+use App\Truck;
 use App\Transaction;
 use Illuminate\Http\Request;
+
+use App\Http\Controllers\TruckController;
 use Illuminate\Support\Facades\Route;
 
 class ServiceController extends Controller
@@ -48,7 +51,11 @@ class ServiceController extends Controller
             $service->image = $image;
         }
         $service->save();
-
+        try{
+            App(TruckController::newMileage($service->truck_id, $service->mileage));
+        }catch( \Exception $e){
+            return redirect()->back()->with('warning', 'Service saved but milage did not updated due to '.$e->getMessage());
+        }
         Transaction::log(Route::getCurrentRoute()->getName(),'',$service);
 
         return redirect()->back();
