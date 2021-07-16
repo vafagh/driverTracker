@@ -3,9 +3,9 @@
         <table class="table table-compact">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>For</th>
-                    <th class="mw-100"></th>
+                    <th>Invoice#</th>
+                    <th>Action</th>
+                    <th>Customer</th>
                     <th>Status</th>
                     <th>Truck</th>
                     <th>Schaduled for</th>
@@ -14,40 +14,47 @@
             <tbody>
                 @foreach ($ongoingRides as $key => $ride)
                     <tr>
-                        <td class='pl-2'>{{$ride->id}}</td>
+                        <td class='pl-2 fixedWidthFont font-weight-bold h4 '>
+                            <a title="Cleck to view ticket detailes in new window" target="_blank" class="text-primary" href="/rideable/show/{{$ride->rideable->id}}">
+                                {{$ride->rideable->invoice_number}}
+                            </a>
+                        </td>
                         @if (!empty($ride->rideable))
-                            <td class="location text-truncate">
-                                @component('layouts.components.tooltip',['modelName'=>'location','model'=>$ride->rideable->location])
+                        <td class="invoice">
+                            @if (Auth::user()->role_id > 3 && $ride->rideable->status!='Done' && $ride->rideable->status!='Returned' && $ride->rideable->status!='Return' && $ride->rideable->status!='Reschedule')
+                                <a title="Part " class="text-primary  " href="/rideable/{{$ride->rideable->id}}/Done"><i class="material-icons md-16">thumb_up</i></a>
+                            @endif
+
+                            @if (   Auth::user()->role_id >= 3
+                                    && $ride->rideable != null
+                                    && $ride->rideable->status!='Done'
+                                    && $ride->rideable->status!='Returned' &&
+                                    $ride->rideable->status!='Return'
+                                )
+                                {{-- @component('layouts.components.modal',['modelName'=>'rideable','action'=>'edit','dingbats'=>'<i class="material-icons md-14">edit</i>','style'=>'text-warning mr-1 float-left','iterator'=>$key,'object'=>$ride->rideable,'op1'=>$ride->rideable->type,'op2'=>'','file'=>false,'autocomplateOff'=>true])
+                                @endcomponent --}}
+
+                                @component('layouts.components.modal',['modelName'=>'status','action'=>'edit','dingbats'=>'<i class="material-icons md-16">thumb_down</i>','style'=>'text-danger mr-1 float-left','iterator'=>$key,'object'=>$ride->rideable,'op1'=>$ride->rideable->type,'op2'=>'','file'=>false,'autocomplateOff'=>true])
                                 @endcomponent
-                            </td>
-                            <td class="invoice fixedWidthFont font-weight-bold h4 minw-200">
-                                @if (Auth::user()->role_id > 3 && $ride->rideable->status!='Done' && $ride->rideable->status!='Returned' && $ride->rideable->status!='Return' && $ride->rideable->status!='Reschedule')
-                                    <a title="Part Delivered" class="badge badge-primary " href="/rideable/{{$ride->rideable->id}}/Done"><i class="material-icons md-16">done</i></a>
-                                @endif
-                                @if ((Auth::user()->role_id > 3 || Auth::user()->id == $ride->rideable->user_id) )
-                                    @component('layouts.components.modal',['modelName'=>'rideable','action'=>'edit','dingbats'=>'<i class="material-icons md-16">border_color</i>','style'=>'badge badge-warning mr-1 float-left','iterator'=>$key,'object'=>$ride->rideable,'op1'=>$ride->rideable->type,'op2'=>'','file'=>false,'autocomplateOff'=>true])
-                                    @endcomponent
-                                @endif
-                                @if (Auth::user()->role_id >= 3 && $ride->rideable != null && $ride->rideable->status!='Done' && $ride->rideable->status!='Returned' && $ride->rideable->status!='Return')
-                                    <a title="{{$driver->fname}} didn't went to {{$ride->rideable->location->name}}" class="badge badge-danger" href="/ride/detach/{{$ride->id}}/{{$ride->rideable->id}}">
-                                        <i class="material-icons md-18">link_off</i>
-                                        {{-- Detach --}}
-                                    </a>
-                                    @if (Auth::user()->role_id > 3 )
-                                        <a title="{{$driver->fname}} went to {{$ride->rideable->location->name}} but the part rerurned to eagle" class="badge badge-danger" href="/rideable/{{$ride->rideable->id}}/Returned"><i class="material-icons md-18">keyboard_return</i></a>
-                                    @endif
-                                @endif
-                                @component('layouts.components.tooltip',['modelName'=>'rideable','model'=>$ride->rideable])
-                                @endcomponent
-                            </td>
-                            <td>{{$ride->rideable->status}}</td>
+
+
+                            @endif
+
+                            @component('layouts.components.tooltip',['modelName'=>'rideable','model'=>$ride->rideable])
+                            @endcomponent
+                        </td>
+                        <td class="location text-truncate">
+                            @component('layouts.components.tooltip',['modelName'=>'location','model'=>$ride->rideable->location])
+                            @endcomponent
+                        </td>
+                        <td>{{$ride->rideable->status}}</td>
                         @else
-                            <td colspan="3">
-                                The ticket is deleted.
-                                @if (Auth::user()->role_id>3)
-                                    <a href="/ride/delete/{{$ride->id}}">remove this line</a>
-                                @endif
-                            </td>
+                        <td colspan="3">
+                            The ticket is deleted.
+                            @if (Auth::user()->role_id>3)
+                                <a href="/ride/delete/{{$ride->id}}">remove this line</a>
+                            @endif
+                        </td>
                         @endif
                         <td>
                             @component('layouts.components.tooltip',['modelName'=>'truck','model'=>$ride->truck])

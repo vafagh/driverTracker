@@ -133,8 +133,8 @@ class Helper
 
     public static function filter($value)
     {
+        $finished = ['Done','Returned','NotAvailable','Pulled','NoData','Return','Closed','Nobody','NoMoney','Canceled','NoTicket','NoTime','Damaged'];
         $ongoing = ['Created','OnTheWay','NotAvailable','DriverDetached','Reschedule','BackOrdered','Ready'];
-        $finished = ['Done','Canceled','Return','Returned','NotAvailable','Pulled','Double Entry','NoData'];
 
         switch ($value){
             case 'finished':
@@ -153,7 +153,6 @@ class Helper
             dd('$value was empty. please set "finished" or "ongoing" or "all" '. $value);
 
         }
-        // dd($status);
         return $status;
     }
 

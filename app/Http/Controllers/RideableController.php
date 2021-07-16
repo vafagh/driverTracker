@@ -282,8 +282,8 @@ class RideableController extends Controller
             return view('rideable.batchConfirm', compact('invoices','rawData','n'))->with('status', $rideable->invoice_number.$msg.' ');
         }
         elseif($request->status == 'Pulled') {return redirect()->route('pull.rideable')->with('status', $j." part number has been added! ".' '.$msg);}
-        elseif($request->status == '') {return redirect()->route('pull.rideable')->with('status', $j." part number has been added! ".' '.$msg);}
-        else {return redirect()->route('rideables',['type'=>$request->type])->with('status', $j." part number has been added! ".' '.$msg);}
+        elseif($request->status == 'Created') {return redirect()->route('pull.rideable')->with('status', $j." part number has been added! ".' '.$msg);}
+        else {return redirect()->route('backorder',['type'=>$request->type])->with('status', $j." part number has been added! ".' '.$msg);}
 
     }
 
@@ -360,6 +360,17 @@ class RideableController extends Controller
         }
         $rideable->status = $request->status;
         $rideable->location_id = $request->location_id;
+        if($request->status == "NoTicket" || $request->status == "NoTime"){
+            APP(RideController::detachLastByRideable($rideable));
+        }
+        // dd($request->rescheduled == "on");
+        if($request->rescheduled == true){
+            $rideable->status="Reschedule";
+            $when = Helper::when($rideable);
+            $rideable->delivery_date    = $when['date'];
+            $rideable->shift            = $when['shift'];
+        }
+
         $rideable->save();
         Transaction::log(Route::getCurrentRoute()->getName(),'',$rideable);
 

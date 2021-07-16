@@ -49,10 +49,9 @@ class DriverController extends Controller
     {
         $driver = Driver::with('rides','fillups','rides.truck','rides.rideable','rides.rideable.location','services')->find($driver_id);
         (empty($request->input('sortby'))) ? $rideSort = 'created_at': $rideSort = $request->input('sortby');
-
         $ongoingRides = $driver->rides()
             ->whereHas('rideable', function($q) {
-                $q->whereNotIn('status',['Done','Canceled','Return','Returned','NotAvailable','Pulled','Double Entry','NoData','Reschedule']);
+                $q->whereNotIn('status',['Reschedule','Done','Returned','NotAvailable','Pulled','NoData','Return','Closed','Nobody','NoMoney','Canceled','NoTicket','NoTime','Damaged']);
             })
             ->orderBy('created_at','desc')
             ->get();

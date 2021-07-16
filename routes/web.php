@@ -30,6 +30,7 @@ Route::GET('/ride/store/{rideable}/{driver}/{status}', 'RideController@receive')
 Route::GET('/ride/detach/{ride}/{rideable}', 'RideController@detach')->name('detach.ride');
 Route::POST('/rideable/store', 'RideableController@store')->name('add.rideable');
 Route::POST('/rideable/save', 'RideableController@update')->name('update.rideable');
+Route::POST('/status/save', 'RideableController@update')->name('update.status');
 Route::POST('/rideable/batch', 'RideableController@analyseRaw')->name('analyseRaw.rideable');
 Route::POST('/rideable/negatives', 'RideableController@analyseNeg')->name('AnaNeg.rideable');
 Route::POST('/rideable/pull/', 'RideableController@updateOrInsert')->name('upOrIns.rideable');
