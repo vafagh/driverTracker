@@ -12,7 +12,8 @@ class TruckController extends Controller
     public function index()
     {
         $trucks = Truck::with('rides','fillups')
-            ->orderBy('id', 'desc')
+            ->orderBy('lable', 'asc')
+            // ->paginate(10);
             ->get();
 
             return view('truck.trucks',compact('trucks'));
