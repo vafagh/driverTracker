@@ -17,7 +17,9 @@ class ServiceController extends Controller
         $services = Service::with('driver','truck')
         ->get();
 
-        return view('service.services',[ 'services' => $services, 'trucks' => $services->pluck('truck')->flatten()->unique(), 'start' => time()]);
+        $trucks= $services->pluck('truck')->flatten()->unique()->sortBy('lable');
+
+        return view('service.services',[ 'services' => $services, 'trucks' => $trucks, 'start' => time()]);
     }
 
 
