@@ -8,33 +8,53 @@
         <span class="d-inline d-md-none">Home</span>
     </a>
 </li>
+
 <li class="nav-item">
-    <a title="Morning shift" class="nav-link map" href="/map?shift=Morning&amp;delivery_date={{\Carbon\Carbon::today()->toDateString()}}">
-        <i class="material-icons  text-success">map</i>
-        <span class="d-inline d-md-none">Morning Map</span>
+    <a class="nav-link home" href="/backorder" title="Home">
+        <i class="material-icons">pending</i>
+        <span class="d-inline d-md-none">Backorder</span>
     </a>
 </li>
-<li class="nav-item">
-    <a title="Evening shift" class="nav-link map" href="/map?shift=Evening&amp;delivery_date={{\Carbon\Carbon::today()->toDateString()}}">
-        <i class="material-icons  text-warning">map</i>
-        <span class="d-inline d-md-none">Evening Map</span>
+
+
+<li class="nav-item dropdown {{$direction}}">
+    <a id="driverDropdown" class="nav-link dropdown-toggle " href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+        <i class="material-icons d--none ">map</i>
+        <span class="d-inline d-md-none">Maps</span>
     </a>
+    <div class="dropdown-menu dropdown-menu-left" aria-labelledby="driverDropdown">
+        <a title="Morning shift" class="nav-link map" href="/map?shift=Morning&amp;delivery_date={{\Carbon\Carbon::today()->toDateString()}}">
+            <i class="material-icons  text-success">map</i>
+            <span class="d-inline">Morning Map</span>
+        </a>
+        <a title="Evening shift" class="nav-link map" href="/map?shift=Evening&amp;delivery_date={{\Carbon\Carbon::today()->toDateString()}}">
+            <i class="material-icons  text-warning">map</i>
+            <span class="d-inline">Evening Map</span>
+        </a>
+    </div>
 </li>
+
 <li class="nav-item">
     <a class="nav-link pickup" href="/pull" title="pull">
-        <i class="material-icons d-md-inline d-lg-none  d-xl-inline">domain</i>
-        <span class="d-inline d-md-none d-lg-inline">Pull</span>
+        <i class="material-icons d-md-inline   d-xl-inline">doorbell</i>
+        <span class="d-inline d-md-none ">Pull</span>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link pickup" href="/status" title="Current Shift Driver Tickets">
+        <i class="material-icons d-md-inline d-lg  d-xl-inline">list</i>
+        <span class="d-inline d-md-none ">BO</span>
     </a>
 </li>
 <li class="nav-item">
     <a class="nav-link deliveries" href="/delivery" title="Deliveries">
-        <i class="material-icons d-md-inline d-lg-none  d-xl-inline">store_mall_directory</i>
-        <span class="d-inline d-md-none d-md-none d-lg-inline">Deliveries</span>
+        <i class="material-icons d-md-inline d-lg  d-xl-inline">schedule_send</i>
+        <span class="d-inline d-md-none d-md-none d-lg-inline">Delivery</span>
     </a>
 </li>
 <li class="nav-item dropdown {{$direction}}">
     <a id="driverDropdown" class="nav-link dropdown-toggle " href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-        <i class="material-icons d--none ">face</i>
+        <i class="material-icons d--none ">person</i>
         <span class="d-inline d-md-none d-lg-inline">Drivers</span>
     </a>
 
@@ -54,7 +74,7 @@
 <li class="nav-item">
     <a class="nav-link trucks" href="/trucks" title="Trucks">
         <i class="material-icons">&#xE558;</i>
-        <span class="d-inline d-md-none">Trucks</span>
+        <span class="d-inline d-md-none">Garage</span>
     </a>
 </li>
 <li class="nav-item">

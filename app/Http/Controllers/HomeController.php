@@ -37,8 +37,8 @@ class HomeController extends Controller
             $history = $today->format('Y-m-d');
             $warehouses = Location::where('type','!=','Client')
                                 ->whereHas('rideables', function($q) use($history){
-                                    $q->where('delivery_date', $history); // all todays pickup
-                                    $q->orWhere('status', Helper::filter('ongoing')); // all ongoing pickups
+                                    $q->where('delivery_date', $history);               // all todays pickup
+                                    $q->orWhere('status', Helper::filter('ongoing'));   // all ongoing pickups
                                 })
                                 ->with('rideables')
                                 ->get();
@@ -65,10 +65,40 @@ class HomeController extends Controller
 
         $stops = $warehouses->merge($bodyShops); // merging all stops
         $stops->all();
-
         $drivers = Driver::all();
         $rides = Ride::with('rideable','rideable.location')->where('delivery_date', $history)->where('shift', $shift)->get();
-        return view('home',compact('warehouses','history','dt','shift','drivers','stops','rides','when','assigned'));
+        return view('home',compact('history','dt','shift','drivers','stops','rides','when','assigned'));
+    }
+    public function backorder(Request $request)
+    {
+        if(empty($request->shift)){
+            $shift = (date('H') < 13) ? 'Morning' : 'Evening';
+        }else{
+            $shift = $request->shift;
+        }
+        $history = $request->history;
+        if(empty($request->history)){
+            $today = new Carbon();
+            $history = $today->format('Y-m-d');
+            $warehouses = Location::where('type','!=','Client')
+                                ->whereHas('rideables', function($q) use($history){
+                                    $q->where('delivery_date', $history);               // all todays pickup
+                                    $q->orWhere('status', Helper::filter('ongoing'));   // all ongoing pickups
+                                })
+                                ->with('rideables')
+                                ->get();
+        }else{
+            $warehouses = Location::where('type','!=','Client')
+                                ->whereHas('rideables', function($q) use($history){
+                                    $q->where('delivery_date','=',$history);
+                                })
+                                ->with('rideables')
+                                ->get();
+        }
+        $when = [$history,$shift];
+        $hisexp = explode('-', $history);
+        $dt = Carbon::create($hisexp[0],$hisexp[1],$hisexp[2],0 ,0,0,'America/Chicago');
+        return view('backorder',compact('warehouses','history','dt','shift'));
     }
 
     public function find(Request $request)

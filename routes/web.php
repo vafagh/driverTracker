@@ -3,8 +3,8 @@
 Auth::routes();
 
 Route::GET('/', 'HomeController@home')->name('home');
-Route::GET('/home', 'HomeController@home')->name('home');
-Route::GET('/pickup', 'HomeController@home')->name('home');
+Route::GET('/backorder', 'HomeController@backorder')->name('backorder');
+Route::GET('/pickup', 'HomeController@home')->name('pickup');
 Route::GET('/map', 'RideableController@map')->name('map');
 Route::GET('/drivers', 'DriverController@index')->name('drivers');
 Route::GET('/driver/show/{driver}', 'DriverController@show');
