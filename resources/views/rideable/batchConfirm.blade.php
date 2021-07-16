@@ -48,7 +48,7 @@
                                 <div   class="col-2 input-group">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
-                                            <input type="checkbox" name="item_{{$n}}" {{($location->count() == 0)? 'disabled': 'checked'}}>
+                                            <input type="checkbox" name="item_{{$n}}" {{($location->count() == 0 || $invoice[2]=='IND' || $invoice[4]<0)? 'disabled': 'checked'}}>
                                         </div>
                                     </div>
                                     <input class="form-control " {{$propertyName}}="invoice_number{{$n}}" value="{{$invoice[0]}}">
