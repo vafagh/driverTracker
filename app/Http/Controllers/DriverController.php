@@ -51,7 +51,7 @@ class DriverController extends Controller
         (empty($request->input('sortby'))) ? $rideSort = 'created_at': $rideSort = $request->input('sortby');
         $ongoingRides = $driver->rides()
             ->whereHas('rideable', function($q) {
-                $q->whereNotIn('status',['Reschedule','Done','Returned','NotAvailable','Pulled','NoData','Return','Closed','Nobody','NoMoney','Canceled','NoTicket','NoTime','Damaged']);
+                $q->whereNotIn('status',['Reschedule','Done','Returned','NotAvailable','Pulled','NoData','Return','Closed','Nobody','NoMoney','Canceled','NoTicket','NoTime','Damaged','Wrong']);
             })
             ->orderBy('created_at','desc')
             ->get();

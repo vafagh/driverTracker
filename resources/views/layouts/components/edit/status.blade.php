@@ -21,7 +21,8 @@
                                 ["4. Dont Need it ",                  'do_not_touch',         "Canceled"],
                                 ["5. Driver don`t have this ticket ", 'content_paste_off',    "NoTicket"],
                                 ["6. Driver didn`t make it ",         'hourglass_disabled',   "NoTime"],
-                                ["7. Part was damaged ",              'broken_image',         "Damaged"]
+                                ["7. Part was damaged ",              'broken_image',         "Damaged"],
+                                ["8. Wrong item sent ",               'rule',                 "Wrong"]
                             ];
                 @endphp
                 @foreach ($radio as $key => $value)

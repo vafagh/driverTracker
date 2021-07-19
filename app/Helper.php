@@ -133,7 +133,7 @@ class Helper
 
     public static function filter($value)
     {
-        $finished = ['Done','Returned','NotAvailable','Pulled','NoData','Return','Closed','Nobody','NoMoney','Canceled','NoTicket','NoTime','Damaged'];
+        $finished = ['Done','Returned','NotAvailable','Pulled','NoData','Return','Closed','Nobody','NoMoney','Canceled','NoTicket','NoTime','Damaged','Wrong'];
         $ongoing = ['Created','OnTheWay','NotAvailable','DriverDetached','Reschedule','BackOrdered','Ready'];
 
         switch ($value){
