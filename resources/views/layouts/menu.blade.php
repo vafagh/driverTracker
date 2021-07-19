@@ -12,7 +12,7 @@
 <li class="nav-item">
     <a class="nav-link home" href="/backorder" title="Backorders">
         <i class="material-icons">pending</i>
-        <span class="d-inline d-md-none">Backorder</span>
+        <span class="d-inline d-md-none d-lg-inline">Backorder</span>
     </a>
 </li>
 
