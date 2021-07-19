@@ -40,12 +40,12 @@
         <span class="d-inline d-md-none ">Pull</span>
     </a>
 </li>
-<li class="nav-item">
+{{-- <li class="nav-item">
     <a class="nav-link pickup" href="/status" title="Current Shift Driver Tickets">
         <i class="material-icons d-md-inline d-lg  d-xl-inline">list</i>
         <span class="d-inline d-md-none ">BO</span>
     </a>
-</li>
+</li> --}}
 <li class="nav-item">
     <a class="nav-link deliveries" href="/delivery" title="Deliveries">
         <i class="material-icons d-md-inline d-lg  d-xl-inline">schedule_send</i>
