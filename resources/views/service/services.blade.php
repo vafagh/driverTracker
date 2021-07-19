@@ -24,16 +24,13 @@
                     <div class="card mb-1">
                         <div class="card-header font-weight-light h6 bg-white " id="{{$truck->id}}">
                             <a class="btn btn-link d-block text-left list-group-item-action" data-toggle="collapse" data-target="#col-{{$truck->id}}" aria-expanded="false" aria-controls="col-{{$truck->id}}">
-                                @php
-                                    $driver = App\Driver::where('truck_id',$truck->id)->first();
-                                @endphp
-                                {{$truck->lable}} : <span class="font-italic">{{$driver == null ? '' : $driver->fname }}</span>
+                                {{$truck->lable}} : <span class="font-italic">{{$truck->driver() == null ? '' : $truck->driver()->fname }}</span>
                             </a>
                         </div>
 
                         <div id="col-{{$truck->id}}" class="collapse " aria-labelledby="{{$truck->id}}" data-parent="#accordion">
                             <div class="card-body">
-                                @foreach ($truck->services as $key => $service)
+                                @foreach ($truck->services->sortBy('created_at') as $key => $service)
                                     <li>
                                         <a href="/service/show/{{$service->id}}">
                                             <i class="material-icons">remove_red_eye</i>

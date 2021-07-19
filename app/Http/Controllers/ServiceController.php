@@ -14,12 +14,7 @@ class ServiceController extends Controller
 {
     public function index()
     {
-        $services = Service::with('driver','truck')
-        ->get();
-
-        $trucks= $services->pluck('truck')->flatten()->unique()->sortBy('lable');
-
-        return view('service.services',[ 'services' => $services, 'trucks' => $trucks, 'start' => time()]);
+        return view('service.services',[ 'trucks' => Truck::all()->sortBy('lable')]);
     }
 
 

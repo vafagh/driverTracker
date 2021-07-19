@@ -25,5 +25,9 @@ class Truck extends Model
     {
         return $this->hasMany(Service::class);
     }
+    public function driver()
+    {
+        return Driver::where('truck_id',$this->id)->first();
+    }
 
 }
